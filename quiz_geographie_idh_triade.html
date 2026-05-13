@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Géographie – IDH & Inégalités – 5ème</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #134e5e 0%, #1a1a2e 60%, #2d6a4f 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px 12px 40px;
+  }
+  .container {
+    background: #fff;
+    border-radius: 20px;
+    max-width: 520px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .header {
+    background: linear-gradient(135deg, #134e5e, #52b788);
+    padding: 28px 24px 22px;
+    text-align: center;
+    color: #fff;
+  }
+  .header .badge {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    padding: 4px 14px;
+    text-transform: uppercase;
+  }
+  .header h1 { font-size: 21px; font-weight: 800; margin-bottom: 4px; }
+  .header p  { font-size: 13px; opacity: .85; }
+  .progress-bar-wrap { background: #e9ecef; height: 6px; }
+  .progress-bar { background: linear-gradient(90deg, #52b788, #134e5e); height: 6px; transition: width .4s ease; width: 0%; }
+  .body { padding: 26px 22px; }
+  .question-counter { color: #6c757d; font-size: 12px; font-weight: 700; letter-spacing: .5px; margin-bottom: 10px; text-transform: uppercase; }
+  .question-text { color: #1a1a2e; font-size: 16px; font-weight: 700; line-height: 1.5; margin-bottom: 22px; }
+  .options { display: flex; flex-direction: column; gap: 11px; }
+  .option-btn {
+    align-items: center; background: #f8f9fa; border: 2px solid #e9ecef;
+    border-radius: 14px; color: #1a1a2e; cursor: pointer;
+    display: flex; font-size: 14px; gap: 12px; padding: 13px 16px;
+    text-align: left; transition: all .18s; width: 100%;
+  }
+  .option-btn:hover { background: #e8f7f0; border-color: #134e5e; }
+  .option-btn.selected { background: #e0f2ea; border-color: #134e5e; font-weight: 600; }
+  .option-letter {
+    background: #dee2e6; border-radius: 50%; color: #495057; flex-shrink: 0;
+    font-size: 13px; font-weight: 700; height: 30px; line-height: 30px;
+    text-align: center; width: 30px; transition: all .18s;
+  }
+  .option-btn.selected .option-letter { background: #134e5e; color: #fff; }
+  .nav { display: flex; gap: 10px; margin-top: 28px; }
+  .btn { border: none; border-radius: 14px; cursor: pointer; font-size: 15px; font-weight: 700; padding: 14px 0; transition: all .2s; width: 100%; }
+  .btn-next { background: linear-gradient(135deg, #134e5e, #52b788); color: #fff; }
+  .btn-next:hover { opacity: .88; transform: translateY(-1px); }
+  .btn-next:disabled { background: #ced4da; color: #6c757d; cursor: not-allowed; transform: none; }
+  .results { display: none; padding: 26px 22px; }
+  .score-circle-wrap { text-align: center; margin-bottom: 30px; }
+  .score-circle {
+    background: linear-gradient(135deg, #134e5e, #52b788);
+    border-radius: 50%; color: #fff;
+    display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 130px; margin-bottom: 14px; width: 130px;
+    box-shadow: 0 8px 30px rgba(82,183,136,.35);
+  }
+  .score-number { font-size: 40px; font-weight: 900; line-height: 1; }
+  .score-label  { font-size: 12px; opacity: .85; margin-top: 4px; }
+  .score-message { font-size: 17px; font-weight: 700; color: #1a1a2e; }
+  .score-sub     { font-size: 13px; color: #6c757d; margin-top: 4px; }
+  .review-title {
+    font-size: 14px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
+    color: #495057; margin-bottom: 16px; border-top: 1px solid #dee2e6; padding-top: 20px;
+  }
+  .review-item { background: #f8f9fa; border-left: 4px solid #dee2e6; border-radius: 0 12px 12px 0; margin-bottom: 16px; padding: 14px 16px; }
+  .review-item.correct   { border-color: #28a745; background: #f0fff4; }
+  .review-item.incorrect { border-color: #dc3545; background: #fff5f7; }
+  .review-item .q-num { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: #6c757d; margin-bottom: 5px; }
+  .review-item .q-text { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; line-height: 1.4; }
+  .answer-row { display: flex; align-items: flex-start; gap: 6px; font-size: 13px; margin-bottom: 4px; }
+  .answer-row .icon { flex-shrink: 0; font-size: 15px; }
+  .answer-row .label { font-weight: 600; }
+  .answer-row .val { color: #495057; }
+  .explanation { background: rgba(255,255,255,.65); border-radius: 8px; color: #1a1a2e; font-size: 13px; line-height: 1.55; margin-top: 10px; padding: 10px 12px; }
+  .explanation strong { color: #134e5e; }
+  .btn-restart { background: linear-gradient(135deg, #134e5e, #52b788); border: none; border-radius: 14px; color: #fff; cursor: pointer; font-size: 15px; font-weight: 700; margin-top: 24px; padding: 16px; width: 100%; transition: opacity .2s; }
+  .btn-restart:hover { opacity: .88; }
+  .share-section { margin-top: 20px; border-top: 1px solid #dee2e6; padding-top: 20px; }
+  .share-title { font-size: 13px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: #6c757d; margin-bottom: 12px; }
+  .btn-whatsapp { background: #e8f8ef; color: #128c7e; border: 2px solid #b2dfc9; border-radius: 14px; cursor: pointer; font-size: 14px; font-weight: 700; padding: 13px; width: 100%; transition: all .2s; }
+  .btn-whatsapp:hover { background: #d0f2e0; }
+  .copy-toast { display: none; background: #1a1a2e; color: #fff; font-size: 13px; font-weight: 600; text-align: center; padding: 10px; border-radius: 10px; margin-top: 10px; }
+  .start-screen { padding: 30px 24px; text-align: center; }
+  .start-screen .emoji { font-size: 56px; margin-bottom: 16px; }
+  .start-screen h2 { font-size: 20px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; }
+  .start-screen p { font-size: 14px; color: #6c757d; line-height: 1.6; margin-bottom: 20px; }
+  .start-screen .rules { background: #f0fff8; border-radius: 14px; padding: 14px 18px; margin-bottom: 24px; text-align: left; }
+  .start-screen .rules li { font-size: 13px; color: #495057; margin-bottom: 7px; padding-left: 4px; list-style: none; }
+  .start-screen .rules li::before { content: "→ "; color: #52b788; font-weight: 700; }
+  .btn-start { background: linear-gradient(135deg, #134e5e, #52b788); border: none; border-radius: 14px; color: #fff; cursor: pointer; font-size: 16px; font-weight: 800; padding: 16px; width: 100%; transition: opacity .2s; }
+  .btn-start:hover { opacity: .88; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">Géographie · 5ème</div>
+    <h1>🌍 IDH & Inégalités mondiales</h1>
+    <p>Thème 1 · Sous-thème 2 — Quiz niveau élevé</p>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+  <div class="start-screen" id="startScreen">
+    <div class="emoji">🗺️</div>
+    <h2>Prêt à tester tes connaissances ?</h2>
+    <p>Ce quiz porte sur la répartition de la richesse et de la pauvreté dans le monde : l'IDH, les Pays du Nord/Sud, la Triade et les BRICA.</p>
+    <div class="rules">
+      <li>20 questions à choix multiple — niveau difficile</li>
+      <li>Réponds à chaque question avant de passer à la suivante</li>
+      <li>Aucun retour pendant le quiz — résultats et explications à la fin</li>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Commencer le quiz 🚀</button>
+  </div>
+
+  <div class="body" id="quizBody" style="display:none;">
+    <div class="question-counter" id="questionCounter">Question 1 / 20</div>
+    <div class="question-text"  id="questionText"></div>
+    <div class="options"        id="optionsDiv"></div>
+    <div class="nav">
+      <button class="btn btn-next" id="nextBtn" onclick="nextQuestion()" disabled>Suivant →</button>
+    </div>
+  </div>
+
+  <div class="results" id="resultsScreen">
+    <div class="score-circle-wrap">
+      <div class="score-circle">
+        <div class="score-number" id="scoreNum">—</div>
+        <div class="score-label">/ 20</div>
+      </div>
+      <div class="score-message" id="scoreMsg"></div>
+      <div class="score-sub"    id="scoreSub"></div>
+    </div>
+    <div class="review-title">📋 Corrections détaillées</div>
+    <div id="reviewList"></div>
+    <button class="btn-restart" onclick="restartQuiz()">🔄 Recommencer le quiz</button>
+    <div class="share-section">
+      <div class="share-title">📤 Envoyer les résultats à papa</div>
+      <button class="btn-whatsapp" onclick="sendByWhatsApp()">💬 Envoyer sur WhatsApp</button>
+      <div class="copy-toast" id="copyToast">✅ Résultats copiés ! Colle-les dans WhatsApp.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  /* ── INTRODUCTION ──────────────────────────────────────────── */
+  {
+    q: "Selon le cours, qu'est-il arrivé au nombre de personnes sous-alimentées entre 1990 et 2020 ?",
+    opts: [
+      "Il a doublé à cause de la mondialisation",
+      "Il est resté stable malgré les efforts internationaux",
+      "Il a baissé de moitié",
+      "Il a diminué d'un quart"
+    ],
+    answer: 2,
+    explanation: "Entre 1990 et 2020, le nombre de personnes sous-alimentées a <strong>baissé de moitié</strong>. C'est une avancée considérable, même si la pauvreté n'a pas disparu et que les inégalités entre riches et pauvres continuent d'augmenter."
+  },
+  {
+    q: "Quelle affirmation résume le mieux la situation mondiale de la pauvreté aujourd'hui ?",
+    opts: [
+      "La pauvreté a complètement disparu grâce au développement",
+      "La pauvreté recule globalement, mais les inégalités entre riches et pauvres augmentent",
+      "La pauvreté augmente partout dans le monde",
+      "Les inégalités diminuent au même rythme que la pauvreté"
+    ],
+    answer: 1,
+    explanation: "La situation est <strong>paradoxale</strong> : la pauvreté absolue recule (moins de personnes sous-alimentées), mais les <strong>inégalités augmentent</strong> — les riches s'enrichissent plus vite que les pauvres ne sortent de la pauvreté."
+  },
+
+  /* ── L'IDH : DÉFINITION ─────────────────────────────────────── */
+  {
+    q: "Que signifie le sigle IDH ?",
+    opts: [
+      "Indice de Développement des Hommes",
+      "Indicateur du Développement Humain",
+      "Indice de Développement Humain",
+      "Indice de Distribution des Habitations"
+    ],
+    answer: 2,
+    explanation: "<strong>IDH = Indice de Développement Humain</strong>. C'est un outil statistique créé par l'ONU pour mesurer et comparer le niveau de développement des pays à travers trois dimensions : économique, sanitaire et éducative."
+  },
+  {
+    q: "Sur combien d'indicateurs s'appuie l'IDH, et lesquels ?",
+    opts: [
+      "2 indicateurs : le PIB et l'espérance de vie",
+      "4 indicateurs : PIB, espérance de vie, alphabétisation et chômage",
+      "3 indicateurs : le PIB par habitant, l'espérance de vie et le taux d'alphabétisation",
+      "3 indicateurs : le PIB, la population et le taux de natalité"
+    ],
+    answer: 2,
+    explanation: "L'IDH repose sur <strong>3 indicateurs</strong> : le <em>PIB par habitant</em> (niveau de vie économique), l'<em>espérance de vie</em> (état sanitaire) et le <em>taux d'alphabétisation</em> (niveau d'éducation). Ces trois dimensions permettent une vision globale du développement humain."
+  },
+  {
+    q: "Qu'est-ce que le PIB par habitant, tel que défini dans le cours ?",
+    opts: [
+      "Le salaire moyen versé aux fonctionnaires d'un pays",
+      "La richesse produite par habitant et par an dans un pays",
+      "Le budget total de l'État divisé par le nombre de régions",
+      "La valeur des exportations d'un pays par rapport à sa population"
+    ],
+    answer: 1,
+    explanation: "Le <strong>PIB (Produit Intérieur Brut) par habitant</strong> est la richesse totale produite dans un pays en une année, divisée par le nombre d'habitants. C'est l'indicateur économique de l'IDH : plus il est élevé, meilleur est le niveau de vie moyen."
+  },
+  {
+    q: "Qu'est-ce que l'espérance de vie ?",
+    opts: [
+      "Le nombre d'années qu'une personne a déjà vécues",
+      "L'âge légal de départ à la retraite dans un pays",
+      "Le nombre d'années que l'on a en moyenne à vivre, de sa naissance jusqu'à sa mort",
+      "La durée moyenne d'hospitalisation par habitant"
+    ],
+    answer: 2,
+    explanation: "L'<strong>espérance de vie</strong> est le nombre moyen d'années qu'une personne peut espérer vivre dans un pays donné. Elle reflète l'<em>état sanitaire</em> de la population : accès aux soins, alimentation, hygiène, etc."
+  },
+  {
+    q: "Qu'est-ce que le taux d'alphabétisation ?",
+    opts: [
+      "Le pourcentage d'élèves allant à l'université",
+      "Le nombre de livres publiés par an dans un pays",
+      "Le nombre de personnes sachant lire et écrire",
+      "Le budget consacré à l'éducation nationale"
+    ],
+    answer: 2,
+    explanation: "Le <strong>taux d'alphabétisation</strong> mesure le nombre (ou pourcentage) de personnes sachant lire et écrire dans une population. C'est l'indicateur éducatif de l'IDH. Dans les pays peu développés, ce taux peut être très bas, limitant les chances d'emploi et de développement."
+  },
+  {
+    q: "Un pays a un IDH de 0,92. Que peut-on en déduire ?",
+    opts: [
+      "C'est un pays très peu développé, proche de l'indicateur 0",
+      "C'est un pays moyennement développé",
+      "C'est un pays très développé, proche de l'indicateur 1",
+      "L'IDH ne permet pas de conclure sur le développement d'un pays"
+    ],
+    answer: 2,
+    explanation: "L'IDH est calculé entre <strong>0 et 1</strong>. Plus un pays est proche de <strong>1</strong>, plus il est développé. Un IDH de 0,92 indique donc un pays <em>très développé</em>. À l'inverse, un IDH proche de 0 révèle un pays très peu développé."
+  },
+
+  /* ── PAYS DU NORD / PAYS DU SUD ─────────────────────────────── */
+  {
+    q: "Pourquoi utilise-t-on les termes « Pays du Nord » et « Pays du Sud » ?",
+    opts: [
+      "Parce que les pays riches sont tous situés au nord du pôle Nord",
+      "Parce que la majorité des pays développés (IDH élevé) se situent dans l'hémisphère nord, et la majorité des pays peu développés dans l'hémisphère sud",
+      "Parce que le froid du Nord favorise l'industrie et le Sud est trop chaud pour travailler",
+      "C'est une convention géographique sans lien avec le développement"
+    ],
+    answer: 1,
+    explanation: "Les termes <strong>Pays du Nord</strong> et <strong>Pays du Sud</strong> sont des raccourcis géographiques : la majorité des pays à IDH élevé sont dans l'<em>hémisphère nord</em> (Europe, Amérique du Nord, Japon), et la majorité des pays à IDH faible dans l'<em>hémisphère sud</em> (Afrique subsaharienne, Asie du Sud). Ce n'est pas une règle absolue."
+  },
+  {
+    q: "Lequel de ces exemples contredit la règle « Pays du Nord = pays développé » ?",
+    opts: [
+      "La France, pays du Nord avec un IDH élevé",
+      "La Moldavie, pays d'Europe avec l'IDH le plus faible du continent",
+      "Le Japon, pays du Nord avec un IDH très élevé",
+      "Les États-Unis, pays du Nord très développé"
+    ],
+    answer: 1,
+    explanation: "La <strong>Moldavie</strong> se trouve en Europe (hémisphère nord) mais possède l'<em>IDH le plus faible du continent européen</em>. C'est une exception qui montre que la règle Nord/Sud n'est pas absolue. De même, l'Australie et la Nouvelle-Zélande sont dans l'hémisphère Sud mais ont des IDH très élevés."
+  },
+  {
+    q: "Quels pays de l'hémisphère Sud ont pourtant un IDH très élevé, selon le cours ?",
+    opts: [
+      "Le Brésil, l'Argentine et le Mexique",
+      "L'Australie, la Nouvelle-Zélande et le Chili",
+      "L'Afrique du Sud, le Kenya et l'Éthiopie",
+      "Haïti, Cuba et la Jamaïque"
+    ],
+    answer: 1,
+    explanation: "<strong>L'Australie, la Nouvelle-Zélande et le Chili</strong> sont dans l'hémisphère Sud mais disposent d'un IDH très élevé. Ces pays sont des exceptions importantes qui montrent que la réalité est plus complexe que la simple division Nord/Sud."
+  },
+  {
+    q: "En 2023, quels pays avaient l'IDH le plus proche de 1 ?",
+    opts: [
+      "Les États-Unis, la France et l'Allemagne",
+      "La Chine, le Japon et la Corée du Sud",
+      "L'Islande, la Norvège et la Suisse",
+      "Le Canada, l'Australie et le Danemark"
+    ],
+    answer: 2,
+    explanation: "En 2023, <strong>l'Islande, la Norvège et la Suisse</strong> étaient les pays les plus proches de l'indicateur 1. Ces pays nordiques et la Suisse se distinguent par leur niveau de vie très élevé, leur système de santé et leur niveau d'éducation excellents."
+  },
+  {
+    q: "Que caractérise les pays ayant un IDH le plus proche de 0 ?",
+    opts: [
+      "Ils sont situés uniquement en Asie",
+      "Ils sont touchés par des conflits, des guerres civiles ou la corruption",
+      "Ils ont une population trop faible pour se développer",
+      "Ils n'ont pas accès aux nouvelles technologies"
+    ],
+    answer: 1,
+    explanation: "Les pays les plus proches de l'indicateur 0 sont généralement touchés par des <strong>conflits armés, des guerres civiles ou la corruption</strong>, à l'exemple d'Haïti. Ces facteurs empêchent le développement économique, sanitaire et éducatif nécessaire à l'amélioration de l'IDH."
+  },
+
+  /* ── LA TRIADE ──────────────────────────────────────────────── */
+  {
+    q: "Quelles sont les trois catégories utilisées pour classer les pays selon leur niveau de développement ?",
+    opts: [
+      "Les pays riches, les pays émergents et les pays pauvres",
+      "La Triade, les BRICA et les PMA",
+      "L'Europe, l'Asie et l'Amérique",
+      "Les pays développés, sous-développés et en voie de développement"
+    ],
+    answer: 1,
+    explanation: "Le cours classe les pays en trois catégories : <strong>la Triade</strong> (pays les plus développés), les <strong>BRICA</strong> (pays émergents) et les <strong>PMA</strong> (Pays les Moins Avancés). Cette classification est plus précise que les simples notions de pays riches/pauvres."
+  },
+  {
+    q: "Que désigne la Triade ?",
+    opts: [
+      "Les trois pays les plus peuplés du monde",
+      "Les trois continents fondateurs de l'ONU",
+      "Les trois régions les plus industrialisées et développées de la planète",
+      "Les trois pays producteurs de pétrole les plus importants"
+    ],
+    answer: 2,
+    explanation: "La <strong>Triade</strong> désigne les <em>trois régions les plus industrialisées et développées</em> de la planète : l'Amérique du Nord, l'Europe de l'Ouest et l'Asie de l'Est. Ces régions dominent l'économie mondiale."
+  },
+  {
+    q: "Quelles sont exactement les trois régions qui composent la Triade ?",
+    opts: [
+      "L'Europe entière, les États-Unis et la Chine",
+      "L'Amérique du Nord (USA, Canada), l'Europe de l'Ouest (UE) et l'Asie de l'Est (littoral chinois, Corée du Sud, Japon)",
+      "L'Amérique du Nord, l'Afrique du Nord et l'Asie centrale",
+      "Les États-Unis, l'Union Européenne et la Russie"
+    ],
+    answer: 1,
+    explanation: "La Triade regroupe : <strong>l'Amérique du Nord</strong> (États-Unis, Canada), <strong>l'Europe de l'Ouest</strong> (Union Européenne : France, Allemagne, Grande-Bretagne…) et <strong>l'Asie de l'Est</strong> (littoral chinois, Corée du Sud, Japon). Attention : c'est l'Europe de l'<em>Ouest</em>, pas l'Europe entière."
+  },
+  {
+    q: "Quel est le paradoxe frappant concernant la Triade et les richesses mondiales ?",
+    opts: [
+      "Elle représente 80% de la population mondiale mais ne produit que 20% des richesses",
+      "Elle représente environ 20% de la population mondiale mais possède environ 80% des richesses mondiales",
+      "Elle représente 50% de la population et 50% des richesses, ce qui est équitable",
+      "Elle représente 30% de la population et contrôle 60% des richesses"
+    ],
+    answer: 1,
+    explanation: "C'est le paradoxe majeur des inégalités mondiales : les pays de la Triade ne représentent qu'environ <strong>20% de la population mondiale</strong> mais possèdent environ <strong>80% des richesses mondiales</strong>. Cette concentration extrême illustre les inégalités de développement dans le monde."
+  },
+
+  /* ── LES BRICA ──────────────────────────────────────────────── */
+  {
+    q: "Que signifie BRICA et quels pays le composent ?",
+    opts: [
+      "Brésil, Russie, Italie, Chine, Australie",
+      "Brésil, Russie, Inde, Chine, Afrique du Sud",
+      "Birmanie, Russie, Iran, Chine, Algérie",
+      "Brésil, Roumanie, Inde, Cambodge, Angola"
+    ],
+    answer: 1,
+    explanation: "<strong>BRICA</strong> (BRICS en anglais) : <em>Brésil, Russie, Inde, Chine, Afrique du Sud</em>. Ce sont des pays qui connaissent un fort développement économique et sont puissants dans de nombreux domaines, tout en restant marqués par de fortes inégalités internes."
+  },
+  {
+    q: "Pourquoi la Chine est-elle surnommée « l'usine du monde » ?",
+    opts: [
+      "Parce qu'elle produit la majorité des céréales consommées dans le monde",
+      "Parce qu'elle est la deuxième puissance économique mondiale et produit une grande partie des biens manufacturés mondiaux",
+      "Parce que tous ses habitants travaillent dans l'industrie",
+      "Parce qu'elle a le plus grand nombre d'usines nucléaires au monde"
+    ],
+    answer: 1,
+    explanation: "La <strong>Chine est la 2ème puissance économique mondiale</strong> et est surnommée « l'usine du monde » car elle produit une immense part des biens manufacturés (vêtements, électronique, machines…) consommés à travers la planète, grâce à une main-d'œuvre abondante et des coûts de production compétitifs."
+  },
+  {
+    q: "Quel paradoxe illustre le cas de l'Inde parmi les BRICA ?",
+    opts: [
+      "L'Inde est très riche mais refuse le commerce international",
+      "L'Inde est la 5ème puissance économique mondiale mais concentre le plus grand nombre de pauvres au monde",
+      "L'Inde a un IDH très élevé mais une population en déclin",
+      "L'Inde est très développée dans le Nord mais complètement sous-développée dans le Sud"
+    ],
+    answer: 1,
+    explanation: "L'Inde illustre le paradoxe des BRICA : <strong>5ème puissance économique mondiale</strong> (en 2023), mais elle <strong>concentre le plus grand nombre de pauvres au monde</strong>. Ce cas montre que la puissance économique globale d'un pays ne garantit pas une distribution équitable des richesses entre ses habitants."
+  },
+  {
+    q: "Pourquoi les BRICA souhaitent-ils un siège permanent au Conseil de sécurité de l'ONU ?",
+    opts: [
+      "Pour remplacer les membres actuels qui ne sont plus des puissances importantes",
+      "Pour avoir un rôle dans les décisions mondiales à la hauteur de leur puissance économique et de leur population",
+      "Parce que l'ONU les a obligés à demander ce siège",
+      "Pour contrôler les aides humanitaires distribuées dans le monde"
+    ],
+    answer: 1,
+    explanation: "Les BRICA veulent peser dans les <strong>décisions mondiales</strong> à la hauteur de leur puissance économique et de leur poids démographique (l'Inde est le pays le plus peuplé du monde, suivie par la Chine). Actuellement, le Conseil de sécurité de l'ONU est dominé par les anciens grands (USA, Russie, Chine, France, Royaume-Uni), ce qui ne reflète plus les équilibres actuels."
+  }
+];
+
+let current = 0;
+let userAnswers = [];
+
+function startQuiz() {
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('quizBody').style.display  = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('questionCounter').textContent = `Question ${current + 1} / ${questions.length}`;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('progressBar').style.width = `${(current / questions.length) * 100}%`;
+  const div = document.getElementById('optionsDiv');
+  div.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn' + (userAnswers[current] === i ? ' selected' : '');
+    btn.innerHTML = `<span class="option-letter">${['A','B','C','D'][i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    div.appendChild(btn);
+  });
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.disabled = userAnswers[current] === undefined;
+  nextBtn.textContent = current === questions.length - 1 ? 'Voir mes résultats 🎯' : 'Suivant →';
+}
+
+function selectOption(i) {
+  userAnswers[current] = i;
+  document.querySelectorAll('.option-btn').forEach((b, idx) => b.classList.toggle('selected', idx === i));
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQuestion() {
+  if (userAnswers[current] === undefined) return;
+  current++;
+  if (current < questions.length) { renderQuestion(); } else { showResults(); }
+}
+
+function showResults() {
+  document.getElementById('quizBody').style.display    = 'none';
+  document.getElementById('resultsScreen').style.display = 'block';
+  document.getElementById('progressBar').style.width  = '100%';
+  const score = userAnswers.reduce((acc, ans, i) => acc + (ans === questions[i].answer ? 1 : 0), 0);
+  document.getElementById('scoreNum').textContent = score;
+  let msg, sub;
+  if (score === 20)      { msg = '🏆 Parfait ! Félicitations !'; sub = 'Tu maîtrises parfaitement ce chapitre !'; }
+  else if (score >= 16)  { msg = '🌟 Excellent résultat !'; sub = 'Quelques petites erreurs à revoir ci-dessous.'; }
+  else if (score >= 12)  { msg = '👍 Bon résultat !'; sub = 'Relis les explications pour consolider tes acquis.'; }
+  else if (score >= 8)   { msg = '📚 Des lacunes à combler'; sub = 'Relis ton cours puis recommence le quiz.'; }
+  else                   { msg = '💪 Il faut retravailler ce chapitre !'; sub = 'Reprends le cours depuis le début, tu peux le faire !'; }
+  document.getElementById('scoreMsg').textContent = msg;
+  document.getElementById('scoreSub').textContent = sub;
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  questions.forEach((q, i) => {
+    const correct = userAnswers[i] === q.answer;
+    const item = document.createElement('div');
+    item.className = 'review-item ' + (correct ? 'correct' : 'incorrect');
+    item.innerHTML = `
+      <div class="q-num">Question ${i + 1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="answer-row"><span class="icon">${correct ? '✅' : '❌'}</span><span class="label">Ta réponse :</span><span class="val">${q.opts[userAnswers[i]]}</span></div>
+      ${!correct ? `<div class="answer-row"><span class="icon">💡</span><span class="label">Bonne réponse :</span><span class="val">${q.opts[q.answer]}</span></div>` : ''}
+      <div class="explanation">${q.explanation}</div>`;
+    list.appendChild(item);
+  });
+}
+
+function restartQuiz() {
+  current = 0; userAnswers = [];
+  document.getElementById('resultsScreen').style.display = 'none';
+  document.getElementById('quizBody').style.display      = 'block';
+  renderQuestion();
+}
+
+function buildResultsText() {
+  const score = userAnswers.reduce((acc, ans, i) => acc + (ans === questions[i].answer ? 1 : 0), 0);
+  let text = `📊 RÉSULTATS DU QUIZ – Géographie – IDH & Inégalités (5ème)\n`;
+  text += `Score : ${score} / ${questions.length}\n\n`;
+  const wrong = [];
+  questions.forEach((q, i) => {
+    if (userAnswers[i] !== q.answer) {
+      wrong.push(`❌ Q${i+1} : ${q.q}\n   Réponse donnée : ${q.opts[userAnswers[i]]}\n   Bonne réponse  : ${q.opts[q.answer]}`);
+    }
+  });
+  text += wrong.length === 0 ? '🏆 Toutes les réponses sont correctes !' : `Questions à retravailler :\n\n` + wrong.join('\n\n');
+  return text;
+}
+
+function sendByWhatsApp() {
+  const encoded = encodeURIComponent(buildResultsText());
+  window.open(`https://wa.me/?text=${encoded}`, '_blank');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(buildResultsText()).then(() => {
+      const toast = document.getElementById('copyToast');
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 4000);
+    }).catch(() => {});
+  }
+}
+</script>
+</body>
+</html>

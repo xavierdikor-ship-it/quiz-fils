@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Physique – Masse Volumique – Niveau Expert</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 20px 12px 40px;
+  }
+  .container { background: #fff; border-radius: 20px; max-width: 520px; width: 100%; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .header { background: linear-gradient(135deg, #0f3460, #e94560); padding: 28px 24px 22px; text-align: center; color: #fff; }
+  .header .badge { background: rgba(255,255,255,0.2); border-radius: 20px; display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; padding: 4px 14px; text-transform: uppercase; }
+  .header h1 { font-size: 21px; font-weight: 800; margin-bottom: 4px; }
+  .header p  { font-size: 13px; opacity: .85; }
+  .level-badge { background: #e94560; border-radius: 20px; display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 1px; margin-top: 8px; padding: 3px 14px; text-transform: uppercase; }
+  .progress-bar-wrap { background: #e9ecef; height: 6px; }
+  .progress-bar { background: linear-gradient(90deg, #e94560, #f5a623); height: 6px; transition: width .4s ease; width: 0%; }
+  .body { padding: 26px 22px; }
+  .question-counter { color: #6c757d; font-size: 12px; font-weight: 700; letter-spacing: .5px; margin-bottom: 10px; text-transform: uppercase; }
+  .question-text { color: #1a1a2e; font-size: 16px; font-weight: 700; line-height: 1.5; margin-bottom: 22px; }
+  .hint-box { background: #fff8e8; border: 1px solid #f5a62350; border-radius: 10px; color: #856404; font-size: 12px; padding: 8px 12px; margin-bottom: 16px; line-height: 1.5; }
+  .options { display: flex; flex-direction: column; gap: 11px; }
+  .option-btn { align-items: center; background: #f8f9fa; border: 2px solid #e9ecef; border-radius: 14px; color: #1a1a2e; cursor: pointer; display: flex; font-size: 14px; gap: 12px; padding: 13px 16px; text-align: left; transition: all .18s; width: 100%; }
+  .option-btn:hover { background: #e8f4ff; border-color: #0f3460; }
+  .option-btn.selected { background: #e8f0ff; border-color: #0f3460; font-weight: 600; }
+  .option-letter { background: #dee2e6; border-radius: 50%; color: #495057; flex-shrink: 0; font-size: 13px; font-weight: 700; height: 30px; line-height: 30px; text-align: center; width: 30px; transition: all .18s; }
+  .option-btn.selected .option-letter { background: #0f3460; color: #fff; }
+  .nav { display: flex; gap: 10px; margin-top: 28px; }
+  .btn { border: none; border-radius: 14px; cursor: pointer; font-size: 15px; font-weight: 700; padding: 14px 0; transition: all .2s; width: 100%; }
+  .btn-next { background: linear-gradient(135deg, #0f3460, #e94560); color: #fff; }
+  .btn-next:hover { opacity: .88; transform: translateY(-1px); }
+  .btn-next:disabled { background: #ced4da; color: #6c757d; cursor: not-allowed; transform: none; }
+  .results { display: none; padding: 26px 22px; }
+  .score-circle-wrap { text-align: center; margin-bottom: 30px; }
+  .score-circle { background: linear-gradient(135deg, #0f3460, #e94560); border-radius: 50%; color: #fff; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; height: 130px; margin-bottom: 14px; width: 130px; box-shadow: 0 8px 30px rgba(233,69,96,.35); }
+  .score-number { font-size: 40px; font-weight: 900; line-height: 1; }
+  .score-label  { font-size: 12px; opacity: .85; margin-top: 4px; }
+  .score-message { font-size: 17px; font-weight: 700; color: #1a1a2e; }
+  .score-sub     { font-size: 13px; color: #6c757d; margin-top: 4px; }
+  .review-title { font-size: 14px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: #495057; margin-bottom: 16px; border-top: 1px solid #dee2e6; padding-top: 20px; }
+  .review-item { background: #f8f9fa; border-left: 4px solid #dee2e6; border-radius: 0 12px 12px 0; margin-bottom: 16px; padding: 14px 16px; }
+  .review-item.correct   { border-color: #28a745; background: #f0fff4; }
+  .review-item.incorrect { border-color: #e94560; background: #fff5f7; }
+  .review-item .q-num { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: #6c757d; margin-bottom: 5px; }
+  .review-item .q-text { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; line-height: 1.4; }
+  .answer-row { display: flex; align-items: flex-start; gap: 6px; font-size: 13px; margin-bottom: 4px; }
+  .answer-row .icon { flex-shrink: 0; font-size: 15px; }
+  .answer-row .label { font-weight: 600; }
+  .answer-row .val { color: #495057; }
+  .explanation { background: rgba(255,255,255,.65); border-radius: 8px; color: #1a1a2e; font-size: 13px; line-height: 1.6; margin-top: 10px; padding: 10px 12px; }
+  .explanation strong { color: #0f3460; }
+  .explanation code { background: #f0f4ff; border-radius: 4px; padding: 1px 5px; font-family: monospace; font-size: 13px; }
+  .btn-restart { background: linear-gradient(135deg, #0f3460, #e94560); border: none; border-radius: 14px; color: #fff; cursor: pointer; font-size: 15px; font-weight: 700; margin-top: 24px; padding: 16px; width: 100%; transition: opacity .2s; }
+  .btn-restart:hover { opacity: .88; }
+  .share-section { margin-top: 20px; border-top: 1px solid #dee2e6; padding-top: 20px; }
+  .share-title { font-size: 13px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: #6c757d; margin-bottom: 12px; }
+  .btn-whatsapp { background: #e8f8ef; color: #128c7e; border: 2px solid #b2dfc9; border-radius: 14px; cursor: pointer; font-size: 14px; font-weight: 700; padding: 13px; width: 100%; transition: all .2s; }
+  .btn-whatsapp:hover { background: #d0f2e0; }
+  .copy-toast { display: none; background: #1a1a2e; color: #fff; font-size: 13px; font-weight: 600; text-align: center; padding: 10px; border-radius: 10px; margin-top: 10px; }
+  .start-screen { padding: 30px 24px; text-align: center; }
+  .start-screen .emoji { font-size: 56px; margin-bottom: 16px; }
+  .start-screen h2 { font-size: 20px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; }
+  .start-screen p { font-size: 14px; color: #6c757d; line-height: 1.6; margin-bottom: 20px; }
+  .start-screen .rules { background: #fff0f3; border-radius: 14px; padding: 14px 18px; margin-bottom: 24px; text-align: left; }
+  .start-screen .rules li { font-size: 13px; color: #495057; margin-bottom: 7px; padding-left: 4px; list-style: none; }
+  .start-screen .rules li::before { content: "→ "; color: #e94560; font-weight: 700; }
+  .btn-start { background: linear-gradient(135deg, #0f3460, #e94560); border: none; border-radius: 14px; color: #fff; cursor: pointer; font-size: 16px; font-weight: 800; padding: 16px; width: 100%; transition: opacity .2s; }
+  .btn-start:hover { opacity: .88; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">Sciences Physiques · 5ème</div>
+    <h1>⚗️ La Masse Volumique</h1>
+    <p>Chapitre 3 — Quiz niveau expert</p>
+    <div class="level-badge">🔥 Niveau difficile</div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+  <div class="start-screen" id="startScreen">
+    <div class="emoji">🧪</div>
+    <h2>Prêt pour le vrai défi ?</h2>
+    <p>Ce quiz est plus difficile que le précédent : conversions d'unités, calculs à plusieurs étapes, raisonnements sur la flottaison et pièges conceptuels.</p>
+    <div class="rules">
+      <li>20 questions — niveau difficile</li>
+      <li>Certaines questions nécessitent un calcul mental</li>
+      <li>Aucun retour pendant le quiz — tout à la fin</li>
+      <li>Formules utiles : ρ = m÷V · m = ρ×V · V = m÷ρ</li>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Relever le défi 💪</button>
+  </div>
+
+  <div class="body" id="quizBody" style="display:none;">
+    <div class="question-counter" id="questionCounter">Question 1 / 20</div>
+    <div class="question-text" id="questionText"></div>
+    <div id="hintBox"></div>
+    <div class="options" id="optionsDiv"></div>
+    <div class="nav">
+      <button class="btn btn-next" id="nextBtn" onclick="nextQuestion()" disabled>Suivant →</button>
+    </div>
+  </div>
+
+  <div class="results" id="resultsScreen">
+    <div class="score-circle-wrap">
+      <div class="score-circle">
+        <div class="score-number" id="scoreNum">—</div>
+        <div class="score-label">/ 20</div>
+      </div>
+      <div class="score-message" id="scoreMsg"></div>
+      <div class="score-sub"    id="scoreSub"></div>
+    </div>
+    <div class="review-title">📋 Corrections détaillées</div>
+    <div id="reviewList"></div>
+    <button class="btn-restart" onclick="restartQuiz()">🔄 Recommencer le quiz</button>
+    <div class="share-section">
+      <div class="share-title">📤 Envoyer les résultats à papa</div>
+      <button class="btn-whatsapp" onclick="sendByWhatsApp()">💬 Envoyer sur WhatsApp</button>
+      <div class="copy-toast" id="copyToast">✅ Résultats copiés ! Colle-les dans WhatsApp.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  /* ── CONVERSIONS & CALCULS ─────────────────────────────────── */
+  {
+    q: "Un bloc a une masse de 2,7 kg et un volume de 1 000 cm³. Quelle est sa masse volumique en g/cm³ ?",
+    hint: "💡 Attention : convertis d'abord la masse en grammes !",
+    opts: ["0,0027 g/cm³", "2,7 g/cm³", "27 g/cm³", "2 700 g/cm³"],
+    answer: 1,
+    explanation: "Il faut d'abord convertir : <code>2,7 kg = 2 700 g</code>. Ensuite : <code>ρ = m ÷ V = 2 700 ÷ 1 000 = 2,7 g/cm³</code>. C'est la masse volumique de l'aluminium ! L'erreur classique est d'oublier de convertir les kg en g avant de calculer."
+  },
+  {
+    q: "La masse volumique du cuivre est 8,9 g/cm³. Quelle est la masse d'un morceau de cuivre de volume 0,5 dm³ ? (Rappel : 1 dm³ = 1 000 cm³)",
+    hint: "💡 Convertis d'abord le volume en cm³, puis calcule.",
+    opts: ["4,45 g", "445 g", "4 450 g", "44 500 g"],
+    answer: 2,
+    explanation: "On convertit : <code>0,5 dm³ = 500 cm³</code>. Puis : <code>m = ρ × V = 8,9 × 500 = 4 450 g</code>. La réponse est <strong>4 450 g</strong>. Attention à ne pas confondre dm³ et cm³ : il y a un facteur 1 000 entre les deux."
+  },
+  {
+    q: "Un morceau d'or a une masse de 386 g. Sa masse volumique est de 19,3 g/cm³. Quel est son volume ?",
+    hint: "💡 Utilise V = m ÷ ρ",
+    opts: ["7 445,8 cm³", "200 cm³", "20 cm³", "2 cm³"],
+    answer: 2,
+    explanation: "<code>V = m ÷ ρ = 386 ÷ 19,3 = 20 cm³</code>. L'or est extrêmement dense (19,3 g/cm³, soit presque 20 fois plus dense que l'eau). Un volume de seulement 20 cm³ suffit pour une masse de 386 g — c'est un petit cube de 2,7 cm de côté !"
+  },
+  {
+    q: "Un réservoir cubique de 10 cm de côté est rempli d'huile (ρ = 0,9 g/cm³). Quelle est la masse de l'huile ?",
+    hint: "💡 Volume d'un cube = côté × côté × côté",
+    opts: ["90 g", "900 g", "9 000 g", "9 g"],
+    answer: 1,
+    explanation: "Volume du cube : <code>V = 10 × 10 × 10 = 1 000 cm³</code>. Masse : <code>m = ρ × V = 0,9 × 1 000 = 900 g</code>. Ne pas oublier de calculer le volume du cube avant d'appliquer la formule."
+  },
+  {
+    q: "On plonge une pierre dans une éprouvette contenant 50 mL d'eau. Le niveau monte à 73 mL. La masse de la pierre est 57,5 g. Quelle est sa masse volumique ?",
+    hint: "💡 Le volume de la pierre = différence des niveaux d'eau.",
+    opts: ["0,8 g/cm³", "1,25 g/cm³", "2,5 g/cm³", "5 g/cm³"],
+    answer: 2,
+    explanation: "Le volume de la pierre = <code>73 − 50 = 23 cm³</code>. Puis : <code>ρ = m ÷ V = 57,5 ÷ 23 = 2,5 g/cm³</code>. Cette méthode de mesure du volume par immersion dans l'eau s'appelle la <strong>méthode de la poussée d'Archimède</strong> ou méthode du déplacement d'eau."
+  },
+
+  /* ── PROPORTIONNALITÉ & RAISONNEMENT ────────────────────────── */
+  {
+    q: "Un morceau de plomb de 10 cm³ a une masse de 113 g. Quelle sera la masse d'un morceau de plomb de 30 cm³ ?",
+    hint: "💡 La masse volumique est la même pour un même matériau.",
+    opts: ["113 g", "226 g", "339 g", "1 130 g"],
+    answer: 2,
+    explanation: "<code>ρ = 113 ÷ 10 = 11,3 g/cm³</code>. Ensuite : <code>m = 11,3 × 30 = 339 g</code>. On peut aussi raisonner par proportionnalité directe : le volume est multiplié par 3, donc la masse est aussi multipliée par 3 → <code>113 × 3 = 339 g</code>."
+  },
+  {
+    q: "Si on triple le volume d'un échantillon en gardant la même matière, que devient sa masse volumique ?",
+    opts: [
+      "Elle est multipliée par 3",
+      "Elle est divisée par 3",
+      "Elle reste identique",
+      "Elle est multipliée par 9"
+    ],
+    answer: 2,
+    explanation: "La <strong>masse volumique est une propriété de la matière</strong>, pas de l'objet. Elle ne dépend ni de la taille ni de la forme de l'échantillon. Si on triple le volume, la masse triple aussi (m = ρ × V), et le rapport ρ = m/V reste inchangé."
+  },
+  {
+    q: "Deux cubes sont faits de la même matière. Le cube A a un volume de 8 cm³ et une masse de 21,6 g. Quelle est la masse du cube B qui a un volume de 27 cm³ ?",
+    hint: "💡 Calcule d'abord ρ, puis la masse du cube B.",
+    opts: ["21,6 g", "40 g", "72,9 g", "583,2 g"],
+    answer: 2,
+    explanation: "<code>ρ = 21,6 ÷ 8 = 2,7 g/cm³</code>. Puis : <code>m_B = 2,7 × 27 = 72,9 g</code>. C'est de l'aluminium (ρ = 2,7 g/cm³). On peut aussi utiliser la proportionnalité : le volume est multiplié par 27/8 = 3,375, donc la masse aussi → <code>21,6 × 3,375 = 72,9 g</code>."
+  },
+
+  /* ── FLOTTAISON ─────────────────────────────────────────────── */
+  {
+    q: "La masse volumique de l'eau est 1 g/cm³. Un bloc de bois a une masse volumique de 0,6 g/cm³. Que se passe-t-il quand on le plonge dans l'eau ?",
+    opts: [
+      "Il coule car il est solide",
+      "Il flotte car sa masse volumique est inférieure à celle de l'eau",
+      "Il coule car sa masse volumique est supérieure à celle de l'eau",
+      "Il se dissout dans l'eau"
+    ],
+    answer: 1,
+    explanation: "Un objet <strong>flotte</strong> si sa masse volumique est <em>inférieure</em> à celle du liquide. Ici, 0,6 g/cm³ < 1 g/cm³ → le bois flotte. À l'inverse, un objet <strong>coule</strong> si ρ_objet > ρ_liquide. C'est pourquoi le fer (7,9 g/cm³) coule dans l'eau mais un bateau en fer flotte (son volume d'air réduit sa masse volumique moyenne)."
+  },
+  {
+    q: "Un objet a une masse volumique de 1,2 g/cm³. Dans quel(s) liquide(s) coule-t-il ?",
+    opts: [
+      "Dans l'eau douce (ρ = 1 g/cm³) seulement",
+      "Dans l'eau salée (ρ = 1,025 g/cm³) seulement",
+      "Dans l'eau douce ET dans l'eau salée",
+      "Dans aucun des deux"
+    ],
+    answer: 2,
+    explanation: "L'objet coule si sa ρ est <em>supérieure</em> à celle du liquide. Ici : 1,2 > 1 → coule dans l'eau douce. Et 1,2 > 1,025 → coule aussi dans l'eau salée ! Donc l'objet coule dans <strong>les deux liquides</strong>. La réponse C est la bonne."
+  },
+  {
+    q: "Un sous-marin peut flotter ou couler selon sa volonté. Quel principe utilise-t-il ?",
+    opts: [
+      "Il modifie sa masse en éjectant du carburant",
+      "Il fait varier son volume en gonflant ou dégonflant des ballasts d'eau pour modifier sa masse volumique moyenne",
+      "Il modifie la masse volumique de l'eau autour de lui",
+      "Il utilise des aimants pour s'attirer ou se repousser du fond"
+    ],
+    answer: 1,
+    explanation: "Un sous-marin remplit ou vide des <strong>ballasts</strong> (réservoirs d'eau). En remplissant d'eau → masse augmente, masse volumique moyenne augmente → il coule. En soufflant de l'air → masse diminue, masse volumique moyenne diminue → il remonte. C'est une application directe du principe de la masse volumique et de la flottaison."
+  },
+
+  /* ── CONVERSIONS D'UNITÉS ───────────────────────────────────── */
+  {
+    q: "Quelle est l'unité officielle (SI) de la masse volumique ?",
+    opts: ["g/cm³", "g/L", "kg/m³", "kg/dm³"],
+    answer: 2,
+    explanation: "L'unité SI de la masse volumique est le <strong>kg/m³</strong> (kilogramme par mètre cube), car l'unité SI de la masse est le kg et l'unité SI du volume est le m³. En pratique, on utilise souvent g/cm³ qui est plus pratique. La conversion : <code>1 g/cm³ = 1 000 kg/m³</code>."
+  },
+  {
+    q: "La masse volumique de l'eau est 1 g/cm³. Comment s'exprime-t-elle en kg/m³ ?",
+    opts: ["0,001 kg/m³", "1 kg/m³", "100 kg/m³", "1 000 kg/m³"],
+    answer: 3,
+    explanation: "<code>1 g/cm³ = 1 000 kg/m³</code>. Pour convertir : 1 g = 0,001 kg et 1 cm³ = 0,000001 m³, donc 1 g/cm³ = 0,001/0,000001 = <strong>1 000 kg/m³</strong>. C'est pourquoi on dit que 1 m³ d'eau pèse 1 000 kg (soit 1 tonne)."
+  },
+  {
+    q: "Combien de cm³ y a-t-il dans 1 dm³ ?",
+    opts: ["10 cm³", "100 cm³", "1 000 cm³", "10 000 cm³"],
+    answer: 2,
+    explanation: "<code>1 dm³ = 1 000 cm³</code>. Car 1 dm = 10 cm, donc 1 dm³ = 10³ cm³ = 1 000 cm³. À savoir absolument : <code>1 dm³ = 1 L = 1 000 cm³ = 1 000 mL</code>. Ces équivalences sont fondamentales pour les conversions de volume."
+  },
+  {
+    q: "Un objet a un volume de 2 L. Exprimé en cm³, ce volume vaut :",
+    opts: ["2 cm³", "20 cm³", "200 cm³", "2 000 cm³"],
+    answer: 3,
+    explanation: "<code>1 L = 1 dm³ = 1 000 cm³</code>, donc <code>2 L = 2 000 cm³</code>. Cette conversion est indispensable : quand on a la masse en grammes et le volume en litres, il faut convertir le volume en cm³ (× 1 000) avant de calculer ρ en g/cm³."
+  },
+
+  /* ── PIÈGES CONCEPTUELS ─────────────────────────────────────── */
+  {
+    q: "Un astronaute emporte un objet de masse 5 kg sur la Lune. Quelle est la masse de cet objet sur la Lune ?",
+    opts: [
+      "Environ 0,83 kg car la gravité lunaire est 6 fois plus faible",
+      "5 kg, car la masse ne change pas selon l'endroit",
+      "30 kg car la Lune attire moins fort",
+      "0 kg car on est en apesanteur"
+    ],
+    answer: 1,
+    explanation: "La <strong>masse est invariante</strong> : elle reste toujours 5 kg, que ce soit sur Terre, sur la Lune ou dans l'espace. C'est le <em>poids</em> qui change selon la gravité (sur la Lune, il sera 6 fois plus faible). Masse ≠ Poids — c'est une confusion très courante !"
+  },
+  {
+    q: "Deux objets ont la même masse mais des volumes différents. Lequel a la plus grande masse volumique ?",
+    opts: [
+      "Celui qui a le plus grand volume",
+      "Celui qui a le plus petit volume",
+      "Ils ont la même masse volumique puisqu'ils ont la même masse",
+      "Impossible à déterminer"
+    ],
+    answer: 1,
+    explanation: "ρ = m ÷ V. Si la masse m est identique et que le volume V est plus petit, alors le résultat ρ est plus grand. Par exemple : même masse de 100 g. Objet A : V = 10 cm³ → ρ = 10 g/cm³. Objet B : V = 50 cm³ → ρ = 2 g/cm³. Le plus petit en volume est le plus dense."
+  },
+  {
+    q: "On coupe un morceau de fer en deux morceaux égaux. Que peut-on dire de la masse volumique de chaque morceau ?",
+    opts: [
+      "Elle est divisée par 2 car le volume est divisé par 2",
+      "Elle reste identique à celle du morceau de départ",
+      "Elle est multipliée par 2 car chaque morceau est plus compact",
+      "Elle devient nulle car les morceaux sont trop petits"
+    ],
+    answer: 1,
+    explanation: "La <strong>masse volumique est une propriété de la matière</strong>, pas de l'objet. En coupant, on divise la masse par 2 ET le volume par 2. Donc ρ = (m/2) ÷ (V/2) = m/V → <em>ρ reste identique</em>. Peu importe la taille ou la forme d'un morceau de fer, sa masse volumique sera toujours 7,9 g/cm³."
+  },
+  {
+    q: "Un élève mesure : masse = 150 g, volume = 60 cm³. Il calcule ρ = 150 × 60 = 9 000 g/cm³. Quelle erreur a-t-il faite et quelle est la bonne réponse ?",
+    opts: [
+      "Il a oublié de convertir les unités. La bonne réponse est 9 g/cm³",
+      "Il a multiplié au lieu de diviser. La bonne réponse est 2,5 g/cm³",
+      "Il a inversé m et V. La bonne réponse est 0,4 g/cm³",
+      "Il n'a pas fait d'erreur, 9 000 g/cm³ est correct"
+    ],
+    answer: 1,
+    explanation: "L'élève a <strong>multiplié au lieu de diviser</strong>. La formule est <code>ρ = m ÷ V</code> et non m × V. La bonne réponse est <code>ρ = 150 ÷ 60 = 2,5 g/cm³</code>. C'est l'erreur la plus fréquente : confondre le signe ÷ avec ×. Penser au triangle : m en haut, ρ et V en bas."
+  },
+  {
+    q: "La masse volumique de l'alcool est 0,8 g/cm³ et celle de l'eau est 1 g/cm³. Si on mélange de l'alcool et de l'eau dans un verre, que se passe-t-il ?",
+    opts: [
+      "L'alcool se mélange uniformément car c'est un liquide",
+      "L'eau coule au fond et l'alcool reste au-dessus car ρ_eau > ρ_alcool",
+      "L'alcool coule au fond et l'eau reste au-dessus",
+      "Les deux liquides se repoussent et forment une boule"
+    ],
+    answer: 1,
+    explanation: "Comme ρ_eau (1 g/cm³) > ρ_alcool (0,8 g/cm³), l'eau est <strong>plus dense</strong> et se retrouve au fond, l'alcool au-dessus. C'est le même principe qui fait flotter les objets : le liquide le plus dense descend. En réalité, l'alcool et l'eau se mélangent bien car ils sont miscibles — mais si on ne remuait pas, on observerait cette séparation temporaire."
+  }
+];
+
+let current = 0;
+let userAnswers = [];
+
+function startQuiz() {
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('quizBody').style.display  = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('questionCounter').textContent = `Question ${current + 1} / ${questions.length}`;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('progressBar').style.width = `${(current / questions.length) * 100}%`;
+
+  const hintBox = document.getElementById('hintBox');
+  if (q.hint) {
+    hintBox.innerHTML = `<div class="hint-box">${q.hint}</div>`;
+  } else {
+    hintBox.innerHTML = '';
+  }
+
+  const div = document.getElementById('optionsDiv');
+  div.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn' + (userAnswers[current] === i ? ' selected' : '');
+    btn.innerHTML = `<span class="option-letter">${['A','B','C','D'][i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    div.appendChild(btn);
+  });
+
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.disabled = userAnswers[current] === undefined;
+  nextBtn.textContent = current === questions.length - 1 ? 'Voir mes résultats 🎯' : 'Suivant →';
+}
+
+function selectOption(i) {
+  userAnswers[current] = i;
+  document.querySelectorAll('.option-btn').forEach((b, idx) => b.classList.toggle('selected', idx === i));
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQuestion() {
+  if (userAnswers[current] === undefined) return;
+  current++;
+  if (current < questions.length) { renderQuestion(); } else { showResults(); }
+}
+
+function showResults() {
+  document.getElementById('quizBody').style.display    = 'none';
+  document.getElementById('resultsScreen').style.display = 'block';
+  document.getElementById('progressBar').style.width  = '100%';
+  const score = userAnswers.reduce((acc, ans, i) => acc + (ans === questions[i].answer ? 1 : 0), 0);
+  document.getElementById('scoreNum').textContent = score;
+  let msg, sub;
+  if (score === 20)     { msg = '🏆 Parfait ! Tu es un expert !'; sub = 'Niveau difficile maîtrisé à 100% !'; }
+  else if (score >= 17) { msg = '🌟 Excellent résultat !'; sub = 'Quelques pièges évités, quelques-uns non...'; }
+  else if (score >= 14) { msg = '👍 Très bon résultat !'; sub = 'Ce niveau difficile est bien maîtrisé.'; }
+  else if (score >= 10) { msg = '📚 Résultat correct'; sub = 'Relis les explications pour les erreurs.'; }
+  else                  { msg = '💪 Continue à t\'entraîner !'; sub = 'Les calculs et conversions demandent de la pratique.'; }
+  document.getElementById('scoreMsg').textContent = msg;
+  document.getElementById('scoreSub').textContent = sub;
+
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  questions.forEach((q, i) => {
+    const correct = userAnswers[i] === q.answer;
+    const item = document.createElement('div');
+    item.className = 'review-item ' + (correct ? 'correct' : 'incorrect');
+    item.innerHTML = `
+      <div class="q-num">Question ${i + 1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="answer-row"><span class="icon">${correct ? '✅' : '❌'}</span><span class="label">Ta réponse :</span><span class="val">${q.opts[userAnswers[i]]}</span></div>
+      ${!correct ? `<div class="answer-row"><span class="icon">💡</span><span class="label">Bonne réponse :</span><span class="val">${q.opts[q.answer]}</span></div>` : ''}
+      <div class="explanation">${q.explanation}</div>`;
+    list.appendChild(item);
+  });
+}
+
+function restartQuiz() {
+  current = 0; userAnswers = [];
+  document.getElementById('resultsScreen').style.display = 'none';
+  document.getElementById('quizBody').style.display      = 'block';
+  renderQuestion();
+}
+
+function buildResultsText() {
+  const score = userAnswers.reduce((acc, ans, i) => acc + (ans === questions[i].answer ? 1 : 0), 0);
+  let text = `📊 RÉSULTATS – Quiz Physique DIFFICILE – Masse Volumique (5ème)\nScore : ${score} / ${questions.length}\n\n`;
+  const wrong = [];
+  questions.forEach((q, i) => {
+    if (userAnswers[i] !== q.answer) wrong.push(`❌ Q${i+1} : ${q.q}\n   Réponse donnée : ${q.opts[userAnswers[i]]}\n   Bonne réponse  : ${q.opts[q.answer]}`);
+  });
+  text += wrong.length === 0 ? '🏆 Toutes les réponses sont correctes !' : `Questions à retravailler :\n\n` + wrong.join('\n\n');
+  return text;
+}
+
+function sendByWhatsApp() {
+  window.open(`https://wa.me/?text=${encodeURIComponent(buildResultsText())}`, '_blank');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(buildResultsText()).then(() => {
+      const t = document.getElementById('copyToast');
+      t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 4000);
+    }).catch(() => {});
+  }
+}
+</script>
+</body>
+</html>

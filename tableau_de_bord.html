@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suivi Scolaire</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+  h1 {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 900;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  .subtitle {
+    color: rgba(255,255,255,.6);
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  /* ── MATIÈRE CARD ── */
+  .matiere-card {
+    background: #fff;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .matiere-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+  }
+  .matiere-icon {
+    font-size: 28px;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .matiere-title { font-size: 17px; font-weight: 800; color: #1a1a2e; }
+  .matiere-meta  { font-size: 12px; color: #6c757d; margin-top: 2px; }
+
+  /* ── CHAPITRE ── */
+  .chapitre {
+    border-top: 1px solid #f0f0f0;
+    padding: 14px 22px;
+  }
+  .chapitre-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .chapitre-name { font-size: 14px; font-weight: 700; color: #1a1a2e; }
+  .badge-sessions {
+    background: #f0f4ff;
+    color: #0f3460;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap { margin-bottom: 10px; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 5px;
+  }
+  .bar-bg { background: #f0f0f0; border-radius: 99px; height: 8px; }
+  .bar-fill {
+    height: 8px;
+    border-radius: 99px;
+    transition: width .5s ease;
+  }
+
+  /* ── SESSIONS TABLE ── */
+  .sessions-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .sessions-table th {
+    text-align: left;
+    color: #6c757d;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 6px 8px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .sessions-table td {
+    padding: 8px 8px;
+    border-bottom: 1px solid #f8f8f8;
+    color: #495057;
+    vertical-align: top;
+  }
+  .sessions-table tr:last-child td { border-bottom: none; }
+  .score-pill {
+    display: inline-block;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 2px 10px;
+    border-radius: 20px;
+  }
+  .score-excellent { background: #e8fff0; color: #28a745; }
+  .score-bien      { background: #fff8e8; color: #f5a623; }
+  .score-moyen     { background: #fff0f0; color: #e94560; }
+
+  .wrong-list {
+    color: #6c757d;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty {
+    text-align: center;
+    padding: 20px;
+    color: #adb5bd;
+    font-size: 13px;
+  }
+  .empty span { display: block; font-size: 28px; margin-bottom: 6px; }
+
+  /* ── TREND ── */
+  .trend {
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 6px;
+  }
+  .trend.up   { color: #28a745; }
+  .trend.down { color: #e94560; }
+  .trend.same { color: #adb5bd; }
+
+  /* ── GLOBAL SUMMARY ── */
+  .global-summary {
+    background: rgba(255,255,255,.1);
+    border-radius: 14px;
+    padding: 16px 20px;
+    max-width: 640px;
+    margin: 0 auto 24px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .stat-box { text-align: center; flex: 1; min-width: 80px; }
+  .stat-num  { font-size: 28px; font-weight: 900; color: #fff; }
+  .stat-lbl  { font-size: 11px; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: .5px; }
+
+  /* ── COLORS PER SUBJECT ── */
+  .color-sci  { background: #e8f4ff; }
+  .fill-sci   { background: linear-gradient(90deg, #0f3460, #4a90d9); }
+  .color-math { background: #fff3e8; }
+  .fill-math  { background: linear-gradient(90deg, #e94560, #f5a623); }
+  .color-fr   { background: #e8fff0; }
+  .fill-fr    { background: linear-gradient(90deg, #28a745, #56e39f); }
+  .color-hist { background: #fdf0ff; }
+  .fill-hist  { background: linear-gradient(90deg, #8e44ad, #d980fa); }
+  .color-geo  { background: #fff0e8; }
+  .fill-geo   { background: linear-gradient(90deg, #e67e22, #f8b400); }
+  .color-ang  { background: #e8faff; }
+  .fill-ang   { background: linear-gradient(90deg, #00b4d8, #48cae4); }
+  .color-bio  { background: #efffed; }
+  .fill-bio   { background: linear-gradient(90deg, #2d6a4f, #52b788); }
+  .color-def  { background: #f0f0f0; }
+  .fill-def   { background: linear-gradient(90deg, #6c757d, #adb5bd); }
+</style>
+</head>
+<body>
+
+<h1>📚 Suivi Scolaire</h1>
+<p class="subtitle">Mis à jour au fil des quiz · Résultats par matière</p>
+
+<div class="global-summary" id="globalSummary">
+  <div class="stat-box"><div class="stat-num" id="gTotal">0</div><div class="stat-lbl">Quiz passés</div></div>
+  <div class="stat-box"><div class="stat-num" id="gAvg">—</div><div class="stat-lbl">Moyenne générale</div></div>
+  <div class="stat-box"><div class="stat-num" id="gMatieres">0</div><div class="stat-lbl">Matières suivies</div></div>
+</div>
+
+<div id="dashboard"></div>
+
+<script>
+/* ── DATA (injectée par Claude à chaque mise à jour) ── */
+const DATA = {"eleve":"Fils de Xavier","matieres":{"Sciences Physiques":{"chapitres":{"Chapitre 3 – La Masse Volumique (Niveau standard)":{"sessions":[{"date":"2026-05-06","score":19,"total":20,"questions_ratees":["Q15 – Calcul du volume : V = m ÷ ρ"]}]},"Chapitre 3 – La Masse Volumique (Niveau expert)":{"sessions":[{"date":"2026-05-06","score":18,"total":20,"questions_ratees":["Q12 – Unité SI de la masse volumique : kg/m³ (et non g/cm³)","Q18 – La masse volumique reste identique quand on coupe un objet"]}]}}}}};
+
+/* ── CONFIG MATIÈRES ── */
+const MATIERE_CONFIG = {
+  "Sciences Physiques": { icon: "⚗️", colorClass: "color-sci", fillClass: "fill-sci" },
+  "Mathématiques":      { icon: "📐", colorClass: "color-math", fillClass: "fill-math" },
+  "Français":           { icon: "📖", colorClass: "color-fr",   fillClass: "fill-fr"   },
+  "Histoire":           { icon: "🏛️", colorClass: "color-hist", fillClass: "fill-hist" },
+  "Géographie":         { icon: "🌍", colorClass: "color-geo",  fillClass: "fill-geo"  },
+  "Anglais":            { icon: "🇬🇧", colorClass: "color-ang",  fillClass: "fill-ang"  },
+  "SVT":                { icon: "🌿", colorClass: "color-bio",  fillClass: "fill-bio"  },
+};
+function getConfig(name) {
+  return MATIERE_CONFIG[name] || { icon: "📝", colorClass: "color-def", fillClass: "fill-def" };
+}
+
+function scoreClass(s, t) {
+  const pct = s / t;
+  if (pct >= .8) return "score-excellent";
+  if (pct >= .6) return "score-bien";
+  return "score-moyen";
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function trendArrow(sessions) {
+  if (sessions.length < 2) return '';
+  const last = sessions[sessions.length - 1];
+  const prev = sessions[sessions.length - 2];
+  const diff = (last.score / last.total) - (prev.score / prev.total);
+  if (diff > 0.02) return '<span class="trend up">▲</span>';
+  if (diff < -0.02) return '<span class="trend down">▼</span>';
+  return '<span class="trend same">→</span>';
+}
+
+function render() {
+  const matieres = DATA.matieres;
+  const dash = document.getElementById('dashboard');
+  dash.innerHTML = '';
+
+  let totalSessions = 0, totalScore = 0, totalQs = 0;
+
+  for (const [mname, mdata] of Object.entries(matieres)) {
+    const cfg = getConfig(mname);
+    const chapitres = mdata.chapitres || {};
+
+    /* stats de la matière */
+    let mSessions = 0, mScore = 0, mTotal = 0;
+    for (const ch of Object.values(chapitres)) {
+      for (const s of (ch.sessions || [])) {
+        mSessions++; mScore += s.score; mTotal += s.total;
+        totalSessions++; totalScore += s.score; totalQs += s.total;
+      }
+    }
+    const mAvg = mTotal > 0 ? Math.round((mScore / mTotal) * 100) : null;
+
+    const card = document.createElement('div');
+    card.className = 'matiere-card';
+
+    /* header */
+    card.innerHTML = `
+      <div class="matiere-header">
+        <div class="matiere-icon ${cfg.colorClass}">${cfg.icon}</div>
+        <div>
+          <div class="matiere-title">${mname}</div>
+          <div class="matiere-meta">${mSessions} session${mSessions>1?'s':''} · Moyenne : ${mAvg !== null ? mAvg+'%' : '—'}</div>
+        </div>
+      </div>`;
+
+    /* chapitres */
+    for (const [chname, chdata] of Object.entries(chapitres)) {
+      const sessions = chdata.sessions || [];
+      const lastSession = sessions[sessions.length - 1];
+      const avgPct = sessions.length > 0
+        ? Math.round(sessions.reduce((a,s) => a + s.score/s.total, 0) / sessions.length * 100)
+        : 0;
+
+      const chDiv = document.createElement('div');
+      chDiv.className = 'chapitre';
+      chDiv.innerHTML = `
+        <div class="chapitre-header">
+          <div class="chapitre-name">${chname} ${trendArrow(sessions)}</div>
+          <div class="badge-sessions">${sessions.length} passage${sessions.length>1?'s':''}</div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>Progression moyenne</span>
+            <span>${avgPct}%</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-fill ${cfg.fillClass}" style="width:${avgPct}%"></div>
+          </div>
+        </div>`;
+
+      if (sessions.length === 0) {
+        chDiv.innerHTML += `<div class="empty"><span>📭</span>Aucun quiz passé pour l'instant.</div>`;
+      } else {
+        const table = document.createElement('table');
+        table.className = 'sessions-table';
+        table.innerHTML = `<thead><tr>
+          <th>Date</th><th>Score</th><th>Questions ratées</th>
+        </tr></thead>`;
+        const tbody = document.createElement('tbody');
+        [...sessions].reverse().forEach(s => {
+          const tr = document.createElement('tr');
+          const wrongs = (s.questions_ratees || []).map(q => `• ${q}`).join('<br>');
+          tr.innerHTML = `
+            <td>${formatDate(s.date)}</td>
+            <td><span class="score-pill ${scoreClass(s.score, s.total)}">${s.score}/${s.total}</span></td>
+            <td><div class="wrong-list">${wrongs || '✅ Aucune !'}</div></td>`;
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        chDiv.appendChild(table);
+      }
+      card.appendChild(chDiv);
+    }
+    dash.appendChild(card);
+  }
+
+  /* global stats */
+  document.getElementById('gTotal').textContent = totalSessions;
+  document.getElementById('gAvg').textContent =
+    totalQs > 0 ? Math.round(totalScore / totalQs * 100) + '%' : '—';
+  document.getElementById('gMatieres').textContent = Object.keys(matieres).length;
+}
+
+render();
+</script>
+</body>
+</html>

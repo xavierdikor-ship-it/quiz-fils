@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Technologie – Micro:bit & Programmation – 5ème</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 50%, #e94560 100%);
+    min-height: 100vh;
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 20px 12px 40px;
+  }
+  .container { background: #fff; border-radius: 20px; max-width: 540px; width: 100%; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+  .header { background: linear-gradient(135deg, #0d1b2a, #e94560); padding: 28px 24px 22px; text-align: center; color: #fff; }
+  .header .badge { background: rgba(255,255,255,0.2); border-radius: 20px; display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; padding: 4px 14px; text-transform: uppercase; }
+  .header h1 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+  .header p  { font-size: 13px; opacity: .85; }
+  .progress-bar-wrap { background: #e9ecef; height: 6px; }
+  .progress-bar { background: linear-gradient(90deg, #e94560, #f5a623); height: 6px; transition: width .4s ease; width: 0%; }
+  .body { padding: 24px 20px; }
+  .question-counter { color: #6c757d; font-size: 12px; font-weight: 700; letter-spacing: .5px; margin-bottom: 8px; text-transform: uppercase; }
+  .section-tag { display: inline-block; background: #fff0f3; color: #e94560; font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 20px; margin-bottom: 10px; letter-spacing: .3px; }
+  .question-text { color: #1a1a2e; font-size: 15px; font-weight: 700; line-height: 1.55; margin-bottom: 18px; }
+  .hint-box { background: #fff8e8; border: 1px solid #f5a62350; border-radius: 10px; color: #856404; font-size: 12px; padding: 8px 12px; margin-bottom: 14px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option-btn { align-items: flex-start; background: #f8f9fa; border: 2px solid #e9ecef; border-radius: 14px; color: #1a1a2e; cursor: pointer; display: flex; font-size: 13px; gap: 11px; padding: 12px 14px; text-align: left; transition: all .18s; width: 100%; line-height: 1.45; }
+  .option-btn:hover { background: #ffeef1; border-color: #e94560; }
+  .option-btn.selected { background: #ffe0e6; border-color: #e94560; font-weight: 600; }
+  .option-letter { background: #dee2e6; border-radius: 50%; color: #495057; flex-shrink: 0; font-size: 12px; font-weight: 700; height: 28px; line-height: 28px; text-align: center; width: 28px; transition: all .18s; margin-top: 1px; }
+  .option-btn.selected .option-letter { background: #e94560; color: #fff; }
+  .nav { display: flex; gap: 10px; margin-top: 24px; }
+  .btn { border: none; border-radius: 14px; cursor: pointer; font-size: 15px; font-weight: 700; padding: 13px 0; transition: all .2s; width: 100%; }
+  .btn-next { background: linear-gradient(135deg, #0d1b2a, #e94560); color: #fff; }
+  .btn-next:hover { opacity: .88; transform: translateY(-1px); }
+  .btn-next:disabled { background: #ced4da; color: #6c757d; cursor: not-allowed; transform: none; }
+  .results { display: none; padding: 24px 20px; }
+  .score-circle-wrap { text-align: center; margin-bottom: 28px; }
+  .score-circle { background: linear-gradient(135deg, #0d1b2a, #e94560); border-radius: 50%; color: #fff; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; height: 130px; margin-bottom: 14px; width: 130px; box-shadow: 0 8px 30px rgba(233,69,96,.3); }
+  .score-number { font-size: 40px; font-weight: 900; line-height: 1; }
+  .score-label  { font-size: 12px; opacity: .85; margin-top: 4px; }
+  .score-message { font-size: 17px; font-weight: 700; color: #1a1a2e; }
+  .score-sub { font-size: 13px; color: #6c757d; margin-top: 4px; }
+  .review-title { font-size: 13px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: #495057; margin-bottom: 14px; border-top: 1px solid #dee2e6; padding-top: 18px; }
+  .review-item { background: #f8f9fa; border-left: 4px solid #dee2e6; border-radius: 0 12px 12px 0; margin-bottom: 14px; padding: 12px 14px; }
+  .review-item.correct { border-color: #28a745; background: #f0fff4; }
+  .review-item.incorrect { border-color: #dc3545; background: #fff5f7; }
+  .review-item .q-num { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: #6c757d; margin-bottom: 4px; }
+  .review-item .q-text { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 7px; line-height: 1.4; }
+  .answer-row { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; margin-bottom: 3px; }
+  .answer-row .label { font-weight: 600; }
+  .answer-row .val { color: #495057; }
+  .explanation { background: rgba(255,255,255,.7); border-radius: 8px; color: #1a1a2e; font-size: 12px; line-height: 1.6; margin-top: 8px; padding: 9px 11px; }
+  .explanation strong { color: #0d1b2a; }
+  .explanation code { background: #f0f0f0; border-radius: 4px; padding: 1px 4px; font-size: 12px; }
+  .btn-restart { background: linear-gradient(135deg, #0d1b2a, #e94560); border: none; border-radius: 14px; color: #fff; cursor: pointer; font-size: 15px; font-weight: 700; margin-top: 20px; padding: 15px; width: 100%; transition: opacity .2s; }
+  .btn-restart:hover { opacity: .88; }
+  .share-section { margin-top: 18px; border-top: 1px solid #dee2e6; padding-top: 18px; }
+  .share-title { font-size: 12px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: #6c757d; margin-bottom: 10px; }
+  .btn-whatsapp { background: #e8f8ef; color: #128c7e; border: 2px solid #b2dfc9; border-radius: 14px; cursor: pointer; font-size: 14px; font-weight: 700; padding: 12px; width: 100%; transition: all .2s; }
+  .btn-whatsapp:hover { background: #d0f2e0; }
+  .copy-toast { display: none; background: #1a1a2e; color: #fff; font-size: 13px; font-weight: 600; text-align: center; padding: 9px; border-radius: 10px; margin-top: 8px; }
+  .start-screen { padding: 28px 22px; text-align: center; }
+  .start-screen .emoji { font-size: 52px; margin-bottom: 14px; }
+  .start-screen h2 { font-size: 19px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; }
+  .start-screen p { font-size: 13px; color: #6c757d; line-height: 1.6; margin-bottom: 18px; }
+  .start-screen .rules { background: #fff0f3; border-radius: 14px; padding: 14px 16px; margin-bottom: 22px; text-align: left; }
+  .start-screen .rules li { font-size: 13px; color: #495057; margin-bottom: 6px; padding-left: 4px; list-style: none; }
+  .start-screen .rules li::before { content: "→ "; color: #e94560; font-weight: 700; }
+  .btn-start { background: linear-gradient(135deg, #0d1b2a, #e94560); border: none; border-radius: 14px; color: #fff; cursor: pointer; font-size: 16px; font-weight: 800; padding: 15px; width: 100%; transition: opacity .2s; }
+  .btn-start:hover { opacity: .88; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">Technologie · 5ème</div>
+    <h1>💡 Micro:bit & Programmation</h1>
+    <p>Séquence 9 — Feu arrière de vélo intelligent</p>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+  <div class="start-screen" id="startScreen">
+    <div class="emoji">🚴</div>
+    <h2>Prêt pour la techno ?</h2>
+    <p>Ce quiz couvre les 4 activités de la séquence 9 : entrées/sorties, variables, boucles, événements, algorithme littéral, blocs, conditions et télécommande radio.</p>
+    <div class="rules">
+      <li>30 questions — niveau élevé</li>
+      <li>4 thèmes : carte Micro:bit, programmation, algorithme, télécommande</li>
+      <li>Aucun retour pendant le quiz — tout à la fin</li>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Commencer le quiz 🚀</button>
+  </div>
+
+  <div class="body" id="quizBody" style="display:none;">
+    <div class="question-counter" id="questionCounter">Question 1 / 30</div>
+    <div id="sectionTag"></div>
+    <div class="question-text" id="questionText"></div>
+    <div id="hintBox"></div>
+    <div class="options" id="optionsDiv"></div>
+    <div class="nav">
+      <button class="btn btn-next" id="nextBtn" onclick="nextQuestion()" disabled>Suivant →</button>
+    </div>
+  </div>
+
+  <div class="results" id="resultsScreen">
+    <div class="score-circle-wrap">
+      <div class="score-circle">
+        <div class="score-number" id="scoreNum">—</div>
+        <div class="score-label">/ 30</div>
+      </div>
+      <div class="score-message" id="scoreMsg"></div>
+      <div class="score-sub" id="scoreSub"></div>
+    </div>
+    <div class="review-title">📋 Corrections détaillées</div>
+    <div id="reviewList"></div>
+    <button class="btn-restart" onclick="restartQuiz()">🔄 Recommencer le quiz</button>
+    <div class="share-section">
+      <div class="share-title">📤 Envoyer les résultats à papa</div>
+      <button class="btn-whatsapp" onclick="sendByWhatsApp()">💬 Envoyer sur WhatsApp</button>
+      <div class="copy-toast" id="copyToast">✅ Résultats copiés ! Colle-les dans WhatsApp.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  /* ══ THÈME 1 : ENTRÉES / SORTIES ══════════════════════════════ */
+  {
+    section: "🔌 Entrées / Sorties",
+    q: "Quelles sont les 3 sources d'entrées possibles pour un programme ?",
+    opts: [
+      "Les capteurs, les actionneurs et les fichiers à lire",
+      "Les capteurs, les boutons et les fichiers à lire",
+      "Les boutons, les LED et le speaker",
+      "Les écrans, les moteurs et les capteurs"
+    ],
+    answer: 1,
+    explanation: "Les <strong>3 sources d'entrées</strong> sont : les <em>capteurs</em> (température, accéléromètre…), les <em>boutons</em> (A, B, logo) et les <em>fichiers à lire</em>. Les actionneurs (LED, speaker) sont des sorties, pas des entrées."
+  },
+  {
+    section: "🔌 Entrées / Sorties",
+    q: "Parmi ces propositions, laquelle n'est PAS une forme de sortie d'un programme ?",
+    opts: [
+      "Un affichage sur un écran",
+      "Une mise en fonctionnement (allumer une LED, faire tourner un moteur)",
+      "Une création de fichier",
+      "Une lecture d'un capteur de température"
+    ],
+    answer: 3,
+    explanation: "Les <strong>3 formes de sorties</strong> sont : l'<em>affichage sur un écran</em>, la <em>mise en fonctionnement</em> d'un actionneur (LED, moteur) et la <em>création de fichier</em>. La lecture d'un capteur est une <em>entrée</em>, pas une sortie !"
+  },
+  {
+    section: "🔌 Entrées / Sorties",
+    q: "Le panneau de LED « 25 red light » de la carte Micro:bit est-il un capteur ou un actionneur ?",
+    opts: [
+      "Un capteur, car il détecte la lumière ambiante",
+      "Un actionneur, car il produit de la lumière",
+      "Un capteur, car il reçoit des informations",
+      "Ni l'un ni l'autre, c'est un afficheur"
+    ],
+    answer: 1,
+    explanation: "Le panneau de LED est un <strong>actionneur</strong> : il <em>produit</em> de la lumière. Un capteur <em>reçoit</em> une information de l'environnement. Règle simple : capteur = entrée / actionneur = sortie."
+  },
+  {
+    section: "🔌 Entrées / Sorties",
+    q: "La touche tactile « logo » de la carte Micro:bit est-elle un capteur ou un actionneur ?",
+    opts: [
+      "Un actionneur, car elle déclenche une action",
+      "Un capteur, car elle détecte l'appui du doigt",
+      "Un actionneur, car elle produit un signal",
+      "Un capteur, car elle affiche une icône"
+    ],
+    answer: 1,
+    explanation: "La touche logo est un <strong>capteur</strong> : elle <em>détecte</em> l'appui du doigt et transmet cette information au programme. C'est une source d'<em>entrée</em> pour le programme. Les sources d'entrées d'un programme sont assurées par des capteurs tels que les boutons."
+  },
+  {
+    section: "🔌 Entrées / Sorties",
+    q: "Le Speaker (haut-parleur) de la carte Micro:bit est-il un capteur ou un actionneur ?",
+    opts: [
+      "Un capteur, car il capte les sons extérieurs",
+      "Un actionneur, car il produit de la musique",
+      "Un capteur, car il reçoit un signal audio",
+      "Ni l'un ni l'autre, c'est une interface"
+    ],
+    answer: 1,
+    explanation: "Le Speaker est un <strong>actionneur</strong> : il <em>produit</em> du son (de la musique). La variable « mélodie dadadum » lui est associée car on produit de la musique. Un microphone serait un capteur (il capte les sons), pas un haut-parleur."
+  },
+  {
+    section: "🔌 Entrées / Sorties",
+    q: "Dans la « synthèse » du cours, comment sont assurées les sources d'entrées d'un programme ?",
+    opts: [
+      "Par des actionneurs tels que les moteurs",
+      "Par des capteurs tels que les boutons",
+      "Par des fichiers stockés sur la carte",
+      "Par des boucles de répétition"
+    ],
+    answer: 1,
+    explanation: "Selon la synthèse : « <strong>Les sources d'entrées d'un programme sont assurées par des capteurs</strong> tels que les boutons. » Et « les formes de sorties sont produites par des actionneurs tels que des LED ou des haut-parleurs. »"
+  },
+
+  /* ══ THÈME 2 : VARIABLES ═══════════════════════════════════════ */
+  {
+    section: "📦 Variables",
+    q: "Quel est le rôle d'une variable associée à un actionneur ?",
+    opts: [
+      "Elle contient une valeur reçue de l'environnement",
+      "Elle définit une valeur pour piloter l'actionneur (ex : vitesse)",
+      "Elle stocke le résultat d'une mesure de capteur",
+      "Elle compte le nombre de fois qu'une boucle s'exécute"
+    ],
+    answer: 1,
+    explanation: "Une variable associée à un <strong>actionneur</strong> sert à <em>définir une valeur</em> pour le piloter. Exemple : la variable « vitesse » définit à quelle vitesse tourne un moteur. Une variable associée à un capteur, elle, <em>contient</em> une valeur issue de ce capteur (ex: « obstacle »)."
+  },
+  {
+    section: "📦 Variables",
+    q: "Dans le programme du feu, pourquoi la variable « icone » est-elle associée à un actionneur ?",
+    opts: [
+      "Car elle reçoit un signal de la touche logo",
+      "Car elle produit de la lumière via le panneau de LED",
+      "Car elle mesure la luminosité ambiante",
+      "Car elle stocke le nombre de clignotements"
+    ],
+    answer: 1,
+    explanation: "La variable « icone » est associée à l'<strong>actionneur panneau de LED</strong> car elle <em>produit de la lumière</em>. Quand on lui affecte une icône, le panneau de LED l'affiche. C'est une sortie du programme."
+  },
+  {
+    section: "📦 Variables",
+    q: "Un programme utilise une variable appelée « obstacle ». De quel type de variable s'agit-il ?",
+    opts: [
+      "Une variable associée à un actionneur, car elle contrôle un moteur",
+      "Une variable associée à un capteur, car elle contient une valeur issue d'un capteur",
+      "Une variable de boucle, car elle compte les répétitions",
+      "Une variable de sortie, car elle affiche une valeur"
+    ],
+    answer: 1,
+    explanation: "« obstacle » est une variable <strong>associée à un capteur</strong> : elle <em>contient une valeur issue du capteur</em> (par exemple un capteur de distance qui détecte un obstacle). C'est l'exemple donné dans le cours pour illustrer ce type de variable."
+  },
+
+  /* ══ THÈME 3 : BOUCLES ════════════════════════════════════════ */
+  {
+    section: "🔁 Boucles",
+    q: "Quels sont les 2 types de boucles pouvant apparaître dans un programme ?",
+    opts: [
+      "La boucle « si... alors » et la boucle « sinon »",
+      "La boucle « répéter... fois » et la boucle « tant que »",
+      "La boucle « au démarrage » et la boucle « sur le logo appuyé »",
+      "La boucle « d'action » et la boucle « de condition »"
+    ],
+    answer: 1,
+    explanation: "Les 2 types de boucles sont : la boucle <strong>« répéter... fois »</strong> (qui exécute un nombre défini de fois) et la boucle <strong>« tant que »</strong> (ou « répéter jusqu'à ce que »), qui s'exécute tant qu'une condition est vraie. Les boucles permettent de répéter une action plusieurs fois."
+  },
+  {
+    section: "🔁 Boucles",
+    q: "Dans la 1ère évolution du feu, combien de fois les 25 LED clignotent-elles quand on appuie sur le logo ?",
+    opts: ["2 fois", "4 fois", "10 fois", "25 fois"],
+    answer: 1,
+    explanation: "Lorsqu'on appuie sur le logo central, la boucle <strong>« Répéter 4 fois »</strong> fait clignoter les 25 LED <strong>4 fois</strong>. C'est la boucle de base du feu simple. Pour la clignotant (boutons A et B), les boucles répètent 10 fois."
+  },
+  {
+    section: "🔁 Boucles",
+    q: "Combien de fois la flèche de clignotant s'allume-t-elle quand on appuie sur le bouton A ?",
+    opts: ["4 fois", "6 fois", "10 fois", "25 fois"],
+    answer: 2,
+    explanation: "Lorsqu'on appuie sur le bouton A, la boucle répète <strong>10 fois</strong> l'allumage et l'extinction de la flèche gauche. C'est la même chose pour le bouton B (flèche droite). Après les 10 clignotements, le programme affiche une flèche verticale."
+  },
+  {
+    section: "🔁 Boucles",
+    q: "Pour faire clignoter le feu 10 fois au lieu de 4, quelle modification faut-il faire ?",
+    opts: [
+      "Ajouter une deuxième boucle « Répéter 4 fois »",
+      "Modifier la boucle « Répéter 4 fois » en « Répéter 10 fois »",
+      "Supprimer la boucle et écrire 10 instructions séparées",
+      "Changer le type de boucle en « tant que »"
+    ],
+    answer: 1,
+    explanation: "Il suffit de <strong>modifier le nombre de répétitions</strong> dans la boucle existante : passer de « Répéter <em>4</em> fois » à « Répéter <em>10</em> fois ». C'est l'avantage des boucles : changer un seul paramètre modifie le comportement de tout le programme."
+  },
+
+  /* ══ THÈME 4 : ÉVÉNEMENTS ══════════════════════════════════════ */
+  {
+    section: "⚡ Événements",
+    q: "Quels sont les 3 types d'événements possibles pour déclencher un programme ?",
+    opts: [
+      "Action, condition et boucle",
+      "Physique, temporel et logique",
+      "Entrée, sortie et variable",
+      "Démarrage, pression et secousse"
+    ],
+    answer: 1,
+    explanation: "Les 3 types d'événements sont : <strong>physique</strong> (ex : quand une touche est pressée), <strong>temporel</strong> (ex : si chronomètre = 10, alors…) et <strong>logique</strong> (ex : si distance = 10, alors…). Chaque type correspond à une nature différente du déclencheur."
+  },
+  {
+    section: "⚡ Événements",
+    q: "« Lorsque le chronomètre atteint 10 secondes, allumer la LED » — de quel type d'événement s'agit-il ?",
+    opts: [
+      "Événement physique",
+      "Événement temporel",
+      "Événement logique",
+      "Événement de démarrage"
+    ],
+    answer: 1,
+    explanation: "C'est un <strong>événement temporel</strong> : il est déclenché par une condition liée au <em>temps</em> (chronomètre = 10). Exemple du cours : « si chronomètre = 10, alors… ». Le temps est le critère déclencheur."
+  },
+  {
+    section: "⚡ Événements",
+    q: "« Si distance = 10, alors s'arrêter » — de quel type d'événement s'agit-il ?",
+    opts: [
+      "Événement physique",
+      "Événement temporel",
+      "Événement logique",
+      "Événement de boucle"
+    ],
+    answer: 2,
+    explanation: "C'est un <strong>événement logique</strong> : il est déclenché par une condition logique (comparaison d'une valeur). Exemple du cours : « si distance = 10, alors… ». La valeur d'un capteur est comparée à un seuil."
+  },
+  {
+    section: "⚡ Événements",
+    q: "« Lorsque la touche logo est pressée » — de quel type d'événement s'agit-il ?",
+    opts: [
+      "Événement physique",
+      "Événement temporel",
+      "Événement logique",
+      "Événement de démarrage"
+    ],
+    answer: 0,
+    explanation: "C'est un <strong>événement physique</strong> : il est déclenché par une action physique de l'utilisateur (appuyer sur la touche). Exemple du cours : « quand une touche est pressée… ». C'est le type d'événement le plus courant dans le programme du feu."
+  },
+  {
+    section: "⚡ Événements",
+    q: "Dans la 2ème évolution du feu (détection du freinage), quel est le 5ème événement ajouté ?",
+    opts: [
+      "Lorsque le bouton A est pressé",
+      "Au démarrage",
+      "Lorsque secouer (accélération de 3G)",
+      "Lorsque le bouton B est pressé"
+    ],
+    answer: 2,
+    explanation: "Le 5ème événement est <strong>« lorsque secouer »</strong> avec une valeur de 3G. Il simule le freinage : quand le cycliste freine, la décélération secoue la carte. Le programme déclenche alors un clignotement en losange 4 fois pour signaler le freinage."
+  },
+  {
+    section: "⚡ Événements",
+    q: "Combien d'événements déclencheurs possède la 1ère évolution du programme du feu ?",
+    opts: ["2 événements", "3 événements", "4 événements", "5 événements"],
+    answer: 2,
+    explanation: "La 1ère évolution possède <strong>4 événements</strong> : 1) <em>Au démarrage</em>, 2) <em>Sur le logo appuyé</em>, 3) <em>Lorsque le bouton A est pressé</em>, 4) <em>Lorsque le bouton B est pressé</em>. La 2ème évolution en ajoute un 5ème : « lorsque secouer »."
+  },
+
+  /* ══ THÈME 5 : ALGORITHME LITTÉRAL ════════════════════════════ */
+  {
+    section: "📝 Algorithme littéral",
+    q: "Qu'est-ce qu'un algorithme littéral ?",
+    opts: [
+      "Un programme écrit en langage JavaScript",
+      "Une présentation du contenu d'un programme sous forme de phrases en français",
+      "Un ensemble de blocs colorés dans Makecode",
+      "Un schéma représentant les connexions de la carte"
+    ],
+    answer: 1,
+    explanation: "Un <strong>algorithme littéral</strong> est une présentation du programme sous forme de <em>phrases en français</em>, compréhensibles par tous. C'est la réponse à la question : « Comment peut-on présenter simplement le contenu d'un programme ? »"
+  },
+  {
+    section: "📝 Algorithme littéral",
+    q: "Qu'est-ce qu'une séquence d'instructions ?",
+    opts: [
+      "Une liste de capteurs connectés à la carte",
+      "Un ensemble d'ordres donnés à un objet ou un système pour qu'il effectue une tâche",
+      "Un type d'événement temporel",
+      "Une boucle qui se répète indéfiniment"
+    ],
+    answer: 1,
+    explanation: "Une <strong>séquence d'instructions</strong> est « un ensemble d'ordres donnés à un objet ou à un système pour qu'il effectue une tâche ». Dans l'algorithme littéral, la séquence est la série d'actions qui suit l'événement déclencheur."
+  },
+  {
+    section: "📝 Algorithme littéral",
+    q: "Au démarrage du programme du feu (1ère évolution), que se passe-t-il sur le panneau de LED ?",
+    opts: [
+      "Les 25 LED s'allument toutes ensemble",
+      "Une flèche verticale s'affiche",
+      "Un losange clignote 4 fois",
+      "Le panneau reste éteint en attente"
+    ],
+    answer: 1,
+    explanation: "Algorithme littéral : « <strong>Au démarrage, allumer une flèche verticale sur le panneau de LED</strong> ». C'est le premier événement du programme, qui s'exécute automatiquement quand la carte est allumée."
+  },
+  {
+    section: "📝 Algorithme littéral",
+    q: "Lors du freinage (2ème évolution, secousse à 3G), quelle figure s'affiche et combien de fois clignote-t-elle ?",
+    opts: [
+      "Une flèche gauche, 10 fois",
+      "Les 25 LED, 4 fois",
+      "Un losange, 4 fois",
+      "Une flèche verticale, 10 fois"
+    ],
+    answer: 2,
+    explanation: "Algorithme littéral : « Lorsque la carte est secouée d'une valeur de 3G, il faut <strong>allumer puis éteindre 4 fois un losange</strong> sur le panneau de LED, puis afficher une flèche verticale. » Le losange symbolise l'arrêt d'urgence."
+  },
+  {
+    section: "📝 Algorithme littéral",
+    q: "Dans l'algorithme littéral : « Dès que le bouton embarqué sera pressé, le système joue la note D3 puis affiche la couleur bleue » — quel est l'événement déclencheur ?",
+    opts: [
+      "Jouer la note D3",
+      "Afficher la couleur bleue",
+      "Lorsque le bouton embarqué est pressé",
+      "Le système est prêt"
+    ],
+    answer: 2,
+    explanation: "L'<strong>événement déclencheur</strong> est « <em>lorsque le bouton embarqué pressé</em> ». Tout ce qui suit (jouer la note D3, afficher la couleur bleue) constitue la <em>séquence d'instructions</em> déclenchée par cet événement."
+  },
+
+  /* ══ THÈME 6 : BLOCS DE PROGRAMMATION ═════════════════════════ */
+  {
+    section: "🧩 Blocs de programmation",
+    q: "Quels sont les 3 types de blocs en programmation graphique par blocs ?",
+    opts: [
+      "Blocs d'entrée, blocs de sortie et blocs de traitement",
+      "Blocs d'action, blocs de condition et blocs de boucle",
+      "Blocs de capteur, blocs d'actionneur et blocs de variable",
+      "Blocs verts, blocs rouges et blocs bleus"
+    ],
+    answer: 1,
+    explanation: "Les 3 types de blocs sont : les <strong>blocs d'action</strong> (ex : avancer à 50 tr/min), les <strong>blocs de condition</strong> (ex : si obstacle proche, alors s'arrêter) et les <strong>blocs de boucle</strong> (ex : répéter 4 fois). Ensemble, ils permettent de construire n'importe quel programme."
+  },
+  {
+    section: "🧩 Blocs de programmation",
+    q: "« Avancer à 50 tr/min » — de quel type de bloc s'agit-il ?",
+    opts: [
+      "Bloc de condition",
+      "Bloc de boucle",
+      "Bloc d'action",
+      "Bloc d'événement"
+    ],
+    answer: 2,
+    explanation: "C'est un <strong>bloc d'action</strong> : il donne un ordre direct au système (avancer à une certaine vitesse). Les blocs d'action sont les instructions de base : allumer une LED, jouer un son, afficher un texte…"
+  },
+  {
+    section: "🧩 Blocs de programmation",
+    q: "« Si l'objet est proche d'un obstacle, alors s'arrêter » — de quel type de bloc s'agit-il ?",
+    opts: [
+      "Bloc d'action",
+      "Bloc de boucle",
+      "Bloc de condition",
+      "Bloc d'événement"
+    ],
+    answer: 2,
+    explanation: "C'est un <strong>bloc de condition</strong> : il teste une condition et exécute une action si elle est vraie. C'est la structure « <em>si... alors...</em> ». Dans Makecode, ces blocs sont généralement en jaune ou en bleu selon la version."
+  },
+  {
+    section: "🧩 Blocs de programmation",
+    q: "« Répéter 4 fois » — de quel type de bloc s'agit-il ?",
+    opts: [
+      "Bloc d'action",
+      "Bloc de condition",
+      "Bloc de boucle",
+      "Bloc de variable"
+    ],
+    answer: 2,
+    explanation: "C'est un <strong>bloc de boucle</strong> : il permet de répéter une série d'actions un nombre défini de fois. C'est exactement ce bloc qui est utilisé dans le programme du feu pour faire clignoter les LED."
+  },
+
+  /* ══ THÈME 7 : CONDITIONS ══════════════════════════════════════ */
+  {
+    section: "❓ Instructions conditionnelles",
+    q: "Que permet une instruction conditionnelle dans un programme ?",
+    opts: [
+      "De répéter une action un nombre défini de fois",
+      "D'exécuter une ou plusieurs instructions en fonction d'une condition",
+      "De définir la valeur d'une variable",
+      "De connecter deux cartes Micro:bit ensemble"
+    ],
+    answer: 1,
+    explanation: "Une instruction conditionnelle permet <strong>d'exécuter une ou plusieurs instructions en fonction d'une condition</strong>. Structure : « <em>SI condition ALORS action1 SINON action2</em> ». Elle rend le programme « intelligent » en adaptant son comportement selon la situation."
+  },
+  {
+    section: "❓ Instructions conditionnelles",
+    q: "« Si la distance est inférieure à 20, alors s'arrêter, sinon avancer. » — Que fait le système si la distance mesurée est 15 ?",
+    opts: [
+      "Il avance, car 15 est un petit nombre",
+      "Il s'arrête, car 15 < 20",
+      "Il répète l'action 15 fois",
+      "Rien ne se passe, la condition n'est pas remplie"
+    ],
+    answer: 1,
+    explanation: "15 < 20, donc la <strong>condition est vraie</strong> → le système <strong>s'arrête</strong>. Si la distance avait été 25 (25 > 20), la condition serait fausse et le système aurait avancé. C'est la logique « si... alors... sinon... »."
+  },
+  {
+    section: "❓ Instructions conditionnelles",
+    q: "L'instruction « Si receivedString = « ilot6-b2 », alors afficher le texte » — quand s'exécute-t-elle ?",
+    opts: [
+      "À chaque fois que la carte reçoit n'importe quel message radio",
+      "Uniquement quand la chaîne reçue par radio correspond exactement à « ilot6-b2 »",
+      "Quand le bouton A est pressé sur la carte émettrice",
+      "Au démarrage de la carte réceptrice"
+    ],
+    answer: 1,
+    explanation: "L'instruction s'exécute <strong>uniquement quand la chaîne de réception correspond exactement à « ilot6-b2 »</strong>. C'est une condition de comparaison de chaîne de caractères. Si le message reçu est différent (ex : « ilot6-b1 »), l'action ne se déclenche pas."
+  },
+
+  /* ══ THÈME 8 : TÉLÉCOMMANDE & RADIO ═══════════════════════════ */
+  {
+    section: "📡 Télécommande & Radio",
+    q: "Pourquoi le prototype du feu arrière ne peut-il pas être utilisé tel quel sur un vrai vélo ?",
+    opts: [
+      "Car la carte Micro:bit ne résiste pas à la pluie",
+      "Car le cycliste ne peut pas appuyer sur les boutons de la carte pendant qu'il roule",
+      "Car le panneau de LED n'est pas assez lumineux",
+      "Car Makecode ne fonctionne pas sans connexion internet"
+    ],
+    answer: 1,
+    explanation: "Le problème est que <strong>le cycliste ne peut pas appuyer sur les boutons de la carte en roulant</strong>, car cette carte est à l'arrière du vélo. Il faut donc créer une <em>télécommande</em> avec une 2ème carte, tenue dans la main du cycliste."
+  },
+  {
+    section: "📡 Télécommande & Radio",
+    q: "Quel moyen de communication est utilisé entre la carte émettrice (télécommande) et la carte réceptrice (feu) ?",
+    opts: [
+      "Un câble USB reliant les deux cartes",
+      "Une communication sans fil par radio",
+      "Une connexion Bluetooth avec le téléphone",
+      "Un signal infrarouge comme une télécommande TV"
+    ],
+    answer: 1,
+    explanation: "Les deux cartes communiquent par <strong>radio (communication sans fil)</strong>. La carte émettrice (télécommande) envoie des signaux radio, et la carte réceptrice (feu) les reçoit et exécute les instructions correspondantes."
+  },
+  {
+    section: "📡 Télécommande & Radio",
+    q: "Qu'est-ce qu'un canal radio et pourquoi est-il important ?",
+    opts: [
+      "C'est la fréquence audio du speaker, elle doit être réglée pour chaque carte",
+      "C'est un identifiant unique qui permet à 2 cartes de communiquer entre elles sans interférer avec d'autres paires",
+      "C'est le nombre maximum de messages que la carte peut envoyer par seconde",
+      "C'est la puissance d'émission radio de la carte Micro:bit"
+    ],
+    answer: 1,
+    explanation: "Le <strong>canal radio</strong> est un identifiant commun aux deux cartes d'une même paire. Il faut définir <strong>un canal unique pour chaque paire</strong> de cartes afin d'éviter que les cartes d'autres groupes n'interfèrent avec votre communication."
+  },
+  {
+    section: "📡 Télécommande & Radio",
+    q: "Quels éléments faut-il pour programmer une 2ème carte en guise de télécommande ? (synthèse)",
+    opts: [
+      "Uniquement des boucles de répétition",
+      "Des blocs de conditions, des boucles de répétition, des séquences d'actions et un canal radio unique",
+      "Seulement un canal radio unique et des blocs d'action",
+      "Un câble USB et le logiciel Makecode en mode avancé"
+    ],
+    answer: 1,
+    explanation: "Selon la synthèse : « Pour programmer une 2ème carte télécommande, il faut <strong>des blocs de conditions</strong> et <strong>des boucles de répétition</strong>. Il faut des <strong>séquences d'instruction</strong> constituées de plusieurs blocs d'actions. Il faut définir <strong>un canal radio unique</strong> pour chaque paire de cartes. »"
+  },
+  {
+    section: "📡 Télécommande & Radio",
+    q: "Dans le programme de la télécommande avec clignotant, que se passe-t-il sur les 2 cartes quand on appuie sur le logo de la carte émettrice ?",
+    opts: [
+      "Seul le feu arrière clignote, la télécommande ne fait rien",
+      "Les 25 LED clignotent 4 fois sur les 2 cartes simultanément",
+      "La flèche gauche s'allume 10 fois sur la carte réceptrice uniquement",
+      "Un son est émis par le speaker de la carte émettrice"
+    ],
+    answer: 1,
+    explanation: "Algorithme littéral : « Lorsque l'on appuie sur le logo central de la carte émettrice, <strong>allumer puis éteindre 4 fois les 25 LED des 2 cartes</strong>. » La communication radio permet que les deux cartes exécutent la même action en même temps."
+  }
+];
+
+let current = 0, userAnswers = [];
+
+function startQuiz() {
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('questionCounter').textContent = `Question ${current + 1} / ${questions.length}`;
+  document.getElementById('progressBar').style.width = `${(current / questions.length) * 100}%`;
+  const st = document.getElementById('sectionTag');
+  st.innerHTML = `<div class="section-tag">${q.section}</div>`;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('hintBox').innerHTML = q.hint ? `<div class="hint-box">${q.hint}</div>` : '';
+  const div = document.getElementById('optionsDiv');
+  div.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn' + (userAnswers[current] === i ? ' selected' : '');
+    btn.innerHTML = `<span class="option-letter">${['A','B','C','D'][i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    div.appendChild(btn);
+  });
+  const nb = document.getElementById('nextBtn');
+  nb.disabled = userAnswers[current] === undefined;
+  nb.textContent = current === questions.length - 1 ? 'Voir mes résultats 🎯' : 'Suivant →';
+}
+
+function selectOption(i) {
+  userAnswers[current] = i;
+  document.querySelectorAll('.option-btn').forEach((b, idx) => b.classList.toggle('selected', idx === i));
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQuestion() {
+  if (userAnswers[current] === undefined) return;
+  if (++current < questions.length) { renderQuestion(); } else { showResults(); }
+}
+
+function showResults() {
+  document.getElementById('quizBody').style.display = 'none';
+  document.getElementById('resultsScreen').style.display = 'block';
+  document.getElementById('progressBar').style.width = '100%';
+  const score = userAnswers.reduce((a, ans, i) => a + (ans === questions[i].answer ? 1 : 0), 0);
+  document.getElementById('scoreNum').textContent = score;
+  const pct = score / questions.length;
+  let msg, sub;
+  if (pct === 1)       { msg = '🏆 Parfait ! Tu es un expert !'; sub = '30/30 — maîtrise totale !'; }
+  else if (pct >= .87) { msg = '🌟 Excellent résultat !'; sub = 'Quelques détails à revoir ci-dessous.'; }
+  else if (pct >= .73) { msg = '👍 Très bon résultat !'; sub = 'Relis les corrections pour consolider.'; }
+  else if (pct >= .60) { msg = '📚 Résultat correct'; sub = 'Relis le cours et les synthèses.'; }
+  else                  { msg = '💪 Continue à réviser !'; sub = 'Plusieurs thèmes sont à retravailler.'; }
+  document.getElementById('scoreMsg').textContent = msg;
+  document.getElementById('scoreSub').textContent = sub;
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  questions.forEach((q, i) => {
+    const ok = userAnswers[i] === q.answer;
+    const item = document.createElement('div');
+    item.className = 'review-item ' + (ok ? 'correct' : 'incorrect');
+    item.innerHTML = `
+      <div class="q-num">${q.section} · Question ${i + 1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="answer-row"><span>${ok ? '✅' : '❌'}</span><span class="label">Ta réponse :</span><span class="val">${q.opts[userAnswers[i]]}</span></div>
+      ${!ok ? `<div class="answer-row"><span>💡</span><span class="label">Bonne réponse :</span><span class="val">${q.opts[q.answer]}</span></div>` : ''}
+      <div class="explanation">${q.explanation}</div>`;
+    list.appendChild(item);
+  });
+}
+
+function restartQuiz() {
+  current = 0; userAnswers = [];
+  document.getElementById('resultsScreen').style.display = 'none';
+  document.getElementById('quizBody').style.display = 'block';
+  renderQuestion();
+}
+
+function buildResultsText() {
+  const score = userAnswers.reduce((a, ans, i) => a + (ans === questions[i].answer ? 1 : 0), 0);
+  let t = `📊 RÉSULTATS – Quiz Technologie – Micro:bit & Programmation (5ème)\nScore : ${score} / ${questions.length}\n\n`;
+  const wrong = questions.map((q, i) => userAnswers[i] !== q.answer ?
+    `❌ Q${i+1} [${q.section}] : ${q.q}\n   Réponse donnée : ${q.opts[userAnswers[i]]}\n   Bonne réponse  : ${q.opts[q.answer]}` : null
+  ).filter(Boolean);
+  t += wrong.length ? `Questions à retravailler :\n\n${wrong.join('\n\n')}` : '🏆 Toutes les réponses sont correctes !';
+  return t;
+}
+
+function sendByWhatsApp() {
+  window.open(`https://wa.me/?text=${encodeURIComponent(buildResultsText())}`, '_blank');
+  if (navigator.clipboard) navigator.clipboard.writeText(buildResultsText()).then(() => {
+    const t = document.getElementById('copyToast');
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 4000);
+  }).catch(() => {});
+}
+</script>
+</body>
+</html>
