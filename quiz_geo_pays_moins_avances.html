@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Les Pays les Moins Avancés (PMA)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    padding: 20px 16px 60px;
+  }
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header { text-align: center; margin-bottom: 28px; }
+  .header h1 { color: #fff; font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+  .header p { color: rgba(255,255,255,.65); font-size: 14px; }
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,.15);
+    color: #fff; font-size: 12px; font-weight: 700;
+    padding: 4px 14px; border-radius: 20px; margin-top: 8px; letter-spacing: .5px;
+  }
+
+  .progress-bar-wrap { background: rgba(255,255,255,.15); border-radius: 99px; height: 7px; margin-bottom: 24px; }
+  .progress-bar-fill { height: 7px; border-radius: 99px; background: linear-gradient(90deg, #e67e22, #f8b400); transition: width .4s ease; }
+
+  .card {
+    background: #fff; border-radius: 20px; padding: 28px 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.3); margin-bottom: 16px;
+  }
+
+  .section-tag {
+    display: inline-block; font-size: 11px; font-weight: 800;
+    letter-spacing: .8px; text-transform: uppercase;
+    padding: 3px 12px; border-radius: 20px;
+    background: #fff3e8; color: #e67e22; margin-bottom: 14px;
+  }
+
+  .q-num { font-size: 12px; color: #adb5bd; font-weight: 700; margin-bottom: 6px; }
+  .q-text { font-size: 16px; font-weight: 700; color: #1a1a2e; line-height: 1.5; margin-bottom: 20px; }
+  .q-text em { font-style: normal; background: #fff3e8; color: #e67e22; padding: 1px 6px; border-radius: 6px; font-weight: 900; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    border: 2px solid #e9ecef; border-radius: 12px; padding: 12px 16px;
+    font-size: 14px; color: #495057; cursor: pointer; transition: all .2s;
+    display: flex; align-items: center; gap: 12px; font-weight: 600;
+    background: #fff; -webkit-tap-highlight-color: transparent;
+  }
+  .option:hover { border-color: #e67e22; background: #fff9f0; }
+  .option.selected { border-color: #e67e22; background: #fff3e8; color: #1a1a2e; }
+  .option-letter {
+    width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 900; flex-shrink: 0; color: #6c757d;
+  }
+  .option.selected .option-letter { background: #e67e22; color: #fff; }
+
+  .hint {
+    background: #fffbea; border-left: 4px solid #f5a623;
+    border-radius: 0 10px 10px 0; padding: 10px 14px;
+    font-size: 13px; color: #7a5800; margin-bottom: 16px; line-height: 1.5;
+  }
+
+  .nav-btn {
+    display: block; width: 100%; padding: 14px; border: none;
+    border-radius: 14px; font-size: 16px; font-weight: 800;
+    cursor: pointer; transition: transform .15s, opacity .15s; margin-top: 16px;
+  }
+  .nav-btn:active { transform: scale(.97); }
+  .btn-next { background: linear-gradient(90deg, #e67e22, #f8b400); color: #fff; }
+  .btn-result { background: linear-gradient(90deg, #0f3460, #4a90d9); color: #fff; }
+  .btn-disabled { opacity: .4; cursor: not-allowed; }
+
+  .start-screen { text-align: center; padding: 10px 0 20px; }
+  .start-screen h2 { font-size: 20px; color: #1a1a2e; margin-bottom: 12px; }
+  .start-screen p { font-size: 14px; color: #6c757d; line-height: 1.6; margin-bottom: 8px; }
+  .rules-list {
+    text-align: left; background: #f8f9fa; border-radius: 12px;
+    padding: 14px 18px; margin: 16px 0; font-size: 13px; color: #495057; line-height: 2;
+  }
+  .btn-start {
+    background: linear-gradient(90deg, #e67e22, #f8b400);
+    color: #fff; border: none; border-radius: 14px; padding: 15px 40px;
+    font-size: 17px; font-weight: 800; cursor: pointer;
+    box-shadow: 0 6px 20px rgba(230,126,34,.4); transition: transform .15s;
+  }
+  .btn-start:active { transform: scale(.97); }
+
+  .results-screen { text-align: center; }
+  .score-circle {
+    width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 20px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-weight: 900; border: 8px solid;
+  }
+  .score-num { font-size: 38px; }
+  .score-lbl { font-size: 12px; opacity: .7; }
+  .score-excellent { border-color: #28a745; color: #28a745; background: #e8fff0; }
+  .score-bien      { border-color: #f5a623; color: #f5a623; background: #fff8e8; }
+  .score-moyen     { border-color: #e94560; color: #e94560; background: #fff0f0; }
+
+  .result-msg { font-size: 18px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .result-sub { font-size: 14px; color: #6c757d; margin-bottom: 24px; }
+
+  .wrong-section { text-align: left; margin-bottom: 20px; }
+  .wrong-title { font-size: 13px; font-weight: 800; color: #e94560; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
+  .wrong-item {
+    background: #fff5f5; border-left: 4px solid #e94560;
+    border-radius: 0 10px 10px 0; padding: 10px 14px;
+    margin-bottom: 10px; font-size: 13px; color: #495057; line-height: 1.6;
+  }
+  .wrong-item strong { color: #1a1a2e; display: block; margin-bottom: 4px; }
+  .wrong-item .correct { color: #28a745; font-weight: 700; }
+
+  .correct-section { text-align: left; margin-bottom: 20px; }
+  .correct-title { font-size: 13px; font-weight: 800; color: #28a745; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+  .all-good { background: #e8fff0; border-radius: 12px; padding: 14px; font-size: 14px; color: #28a745; font-weight: 700; text-align: center; }
+
+  .share-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 15px; border: none; border-radius: 14px;
+    font-size: 16px; font-weight: 800; cursor: pointer;
+    background: #25D366; color: #fff;
+    box-shadow: 0 6px 20px rgba(37,211,102,.4);
+    transition: transform .15s; margin-bottom: 10px;
+  }
+  .share-btn:active { transform: scale(.97); }
+  .copy-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 13px; border: 2px solid #e9ecef; border-radius: 14px;
+    font-size: 14px; font-weight: 700; cursor: pointer; background: #fff; color: #495057;
+    transition: all .15s; margin-bottom: 16px;
+  }
+  .copy-btn:active { transform: scale(.97); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- START -->
+  <div id="startScreen" class="card">
+    <div class="start-screen">
+      <div style="font-size:48px;margin-bottom:12px;">🌍</div>
+      <h2>Les Pays les Moins Avancés (PMA)</h2>
+      <p>Géographie · Thème 1 – Inégalités de développement · Niveau 5ème</p>
+      <div class="rules-list">
+        📌 20 questions à choix multiples<br>
+        🔕 Pas de correction pendant le quiz<br>
+        📊 Résultats détaillés à la fin<br>
+        📱 Envoie tes résultats à papa sur WhatsApp
+      </div>
+      <button class="btn-start" onclick="startQuiz()">▶ Démarrer le quiz</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizScreen" class="hidden">
+    <div class="header">
+      <h1>🌍 Géographie – PMA</h1>
+      <p>Pays les Moins Avancés · Inégalités de développement</p>
+      <span class="badge" id="questionCounter">Question 1 / 20</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:5%"></div>
+    </div>
+    <div class="card" id="questionCard">
+      <div class="section-tag" id="sectionTag"></div>
+      <div class="q-num" id="qNum"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="hint hidden" id="hintBox"></div>
+      <div class="options" id="optionsContainer"></div>
+      <button class="nav-btn btn-next btn-disabled" id="nextBtn" onclick="nextQuestion()">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="resultsScreen" class="hidden">
+    <div class="header">
+      <h1>📊 Résultats</h1>
+      <p>Les Pays les Moins Avancés (PMA)</p>
+    </div>
+    <div class="card results-screen">
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-num" id="scoreNum"></div>
+        <div class="score-lbl">/ 20</div>
+      </div>
+      <div class="result-msg" id="resultMsg"></div>
+      <div class="result-sub" id="resultSub"></div>
+      <hr style="border:none;border-top:1px solid #f0f0f0;margin:20px 0;">
+
+      <div class="wrong-section" id="wrongSection">
+        <div class="wrong-title">❌ Questions à retravailler</div>
+        <div id="wrongList"></div>
+      </div>
+      <div class="correct-section">
+        <div class="correct-title">✅ Questions réussies</div>
+        <div id="correctList"></div>
+      </div>
+
+      <button class="share-btn" onclick="shareWhatsApp()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Envoyer à papa (WhatsApp)
+      </button>
+      <button class="copy-btn" onclick="copyResults()">📋 Copier les résultats</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  /* ── DÉFINITION & CRITÈRES ── */
+  {
+    section: "📖 Définition & critères",
+    q: "Que signifie le sigle <em>PMA</em> ?",
+    hint: null,
+    options: ["Pays en Marche vers l'Autonomie", "Pays les Moins Avancés", "Pays à Manque d'Alimentation", "Pays à Monnaie Affaiblie"],
+    answer: 1,
+    explain: "PMA = Pays les Moins Avancés. C'est une catégorie définie par l'ONU regroupant les pays les plus pauvres et les plus vulnérables du monde."
+  },
+  {
+    section: "📖 Définition & critères",
+    q: "Quelle organisation internationale établit la liste officielle des PMA ?",
+    hint: null,
+    options: ["L'Union Européenne", "La Banque Mondiale", "L'ONU (Organisation des Nations Unies)", "Le FMI"],
+    answer: 2,
+    explain: "C'est l'ONU qui classe les pays en PMA selon trois critères : faible revenu, faible capital humain et forte vulnérabilité économique."
+  },
+  {
+    section: "📖 Définition & critères",
+    q: "Combien de pays sont classés PMA dans le monde (environ) ?",
+    hint: "C'est un chiffre compris entre 40 et 50.",
+    options: ["Environ 20 pays", "Environ 46 pays", "Environ 100 pays", "Environ 150 pays"],
+    answer: 1,
+    explain: "La liste de l'ONU compte environ 46 pays PMA, principalement situés en Afrique subsaharienne, mais aussi en Asie et en Océanie."
+  },
+  {
+    section: "📖 Définition & critères",
+    q: "Quels sont les trois critères utilisés par l'ONU pour classer un pays en PMA ?",
+    hint: "Pense au revenu des habitants, à leur niveau d'éducation/santé, et à la fragilité de l'économie.",
+    options: [
+      "Surface du territoire, population totale, dette nationale",
+      "Faible revenu, faible capital humain, forte vulnérabilité économique",
+      "IDH faible, absence de démocratie, manque de ressources naturelles",
+      "PIB total faible, armée réduite, frontières instables"
+    ],
+    answer: 1,
+    explain: "L'ONU retient 3 critères : 1) Faible revenu (RNB/habitant < 1 018 $), 2) Faible capital humain (santé + éducation), 3) Forte vulnérabilité économique (catastrophes, dépendance)."
+  },
+  /* ── LOCALISATION ── */
+  {
+    section: "🗺️ Localisation",
+    q: "Sur quel continent se concentre la grande majorité des PMA ?",
+    hint: null,
+    options: ["En Amérique latine", "En Europe de l'Est", "En Afrique subsaharienne", "En Asie centrale"],
+    answer: 2,
+    explain: "Plus des deux tiers des PMA (environ 33 sur 46) se trouvent en Afrique subsaharienne. C'est la région du monde la plus touchée."
+  },
+  {
+    section: "🗺️ Localisation",
+    q: "Lequel de ces pays est classé comme PMA ?",
+    hint: "C'est un pays d'Afrique de l'Ouest enclavé (sans accès à la mer).",
+    options: ["Le Brésil", "Le Niger", "L'Inde", "Le Maroc"],
+    answer: 1,
+    explain: "Le Niger est régulièrement classé parmi les pays avec l'IDH le plus bas au monde. Il fait partie des PMA d'Afrique subsaharienne."
+  },
+  {
+    section: "🗺️ Localisation",
+    q: "Parmi ces pays, lequel est un PMA situé en dehors de l'Afrique ?",
+    hint: "C'est un pays des Caraïbes qui a subi un terrible tremblement de terre en 2010.",
+    options: ["Le Guatemala", "La Bolivie", "Haïti", "Le Venezuela"],
+    answer: 2,
+    explain: "Haïti est le seul PMA des Amériques. D'autres PMA hors d'Afrique se trouvent en Asie (Bangladesh, Népal, Cambodge) et en Océanie."
+  },
+  {
+    section: "🗺️ Localisation",
+    q: "Que signifie qu'un pays est <em>« enclavé »</em> et pourquoi c'est un obstacle au développement ?",
+    hint: "Pense aux échanges commerciaux et au transport.",
+    options: [
+      "Le pays est situé sur une île, ce qui facilite le commerce maritime",
+      "Le pays n'a pas accès à la mer, ce qui augmente les coûts de transport et freine les échanges",
+      "Le pays est entouré de pays riches, ce qui favorise les échanges",
+      "Le pays possède beaucoup de ressources naturelles inexploitées"
+    ],
+    answer: 1,
+    explain: "Un pays enclavé n'a pas accès direct à la mer. Il doit passer par des pays voisins pour exporter, ce qui augmente les coûts et freine le commerce. Beaucoup de PMA africains sont enclavés (Mali, Niger, Tchad...)."
+  },
+  /* ── IDH & INDICATEURS ── */
+  {
+    section: "📊 IDH & indicateurs",
+    q: "Quel est l'IDH caractéristique des PMA ?",
+    hint: "Rappelle-toi que l'IDH va de 0 (très faible) à 1 (très élevé).",
+    options: ["Supérieur à 0,8", "Entre 0,7 et 0,8", "Entre 0,5 et 0,7", "Inférieur à 0,55"],
+    answer: 3,
+    explain: "Les PMA ont un IDH très faible, généralement inférieur à 0,55. Par comparaison, les pays de la Triade ont un IDH supérieur à 0,9."
+  },
+  {
+    section: "📊 IDH & indicateurs",
+    q: "Dans les PMA, l'espérance de vie est souvent :",
+    hint: null,
+    options: [
+      "Supérieure à 80 ans (comme en France)",
+      "Entre 75 et 80 ans",
+      "Inférieure à 65 ans dans de nombreux cas",
+      "Identique à celle des pays développés"
+    ],
+    answer: 2,
+    explain: "Dans beaucoup de PMA, l'espérance de vie est inférieure à 65 ans (parfois 55-60 ans), contre plus de 80 ans en France. C'est un des indicateurs de l'IDH."
+  },
+  {
+    section: "📊 IDH & indicateurs",
+    q: "Le <em>taux d'alphabétisation</em> dans les PMA est souvent très faible. Qu'est-ce que cela signifie ?",
+    hint: null,
+    options: [
+      "Beaucoup d'habitants ne savent pas lire ni écrire",
+      "Les habitants lisent dans plusieurs langues",
+      "L'alphabet utilisé est différent de l'alphabet latin",
+      "Les livres sont très chers dans ces pays"
+    ],
+    answer: 0,
+    explain: "Un faible taux d'alphabétisation signifie qu'une grande partie de la population ne sait pas lire ni écrire. Cela limite l'accès à l'emploi qualifié et freine le développement."
+  },
+  /* ── CAUSES ── */
+  {
+    section: "⚙️ Causes du sous-développement",
+    q: "Laquelle de ces situations est une cause fréquente du sous-développement des PMA ?",
+    hint: null,
+    options: [
+      "L'appartenance à la Triade",
+      "Les conflits armés et l'instabilité politique",
+      "Un IDH trop élevé",
+      "L'excès d'aide internationale"
+    ],
+    answer: 1,
+    explain: "Les conflits armés détruisent les infrastructures, déplacent les populations et découragent les investissements. De nombreux PMA connaissent ou ont connu des guerres civiles (Mali, RCA, Soudan du Sud...)."
+  },
+  {
+    section: "⚙️ Causes du sous-développement",
+    q: "Qu'est-ce que le <em>« cercle vicieux de la pauvreté »</em> ?",
+    hint: "Pense à un enchaînement de causes et d'effets qui se répètent en boucle.",
+    options: [
+      "Un programme d'aide internationale visant à réduire la pauvreté",
+      "Un cycle où la pauvreté engendre le manque d'éducation, qui engendre le chômage, qui perpétue la pauvreté",
+      "Une théorie qui explique pourquoi les pays riches deviennent encore plus riches",
+      "Un mouvement politique pour sortir les PMA de leur situation"
+    ],
+    answer: 1,
+    explain: "Le cercle vicieux : pauvreté → pas d'argent pour l'école → pas de diplôme → pas d'emploi qualifié → pauvreté. Ce cycle est difficile à briser sans aide extérieure."
+  },
+  {
+    section: "⚙️ Causes du sous-développement",
+    q: "Pourquoi la dépendance à une seule matière première (ex : coton, cacao) fragilise-t-elle les PMA ?",
+    hint: "Que se passe-t-il si le prix de cette matière première chute sur le marché mondial ?",
+    options: [
+      "Le pays devient trop riche et ne sait plus quoi faire de son argent",
+      "Le pays est protégé des crises mondiales grâce à ses ressources",
+      "Si le prix de la matière première baisse, toute l'économie du pays s'effondre",
+      "La diversité des cultures agricoles améliore l'IDH"
+    ],
+    answer: 2,
+    explain: "Un pays qui dépend d'un seul produit (ex : le Niger exporte surtout de l'uranium) est très vulnérable. Si le prix mondial chute, ses revenus s'effondrent brutalement."
+  },
+  {
+    section: "⚙️ Causes du sous-développement",
+    q: "Quel héritage historique est souvent cité comme cause des inégalités de développement entre le Nord et le Sud ?",
+    hint: "Pense à ce que les pays européens ont fait en Afrique et en Asie aux XVIIIe et XIXe siècles.",
+    options: [
+      "La Révolution industrielle qui a profité à tous les pays du monde",
+      "La colonisation, qui a exploité les ressources des pays du Sud au profit de l'Europe",
+      "Les guerres mondiales qui ont surtout touché l'Afrique",
+      "L'invention de l'IDH par des économistes africains"
+    ],
+    answer: 1,
+    explain: "La colonisation (XVIIIe-XXe siècle) a exploité les ressources et les populations des pays du Sud, retardé leur développement industriel et créé des frontières artificielles. Ses effets sont encore visibles aujourd'hui."
+  },
+  /* ── CONSÉQUENCES & VIE QUOTIDIENNE ── */
+  {
+    section: "🏥 Conséquences sur la vie quotidienne",
+    q: "Dans les PMA, l'accès à l'eau potable est souvent insuffisant. Quelle conséquence directe cela provoque-t-il ?",
+    hint: null,
+    options: [
+      "Une croissance économique rapide",
+      "Une augmentation des maladies (choléra, diarrhées) et une mortalité infantile élevée",
+      "Une meilleure irrigation des terres agricoles",
+      "Une réduction de la pollution industrielle"
+    ],
+    answer: 1,
+    explain: "Sans eau potable, les habitants boivent de l'eau contaminée, ce qui provoque des maladies mortelles (choléra, dysenterie). La mortalité infantile est particulièrement élevée dans les PMA."
+  },
+  {
+    section: "🏥 Conséquences sur la vie quotidienne",
+    q: "La malnutrition dans les PMA touche en priorité :",
+    hint: null,
+    options: [
+      "Surtout les personnes âgées et les touristes",
+      "Principalement les enfants de moins de 5 ans, avec des conséquences graves sur leur développement",
+      "Uniquement les zones urbaines des grandes capitales",
+      "Les populations qui mangent trop de produits importés"
+    ],
+    answer: 1,
+    explain: "La malnutrition touche surtout les jeunes enfants : elle ralentit leur croissance, affaiblit leur système immunitaire et nuit à leurs capacités intellectuelles, perpétuant le cercle vicieux de la pauvreté."
+  },
+  /* ── AIDE & SOLUTIONS ── */
+  {
+    section: "🤝 Aide internationale & solutions",
+    q: "Qu'est-ce qu'une <em>ONG</em> ?",
+    hint: null,
+    options: [
+      "Une Organisation Nationale de Géographie",
+      "Une Organisation Non Gouvernementale, association indépendante des États qui aide les populations",
+      "Un organisme de l'ONU chargé de financer les PMA",
+      "Une entreprise multinationale qui investit dans les pays pauvres"
+    ],
+    answer: 1,
+    explain: "ONG = Organisation Non Gouvernementale. Ce sont des associations indépendantes (Médecins Sans Frontières, Oxfam, Action contre la Faim...) qui interviennent dans les PMA pour apporter de l'aide humanitaire."
+  },
+  {
+    section: "🤝 Aide internationale & solutions",
+    q: "L'aide au développement versée aux PMA peut prendre quelle forme ?",
+    hint: null,
+    options: [
+      "Uniquement des aides militaires pour sécuriser les frontières",
+      "Des financements pour construire des écoles, des hôpitaux, des routes ou former des enseignants",
+      "Des subventions pour développer l'industrie automobile locale",
+      "Des prêts à des taux d'intérêt très élevés"
+    ],
+    answer: 1,
+    explain: "L'aide au développement finance des projets concrets : construction d'écoles et d'hôpitaux, accès à l'eau potable, formation professionnelle, agriculture durable... Elle vise à briser le cercle vicieux de la pauvreté."
+  },
+  /* ── COMPARAISON & SYNTHÈSE ── */
+  {
+    section: "🔗 Comparaison & synthèse",
+    q: "Quelle affirmation résume le mieux la différence entre les pays de la Triade et les PMA ?",
+    hint: "Rappelle-toi ce qu'est la Triade (Europe occidentale, Amérique du Nord, Japon) et son IDH.",
+    options: [
+      "Les pays de la Triade ont un IDH très faible tandis que les PMA ont un IDH très élevé",
+      "Les pays de la Triade concentrent les richesses mondiales avec un IDH > 0,9, tandis que les PMA ont un IDH < 0,55 et manquent des ressources de base",
+      "La Triade et les PMA ont un IDH similaire car la mondialisation a réduit les inégalités",
+      "Les PMA font partie de la Triade depuis la création de l'ONU"
+    ],
+    answer: 1,
+    explain: "C'est le grand paradoxe des inégalités mondiales : la Triade (20% de la population) concentre 80% des richesses avec des IDH très élevés, tandis que les PMA cumulent pauvreté, faible IDH et manque d'accès aux services de base."
+  }
+];
+
+let current = 0;
+let answers = [];
+
+function startQuiz() {
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = QUESTIONS[current];
+  const total = QUESTIONS.length;
+
+  document.getElementById('questionCounter').textContent = `Question ${current + 1} / ${total}`;
+  document.getElementById('progressBar').style.width = `${((current + 1) / total) * 100}%`;
+  document.getElementById('sectionTag').textContent = q.section;
+  document.getElementById('qNum').textContent = `Question ${current + 1}`;
+  document.getElementById('qText').innerHTML = q.q;
+
+  const hintBox = document.getElementById('hintBox');
+  if (q.hint) {
+    hintBox.textContent = '💡 ' + q.hint;
+    hintBox.classList.remove('hidden');
+  } else {
+    hintBox.classList.add('hidden');
+  }
+
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    if (answers[current] === i) btn.classList.add('selected');
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span>${opt}`;
+    btn.onclick = () => selectAnswer(i);
+    container.appendChild(btn);
+  });
+
+  const nextBtn = document.getElementById('nextBtn');
+  const isLast = current === total - 1;
+  nextBtn.textContent = isLast ? 'Voir mes résultats 🎯' : 'Suivant →';
+  nextBtn.className = `nav-btn ${isLast ? 'btn-result' : 'btn-next'}${answers[current] === undefined ? ' btn-disabled' : ''}`;
+}
+
+function selectAnswer(idx) {
+  answers[current] = idx;
+  document.querySelectorAll('.option').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === idx);
+  });
+  const isLast = current === QUESTIONS.length - 1;
+  document.getElementById('nextBtn').className = `nav-btn ${isLast ? 'btn-result' : 'btn-next'}`;
+}
+
+function nextQuestion() {
+  if (answers[current] === undefined) return;
+  if (current < QUESTIONS.length - 1) {
+    current++;
+    showQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function showResults() {
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('resultsScreen').classList.remove('hidden');
+
+  let score = 0;
+  const wrongs = [];
+  QUESTIONS.forEach((q, i) => {
+    if (answers[i] === q.answer) score++;
+    else wrongs.push({ i, q, chosen: answers[i] });
+  });
+
+  const pct = score / QUESTIONS.length;
+  const circle = document.getElementById('scoreCircle');
+  document.getElementById('scoreNum').textContent = score;
+
+  if (pct >= 0.8) {
+    circle.className = 'score-circle score-excellent';
+    document.getElementById('resultMsg').textContent = score === 20 ? '🏆 Parfait ! Zéro faute !' : '🎉 Excellent travail !';
+    document.getElementById('resultSub').textContent = 'Tu maîtrises très bien les PMA !';
+  } else if (pct >= 0.6) {
+    circle.className = 'score-circle score-bien';
+    document.getElementById('resultMsg').textContent = '👍 Bon résultat !';
+    document.getElementById('resultSub').textContent = 'Quelques notions à retravailler.';
+  } else {
+    circle.className = 'score-circle score-moyen';
+    document.getElementById('resultMsg').textContent = '💪 À améliorer !';
+    document.getElementById('resultSub').textContent = 'Relis le cours et recommence !';
+  }
+
+  const wrongList = document.getElementById('wrongList');
+  const correctList = document.getElementById('correctList');
+  const wrongSection = document.getElementById('wrongSection');
+
+  wrongList.innerHTML = '';
+  if (wrongs.length === 0) {
+    wrongSection.classList.add('hidden');
+    correctList.innerHTML = '<div class="all-good">🌟 Toutes les questions sont réussies !</div>';
+  } else {
+    wrongSection.classList.remove('hidden');
+    wrongs.forEach(({ i, q, chosen }) => {
+      const div = document.createElement('div');
+      div.className = 'wrong-item';
+      const chosenTxt = chosen !== undefined ? q.options[chosen] : 'Sans réponse';
+      div.innerHTML = `<strong>Q${i + 1} – ${q.q.replace(/<[^>]+>/g, '')}</strong>
+        Ta réponse : <span style="color:#e94560;font-weight:700;">${chosenTxt}</span><br>
+        <span class="correct">✅ Bonne réponse : ${q.options[q.answer]}</span><br>
+        <em style="color:#888;font-size:12px;">${q.explain}</em>`;
+      wrongList.appendChild(div);
+    });
+    correctList.innerHTML = `<div class="all-good" style="background:#f8f9fa;color:#495057;">✅ ${score} question${score > 1 ? 's' : ''} réussie${score > 1 ? 's' : ''} sur 20</div>`;
+  }
+
+  window._quizScore = score;
+  window._quizWrongs = wrongs;
+}
+
+function buildMessage() {
+  const score = window._quizScore;
+  const wrongs = window._quizWrongs;
+  const pct = Math.round(score / 20 * 100);
+  let emoji = pct >= 80 ? '🏆' : pct >= 60 ? '👍' : '💪';
+  let msg = `${emoji} Quiz Géographie – Les PMA\n`;
+  msg += `Score : ${score}/20 (${pct}%)\n`;
+  if (wrongs.length === 0) {
+    msg += '✅ Aucune faute !';
+  } else {
+    msg += `\nQuestions ratées :\n`;
+    wrongs.forEach(({ i, q, chosen }) => {
+      const chosenTxt = chosen !== undefined ? q.options[chosen] : '—';
+      msg += `• Q${i + 1} – Réponse donnée : « ${chosenTxt} » → Bonne réponse : « ${q.options[q.answer]} »\n`;
+    });
+  }
+  return msg;
+}
+
+function shareWhatsApp() {
+  const msg = buildMessage();
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function copyResults() {
+  const msg = buildMessage();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(msg).then(() => alert('Résultats copiés ! Colle-les dans WhatsApp.'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = msg;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('Résultats copiés ! Colle-les dans WhatsApp.');
+  }
+}
+</script>
+</body>
+</html>
