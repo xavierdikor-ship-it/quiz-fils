@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Multiples & Diviseurs (Remédiation)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    padding: 20px 16px 60px;
+  }
+  .container { max-width: 700px; margin: 0 auto; }
+
+  .header { text-align: center; margin-bottom: 28px; }
+  .header h1 { color: #fff; font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+  .header p { color: rgba(255,255,255,.65); font-size: 14px; }
+  .badge { display: inline-block; background: rgba(255,255,255,.15); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-top: 8px; letter-spacing: .5px; }
+
+  .progress-bar-wrap { background: rgba(255,255,255,.15); border-radius: 99px; height: 7px; margin-bottom: 24px; }
+  .progress-bar-fill { height: 7px; border-radius: 99px; background: linear-gradient(90deg, #e94560, #f5a623); transition: width .4s ease; }
+
+  .card { background: #fff; border-radius: 20px; padding: 28px 24px; box-shadow: 0 12px 40px rgba(0,0,0,.3); margin-bottom: 16px; }
+
+  /* RAPPEL BOX */
+  .rappel {
+    background: #f0f4ff;
+    border-left: 5px solid #0f3460;
+    border-radius: 0 14px 14px 0;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    font-size: 13px;
+    color: #1a1a2e;
+    line-height: 1.7;
+  }
+  .rappel-title { font-weight: 900; font-size: 13px; color: #0f3460; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
+  .rappel code { background: #dde8ff; padding: 1px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; font-weight: 700; }
+
+  .section-tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; padding: 3px 12px; border-radius: 20px; background: #fff0e8; color: #e94560; margin-bottom: 14px; }
+
+  .q-num { font-size: 12px; color: #adb5bd; font-weight: 700; margin-bottom: 6px; }
+  .q-text { font-size: 15px; font-weight: 700; color: #1a1a2e; line-height: 1.6; margin-bottom: 20px; }
+  .q-text em { font-style: normal; background: #fff0e8; color: #e94560; padding: 1px 6px; border-radius: 6px; font-weight: 900; }
+  .q-text .num { font-family: monospace; font-size: 16px; font-weight: 900; color: #0f3460; }
+
+  /* JUSTIF LABEL */
+  .justif-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #fff3cd; color: #856404;
+    font-size: 11px; font-weight: 800;
+    padding: 3px 10px; border-radius: 20px;
+    margin-bottom: 14px;
+    border: 1px solid #ffc107;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    border: 2px solid #e9ecef; border-radius: 12px; padding: 12px 16px;
+    font-size: 13.5px; color: #495057; cursor: pointer; transition: all .2s;
+    display: flex; align-items: flex-start; gap: 12px; font-weight: 600;
+    background: #fff; -webkit-tap-highlight-color: transparent; line-height: 1.5;
+  }
+  .option:hover { border-color: #e94560; background: #fff5f5; }
+  .option.selected { border-color: #e94560; background: #fff0f0; color: #1a1a2e; }
+  .option-letter { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; flex-shrink: 0; color: #6c757d; margin-top: 1px; }
+  .option.selected .option-letter { background: #e94560; color: #fff; }
+
+  .hint { background: #fffbea; border-left: 4px solid #f5a623; border-radius: 0 10px 10px 0; padding: 10px 14px; font-size: 13px; color: #7a5800; margin-bottom: 16px; line-height: 1.6; }
+
+  .nav-btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; transition: transform .15s, opacity .15s; margin-top: 16px; }
+  .nav-btn:active { transform: scale(.97); }
+  .btn-next { background: linear-gradient(90deg, #e94560, #f5a623); color: #fff; }
+  .btn-result { background: linear-gradient(90deg, #0f3460, #4a90d9); color: #fff; }
+  .btn-disabled { opacity: .4; cursor: not-allowed; }
+
+  /* START */
+  .start-screen { text-align: center; padding: 10px 0 20px; }
+  .start-screen h2 { font-size: 20px; color: #1a1a2e; margin-bottom: 12px; }
+  .start-screen p { font-size: 14px; color: #6c757d; line-height: 1.6; margin-bottom: 8px; }
+  .rules-list { text-align: left; background: #f8f9fa; border-radius: 12px; padding: 14px 18px; margin: 16px 0; font-size: 13px; color: #495057; line-height: 2; }
+  .target-box { background: #fff3cd; border-radius: 12px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #664d03; line-height: 1.8; text-align: left; border: 1px solid #ffc107; }
+  .target-box strong { display: block; margin-bottom: 4px; color: #1a1a2e; }
+  .btn-start { background: linear-gradient(90deg, #e94560, #f5a623); color: #fff; border: none; border-radius: 14px; padding: 15px 40px; font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(233,69,96,.4); transition: transform .15s; }
+  .btn-start:active { transform: scale(.97); }
+
+  /* RESULTS */
+  .results-screen { text-align: center; }
+  .score-circle { width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 900; border: 8px solid; }
+  .score-num { font-size: 38px; }
+  .score-lbl { font-size: 12px; opacity: .7; }
+  .score-excellent { border-color: #28a745; color: #28a745; background: #e8fff0; }
+  .score-bien { border-color: #f5a623; color: #f5a623; background: #fff8e8; }
+  .score-moyen { border-color: #e94560; color: #e94560; background: #fff0f0; }
+  .result-msg { font-size: 18px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .result-sub { font-size: 14px; color: #6c757d; margin-bottom: 24px; }
+  .wrong-section { text-align: left; margin-bottom: 20px; }
+  .wrong-title { font-size: 13px; font-weight: 800; color: #e94560; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
+  .wrong-item { background: #fff5f5; border-left: 4px solid #e94560; border-radius: 0 10px 10px 0; padding: 10px 14px; margin-bottom: 10px; font-size: 13px; color: #495057; line-height: 1.7; }
+  .wrong-item strong { color: #1a1a2e; display: block; margin-bottom: 4px; }
+  .wrong-item .correct { color: #28a745; font-weight: 700; }
+  .correct-section { text-align: left; margin-bottom: 20px; }
+  .correct-title { font-size: 13px; font-weight: 800; color: #28a745; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+  .all-good { background: #e8fff0; border-radius: 12px; padding: 14px; font-size: 14px; color: #28a745; font-weight: 700; text-align: center; }
+  .share-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 15px; border: none; border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; background: #25D366; color: #fff; box-shadow: 0 6px 20px rgba(37,211,102,.4); transition: transform .15s; margin-bottom: 10px; }
+  .share-btn:active { transform: scale(.97); }
+  .copy-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 13px; border: 2px solid #e9ecef; border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; background: #fff; color: #495057; transition: all .15s; margin-bottom: 16px; }
+  .copy-btn:active { transform: scale(.97); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- START -->
+  <div id="startScreen" class="card">
+    <div class="start-screen">
+      <div style="font-size:48px;margin-bottom:12px;">📐</div>
+      <h2>Multiples & Diviseurs – Remédiation</h2>
+      <p>Ciblé sur les points perdus dans ton contrôle · Niveau 5ème</p>
+      <div class="target-box">
+        <strong>🎯 Ce quiz travaille exactement tes 3 erreurs du contrôle :</strong>
+        ❌ Trouver TOUS les diviseurs (ne pas en oublier)<br>
+        ❌ Écrire la somme des chiffres explicitement<br>
+        ❌ Justifier complètement ses réponses
+      </div>
+      <div class="rules-list">
+        📌 20 questions ciblées<br>
+        💡 Des rappels de cours dans les indices<br>
+        ⚖️ Certaines questions testent ta justification<br>
+        📱 Envoie tes résultats à papa sur WhatsApp
+      </div>
+      <button class="btn-start" onclick="startQuiz()">▶ Démarrer</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizScreen" class="hidden">
+    <div class="header">
+      <h1>📐 Maths – Multiples & Diviseurs</h1>
+      <p>Quiz de remédiation · Contrôle 17,5/20</p>
+      <span class="badge" id="questionCounter">Question 1 / 20</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:5%"></div>
+    </div>
+    <div class="card" id="questionCard">
+      <div class="section-tag" id="sectionTag"></div>
+      <div id="rappelBox"></div>
+      <div class="justif-label hidden" id="justifLabel">⚖️ Question justification</div>
+      <div class="q-num" id="qNum"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="hint hidden" id="hintBox"></div>
+      <div class="options" id="optionsContainer"></div>
+      <button class="nav-btn btn-next btn-disabled" id="nextBtn" onclick="nextQuestion()">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="resultsScreen" class="hidden">
+    <div class="header">
+      <h1>📊 Résultats</h1>
+      <p>Multiples & Diviseurs – Remédiation</p>
+    </div>
+    <div class="card results-screen">
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-num" id="scoreNum"></div>
+        <div class="score-lbl">/ 20</div>
+      </div>
+      <div class="result-msg" id="resultMsg"></div>
+      <div class="result-sub" id="resultSub"></div>
+      <hr style="border:none;border-top:1px solid #f0f0f0;margin:20px 0;">
+      <div class="wrong-section" id="wrongSection">
+        <div class="wrong-title">❌ Questions à retravailler</div>
+        <div id="wrongList"></div>
+      </div>
+      <div class="correct-section">
+        <div class="correct-title">✅ Questions réussies</div>
+        <div id="correctList"></div>
+      </div>
+      <button class="share-btn" onclick="shareWhatsApp()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Envoyer à papa (WhatsApp)
+      </button>
+      <button class="copy-btn" onclick="copyResults()">📋 Copier les résultats</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+
+  /* ══════════════════════════════════════════
+     PARTIE 1 – DIVISEURS : NE PAS EN OUBLIER
+     ══════════════════════════════════════════ */
+  {
+    section: "🔍 Trouver TOUS les diviseurs",
+    rappel: `<div class="rappel"><div class="rappel-title">📘 Rappel – Méthode des paires</div>Pour trouver TOUS les diviseurs d'un nombre <code>n</code>, teste chaque entier à partir de 1 jusqu'à √n et construis des paires :<br>Si <code>a × b = n</code>, alors <strong>a ET b</strong> sont tous les deux diviseurs de n.<br><br>Exemple : diviseurs de 12 → 1×12, 2×6, 3×4 → {1, 2, 3, 4, 6, 12}</div>`,
+    justif: false,
+    q: "Lors de ton contrôle, tu as donné les diviseurs de <em>45</em> : {1, 3, 5, 15, 45}. Il en manquait un. Lequel ?",
+    hint: "Calcule 45 ÷ 3 = 15 ✓ et 45 ÷ 5 = 9 ✓. Est-ce que 9 est dans ta liste ?",
+    options: ["Il manquait 6", "Il manquait 9", "Il manquait 7", "La liste était complète"],
+    answer: 1,
+    explain: "45 = 5 × 9, donc 9 est bien un diviseur de 45. La liste complète est : {1, 3, 5, 9, 15, 45}. La paire (5, 9) était manquante !"
+  },
+  {
+    section: "🔍 Trouver TOUS les diviseurs",
+    rappel: null,
+    justif: false,
+    q: "Donne la liste complète des diviseurs de <span class='num'>36</span>.",
+    hint: "Construis les paires : 1×36, 2×?, 3×?, 4×?, 6×6. Arrête-toi à √36 = 6.",
+    options: [
+      "{1, 2, 3, 4, 6, 9, 12, 18, 36}",
+      "{1, 2, 3, 6, 9, 12, 36}",
+      "{1, 2, 4, 6, 9, 18, 36}",
+      "{1, 3, 4, 6, 9, 12, 18, 36}"
+    ],
+    answer: 0,
+    explain: "Les paires de 36 : 1×36, 2×18, 3×12, 4×9, 6×6. La liste complète est {1, 2, 3, 4, 6, 9, 12, 18, 36} — 9 diviseurs au total."
+  },
+  {
+    section: "🔍 Trouver TOUS les diviseurs",
+    rappel: null,
+    justif: false,
+    q: "Combien de diviseurs possède le nombre <span class='num'>13</span> ?",
+    hint: "13 est-il divisible par 2 ? Par 3 ? C'est un nombre premier !",
+    options: ["1 seul diviseur : {13}", "2 diviseurs : {1, 13}", "3 diviseurs : {1, 3, 13}", "4 diviseurs : {1, 2, 7, 13}"],
+    answer: 1,
+    explain: "13 est un nombre premier : il n'a exactement que 2 diviseurs, 1 et lui-même. C'est la définition d'un nombre premier."
+  },
+  {
+    section: "🔍 Trouver TOUS les diviseurs",
+    rappel: null,
+    justif: false,
+    q: "Un élève donne les diviseurs de <span class='num'>60</span> : {1, 2, 3, 4, 5, 6, 10, 12, 15, 30, 60}. A-t-il oublié un diviseur ?",
+    hint: "Vérifie la paire avec 4 : 60 ÷ 4 = ? Et avec 6 : 60 ÷ 6 = ?",
+    options: [
+      "Non, la liste est complète",
+      "Oui, il a oublié 20 (car 60 = 3 × 20)",
+      "Oui, il a oublié 7",
+      "Oui, il a oublié 9"
+    ],
+    answer: 1,
+    explain: "60 = 3 × 20, donc 20 est un diviseur oublié ! La liste complète : {1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60}. Toujours vérifier les paires !"
+  },
+  {
+    section: "🔍 Trouver TOUS les diviseurs",
+    rappel: null,
+    justif: false,
+    q: "Parmi ces nombres, lequel est un diviseur de <span class='num'>68</span> ?",
+    hint: "68 ÷ 4 = ? 68 ÷ 5 = ? 68 ÷ 7 = ? Calcule pour trouver.",
+    options: ["5", "7", "4", "9"],
+    answer: 2,
+    explain: "68 ÷ 4 = 17 (exact) → 4 est un diviseur de 68. Vérification : 4 × 17 = 68 ✓. Les diviseurs de 68 sont : {1, 2, 4, 17, 34, 68}."
+  },
+
+  /* ══════════════════════════════════════════
+     PARTIE 2 – CRITÈRES DE DIVISIBILITÉ
+     (avec justification explicite)
+     ══════════════════════════════════════════ */
+  {
+    section: "✍️ Critères + justification explicite",
+    rappel: `<div class="rappel"><div class="rappel-title">📘 Rappel – Critères de divisibilité</div>• Divisible par <code>2</code> : le chiffre des unités est 0, 2, 4, 6 ou 8<br>• Divisible par <code>5</code> : le chiffre des unités est 0 ou 5<br>• Divisible par <code>10</code> : le chiffre des unités est 0<br>• Divisible par <code>3</code> : la somme de ses chiffres est un multiple de 3 → <strong>écrire le calcul !</strong><br>• Divisible par <code>9</code> : la somme de ses chiffres est un multiple de 9 → <strong>écrire le calcul !</strong></div>`,
+    justif: true,
+    q: "Dans ton contrôle, pour « 63 878 est-il divisible par 9 ? », tu as perdu des points. Quelle réponse aurait été parfaite ?",
+    hint: "Additionne tous les chiffres de 63 878 un par un et écris le résultat.",
+    options: [
+      "Non, car la somme des chiffres ne donne pas un multiple de 9.",
+      "Non, car 6+3+8+7+8 = 32 et 32 n'est pas un multiple de 9.",
+      "Non, car 63 878 ne finit pas par 0 ou 5.",
+      "Non, c'est évident en regardant le nombre."
+    ],
+    answer: 1,
+    explain: "Il faut ÉCRIRE LE CALCUL EXPLICITEMENT : 6+3+8+7+8 = 32. Puis vérifier : 32 ÷ 9 = 3 reste 5, donc 32 n'est pas un multiple de 9 → 63 878 n'est pas divisible par 9. Sans le calcul : point perdu !"
+  },
+  {
+    section: "✍️ Critères + justification explicite",
+    rappel: null,
+    justif: true,
+    q: "<span class='num'>199</span> est-il divisible par 3 ? Choisis la réponse la plus complète et la mieux justifiée.",
+    hint: "Additionne les chiffres de 199 et regarde si le résultat est un multiple de 3.",
+    options: [
+      "Non, 199 n'est pas divisible par 3.",
+      "Non, car 1+9+9 = 19 et 19 n'est pas un multiple de 3.",
+      "Oui, car la somme des chiffres est grande.",
+      "Non, car 199 est impair."
+    ],
+    answer: 1,
+    explain: "La justification complète : 1+9+9 = 19. Or 19 ÷ 3 = 6 reste 1, donc 19 n'est pas un multiple de 3 → 199 n'est pas divisible par 3. Toujours écrire la somme !"
+  },
+  {
+    section: "✍️ Critères + justification explicite",
+    rappel: null,
+    justif: true,
+    q: "<span class='num'>45 738</span> est-il divisible par 9 ? Choisis la justification correcte et complète.",
+    hint: "Calcule 4+5+7+3+8 = ?",
+    options: [
+      "Oui, car 4+5+7+3+8 = 27 et 27 = 9 × 3, donc 27 est un multiple de 9.",
+      "Oui, car il finit par 8 qui est pair.",
+      "Oui, sans calcul c'est visible.",
+      "Non, car la somme des chiffres dépasse 20."
+    ],
+    answer: 0,
+    explain: "4+5+7+3+8 = 27. Et 27 = 9 × 3, donc 27 est bien un multiple de 9 → 45 738 est divisible par 9. Vérification : 45 738 ÷ 9 = 5 082 ✓"
+  },
+  {
+    section: "✍️ Critères + justification explicite",
+    rappel: null,
+    justif: true,
+    q: "<span class='num'>9 641</span> est-il divisible par 2 ? Choisis la meilleure justification.",
+    hint: "Regarde le chiffre des unités (le dernier chiffre).",
+    options: [
+      "Non, car 9 641 est grand.",
+      "Non, car 9+6+4+1 = 20.",
+      "Non, car le chiffre des unités est 1, or 1 n'est pas 0, 2, 4, 6 ou 8.",
+      "Non, car 9 641 ne finit pas par 5."
+    ],
+    answer: 2,
+    explain: "Pour la divisibilité par 2, on regarde UNIQUEMENT le chiffre des unités. Ici c'est 1. Or un nombre divisible par 2 doit finir par 0, 2, 4, 6 ou 8 → 9 641 n'est PAS divisible par 2."
+  },
+  {
+    section: "✍️ Critères + justification explicite",
+    rappel: null,
+    justif: true,
+    q: "<span class='num'>72 231</span> est-il divisible par 5 ? Choisis la justification correcte.",
+    hint: null,
+    options: [
+      "Non, car 7+2+2+3+1 = 15 et 15 n'est pas divisible par 5.",
+      "Non, car le chiffre des unités est 1, or un multiple de 5 se termine par 0 ou 5.",
+      "Non, car 72 231 est impair.",
+      "Oui, car la somme des chiffres est 15."
+    ],
+    answer: 1,
+    explain: "Pour la divisibilité par 5, on regarde UNIQUEMENT le chiffre des unités. Ici c'est 1. Un multiple de 5 doit finir par 0 ou 5 → 72 231 n'est pas divisible par 5. La somme des chiffres ne sert à rien ici !"
+  },
+
+  /* ══════════════════════════════════════════
+     PARTIE 3 – CAS IMPOSSIBLES : JUSTIFIER
+     ══════════════════════════════════════════ */
+  {
+    section: "❌ Cas impossibles – Justifier",
+    rappel: `<div class="rappel"><div class="rappel-title">📘 Rappel – Cas impossibles</div>Quand un problème demande un nombre respectant deux conditions incompatibles, il faut répondre « ce n'est pas possible » <strong>ET expliquer pourquoi les deux conditions se contredisent</strong>.<br><br>Exemple : divisible par 10 ET chiffre des unités = 3 → IMPOSSIBLE car divisible par 10 impose le chiffre des unités = 0.</div>`,
+    justif: true,
+    q: "Dans ton contrôle, tu as trouvé qu'il était impossible de trouver un nombre divisible par <em>5</em> avec le chiffre des unités égal à <em>8</em>. Mais tu n'as pas justifié. Quelle justification est correcte ?",
+    hint: "Un multiple de 5 se termine toujours par 0 ou 5. Est-ce compatible avec finir par 8 ?",
+    options: [
+      "Ce n'est pas possible, parce que 5 et 8 ne vont pas ensemble.",
+      "Ce n'est pas possible, car un multiple de 5 se termine obligatoirement par 0 ou 5, ce qui est incompatible avec un chiffre des unités égal à 8.",
+      "Ce n'est pas possible, car 8 est un chiffre pair.",
+      "Ce n'est pas possible, car 8 n'est pas divisible par 5."
+    ],
+    answer: 1,
+    explain: "La justification complète : un multiple de 5 finit TOUJOURS par 0 ou 5 (critère de divisibilité). Avoir le chiffre des unités = 8 est donc incompatible → ce n'est pas possible. Sans cette explication : point perdu !"
+  },
+  {
+    section: "❌ Cas impossibles – Justifier",
+    rappel: null,
+    justif: true,
+    q: "Est-il possible de trouver un nombre divisible par <em>10</em> dont le chiffre des unités est <em>7</em> ?",
+    hint: "Qu'impose la divisibilité par 10 sur le chiffre des unités ?",
+    options: [
+      "Oui, il suffit de chercher.",
+      "Non, ce n'est pas possible.",
+      "Non, car un multiple de 10 a nécessairement le chiffre des unités égal à 0, ce qui est incompatible avec 7.",
+      "Non, car 7 est un nombre impair."
+    ],
+    answer: 2,
+    explain: "Un multiple de 10 finit TOUJOURS par 0 (critère de divisibilité par 10). Finir par 7 est donc impossible → il faut l'écrire explicitement pour avoir tous les points."
+  },
+  {
+    section: "❌ Cas impossibles – Justifier",
+    rappel: null,
+    justif: true,
+    q: "Est-il possible de trouver un nombre divisible par <em>9</em> dont le chiffre des unités est <em>3</em>, compris entre 10 et 100 ?",
+    hint: "Liste les multiples de 9 entre 10 et 100 : 18, 27, 36, 45, 54, 63, 72, 81, 90, 99. Lequel finit par 3 ?",
+    options: [
+      "Non, c'est impossible, 9 et 3 sont incompatibles.",
+      "Oui : le nombre 63 convient, car 6+3 = 9 qui est un multiple de 9, et 63 finit par 3.",
+      "Oui : le nombre 93 convient.",
+      "Non, car un multiple de 9 finit toujours par 9."
+    ],
+    answer: 1,
+    explain: "63 convient ! Justification : 6+3 = 9, et 9 est bien un multiple de 9 (9 = 9×1) → 63 est divisible par 9. De plus 63 finit par 3 ✓ et 10 < 63 < 100 ✓. Ce n'est PAS impossible !"
+  },
+  {
+    section: "❌ Cas impossibles – Justifier",
+    rappel: null,
+    justif: true,
+    q: "Est-il possible de trouver un nombre divisible par <em>3</em> dont le chiffre des unités est <em>2</em>, compris entre 10 et 100 ?",
+    hint: "Cherche un multiple de 3 qui finit par 2 : 12, 42, 72... vérifie avec la somme des chiffres.",
+    options: [
+      "Non, un multiple de 3 ne peut pas finir par 2.",
+      "Oui : 72 convient, car 7+2 = 9 qui est un multiple de 3, et 72 finit par 2.",
+      "Oui : 32 convient, car 3+2 = 5.",
+      "Non, car 2 est pair et les multiples de 3 sont impairs."
+    ],
+    answer: 1,
+    explain: "72 convient ! Justification : 7+2 = 9, et 9 est un multiple de 3 (9 = 3×3) → 72 est divisible par 3. 72 finit par 2 ✓ et 10 < 72 < 100 ✓. Autres solutions possibles : 12 (1+2=3), 42 (4+2=6)."
+  },
+
+  /* ══════════════════════════════════════════
+     PARTIE 4 – MULTIPLES & DIVISEURS : RIGUEUR
+     ══════════════════════════════════════════ */
+  {
+    section: "🔢 Multiples & diviseurs – Rigueur",
+    rappel: `<div class="rappel"><div class="rappel-title">📘 Rappel – Multiple vs Diviseur</div>• « <code>a est un multiple de b</code> » signifie <code>a = b × k</code> (b divise a)<br>• « <code>a est un diviseur de b</code> » signifie <code>b = a × k</code> (a divise b)<br><br>Astuce : le multiple est PLUS GRAND (en général). Le diviseur est PLUS PETIT.</div>`,
+    justif: false,
+    q: "Laquelle de ces affirmations est vraie concernant <span class='num'>10</span> et <span class='num'>68</span> ?",
+    hint: "68 ÷ 10 = 6,8 (pas entier). 10 ÷ 68 = 0,14... (impossible). Alors quelle relation ?",
+    options: [
+      "10 est un diviseur de 68",
+      "10 est un multiple de 68",
+      "68 est un diviseur de 10",
+      "10 n'est ni un diviseur ni un multiple de 68"
+    ],
+    answer: 3,
+    explain: "68 ÷ 10 = 6,8 (pas entier) → 10 n'est PAS un diviseur de 68. Et 10 ne peut pas être un multiple de 68 car 10 < 68. Donc 10 et 68 n'ont aucune relation de multiple/diviseur."
+  },
+  {
+    section: "🔢 Multiples & diviseurs – Rigueur",
+    rappel: null,
+    justif: false,
+    q: "Vrai ou Faux : <em>« 0 est un diviseur de 45 »</em>",
+    hint: "Pour qu'un nombre a soit un diviseur de b, il faut qu'on puisse calculer b ÷ a. Peut-on diviser par 0 ?",
+    options: [
+      "Vrai, car 0 est plus petit que 45",
+      "Vrai, car 0 × 45 = 0",
+      "Faux, car on ne peut jamais diviser par 0",
+      "Faux, car 45 ÷ 0 = 45"
+    ],
+    answer: 2,
+    explain: "0 n'est JAMAIS un diviseur. La division par 0 est impossible en mathématiques. Les diviseurs de 45 commencent à 1 : {1, 3, 5, 9, 15, 45}."
+  },
+  {
+    section: "🔢 Multiples & diviseurs – Rigueur",
+    rappel: null,
+    justif: false,
+    q: "Donne les 5 premiers multiples non nuls de <span class='num'>75</span>.",
+    hint: "Multiplie 75 par 1, 2, 3, 4, 5.",
+    options: [
+      "75, 150, 225, 300, 375",
+      "75, 145, 225, 295, 375",
+      "75, 150, 220, 300, 375",
+      "0, 75, 150, 225, 300"
+    ],
+    answer: 0,
+    explain: "75×1=75, 75×2=150, 75×3=225, 75×4=300, 75×5=375. Attention : les multiples NON NULS commencent à 75×1, pas à 0."
+  },
+  {
+    section: "🔢 Multiples & diviseurs – Rigueur",
+    rappel: null,
+    justif: false,
+    q: "Parmi ces propositions, laquelle est vraie ?",
+    hint: null,
+    options: [
+      "9 est un diviseur de 3 (car 9 = 3 × 3)",
+      "9 est un multiple de 3 (car 9 = 3 × 3)",
+      "3 est un multiple de 9",
+      "9 et 3 n'ont aucune relation"
+    ],
+    answer: 1,
+    explain: "9 = 3 × 3, donc 9 EST un multiple de 3. Et 3 est un diviseur de 9. Attention à ne pas confondre : c'est le grand nombre (9) qui est multiple du petit (3)."
+  },
+
+  /* ══════════════════════════════════════════
+     PARTIE 5 – SYNTHÈSE
+     ══════════════════════════════════════════ */
+  {
+    section: "⭐ Synthèse",
+    rappel: null,
+    justif: true,
+    q: "Un professeur demande : « <span class='num'>36 410</span> est-il divisible par 10 ? » Quelle réponse obtiendrait tous les points ?",
+    hint: null,
+    options: [
+      "Oui.",
+      "Oui, car 36 410 est grand.",
+      "Oui, car le chiffre des unités de 36 410 est 0, et un multiple de 10 se termine toujours par 0.",
+      "Oui, car 3+6+4+1+0 = 14."
+    ],
+    answer: 2,
+    explain: "La réponse parfaite cite le critère ET l'applique au nombre. « Oui, car le chiffre des unités est 0 » → c'est la justification attendue. La somme des chiffres ne sert que pour 3 et 9, pas pour 10 !"
+  },
+  {
+    section: "⭐ Synthèse",
+    rappel: null,
+    justif: true,
+    q: "Trouve un nombre entre 10 et 100, divisible par 9, dont le chiffre des unités est 3. Quelle réponse est à la fois correcte ET bien justifiée ?",
+    hint: "Essaie 63 : somme des chiffres = 6+3 = ?",
+    options: [
+      "63, parce que ça marche.",
+      "63, car 6+3 = 9, et 9 est un multiple de 9 (9 = 9×1), donc 63 est divisible par 9. De plus 63 finit par 3 ✓ et 10 < 63 < 100 ✓.",
+      "93, car 9 et 3 sont dans le nombre.",
+      "33, car 3+3 = 6 qui se divise par 3."
+    ],
+    answer: 1,
+    explain: "La réponse parfaite : 63. Justification complète en 3 temps : (1) somme des chiffres 6+3=9, (2) 9 est un multiple de 9, (3) vérification des conditions (finit par 3, compris entre 10 et 100). Sans les 3 parties : point perdu."
+  }
+];
+
+let current = 0;
+let answers = [];
+
+function startQuiz() {
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = QUESTIONS[current];
+  const total = QUESTIONS.length;
+
+  document.getElementById('questionCounter').textContent = `Question ${current + 1} / ${total}`;
+  document.getElementById('progressBar').style.width = `${((current + 1) / total) * 100}%`;
+  document.getElementById('sectionTag').textContent = q.section;
+  document.getElementById('qNum').textContent = `Question ${current + 1}`;
+  document.getElementById('qText').innerHTML = q.q;
+
+  // Rappel
+  const rappelBox = document.getElementById('rappelBox');
+  rappelBox.innerHTML = q.rappel || '';
+
+  // Justif label
+  const justifLabel = document.getElementById('justifLabel');
+  if (q.justif) justifLabel.classList.remove('hidden');
+  else justifLabel.classList.add('hidden');
+
+  // Hint
+  const hintBox = document.getElementById('hintBox');
+  if (q.hint) {
+    hintBox.textContent = '💡 ' + q.hint;
+    hintBox.classList.remove('hidden');
+  } else {
+    hintBox.classList.add('hidden');
+  }
+
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    if (answers[current] === i) btn.classList.add('selected');
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    container.appendChild(btn);
+  });
+
+  const nextBtn = document.getElementById('nextBtn');
+  const isLast = current === total - 1;
+  nextBtn.textContent = isLast ? 'Voir mes résultats 🎯' : 'Suivant →';
+  nextBtn.className = `nav-btn ${isLast ? 'btn-result' : 'btn-next'}${answers[current] === undefined ? ' btn-disabled' : ''}`;
+}
+
+function selectAnswer(idx) {
+  answers[current] = idx;
+  document.querySelectorAll('.option').forEach((btn, i) => btn.classList.toggle('selected', i === idx));
+  const isLast = current === QUESTIONS.length - 1;
+  document.getElementById('nextBtn').className = `nav-btn ${isLast ? 'btn-result' : 'btn-next'}`;
+}
+
+function nextQuestion() {
+  if (answers[current] === undefined) return;
+  if (current < QUESTIONS.length - 1) { current++; showQuestion(); }
+  else showResults();
+}
+
+function showResults() {
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('resultsScreen').classList.remove('hidden');
+
+  let score = 0;
+  const wrongs = [];
+  QUESTIONS.forEach((q, i) => {
+    if (answers[i] === q.answer) score++;
+    else wrongs.push({ i, q, chosen: answers[i] });
+  });
+
+  const pct = score / QUESTIONS.length;
+  const circle = document.getElementById('scoreCircle');
+  document.getElementById('scoreNum').textContent = score;
+
+  if (pct >= 0.8) {
+    circle.className = 'score-circle score-excellent';
+    document.getElementById('resultMsg').textContent = score === 20 ? '🏆 Parfait !' : '🎉 Excellent !';
+    document.getElementById('resultSub').textContent = 'Tu as bien assimilé les erreurs du contrôle !';
+  } else if (pct >= 0.6) {
+    circle.className = 'score-circle score-bien';
+    document.getElementById('resultMsg').textContent = '👍 Bien !';
+    document.getElementById('resultSub').textContent = 'Continue à t\'entraîner sur les justifications.';
+  } else {
+    circle.className = 'score-circle score-moyen';
+    document.getElementById('resultMsg').textContent = '💪 À retravailler !';
+    document.getElementById('resultSub').textContent = 'Relis les rappels de cours et recommence.';
+  }
+
+  const wrongList = document.getElementById('wrongList');
+  const correctList = document.getElementById('correctList');
+  const wrongSection = document.getElementById('wrongSection');
+
+  wrongList.innerHTML = '';
+  if (wrongs.length === 0) {
+    wrongSection.classList.add('hidden');
+    correctList.innerHTML = '<div class="all-good">🌟 Toutes les questions réussies !</div>';
+  } else {
+    wrongSection.classList.remove('hidden');
+    wrongs.forEach(({ i, q, chosen }) => {
+      const div = document.createElement('div');
+      div.className = 'wrong-item';
+      const chosenTxt = chosen !== undefined ? q.options[chosen] : 'Sans réponse';
+      div.innerHTML = `<strong>Q${i + 1} – ${q.q.replace(/<[^>]+>/g, '')}</strong>
+        Ta réponse : <span style="color:#e94560;font-weight:700;">${chosenTxt}</span><br>
+        <span class="correct">✅ Bonne réponse : ${q.options[q.answer]}</span><br>
+        <em style="color:#888;font-size:12px;">${q.explain}</em>`;
+      wrongList.appendChild(div);
+    });
+    correctList.innerHTML = `<div class="all-good" style="background:#f8f9fa;color:#495057;">✅ ${score} question${score > 1 ? 's' : ''} réussie${score > 1 ? 's' : ''} sur 20</div>`;
+  }
+  window._quizScore = score; window._quizWrongs = wrongs;
+}
+
+function buildMessage() {
+  const score = window._quizScore, wrongs = window._quizWrongs;
+  const pct = Math.round(score / 20 * 100);
+  let emoji = pct >= 80 ? '🏆' : pct >= 60 ? '👍' : '💪';
+  let msg = `${emoji} Quiz Maths – Multiples & Diviseurs (Remédiation 17/20)\nScore : ${score}/20 (${pct}%)\n`;
+  if (wrongs.length === 0) { msg += '✅ Aucune faute !'; }
+  else { msg += '\nQuestions ratées :\n'; wrongs.forEach(({ i, q, chosen }) => { msg += `• Q${i + 1} – Réponse donnée : « ${chosen !== undefined ? q.options[chosen] : '—'} » → Bonne : « ${q.options[q.answer]} »\n`; }); }
+  return msg;
+}
+
+function shareWhatsApp() { window.open('https://wa.me/?text=' + encodeURIComponent(buildMessage()), '_blank'); }
+
+function copyResults() {
+  const msg = buildMessage();
+  if (navigator.clipboard) navigator.clipboard.writeText(msg).then(() => alert('Copié !'));
+  else { const ta = document.createElement('textarea'); ta.value = msg; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); alert('Copié !'); }
+}
+</script>
+</body>
+</html>
