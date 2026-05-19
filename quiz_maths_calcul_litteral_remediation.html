@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Calcul Littéral (Remédiation 11,5/20)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    padding: 20px 16px 60px;
+  }
+  .container { max-width: 700px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 28px; }
+  .header h1 { color: #fff; font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+  .header p { color: rgba(255,255,255,.65); font-size: 14px; }
+  .badge { display: inline-block; background: rgba(255,255,255,.15); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-top: 8px; letter-spacing: .5px; }
+  .progress-bar-wrap { background: rgba(255,255,255,.15); border-radius: 99px; height: 7px; margin-bottom: 24px; }
+  .progress-bar-fill { height: 7px; border-radius: 99px; background: linear-gradient(90deg, #8e44ad, #d980fa); transition: width .4s ease; }
+  .card { background: #fff; border-radius: 20px; padding: 28px 24px; box-shadow: 0 12px 40px rgba(0,0,0,.3); margin-bottom: 16px; }
+
+  .rappel { background: #f5f0ff; border-left: 5px solid #8e44ad; border-radius: 0 14px 14px 0; padding: 14px 18px; margin-bottom: 18px; font-size: 13px; color: #1a1a2e; line-height: 1.8; }
+  .rappel-title { font-weight: 900; font-size: 13px; color: #8e44ad; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
+  .rappel code { background: #e8d5ff; padding: 1px 7px; border-radius: 4px; font-family: monospace; font-size: 13px; font-weight: 700; }
+
+  .section-tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; padding: 3px 12px; border-radius: 20px; background: #f5f0ff; color: #8e44ad; margin-bottom: 14px; }
+  .justif-label { display: inline-flex; align-items: center; gap: 6px; background: #fff3cd; color: #856404; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; margin-bottom: 14px; border: 1px solid #ffc107; }
+  .q-num { font-size: 12px; color: #adb5bd; font-weight: 700; margin-bottom: 6px; }
+  .q-text { font-size: 15px; font-weight: 700; color: #1a1a2e; line-height: 1.6; margin-bottom: 20px; }
+  .q-text em { font-style: normal; background: #f5f0ff; color: #8e44ad; padding: 1px 6px; border-radius: 6px; font-weight: 900; }
+  .q-text .num { font-family: monospace; font-size: 16px; font-weight: 900; color: #0f3460; background: #f0f4ff; padding: 2px 8px; border-radius: 6px; }
+  .q-text .prog { display: block; background: #f8f9fa; border-left: 4px solid #8e44ad; border-radius: 0 8px 8px 0; padding: 10px 14px; margin: 10px 0; font-size: 13px; color: #1a1a2e; line-height: 1.9; font-family: monospace; font-weight: 600; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option { border: 2px solid #e9ecef; border-radius: 12px; padding: 12px 16px; font-size: 13.5px; color: #495057; cursor: pointer; transition: all .2s; display: flex; align-items: flex-start; gap: 12px; font-weight: 600; background: #fff; -webkit-tap-highlight-color: transparent; line-height: 1.5; }
+  .option:hover { border-color: #8e44ad; background: #faf5ff; }
+  .option.selected { border-color: #8e44ad; background: #f5f0ff; color: #1a1a2e; }
+  .option-letter { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; flex-shrink: 0; color: #6c757d; margin-top: 1px; }
+  .option.selected .option-letter { background: #8e44ad; color: #fff; }
+
+  .hint { background: #fffbea; border-left: 4px solid #f5a623; border-radius: 0 10px 10px 0; padding: 10px 14px; font-size: 13px; color: #7a5800; margin-bottom: 16px; line-height: 1.6; }
+
+  .nav-btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; transition: transform .15s; margin-top: 16px; }
+  .nav-btn:active { transform: scale(.97); }
+  .btn-next { background: linear-gradient(90deg, #8e44ad, #d980fa); color: #fff; }
+  .btn-result { background: linear-gradient(90deg, #0f3460, #4a90d9); color: #fff; }
+  .btn-disabled { opacity: .4; cursor: not-allowed; }
+
+  .start-screen { text-align: center; padding: 10px 0 20px; }
+  .start-screen h2 { font-size: 20px; color: #1a1a2e; margin-bottom: 12px; }
+  .target-box { background: #fff3cd; border-radius: 12px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #664d03; line-height: 1.9; text-align: left; border: 1px solid #ffc107; }
+  .target-box strong { display: block; margin-bottom: 4px; color: #1a1a2e; }
+  .rules-list { text-align: left; background: #f8f9fa; border-radius: 12px; padding: 14px 18px; margin: 16px 0; font-size: 13px; color: #495057; line-height: 2; }
+  .btn-start { background: linear-gradient(90deg, #8e44ad, #d980fa); color: #fff; border: none; border-radius: 14px; padding: 15px 40px; font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(142,68,173,.4); transition: transform .15s; }
+  .btn-start:active { transform: scale(.97); }
+
+  .results-screen { text-align: center; }
+  .score-circle { width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 900; border: 8px solid; }
+  .score-num { font-size: 38px; }
+  .score-lbl { font-size: 12px; opacity: .7; }
+  .score-excellent { border-color: #28a745; color: #28a745; background: #e8fff0; }
+  .score-bien { border-color: #f5a623; color: #f5a623; background: #fff8e8; }
+  .score-moyen { border-color: #e94560; color: #e94560; background: #fff0f0; }
+  .result-msg { font-size: 18px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .result-sub { font-size: 14px; color: #6c757d; margin-bottom: 24px; }
+  .wrong-section { text-align: left; margin-bottom: 20px; }
+  .wrong-title { font-size: 13px; font-weight: 800; color: #e94560; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
+  .wrong-item { background: #fff5f5; border-left: 4px solid #e94560; border-radius: 0 10px 10px 0; padding: 10px 14px; margin-bottom: 10px; font-size: 13px; color: #495057; line-height: 1.7; }
+  .wrong-item strong { color: #1a1a2e; display: block; margin-bottom: 4px; }
+  .wrong-item .correct { color: #28a745; font-weight: 700; }
+  .correct-section { text-align: left; margin-bottom: 20px; }
+  .correct-title { font-size: 13px; font-weight: 800; color: #28a745; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+  .all-good { background: #e8fff0; border-radius: 12px; padding: 14px; font-size: 14px; color: #28a745; font-weight: 700; text-align: center; }
+  .share-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 15px; border: none; border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; background: #25D366; color: #fff; box-shadow: 0 6px 20px rgba(37,211,102,.4); transition: transform .15s; margin-bottom: 10px; }
+  .share-btn:active { transform: scale(.97); }
+  .copy-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 13px; border: 2px solid #e9ecef; border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; background: #fff; color: #495057; transition: all .15s; margin-bottom: 16px; }
+  .copy-btn:active { transform: scale(.97); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div id="startScreen" class="card">
+    <div class="start-screen">
+      <div style="font-size:48px;margin-bottom:12px;">🔢</div>
+      <h2>Calcul Littéral – Remédiation</h2>
+      <p>Ciblé sur les points perdus dans le contrôle · 5ème</p>
+      <div class="target-box">
+        <strong>🎯 Ce quiz travaille exactement tes 4 erreurs du contrôle à 11,5/20 :</strong>
+        ❌ Formule du périmètre du cercle (× et non +)<br>
+        ❌ Identifier et écrire une expression littérale<br>
+        ❌ Angles d'un triangle → expression ABC = 180° − 2x<br>
+        ❌ Programmes de calcul : définir x, justifier l'équivalence
+      </div>
+      <div class="rules-list">
+        📌 20 questions ciblées<br>
+        💡 Des rappels de cours avant chaque thème<br>
+        ⚖️ Des questions où il faut choisir la bonne justification<br>
+        📱 Envoie tes résultats à papa sur WhatsApp
+      </div>
+      <button class="btn-start" onclick="startQuiz()">▶ Démarrer</button>
+    </div>
+  </div>
+
+  <div id="quizScreen" class="hidden">
+    <div class="header">
+      <h1>🔢 Calcul Littéral</h1>
+      <p>Quiz de remédiation · Contrôle 11,5/20</p>
+      <span class="badge" id="questionCounter">Question 1 / 20</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:5%"></div>
+    </div>
+    <div class="card" id="questionCard">
+      <div class="section-tag" id="sectionTag"></div>
+      <div id="rappelBox"></div>
+      <div class="justif-label hidden" id="justifLabel">⚖️ Question justification</div>
+      <div class="q-num" id="qNum"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="hint hidden" id="hintBox"></div>
+      <div class="options" id="optionsContainer"></div>
+      <button class="nav-btn btn-next btn-disabled" id="nextBtn" onclick="nextQuestion()">Suivant →</button>
+    </div>
+  </div>
+
+  <div id="resultsScreen" class="hidden">
+    <div class="header"><h1>📊 Résultats</h1><p>Calcul Littéral – Remédiation</p></div>
+    <div class="card results-screen">
+      <div class="score-circle" id="scoreCircle"><div class="score-num" id="scoreNum"></div><div class="score-lbl">/ 20</div></div>
+      <div class="result-msg" id="resultMsg"></div>
+      <div class="result-sub" id="resultSub"></div>
+      <hr style="border:none;border-top:1px solid #f0f0f0;margin:20px 0;">
+      <div class="wrong-section" id="wrongSection"><div class="wrong-title">❌ Questions à retravailler</div><div id="wrongList"></div></div>
+      <div class="correct-section"><div class="correct-title">✅ Questions réussies</div><div id="correctList"></div></div>
+      <button class="share-btn" onclick="shareWhatsApp()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Envoyer à papa (WhatsApp)
+      </button>
+      <button class="copy-btn" onclick="copyResults()">📋 Copier les résultats</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+
+  /* ══════════════════════════════════════
+     PARTIE 1 – EXPRESSIONS LITTÉRALES : BASES
+     ══════════════════════════════════════ */
+  {
+    section: "📐 Expressions littérales – bases",
+    rappel: `<div class="rappel"><div class="rappel-title">📘 Rappel – Formules importantes</div>• Périmètre d'un cercle de rayon r : <code>P = 2 × π × r</code> (tout en multiplication !)<br>• a³ signifie <code>a × a × a</code> (pas a × 3)<br>• Le nombre qui précède n : <code>n − 1</code><br>• Le nombre qui suit n : <code>n + 1</code></div>`,
+    justif: false,
+    q: "Dans ton contrôle tu as écrit <em>2×π+r</em> pour le périmètre d'un cercle. Quelle est la bonne formule ?",
+    hint: "Le périmètre d'un cercle utilise uniquement des multiplications, jamais d'addition avec r.",
+    options: ["2 × π + r", "π × r", "2 × π × r", "π + 2 × r"],
+    answer: 2,
+    explain: "P = 2 × π × r. C'est une multiplication tout au long. Erreur fréquente : écrire + à la place de ×. Pour un rayon r=5 : P = 2×3,14×5 = 31,4 (et non 2×3,14+5 = 11,28)."
+  },
+  {
+    section: "📐 Expressions littérales – bases",
+    rappel: null,
+    justif: false,
+    q: "Quelle est la valeur de <em>A = 5×x + x²</em> pour <em>x = 2</em> ?",
+    hint: "Remplace x par 2 partout : 5×2 + 2². N'oublie pas que 2² = 2×2 = 4.",
+    options: ["62", "20", "14", "24"],
+    answer: 2,
+    explain: "A = 5×2 + 2² = 10 + 4 = 14. Attention : x² = x×x = 2×2 = 4, pas 2×2 = 4 oui mais 5×2 = 10 et 10+4 = 14. L'erreur 62 vient de 5×2² = 5×4=20 et de ne pas séparer les termes."
+  },
+  {
+    section: "📐 Expressions littérales – bases",
+    rappel: null,
+    justif: false,
+    q: "Quelle est la valeur de l'expression <em>x² + 3×x + 1</em> pour <em>x = 5</em> ?",
+    hint: "Calcule chaque terme séparément : 5² puis 3×5 puis 1, et additionne.",
+    options: ["41", "26", "51", "36"],
+    answer: 0,
+    explain: "5² + 3×5 + 1 = 25 + 15 + 1 = 41. C'est l'expression du contrôle ! Pour vérifier : 5×5+3×5+1 = 25+15+1 = 41 ✓"
+  },
+  {
+    section: "📐 Expressions littérales – bases",
+    rappel: null,
+    justif: false,
+    q: "Je choisis un nombre a, je lui ajoute 3, puis je multiplie le résultat par 2. J'obtiens :",
+    hint: "Attention à l'ordre : d'abord (a+3), puis on multiplie tout par 2.",
+    options: ["2×a + 3", "2×a + 6", "2×(a+3)", "a + 3×2"],
+    answer: 2,
+    explain: "On ajoute 3 au nombre a → (a+3). Puis on multiplie CE RÉSULTAT par 2 → 2×(a+3). C'est différent de 2×a+3 qui multiplierait d'abord a par 2 puis ajouterait 3."
+  },
+
+  /* ══════════════════════════════════════
+     PARTIE 2 – IDENTIFIER UNE EXPRESSION
+     ══════════════════════════════════════ */
+  {
+    section: "🔍 Identifier une expression littérale",
+    rappel: `<div class="rappel"><div class="rappel-title">📘 Rappel – Reconnaître un motif</div>Pour trouver l'expression, observe ce qui change (le nombre choisi) et ce qui reste pareil (la structure). Remplace le nombre par <code>x</code> et identifie les opérations.<br><br>Exemple : 2×2+1, 3×3+1, 5×5+1 → l'expression est <code>x²+1</code></div>`,
+    justif: false,
+    q: "Ces calculs ont été obtenus avec la même expression :<br>• 5×5 + 3×5 + 1 = 41<br>• 7×7 + 3×7 + 1 = 71<br>• 1×1 + 3×1 + 1 = 5<br>• 0×0 + 3×0 + 1 = 1<br><br>Quelle est cette expression ?",
+    hint: "Le nombre choisi est celui qui se répète (5, 7, 1, 0). Remplace-le par x.",
+    options: ["x + 3×x + 1", "x² + 3 + x + 1", "x² + 3×x + 1", "3×x² + 1"],
+    answer: 2,
+    explain: "5×5 = 5² → x². 3×5 → 3×x. +1 → +1. L'expression est x²+3×x+1. C'était la question de ton contrôle où tu as perdu des points en restant vague."
+  },
+  {
+    section: "🔍 Identifier une expression littérale",
+    rappel: null,
+    justif: false,
+    q: "Ces calculs utilisent la même expression :<br>• 2×3 + 5 = 11<br>• 2×7 + 5 = 19<br>• 2×10 + 5 = 25<br><br>Quelle est l'expression ?",
+    hint: "Le nombre qui change (3, 7, 10) devient x. Que fait-on avec ce nombre ?",
+    options: ["x² + 5", "2 + x + 5", "2×x + 5", "2×(x+5)"],
+    answer: 2,
+    explain: "On multiplie x par 2 puis on ajoute 5 → 2×x+5. Vérification pour x=3 : 2×3+5=11 ✓, pour x=7 : 2×7+5=19 ✓."
+  },
+  {
+    section: "🔍 Identifier une expression littérale",
+    rappel: null,
+    justif: false,
+    q: "L'expression est <em>x² + 3×x + 1</em>. Quel programme de calcul correspond à cette expression ?",
+    hint: "Lis l'expression de gauche à droite et traduis chaque opération en instruction.",
+    options: [
+      "Choisir x ; calculer x² ; calculer 3×x ; ajouter les deux résultats ; ajouter 1.",
+      "Choisir x ; multiplier par 3 ; ajouter x² ; ajouter 1.",
+      "Choisir x ; calculer x+3 ; multiplier par x ; ajouter 1.",
+      "Choisir x ; ajouter 3 ; calculer le carré ; ajouter 1."
+    ],
+    answer: 0,
+    explain: "x²+3x+1 se lit : carré de x → x² ; trois fois x → 3×x ; additionner → x²+3x ; ajouter 1 → x²+3x+1. Les étapes doivent être dans l'ordre de l'expression."
+  },
+
+  /* ══════════════════════════════════════
+     PARTIE 3 – PROGRAMMES DE CALCUL
+     ══════════════════════════════════════ */
+  {
+    section: "⚙️ Programmes de calcul",
+    rappel: `<div class="rappel"><div class="rappel-title">📘 Rappel – Programmes de calcul</div>Un programme de calcul donne des instructions étape par étape. Pour l'écrire avec une expression :<br>1. Nomme le nombre de départ <code>x</code> (toujours préciser que x est le nombre choisi !)<br>2. Traduis chaque instruction en opération sur x<br>3. Écris l'expression finale<br><br>⚠️ Toujours écrire : « x désigne le nombre choisi »</div>`,
+    justif: false,
+    q: "Programme :<span class='prog'>• Choisir un nombre<br>• Calculer son carré<br>• Ajouter 11<br>• Soustraire 6 fois le nombre de départ<br>• Multiplier par le nombre choisi<br>• Ajouter 1</span>Quelle est l'expression en fonction de x (où x est le nombre choisi) ?",
+    hint: "Étape par étape : x → x² → x²+11 → x²+11−6x → (x²+11−6x)×x → (x²+11−6x)×x+1",
+    options: [
+      "(x² + 11 − 6×x) × x + 1",
+      "x² + 11 − 6×x + 1",
+      "(x + 11 − 6) × x + 1",
+      "x² + 11 × x − 6 + 1"
+    ],
+    answer: 0,
+    explain: "Étape par étape : carré → x² ; +11 → x²+11 ; −6 fois x → x²+11−6x ; ×x → (x²+11−6x)×x ; +1 → (x²+11−6x)×x+1. Les parenthèses sont indispensables !"
+  },
+  {
+    section: "⚙️ Programmes de calcul",
+    rappel: null,
+    justif: false,
+    q: "Pour le programme de la question précédente, quelle est la valeur obtenue pour <em>x = 1</em> ?",
+    hint: "Remplace x par 1 : (1²+11−6×1)×1+1 = (1+11−6)×1+1 = ?",
+    options: ["8", "6", "7", "13"],
+    answer: 2,
+    explain: "(1²+11−6×1)×1+1 = (1+11−6)×1+1 = 6×1+1 = 6+1 = 7. Pour x=2 : (4+11−12)×2+1 = 3×2+1 = 7. Le résultat est toujours 7 !"
+  },
+  {
+    section: "⚙️ Programmes de calcul",
+    rappel: null,
+    justif: true,
+    q: "Ton professeur t'a demandé d'écrire l'expression du programme en fonction de x. Tu as écrit (x²+11−6x)×x+1 mais tu as perdu des points. Pourquoi ?",
+    hint: "As-tu précisé ce que représente x dans cette expression ?",
+    options: [
+      "Parce que l'expression est fausse.",
+      "Parce qu'il faut toujours préciser : « x désigne le nombre choisi au départ ».",
+      "Parce qu'il faut utiliser la lettre n et non x.",
+      "Parce qu'il faut développer l'expression."
+    ],
+    answer: 1,
+    explain: "L'expression (x²+11−6x)×x+1 est correcte MAIS il faut toujours définir la variable : « x désigne le nombre choisi au départ ». Sans cette précision, le lecteur ne sait pas ce que x représente."
+  },
+  {
+    section: "⚙️ Programmes de calcul",
+    rappel: null,
+    justif: true,
+    q: "Programme 2 donne toujours le même résultat que Programme 1 (= 7). Pour JUSTIFIER que deux programmes donnent toujours le même résultat, que faut-il faire ?",
+    hint: "Tester deux valeurs suffit-il à prouver que ça marche pour TOUT nombre ?",
+    options: [
+      "Tester avec x=1 et x=2 et montrer qu'on obtient 7 dans les deux cas.",
+      "Écrire l'expression de chaque programme en fonction de x et montrer qu'elles sont égales pour tout x.",
+      "Affirmer que le résultat sera toujours le même sans calcul.",
+      "Tester avec x=0 seulement."
+    ],
+    answer: 1,
+    explain: "Tester 2 valeurs ne suffit PAS à prouver que c'est vrai pour TOUT nombre. Il faut écrire les deux expressions et montrer qu'elles sont algébriquement égales (ex : les simplifier pour montrer qu'elles donnent la même formule)."
+  },
+
+  /* ══════════════════════════════════════
+     PARTIE 4 – ANGLES ET EXPRESSIONS
+     ══════════════════════════════════════ */
+  {
+    section: "📐 Angles et expressions littérales",
+    rappel: `<div class="rappel"><div class="rappel-title">📘 Rappel – Angles d'un triangle</div>La somme des angles d'un triangle est toujours égale à <code>180°</code>.<br><br>Si un triangle a deux angles qui mesurent tous les deux <code>x</code>, le troisième angle mesure :<br><code>180° − x − x = 180° − 2×x</code><br><br>⚠️ La question « exprimer en fonction de x » attend une FORMULE, pas une valeur numérique !</div>`,
+    justif: false,
+    q: "Dans un triangle ABC, les angles en A et en C mesurent tous les deux <em>x</em>. Quelle est la mesure de l'angle <em>ABC</em> en fonction de x ?",
+    hint: "Somme des angles = 180°. Angle ABC = 180° − angle A − angle C = 180° − x − x.",
+    options: [
+      "ABC = 180° + 2×x",
+      "ABC = 180° − x",
+      "ABC = 2×x",
+      "ABC = 180° − 2×x"
+    ],
+    answer: 3,
+    explain: "Angle A + Angle B + Angle C = 180°. Donc x + ABC + x = 180°, soit 2x + ABC = 180°, donc ABC = 180° − 2x. C'est la réponse à Q1 de l'exercice 3 que tu n'avais pas écrite !"
+  },
+  {
+    section: "📐 Angles et expressions littérales",
+    rappel: null,
+    justif: true,
+    q: "En utilisant la formule ABC = 180° − 2×x, est-il possible d'avoir <em>x = 70°</em> ? Choisis la réponse la mieux justifiée.",
+    hint: "Calcule ABC quand x=70 et vérifie si c'est un angle valide (doit être positif).",
+    options: [
+      "Oui, car x=70° c'est possible dans un triangle.",
+      "Oui, car si x=70° alors ABC = 180°−2×70° = 180°−140° = 40°, et 40° est bien un angle positif, donc le triangle existe.",
+      "Non, car 70° est trop grand pour un angle.",
+      "Oui, car la somme 70+70+40 = 180°."
+    ],
+    answer: 1,
+    explain: "La réponse parfaite montre TOUT le calcul : ABC = 180°−2×70° = 180°−140° = 40°. Comme 40° > 0°, l'angle existe → oui, x=70° est possible. Sans le calcul intermédiaire : points perdus !"
+  },
+  {
+    section: "📐 Angles et expressions littérales",
+    rappel: null,
+    justif: true,
+    q: "Avec la formule ABC = 180° − 2×x, est-il possible d'avoir <em>x = 95°</em> ? Choisis la réponse correcte et justifiée.",
+    hint: "Calcule 180° − 2×95° et regarde si le résultat est possible pour un angle.",
+    options: [
+      "Oui, car 95° est inférieur à 180°.",
+      "Non, car ABC = 180°−2×95° = 180°−190° = −10°, et un angle ne peut pas être négatif.",
+      "Non, car 95° est trop proche de 90°.",
+      "Oui, le triangle peut toujours exister."
+    ],
+    answer: 1,
+    explain: "ABC = 180°−2×95° = 180°−190° = −10°. Un angle NÉGATIF est impossible → x=95° ne convient pas. Le calcul complet est indispensable pour montrer la contradiction."
+  },
+  {
+    section: "📐 Angles et expressions littérales",
+    rappel: null,
+    justif: false,
+    q: "Un triangle isocèle a deux angles égaux à <em>x</em> et un troisième angle de <em>50°</em>. Quelle équation permet de trouver x ?",
+    hint: "La somme des trois angles est 180°.",
+    options: [
+      "2×x = 180°",
+      "x + 50° = 180°",
+      "2×x + 50° = 180°",
+      "x² + 50° = 180°"
+    ],
+    answer: 2,
+    explain: "x + x + 50° = 180°, soit 2×x + 50° = 180°. En résolvant : 2×x = 130°, donc x = 65°. Vérification : 65°+65°+50° = 180° ✓"
+  },
+
+  /* ══════════════════════════════════════
+     PARTIE 5 – PÉRIMÈTRES ET EXPRESSIONS
+     ══════════════════════════════════════ */
+  {
+    section: "📏 Périmètres et expressions",
+    rappel: `<div class="rappel"><div class="rappel-title">📘 Rappel – Périmètre en fonction de x</div>Le périmètre = somme de tous les côtés. Si certains côtés sont exprimés avec x, le périmètre sera une expression littérale en x.<br><br>Exemple : rectangle de largeur x et longueur 6 → P = x+6+x+6 = <code>2×x+12</code></div>`,
+    justif: false,
+    q: "Un rectangle a une largeur de <em>x</em> et une longueur de <em>6</em>. Quelle est l'expression du périmètre en fonction de x ?",
+    hint: "Périmètre = côté + côté + côté + côté = x + 6 + x + 6.",
+    options: ["x + 6", "2×x + 6", "2×x + 12", "x × 6"],
+    answer: 2,
+    explain: "P = x + 6 + x + 6 = 2x + 12. Ou avec la formule P = 2×(largeur+longueur) = 2×(x+6) = 2x+12."
+  },
+  {
+    section: "📏 Périmètres et expressions",
+    rappel: null,
+    justif: false,
+    q: "L'expression <em>2×x + 12</em> représente le périmètre d'un rectangle. Quelle est la valeur du périmètre pour <em>x = 4</em> ?",
+    hint: "Remplace x par 4 : 2×4 + 12 = ?",
+    options: ["24", "20", "28", "16"],
+    answer: 1,
+    explain: "2×4 + 12 = 8 + 12 = 20. Vérifie : le rectangle mesure 4 cm et 6 cm, son périmètre est 4+6+4+6 = 20 ✓"
+  },
+
+  /* ══════════════════════════════════════
+     PARTIE 6 – SYNTHÈSE ET RIGUEUR
+     ══════════════════════════════════════ */
+  {
+    section: "⭐ Synthèse",
+    rappel: null,
+    justif: false,
+    q: "L'égalité <em>3×x + 7 = 4,5×x − 6,5</em> est vraie pour quelle valeur de x ?",
+    hint: "Regroupe les x d'un côté : 7 + 6,5 = 4,5×x − 3×x, soit 13,5 = 1,5×x.",
+    options: ["x = 4,5", "x = 34", "x = 9", "x = 6"],
+    answer: 2,
+    explain: "3x+7 = 4,5x−6,5 → 7+6,5 = 4,5x−3x → 13,5 = 1,5×x → x = 13,5÷1,5 = 9. Vérification : 3×9+7=34 et 4,5×9−6,5=40,5−6,5=34 ✓"
+  },
+  {
+    section: "⭐ Synthèse",
+    rappel: null,
+    justif: true,
+    q: "Pour la question « Est-il possible d'avoir x = 70° dans ce triangle ? », ton professeur a écrit « détaille tout ». Quelle réponse aurait été parfaite ?",
+    hint: null,
+    options: [
+      "Oui, car x=70° donne ABC=40°.",
+      "Oui, c'est possible.",
+      "Oui, car si x=70°, alors ABC = 180°−2×70° = 180°−140° = 40°. Comme 40° > 0°, cet angle est valide, donc x=70° est bien possible dans ce triangle.",
+      "Oui, car 70+70+40=180."
+    ],
+    answer: 2,
+    explain: "La réponse parfaite en 3 temps : (1) calculer ABC avec la formule, (2) vérifier que l'angle est positif, (3) conclure. Chaque étape doit être explicitement écrite pour obtenir tous les points."
+  },
+  {
+    section: "⭐ Synthèse",
+    rappel: null,
+    justif: false,
+    q: "Quelle est la valeur de <em>x² + 3×x + 1</em> pour <em>x = 0</em> ?",
+    hint: "Remplace x par 0 dans chaque terme.",
+    options: ["4", "3", "1", "0"],
+    answer: 2,
+    explain: "0² + 3×0 + 1 = 0 + 0 + 1 = 1. C'est cohérent avec le contrôle : 0×0+3×0+1 = 1 ✓ (c'était un des calculs donnés dans l'exercice 2)."
+  }
+];
+
+let current = 0, answers = [];
+
+function startQuiz() {
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = QUESTIONS[current], total = QUESTIONS.length;
+  document.getElementById('questionCounter').textContent = `Question ${current+1} / ${total}`;
+  document.getElementById('progressBar').style.width = `${((current+1)/total)*100}%`;
+  document.getElementById('sectionTag').textContent = q.section;
+  document.getElementById('qNum').textContent = `Question ${current+1}`;
+  document.getElementById('qText').innerHTML = q.q;
+  document.getElementById('rappelBox').innerHTML = q.rappel || '';
+  const jl = document.getElementById('justifLabel');
+  q.justif ? jl.classList.remove('hidden') : jl.classList.add('hidden');
+  const hb = document.getElementById('hintBox');
+  if (q.hint) { hb.textContent = '💡 '+q.hint; hb.classList.remove('hidden'); } else { hb.classList.add('hidden'); }
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  ['A','B','C','D'].forEach((l, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option' + (answers[current]===i?' selected':'');
+    btn.innerHTML = `<span class="option-letter">${l}</span><span>${q.options[i]}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    container.appendChild(btn);
+  });
+  const nb = document.getElementById('nextBtn'), isLast = current===total-1;
+  nb.textContent = isLast ? 'Voir mes résultats 🎯' : 'Suivant →';
+  nb.className = `nav-btn ${isLast?'btn-result':'btn-next'}${answers[current]===undefined?' btn-disabled':''}`;
+}
+
+function selectAnswer(idx) {
+  answers[current] = idx;
+  document.querySelectorAll('.option').forEach((b,i)=>b.classList.toggle('selected',i===idx));
+  const isLast = current===QUESTIONS.length-1;
+  document.getElementById('nextBtn').className = `nav-btn ${isLast?'btn-result':'btn-next'}`;
+}
+
+function nextQuestion() {
+  if (answers[current]===undefined) return;
+  if (current<QUESTIONS.length-1) { current++; showQuestion(); } else showResults();
+}
+
+function showResults() {
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('resultsScreen').classList.remove('hidden');
+  let score=0; const wrongs=[];
+  QUESTIONS.forEach((q,i)=>{ if(answers[i]===q.answer) score++; else wrongs.push({i,q,chosen:answers[i]}); });
+  const pct=score/QUESTIONS.length, circle=document.getElementById('scoreCircle');
+  document.getElementById('scoreNum').textContent=score;
+  if(pct>=.8){circle.className='score-circle score-excellent';document.getElementById('resultMsg').textContent=score===20?'🏆 Parfait !':'🎉 Excellent !';}
+  else if(pct>=.6){circle.className='score-circle score-bien';document.getElementById('resultMsg').textContent='👍 Bien !';}
+  else{circle.className='score-circle score-moyen';document.getElementById('resultMsg').textContent='💪 À retravailler !';}
+  document.getElementById('resultSub').textContent=pct>=.8?'Tu as rattrapé les erreurs du contrôle !':pct>=.6?'Continue sur les justifications.':'Relis les rappels et recommence.';
+  const wl=document.getElementById('wrongList'), cl=document.getElementById('correctList'), ws=document.getElementById('wrongSection');
+  wl.innerHTML='';
+  if(wrongs.length===0){ws.classList.add('hidden');cl.innerHTML='<div class="all-good">🌟 Toutes les questions réussies !</div>';}
+  else{ws.classList.remove('hidden');wrongs.forEach(({i,q,chosen})=>{const d=document.createElement('div');d.className='wrong-item';d.innerHTML=`<strong>Q${i+1} – ${q.q.replace(/<[^>]+>/g,'').substring(0,80)}...</strong>Ta réponse : <span style="color:#e94560;font-weight:700;">${chosen!==undefined?q.options[chosen]:'—'}</span><br><span class="correct">✅ Bonne réponse : ${q.options[q.answer]}</span><br><em style="color:#888;font-size:12px;">${q.explain}</em>`;wl.appendChild(d);});cl.innerHTML=`<div class="all-good" style="background:#f8f9fa;color:#495057;">✅ ${score} question${score>1?'s':''} réussie${score>1?'s':''} sur 20</div>`;}
+  window._quizScore=score;window._quizWrongs=wrongs;
+}
+
+function buildMessage(){
+  const score=window._quizScore,wrongs=window._quizWrongs,pct=Math.round(score/20*100);
+  let emoji=pct>=80?'🏆':pct>=60?'👍':'💪';
+  let msg=`${emoji} Quiz Maths – Calcul Littéral (Remédiation 11,5/20)\nScore : ${score}/20 (${pct}%)\n`;
+  if(wrongs.length===0){msg+='✅ Aucune faute !';}
+  else{msg+='\nQuestions ratées :\n';wrongs.forEach(({i,q,chosen})=>{msg+=`• Q${i+1} – Réponse : « ${chosen!==undefined?q.options[chosen]:'—'} » → Bonne : « ${q.options[q.answer]} »\n`;});}
+  return msg;
+}
+function shareWhatsApp(){window.open('https://wa.me/?text='+encodeURIComponent(buildMessage()),'_blank');}
+function copyResults(){const msg=buildMessage();if(navigator.clipboard)navigator.clipboard.writeText(msg).then(()=>alert('Copié !'));else{const ta=document.createElement('textarea');ta.value=msg;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Copié !');}}
+</script>
+</body>
+</html>
