@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – L'Énergie (Chapitre 4)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    padding: 20px 16px 60px;
+  }
+  .container { max-width: 680px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 28px; }
+  .header h1 { color: #fff; font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+  .header p { color: rgba(255,255,255,.65); font-size: 14px; }
+  .badge { display: inline-block; background: rgba(255,255,255,.15); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-top: 8px; letter-spacing: .5px; }
+  .progress-bar-wrap { background: rgba(255,255,255,.15); border-radius: 99px; height: 7px; margin-bottom: 24px; }
+  .progress-bar-fill { height: 7px; border-radius: 99px; background: linear-gradient(90deg, #f7971e, #ffd200); transition: width .4s ease; }
+  .card { background: #fff; border-radius: 20px; padding: 28px 24px; box-shadow: 0 12px 40px rgba(0,0,0,.3); margin-bottom: 16px; }
+  .section-tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; padding: 3px 12px; border-radius: 20px; background: #fff8e8; color: #f7971e; margin-bottom: 14px; }
+  .q-num { font-size: 12px; color: #adb5bd; font-weight: 700; margin-bottom: 6px; }
+  .q-text { font-size: 15px; font-weight: 700; color: #1a1a2e; line-height: 1.6; margin-bottom: 20px; }
+  .q-text em { font-style: normal; background: #fff8e8; color: #f7971e; padding: 1px 6px; border-radius: 6px; font-weight: 900; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option { border: 2px solid #e9ecef; border-radius: 12px; padding: 12px 16px; font-size: 14px; color: #495057; cursor: pointer; transition: all .2s; display: flex; align-items: flex-start; gap: 12px; font-weight: 600; background: #fff; -webkit-tap-highlight-color: transparent; line-height: 1.5; }
+  .option:hover { border-color: #f7971e; background: #fffaf0; }
+  .option.selected { border-color: #f7971e; background: #fff8e8; color: #1a1a2e; }
+  .option-letter { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; flex-shrink: 0; color: #6c757d; margin-top: 1px; }
+  .option.selected .option-letter { background: #f7971e; color: #fff; }
+  .hint { background: #fffbea; border-left: 4px solid #f5a623; border-radius: 0 10px 10px 0; padding: 10px 14px; font-size: 13px; color: #7a5800; margin-bottom: 16px; line-height: 1.6; }
+  .nav-btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; transition: transform .15s; margin-top: 16px; }
+  .nav-btn:active { transform: scale(.97); }
+  .btn-next { background: linear-gradient(90deg, #f7971e, #ffd200); color: #1a1a2e; }
+  .btn-result { background: linear-gradient(90deg, #0f3460, #4a90d9); color: #fff; }
+  .btn-disabled { opacity: .4; cursor: not-allowed; }
+
+  .start-screen { text-align: center; padding: 10px 0 20px; }
+  .start-screen h2 { font-size: 20px; color: #1a1a2e; margin-bottom: 12px; }
+  .start-screen p { font-size: 14px; color: #6c757d; line-height: 1.6; margin-bottom: 8px; }
+  .rules-list { text-align: left; background: #f8f9fa; border-radius: 12px; padding: 14px 18px; margin: 16px 0; font-size: 13px; color: #495057; line-height: 2; }
+  .btn-start { background: linear-gradient(90deg, #f7971e, #ffd200); color: #1a1a2e; border: none; border-radius: 14px; padding: 15px 40px; font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(247,151,30,.4); transition: transform .15s; }
+  .btn-start:active { transform: scale(.97); }
+
+  .results-screen { text-align: center; }
+  .score-circle { width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 900; border: 8px solid; }
+  .score-num { font-size: 38px; }
+  .score-lbl { font-size: 12px; opacity: .7; }
+  .score-excellent { border-color: #28a745; color: #28a745; background: #e8fff0; }
+  .score-bien { border-color: #f5a623; color: #f5a623; background: #fff8e8; }
+  .score-moyen { border-color: #e94560; color: #e94560; background: #fff0f0; }
+  .result-msg { font-size: 18px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .result-sub { font-size: 14px; color: #6c757d; margin-bottom: 24px; }
+  .wrong-section { text-align: left; margin-bottom: 20px; }
+  .wrong-title { font-size: 13px; font-weight: 800; color: #e94560; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
+  .wrong-item { background: #fff5f5; border-left: 4px solid #e94560; border-radius: 0 10px 10px 0; padding: 10px 14px; margin-bottom: 10px; font-size: 13px; color: #495057; line-height: 1.7; }
+  .wrong-item strong { color: #1a1a2e; display: block; margin-bottom: 4px; }
+  .correct { color: #28a745; font-weight: 700; }
+  .correct-section { text-align: left; margin-bottom: 20px; }
+  .correct-title { font-size: 13px; font-weight: 800; color: #28a745; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+  .all-good { background: #e8fff0; border-radius: 12px; padding: 14px; font-size: 14px; color: #28a745; font-weight: 700; text-align: center; }
+  .share-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 15px; border: none; border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; background: #25D366; color: #fff; box-shadow: 0 6px 20px rgba(37,211,102,.4); transition: transform .15s; margin-bottom: 10px; }
+  .share-btn:active { transform: scale(.97); }
+  .copy-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 13px; border: 2px solid #e9ecef; border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; background: #fff; color: #495057; margin-bottom: 16px; }
+  .copy-btn:active { transform: scale(.97); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div id="startScreen" class="card">
+    <div class="start-screen">
+      <div style="font-size:48px;margin-bottom:12px;">⚡</div>
+      <h2>L'Énergie – Chapitre 4</h2>
+      <p>Sciences Physiques · Sources, formes, transferts et conversions · 5ème</p>
+      <div class="rules-list">
+        📌 20 questions à choix multiples<br>
+        🔕 Pas de correction pendant le quiz<br>
+        📊 Résultats détaillés à la fin<br>
+        📱 Envoie tes résultats à papa sur WhatsApp
+      </div>
+      <button class="btn-start" onclick="startQuiz()">▶ Démarrer le quiz</button>
+    </div>
+  </div>
+
+  <div id="quizScreen" class="hidden">
+    <div class="header">
+      <h1>⚡ Sciences Physiques</h1>
+      <p>Chapitre 4 – L'Énergie</p>
+      <span class="badge" id="questionCounter">Question 1 / 20</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:5%"></div>
+    </div>
+    <div class="card" id="questionCard">
+      <div class="section-tag" id="sectionTag"></div>
+      <div class="q-num" id="qNum"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="hint hidden" id="hintBox"></div>
+      <div class="options" id="optionsContainer"></div>
+      <button class="nav-btn btn-next btn-disabled" id="nextBtn" onclick="nextQuestion()">Suivant →</button>
+    </div>
+  </div>
+
+  <div id="resultsScreen" class="hidden">
+    <div class="header"><h1>📊 Résultats</h1><p>L'Énergie – Chapitre 4</p></div>
+    <div class="card results-screen">
+      <div class="score-circle" id="scoreCircle"><div class="score-num" id="scoreNum"></div><div class="score-lbl">/ 20</div></div>
+      <div class="result-msg" id="resultMsg"></div>
+      <div class="result-sub" id="resultSub"></div>
+      <hr style="border:none;border-top:1px solid #f0f0f0;margin:20px 0;">
+      <div class="wrong-section" id="wrongSection"><div class="wrong-title">❌ Questions à retravailler</div><div id="wrongList"></div></div>
+      <div class="correct-section"><div class="correct-title">✅ Questions réussies</div><div id="correctList"></div></div>
+      <button class="share-btn" onclick="shareWhatsApp()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Envoyer à papa (WhatsApp)
+      </button>
+      <button class="copy-btn" onclick="copyResults()">📋 Copier les résultats</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  /* ── SOURCES D'ÉNERGIE ── */
+  {
+    section: "🌍 Sources d'énergie",
+    q: "Quelle est la définition d'une <em>ressource en énergie renouvelable</em> ?",
+    hint: "Pense à ce que signifie « inépuisable à l'échelle de la vie humaine ».",
+    options: [
+      "Une ressource fabriquée par l'être humain en laboratoire",
+      "Une ressource dont l'origine est la nature et qui est inépuisable à l'échelle de la vie humaine",
+      "Une ressource qui se renouvelle tous les 100 ans",
+      "Une ressource stockée dans le sous-sol terrestre"
+    ],
+    answer: 1,
+    explain: "Renouvelable = origine naturelle + inépuisable à l'échelle de la vie humaine. Exemples : Soleil, vent, eau, biomasse, géothermie."
+  },
+  {
+    section: "🌍 Sources d'énergie",
+    q: "Parmi ces sources d'énergie, lesquelles sont <em>renouvelables</em> ?",
+    hint: "Les renouvelables viennent de la nature et ne s'épuisent pas.",
+    options: [
+      "Charbon, pétrole, gaz naturel",
+      "Uranium, charbon, biomasse",
+      "Soleil, vent, eau, biomasse, Terre",
+      "Pétrole, vent, uranium"
+    ],
+    answer: 2,
+    explain: "Les 5 sources renouvelables du cours : Soleil, Terre (géothermie), Biomasse, Eau, Vent. Le charbon, pétrole, gaz naturel et uranium sont NON renouvelables."
+  },
+  {
+    section: "🌍 Sources d'énergie",
+    q: "Qu'est-ce qu'une <em>ressource en énergie fossile</em> ?",
+    hint: "Le mot « fossile » vient du latin fossilis = extrait du sol.",
+    options: [
+      "Une ressource renouvelable provenant des fossiles d'animaux marins",
+      "Une ressource non renouvelable formée à partir de la décomposition de matière organique pendant des millions d'années",
+      "Toute ressource provenant du sous-sol terrestre",
+      "Une ressource provenant du rayonnement solaire"
+    ],
+    answer: 1,
+    explain: "Fossile = formé à partir de la décomposition de matière organique pendant des millions d'années. Exemples : gaz naturel, charbon, pétrole. Ce sont des énergies NON renouvelables."
+  },
+  {
+    section: "🌍 Sources d'énergie",
+    q: "L'uranium est une ressource en énergie <em>fissile</em>. Que signifie ce terme ?",
+    hint: "Fissile vient de « fission » = casser.",
+    options: [
+      "On peut brûler l'uranium pour produire de la chaleur, comme le charbon",
+      "On peut casser les atomes d'uranium pour libérer de l'énergie et de la chaleur",
+      "L'uranium se renouvelle naturellement dans les mines",
+      "L'uranium est une source d'énergie renouvelable"
+    ],
+    answer: 1,
+    explain: "Fissile = on peut casser (fissionner) les atomes pour libérer une grande quantité d'énergie. C'est le principe des centrales nucléaires. L'uranium est NON renouvelable."
+  },
+  {
+    section: "🌍 Sources d'énergie",
+    q: "Laquelle de ces affirmations sur les ressources <em>non renouvelables</em> est correcte ?",
+    hint: null,
+    options: [
+      "Elles se régénèrent en quelques années",
+      "Elles sont inépuisables à l'échelle humaine",
+      "Elles existent en quantité limitée sur Terre et ne se renouvellent pas à l'échelle de la vie humaine",
+      "Le vent et le soleil en font partie"
+    ],
+    answer: 2,
+    explain: "Non renouvelable = quantité limitée + ne se renouvelle pas à l'échelle de la vie humaine. Exemples : charbon, pétrole, gaz naturel (fossiles) et uranium (fissile)."
+  },
+
+  /* ── FORMES D'ÉNERGIE ── */
+  {
+    section: "⚡ Formes d'énergie",
+    q: "L'<em>énergie thermique</em> est liée à :",
+    hint: "Thermique vient du grec thermos = chaud.",
+    options: [
+      "La vitesse d'un objet en déplacement",
+      "La température d'un objet",
+      "La circulation d'un courant électrique",
+      "L'altitude d'un objet"
+    ],
+    answer: 1,
+    explain: "Énergie thermique = liée à la température d'un objet. Un objet chaud possède plus d'énergie thermique qu'un objet froid."
+  },
+  {
+    section: "⚡ Formes d'énergie",
+    q: "L'<em>énergie cinétique</em> est liée à :",
+    hint: "Cinétique vient du grec kinetikos = qui concerne le mouvement.",
+    options: [
+      "La matière dont est fait un objet",
+      "La lumière émise par un objet",
+      "La vitesse d'un objet en déplacement",
+      "La température d'un objet"
+    ],
+    answer: 2,
+    explain: "Énergie cinétique = liée à la vitesse d'un objet en déplacement. Plus un objet va vite, plus son énergie cinétique est grande. Exemple : une voiture qui roule, un ballon en mouvement."
+  },
+  {
+    section: "⚡ Formes d'énergie",
+    q: "Un panneau solaire photovoltaïque reçoit de la lumière du Soleil. Quelle forme d'énergie reçoit-il ?",
+    hint: "Pense à ce qui est « lié à la lumière ».",
+    options: [
+      "Énergie cinétique",
+      "Énergie thermique",
+      "Énergie chimique",
+      "Énergie lumineuse"
+    ],
+    answer: 3,
+    explain: "Énergie lumineuse = liée à la lumière (rayonnement). Le Soleil émet de l'énergie lumineuse qui est captée par le panneau photovoltaïque."
+  },
+  {
+    section: "⚡ Formes d'énergie",
+    q: "L'<em>énergie chimique</em> est liée à :",
+    hint: "Pense à ce qui se passe lors d'une réaction chimique (combustion, digestion...).",
+    options: [
+      "La vitesse d'une réaction",
+      "La matière dont est fait l'objet",
+      "La lumière émise lors d'une réaction",
+      "La chaleur dégagée par un objet"
+    ],
+    answer: 1,
+    explain: "Énergie chimique = liée à la matière (à sa composition chimique). Une batterie, de l'essence, des aliments contiennent de l'énergie chimique."
+  },
+  {
+    section: "⚡ Formes d'énergie",
+    q: "Associe chaque forme d'énergie à sa définition. Quelle paire est <em>incorrecte</em> ?",
+    hint: "Vérifie chaque association soigneusement.",
+    options: [
+      "Énergie électrique → liée à la circulation d'un courant électrique ✓",
+      "Énergie thermique → liée à la température d'un objet ✓",
+      "Énergie cinétique → liée à l'altitude d'un objet ✗",
+      "Énergie lumineuse → liée à la lumière (rayonnement) ✓"
+    ],
+    answer: 2,
+    explain: "L'énergie cinétique est liée à la VITESSE d'un objet, pas à son altitude. C'est l'énergie POTENTIELLE qui est liée à l'altitude (mais elle n'est pas étudiée en 5ème)."
+  },
+
+  /* ── TRANSFERT ET CONVERSION ── */
+  {
+    section: "🔄 Transfert et conversion",
+    q: "Quelle est la différence entre un <em>transfert</em> et une <em>conversion</em> d'énergie ?",
+    hint: "Dans un transfert, la forme reste la même. Dans une conversion, elle change.",
+    options: [
+      "Il n'y a aucune différence entre les deux",
+      "Le transfert change la forme de l'énergie, la conversion non",
+      "Le transfert = passage d'une même forme d'énergie d'un objet à un autre ; la conversion = transformation d'une forme en une autre",
+      "Le transfert concerne l'électricité, la conversion concerne la chaleur"
+    ],
+    answer: 2,
+    explain: "Transfert : même forme d'énergie, mais elle passe d'un objet à un autre (ex : une flamme chauffe une casserole → énergie thermique transférée). Conversion : la forme change grâce à un convertisseur (ex : panneau solaire → énergie lumineuse → électrique)."
+  },
+  {
+    section: "🔄 Transfert et conversion",
+    q: "Une lampe de bureau éclaire le sol. C'est un exemple de :",
+    hint: "La lampe transforme-t-elle une forme d'énergie en une autre, ou transfère-t-elle la même forme ?",
+    options: [
+      "Transfert thermique (la lampe chauffe le sol)",
+      "Transfert lumineux (la lumière passe de la lampe vers le sol)",
+      "Conversion de l'énergie chimique en énergie lumineuse",
+      "Conversion de l'énergie cinétique en énergie lumineuse"
+    ],
+    answer: 1,
+    explain: "La lumière reste de l'énergie lumineuse, elle passe juste de la lampe vers le sol → c'est un TRANSFERT lumineux. Mais attention : la lampe elle-même fait une conversion (énergie électrique → lumineuse + thermique)."
+  },
+  {
+    section: "🔄 Transfert et conversion",
+    q: "Une borne de recharge électrique recharge une voiture électrique. C'est un exemple de :",
+    hint: "La forme d'énergie change-t-elle ?",
+    options: [
+      "Conversion d'énergie électrique en énergie cinétique",
+      "Transfert d'énergie électrique de la borne vers la voiture",
+      "Conversion d'énergie chimique en énergie électrique",
+      "Transfert d'énergie thermique"
+    ],
+    answer: 1,
+    explain: "L'énergie électrique reste électrique, elle passe de la borne à la batterie de la voiture → c'est un TRANSFERT électrique. La voiture fera ensuite une conversion (électrique → cinétique) pour avancer."
+  },
+  {
+    section: "🔄 Transfert et conversion",
+    q: "L'énergie peut-elle être créée à partir de rien ou détruite complètement ?",
+    hint: "C'est un principe fondamental de la physique.",
+    options: [
+      "Oui, une centrale électrique crée de l'énergie",
+      "Oui, l'énergie peut être détruite dans une réaction chimique",
+      "Non, l'énergie ne peut pas être créée ni détruite, elle se transforme ou se transfère",
+      "Cela dépend du type d'énergie"
+    ],
+    answer: 2,
+    explain: "C'est la loi de conservation de l'énergie : l'énergie ne peut pas être créée ni détruite. Elle se transforme (conversion) ou se transfère. Une centrale ne crée pas d'énergie, elle la convertit."
+  },
+  {
+    section: "🔄 Transfert et conversion",
+    q: "Dans un système, on distingue l'énergie utile et l'énergie perdue. Qu'est-ce que l'<em>énergie perdue</em> ?",
+    hint: "Pense à ce qu'on ne voulait pas produire mais qu'on produit quand même.",
+    options: [
+      "L'énergie stockée dans une batterie",
+      "L'énergie qui disparaît définitivement",
+      "L'énergie produite sous une forme non désirée (souvent thermique)",
+      "L'énergie fournie au convertisseur"
+    ],
+    answer: 2,
+    explain: "L'énergie perdue = produite sous une forme non souhaitée, le plus souvent sous forme thermique (chaleur). Ex : une ampoule produit de la lumière (utile) ET de la chaleur (perdue)."
+  },
+
+  /* ── CHAÎNE ÉNERGÉTIQUE ── */
+  {
+    section: "🔗 Chaîne énergétique",
+    q: "Qu'est-ce qu'une <em>chaîne énergétique</em> ?",
+    hint: null,
+    options: [
+      "Une liste des prix de l'énergie électrique",
+      "Un schéma représentant les transferts, conversions, formes et ressources d'énergie d'un système",
+      "Un câble qui transporte l'électricité d'une centrale à une maison",
+      "L'ensemble des centrales électriques d'un pays"
+    ],
+    answer: 1,
+    explain: "La chaîne énergétique est une représentation schématique des transferts et conversions, des formes et des ressources en énergie mises en jeu dans un système."
+  },
+  {
+    section: "🔗 Chaîne énergétique",
+    q: "Un panneau photovoltaïque reçoit de la lumière solaire et produit de l'électricité (+ un peu de chaleur). Quelle est la <em>conversion</em> réalisée ?",
+    hint: "Identifie la forme d'énergie en entrée et les formes en sortie.",
+    options: [
+      "Énergie électrique → Énergie lumineuse + Énergie thermique",
+      "Énergie lumineuse → Énergie électrique + Énergie thermique",
+      "Énergie thermique → Énergie lumineuse + Énergie électrique",
+      "Énergie chimique → Énergie électrique"
+    ],
+    answer: 1,
+    explain: "Entrée : énergie lumineuse (soleil). Sortie utile : énergie électrique. Sortie perdue : énergie thermique (chaleur). Le panneau est le convertisseur. C'est l'exemple du cours !"
+  },
+  {
+    section: "🔗 Chaîne énergétique",
+    q: "Dans la chaîne énergétique d'un panneau photovoltaïque, quel est le <em>convertisseur</em> ?",
+    hint: "Le convertisseur est l'objet qui transforme une forme d'énergie en une autre.",
+    options: [
+      "Le Soleil",
+      "L'énergie électrique",
+      "Le panneau photovoltaïque lui-même",
+      "Le câble électrique"
+    ],
+    answer: 2,
+    explain: "Le convertisseur est l'objet qui réalise la conversion. Ici, c'est le panneau photovoltaïque qui transforme l'énergie lumineuse en énergie électrique (+ thermique perdue)."
+  },
+  {
+    section: "🔗 Chaîne énergétique",
+    q: "Un four électrique chauffe des aliments. Quelle conversion d'énergie réalise-t-il ?",
+    hint: "Qu'est-ce qui entre dans le four ? Qu'est-ce qui en sort (utile) ?",
+    options: [
+      "Énergie thermique → Énergie électrique",
+      "Énergie chimique → Énergie thermique",
+      "Énergie électrique → Énergie thermique (+ un peu d'énergie lumineuse)",
+      "Énergie lumineuse → Énergie thermique"
+    ],
+    answer: 2,
+    explain: "Le four reçoit de l'énergie électrique et la convertit en énergie thermique (chaleur) pour cuire les aliments. Il produit aussi un peu de lumière (résistances qui rougissent) → énergie lumineuse perdue."
+  },
+  {
+    section: "🔗 Chaîne énergétique",
+    q: "Une éolienne transforme l'énergie du vent en électricité. Quelle est la source d'énergie utilisée et quelle conversion est réalisée ?",
+    hint: "Le vent est un objet en mouvement → quelle forme d'énergie ?",
+    options: [
+      "Source : air (énergie chimique) → énergie électrique",
+      "Source : vent (énergie cinétique) → énergie électrique + énergie thermique",
+      "Source : vent (énergie lumineuse) → énergie électrique",
+      "Source : Terre (énergie thermique) → énergie électrique"
+    ],
+    answer: 1,
+    explain: "Le vent est de l'air en mouvement → énergie cinétique. L'éolienne convertit cette énergie cinétique en énergie électrique (utile) + un peu d'énergie thermique (perdue dans les frottements). La source est renouvelable."
+  }
+];
+
+let current = 0, answers = [];
+
+function startQuiz() {
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = QUESTIONS[current], total = QUESTIONS.length;
+  document.getElementById('questionCounter').textContent = `Question ${current+1} / ${total}`;
+  document.getElementById('progressBar').style.width = `${((current+1)/total)*100}%`;
+  document.getElementById('sectionTag').textContent = q.section;
+  document.getElementById('qNum').textContent = `Question ${current+1}`;
+  document.getElementById('qText').innerHTML = q.q;
+  const hb = document.getElementById('hintBox');
+  if (q.hint) { hb.textContent = '💡 '+q.hint; hb.classList.remove('hidden'); } else { hb.classList.add('hidden'); }
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  ['A','B','C','D'].forEach((l, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option' + (answers[current]===i?' selected':'');
+    btn.innerHTML = `<span class="option-letter">${l}</span><span>${q.options[i]}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    container.appendChild(btn);
+  });
+  const nb = document.getElementById('nextBtn'), isLast = current===total-1;
+  nb.textContent = isLast ? 'Voir mes résultats 🎯' : 'Suivant →';
+  nb.className = `nav-btn ${isLast?'btn-result':'btn-next'}${answers[current]===undefined?' btn-disabled':''}`;
+}
+
+function selectAnswer(idx) {
+  answers[current] = idx;
+  document.querySelectorAll('.option').forEach((b,i)=>b.classList.toggle('selected',i===idx));
+  const isLast = current===QUESTIONS.length-1;
+  document.getElementById('nextBtn').className = `nav-btn ${isLast?'btn-result':'btn-next'}`;
+}
+
+function nextQuestion() {
+  if (answers[current]===undefined) return;
+  if (current<QUESTIONS.length-1) { current++; showQuestion(); } else showResults();
+}
+
+function showResults() {
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('resultsScreen').classList.remove('hidden');
+  let score=0; const wrongs=[];
+  QUESTIONS.forEach((q,i)=>{ if(answers[i]===q.answer) score++; else wrongs.push({i,q,chosen:answers[i]}); });
+  const pct=score/QUESTIONS.length, circle=document.getElementById('scoreCircle');
+  document.getElementById('scoreNum').textContent=score;
+  if(pct>=.8){circle.className='score-circle score-excellent';document.getElementById('resultMsg').textContent=score===20?'🏆 Parfait !':'🎉 Excellent !';}
+  else if(pct>=.6){circle.className='score-circle score-bien';document.getElementById('resultMsg').textContent='👍 Bon résultat !';}
+  else{circle.className='score-circle score-moyen';document.getElementById('resultMsg').textContent='💪 À retravailler !';}
+  document.getElementById('resultSub').textContent=pct>=.8?'Tu maîtrises bien le chapitre Énergie !':pct>=.6?'Quelques notions à revoir.':'Relis le cours et recommence.';
+  const wl=document.getElementById('wrongList'),cl=document.getElementById('correctList'),ws=document.getElementById('wrongSection');
+  wl.innerHTML='';
+  if(wrongs.length===0){ws.classList.add('hidden');cl.innerHTML='<div class="all-good">🌟 Toutes les questions réussies !</div>';}
+  else{ws.classList.remove('hidden');wrongs.forEach(({i,q,chosen})=>{const d=document.createElement('div');d.className='wrong-item';d.innerHTML=`<strong>Q${i+1} – ${q.q.replace(/<[^>]+>/g,'').substring(0,70)}...</strong>Ta réponse : <span style="color:#e94560;font-weight:700;">${chosen!==undefined?q.options[chosen]:'—'}</span><br><span class="correct">✅ ${q.options[q.answer]}</span><br><em style="color:#888;font-size:12px;">${q.explain}</em>`;wl.appendChild(d);});cl.innerHTML=`<div class="all-good" style="background:#f8f9fa;color:#495057;">✅ ${score} question${score>1?'s':''} réussie${score>1?'s':''} sur 20</div>`;}
+  window._quizScore=score; window._quizWrongs=wrongs;
+}
+
+function buildMessage(){
+  const score=window._quizScore,wrongs=window._quizWrongs,pct=Math.round(score/20*100);
+  let msg=`${pct>=80?'🏆':pct>=60?'👍':'💪'} Quiz Physique – L'Énergie (Chap. 4)\nScore : ${score}/20 (${pct}%)\n`;
+  if(wrongs.length===0){msg+='✅ Aucune faute !';}
+  else{msg+='\nQuestions ratées :\n';wrongs.forEach(({i,q,chosen})=>{msg+=`• Q${i+1} – Réponse : « ${chosen!==undefined?q.options[chosen]:'—'} » → Bonne : « ${q.options[q.answer]} »\n`;});}
+  return msg;
+}
+function shareWhatsApp(){window.open('https://wa.me/?text='+encodeURIComponent(buildMessage()),'_blank');}
+function copyResults(){const msg=buildMessage();if(navigator.clipboard)navigator.clipboard.writeText(msg).then(()=>alert('Copié !'));else{const ta=document.createElement('textarea');ta.value=msg;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Copié !');}}
+</script>
+</body>
+</html>
