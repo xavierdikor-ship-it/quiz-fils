@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – L'Énergie (Niveau Expert)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; padding: 20px 16px 60px; }
+  .container { max-width: 700px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 28px; }
+  .header h1 { color: #fff; font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+  .header p { color: rgba(255,255,255,.65); font-size: 14px; }
+  .badge { display: inline-block; background: rgba(255,255,255,.15); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-top: 8px; letter-spacing: .5px; }
+  .progress-bar-wrap { background: rgba(255,255,255,.15); border-radius: 99px; height: 7px; margin-bottom: 24px; }
+  .progress-bar-fill { height: 7px; border-radius: 99px; background: linear-gradient(90deg, #e94560, #f7971e); transition: width .4s ease; }
+  .card { background: #fff; border-radius: 20px; padding: 28px 24px; box-shadow: 0 12px 40px rgba(0,0,0,.3); margin-bottom: 16px; }
+  .section-tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; padding: 3px 12px; border-radius: 20px; background: #fff0f0; color: #e94560; margin-bottom: 14px; }
+  .expert-badge { display: inline-flex; align-items: center; gap: 5px; background: #1a1a2e; color: #ffd200; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; margin-bottom: 14px; margin-left: 6px; }
+  .q-num { font-size: 12px; color: #adb5bd; font-weight: 700; margin-bottom: 6px; }
+  .q-text { font-size: 15px; font-weight: 700; color: #1a1a2e; line-height: 1.6; margin-bottom: 18px; }
+  .q-text em { font-style: normal; background: #fff0f0; color: #e94560; padding: 1px 6px; border-radius: 6px; font-weight: 900; }
+  .scenario { display: block; background: #f8f9fa; border-left: 4px solid #e94560; border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 10px 0 16px; font-size: 13px; color: #1a1a2e; line-height: 1.8; font-weight: 600; }
+  .scenario .arrow { color: #e94560; font-weight: 900; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option { border: 2px solid #e9ecef; border-radius: 12px; padding: 12px 16px; font-size: 13.5px; color: #495057; cursor: pointer; transition: all .2s; display: flex; align-items: flex-start; gap: 12px; font-weight: 600; background: #fff; -webkit-tap-highlight-color: transparent; line-height: 1.5; }
+  .option:hover { border-color: #e94560; background: #fff5f5; }
+  .option.selected { border-color: #e94560; background: #fff0f0; color: #1a1a2e; }
+  .option-letter { width: 28px; height: 28px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; flex-shrink: 0; color: #6c757d; margin-top: 1px; }
+  .option.selected .option-letter { background: #e94560; color: #fff; }
+  .hint { background: #fffbea; border-left: 4px solid #f5a623; border-radius: 0 10px 10px 0; padding: 10px 14px; font-size: 13px; color: #7a5800; margin-bottom: 16px; line-height: 1.6; }
+  .nav-btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; transition: transform .15s; margin-top: 16px; }
+  .nav-btn:active { transform: scale(.97); }
+  .btn-next { background: linear-gradient(90deg, #e94560, #f7971e); color: #fff; }
+  .btn-result { background: linear-gradient(90deg, #0f3460, #4a90d9); color: #fff; }
+  .btn-disabled { opacity: .4; cursor: not-allowed; }
+  .start-screen { text-align: center; padding: 10px 0 20px; }
+  .start-screen h2 { font-size: 20px; color: #1a1a2e; margin-bottom: 12px; }
+  .challenge-box { background: #fff0f0; border-radius: 12px; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #7a0000; line-height: 1.9; text-align: left; border: 1px solid #e94560; }
+  .challenge-box strong { display: block; margin-bottom: 6px; color: #1a1a2e; font-size: 14px; }
+  .rules-list { text-align: left; background: #f8f9fa; border-radius: 12px; padding: 14px 18px; margin: 16px 0; font-size: 13px; color: #495057; line-height: 2; }
+  .btn-start { background: linear-gradient(90deg, #e94560, #f7971e); color: #fff; border: none; border-radius: 14px; padding: 15px 40px; font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(233,69,96,.4); transition: transform .15s; }
+  .btn-start:active { transform: scale(.97); }
+  .results-screen { text-align: center; }
+  .score-circle { width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 900; border: 8px solid; }
+  .score-num { font-size: 38px; } .score-lbl { font-size: 12px; opacity: .7; }
+  .score-excellent { border-color: #28a745; color: #28a745; background: #e8fff0; }
+  .score-bien { border-color: #f5a623; color: #f5a623; background: #fff8e8; }
+  .score-moyen { border-color: #e94560; color: #e94560; background: #fff0f0; }
+  .result-msg { font-size: 18px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .result-sub { font-size: 14px; color: #6c757d; margin-bottom: 24px; }
+  .wrong-section { text-align: left; margin-bottom: 20px; }
+  .wrong-title { font-size: 13px; font-weight: 800; color: #e94560; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
+  .wrong-item { background: #fff5f5; border-left: 4px solid #e94560; border-radius: 0 10px 10px 0; padding: 10px 14px; margin-bottom: 10px; font-size: 13px; color: #495057; line-height: 1.7; }
+  .wrong-item strong { color: #1a1a2e; display: block; margin-bottom: 4px; }
+  .correct-section { text-align: left; margin-bottom: 20px; }
+  .correct-title { font-size: 13px; font-weight: 800; color: #28a745; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+  .all-good { background: #e8fff0; border-radius: 12px; padding: 14px; font-size: 14px; color: #28a745; font-weight: 700; text-align: center; }
+  .share-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 15px; border: none; border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; background: #25D366; color: #fff; box-shadow: 0 6px 20px rgba(37,211,102,.4); transition: transform .15s; margin-bottom: 10px; }
+  .share-btn:active { transform: scale(.97); }
+  .copy-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 13px; border: 2px solid #e9ecef; border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; background: #fff; color: #495057; margin-bottom: 16px; }
+  .copy-btn:active { transform: scale(.97); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div id="startScreen" class="card">
+    <div class="start-screen">
+      <div style="font-size:48px;margin-bottom:12px;">🔥</div>
+      <h2>L'Énergie – Niveau Expert</h2>
+      <p>Sciences Physiques · Chapitre 4 · 5ème</p>
+      <div class="challenge-box">
+        <strong>⚠️ Ce quiz est plus difficile que le précédent :</strong>
+        🔗 Chaînes énergétiques complètes à analyser<br>
+        🐛 Erreurs cachées à détecter dans des schémas<br>
+        🤔 Cas ambigus : transfert ou conversion ?<br>
+        ⚡ Systèmes à plusieurs conversions en cascade<br>
+        💡 Raisonnement sur l'énergie utile vs perdue
+      </div>
+      <div class="rules-list">
+        📌 20 questions de niveau élevé<br>
+        🔕 Pas de correction pendant le quiz<br>
+        📊 Résultats détaillés à la fin<br>
+        📱 Envoie tes résultats à papa sur WhatsApp
+      </div>
+      <button class="btn-start" onclick="startQuiz()">▶ Relever le défi</button>
+    </div>
+  </div>
+
+  <div id="quizScreen" class="hidden">
+    <div class="header">
+      <h1>⚡ L'Énergie – Expert</h1>
+      <p>Chaînes · Conversions · Raisonnement</p>
+      <span class="badge" id="questionCounter">Question 1 / 20</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:5%"></div>
+    </div>
+    <div class="card" id="questionCard">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:14px;">
+        <div class="section-tag" id="sectionTag"></div>
+        <div class="expert-badge" id="expertBadge" style="display:none">⭐ Expert</div>
+      </div>
+      <div class="q-num" id="qNum"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="hint hidden" id="hintBox"></div>
+      <div class="options" id="optionsContainer"></div>
+      <button class="nav-btn btn-next btn-disabled" id="nextBtn" onclick="nextQuestion()">Suivant →</button>
+    </div>
+  </div>
+
+  <div id="resultsScreen" class="hidden">
+    <div class="header"><h1>📊 Résultats</h1><p>L'Énergie – Niveau Expert</p></div>
+    <div class="card results-screen">
+      <div class="score-circle" id="scoreCircle"><div class="score-num" id="scoreNum"></div><div class="score-lbl">/ 20</div></div>
+      <div class="result-msg" id="resultMsg"></div>
+      <div class="result-sub" id="resultSub"></div>
+      <hr style="border:none;border-top:1px solid #f0f0f0;margin:20px 0;">
+      <div class="wrong-section" id="wrongSection"><div class="wrong-title">❌ Questions à retravailler</div><div id="wrongList"></div></div>
+      <div class="correct-section"><div class="correct-title">✅ Questions réussies</div><div id="correctList"></div></div>
+      <button class="share-btn" onclick="shareWhatsApp()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Envoyer à papa (WhatsApp)
+      </button>
+      <button class="copy-btn" onclick="copyResults()">📋 Copier les résultats</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  /* ── CHAÎNES COMPLÈTES ── */
+  {
+    section: "🔗 Chaîne énergétique complète", expert: true,
+    q: "Analyse la chaîne énergétique d'un vélo.<span class='scenario'>Nourriture (muscles du cycliste) <span class='arrow'>→</span> Muscles <span class='arrow'>→</span> Mouvement du vélo + Chaleur corporelle</span>Quelle affirmation est <em>entièrement correcte</em> ?",
+    hint: "La nourriture contient de l'énergie sous quelle forme ? Les muscles sont le convertisseur.",
+    options: [
+      "Source : renouvelable · Conversion : thermique → cinétique · Énergie utile : thermique",
+      "Source : fossile · Transfert : chimique → cinétique · Énergie perdue : lumineuse",
+      "Source : biomasse (renouvelable) · Conversion : chimique → cinétique (utile) + thermique (perdue) · Convertisseur : muscles",
+      "Source : fossile · Conversion : cinétique → chimique · Énergie utile : cinétique"
+    ],
+    answer: 2,
+    explain: "La nourriture est de la biomasse (renouvelable). Les muscles convertissent l'énergie chimique (aliments) en énergie cinétique (mouvement = utile) + thermique (chaleur corporelle = perdue). Les muscles sont le convertisseur."
+  },
+  {
+    section: "🔗 Chaîne énergétique complète", expert: true,
+    q: "Analyse la chaîne d'une centrale nucléaire :<span class='scenario'>Uranium <span class='arrow'>→</span> Réacteur <span class='arrow'>→</span> Vapeur <span class='arrow'>→</span> Turbine/alternateur <span class='arrow'>→</span> Électricité</span>Quelle est la source d'énergie et quel type de ressource est-ce ?",
+    hint: "L'uranium peut-il se renouveler à l'échelle de la vie humaine ?",
+    options: [
+      "Source : eau (renouvelable) — la vapeur vient de l'eau",
+      "Source : uranium (fissile, non renouvelable) — on casse ses atomes pour libérer de l'énergie",
+      "Source : uranium (fossile, non renouvelable) — il vient de la décomposition de matière organique",
+      "Source : chaleur de la Terre (renouvelable) — géothermie"
+    ],
+    answer: 1,
+    explain: "L'uranium est une ressource FISSILE (on fissionne ses atomes) et NON RENOUVELABLE. Attention : fossile ≠ fissile ! Fossile = charbon/pétrole/gaz (décomposition de matière organique). Fissile = uranium (fission nucléaire)."
+  },
+  {
+    section: "🔗 Chaîne énergétique complète", expert: true,
+    q: "Un smartphone se recharge sur secteur, puis son écran s'allume. Identifie les <em>deux conversions successives</em>.",
+    hint: "1re conversion : secteur → batterie. 2e conversion : batterie → écran. Quelles formes d'énergie ?",
+    options: [
+      "1re : électrique → lumineuse · 2e : lumineuse → chimique",
+      "1re : électrique → chimique (stockage dans la batterie) · 2e : chimique → électrique → lumineuse + thermique",
+      "1re : chimique → électrique · 2e : électrique → lumineuse",
+      "1re : électrique → électrique (transfert) · 2e : électrique → lumineuse"
+    ],
+    answer: 1,
+    explain: "Charge : énergie électrique (secteur) → énergie chimique (stockée dans la batterie). Utilisation de l'écran : chimique → électrique → lumineuse (utile, l'écran brille) + thermique (perdue, le téléphone chauffe)."
+  },
+  {
+    section: "🔗 Chaîne énergétique complète", expert: true,
+    q: "Chaîne complète d'une éolienne jusqu'à une ampoule LED :<span class='scenario'>Vent <span class='arrow'>→</span> Éolienne <span class='arrow'>→</span> Réseau électrique <span class='arrow'>→</span> Ampoule LED <span class='arrow'>→</span> Lumière</span>Combien y a-t-il de <em>conversions</em> et combien de <em>transferts</em> dans cette chaîne ?",
+    hint: "Conversion = changement de forme. Transfert = même forme, autre objet.",
+    options: [
+      "3 conversions, 0 transfert",
+      "1 conversion (cinétique→électrique), 1 transfert (réseau), 1 conversion (électrique→lumineuse) = 2 conversions + 1 transfert",
+      "0 conversion, 3 transferts",
+      "2 conversions, 2 transferts"
+    ],
+    answer: 1,
+    explain: "Éolienne : énergie cinétique (vent) → électrique = CONVERSION. Réseau électrique : énergie électrique transportée sans changer de forme = TRANSFERT. Ampoule LED : électrique → lumineuse (+thermique) = CONVERSION. Total : 2 conversions + 1 transfert."
+  },
+
+  /* ── DÉTECTION D'ERREURS ── */
+  {
+    section: "🐛 Détecte l'erreur", expert: true,
+    q: "Un élève décrit la chaîne d'un panneau photovoltaïque :<span class='scenario'>« Énergie lumineuse (Soleil) → panneau → Énergie thermique (utile) + Énergie électrique (perdue) »</span>Quelle est l'erreur ?",
+    hint: "Un panneau photovoltaïque sert à produire quoi ? De la chaleur ou de l'électricité ?",
+    options: [
+      "L'énergie lumineuse ne vient pas du Soleil",
+      "Le panneau photovoltaïque n'est pas le convertisseur",
+      "L'énergie utile et l'énergie perdue sont inversées : utile = électrique, perdue = thermique",
+      "Il n'y a pas d'énergie perdue dans un panneau photovoltaïque"
+    ],
+    answer: 2,
+    explain: "Un panneau photovoltaïque produit de l'ÉLECTRICITÉ (énergie utile). La chaleur dégagée est l'énergie PERDUE. L'élève a inversé utile et perdue. Correction : énergie électrique (utile) + énergie thermique (perdue)."
+  },
+  {
+    section: "🐛 Détecte l'erreur", expert: true,
+    q: "Un élève écrit : <em>« Le charbon, le pétrole et l'uranium sont tous des ressources fossiles car ils viennent du sous-sol. »</em> Quelle erreur a-t-il faite ?",
+    hint: "Fossile = formé par décomposition de matière organique. Fissile = atomes qu'on peut casser.",
+    options: [
+      "Le charbon n'est pas du sous-sol",
+      "L'uranium est une ressource fissile (non fossile) : on fissionne ses atomes, il ne vient pas de la décomposition de matière organique",
+      "Le pétrole n'est pas une ressource fossile",
+      "Toutes les ressources du sous-sol sont fossiles, l'élève a raison"
+    ],
+    answer: 1,
+    explain: "Fossile = charbon, pétrole, gaz naturel (décomposition de matière organique, des millions d'années). L'uranium est FISSILE, pas fossile : on libère son énergie en cassant ses atomes (fission nucléaire). Ce n'est pas le même processus du tout !"
+  },
+  {
+    section: "🐛 Détecte l'erreur", expert: true,
+    q: "Un élève représente la chaîne d'une bougie :<span class='scenario'>« Cire (énergie chimique) → flamme → Énergie lumineuse (utile) »</span>Qu'a-t-il oublié dans sa chaîne ?",
+    hint: "Une bougie ne produit-elle QUE de la lumière ? Mets ta main près d'une bougie...",
+    options: [
+      "Il a oublié que la cire est une énergie renouvelable",
+      "Il a oublié l'énergie thermique perdue (la flamme chauffe l'air autour)",
+      "Il a oublié de préciser que la flamme est le convertisseur",
+      "Les réponses B et C sont toutes les deux correctes"
+    ],
+    answer: 3,
+    explain: "Deux oublis : (1) la flamme est le CONVERTISSEUR (c'est l'objet qui réalise la conversion), (2) la bougie produit aussi de l'énergie thermique (chaleur) qui est l'énergie PERDUE. Chaîne complète : cire (chimique) → flamme (convertisseur) → lumineuse (utile) + thermique (perdue)."
+  },
+  {
+    section: "🐛 Détecte l'erreur", expert: true,
+    q: "Un élève affirme : <em>« Un radiateur électrique gaspille de l'énergie car il produit de la chaleur. »</em> Est-il correct ?",
+    hint: "À quoi sert un radiateur ? La chaleur est-elle souhaitée ou non ?",
+    options: [
+      "Oui, la chaleur est toujours une énergie perdue dans tous les appareils",
+      "Oui, les radiateurs sont peu efficaces",
+      "Non : pour un radiateur, la chaleur EST l'énergie utile. Il n'y a pas de gaspillage sur ce point",
+      "Non : les radiateurs ne produisent pas de chaleur, ils font un transfert d'énergie électrique"
+    ],
+    answer: 2,
+    explain: "L'énergie utile dépend de l'objectif du système ! Pour un radiateur, l'objectif est de chauffer → l'énergie thermique EST l'énergie utile. La chaleur n'est perdue que quand elle n'est PAS voulue (moteur de voiture, ampoule classique...)."
+  },
+
+  /* ── CAS AMBIGUS ── */
+  {
+    section: "🤔 Transfert ou conversion ?", expert: false,
+    q: "Le Soleil réchauffe un rocher sur la plage. L'énergie lumineuse du Soleil se transforme en chaleur dans le rocher. Est-ce un <em>transfert</em> ou une <em>conversion</em> ?",
+    hint: "La forme d'énergie change-t-elle ? Lumineuse → thermique…",
+    options: [
+      "Un transfert, car l'énergie passe du Soleil au rocher",
+      "Une conversion, car la forme change : énergie lumineuse → énergie thermique",
+      "Les deux à la fois",
+      "Ni l'un ni l'autre : le Soleil ne peut pas chauffer un rocher"
+    ],
+    answer: 1,
+    explain: "La forme d'énergie CHANGE (lumineuse → thermique) → c'est une CONVERSION. Le rocher est le convertisseur. Si l'énergie restait lumineuse mais passait d'un objet à un autre, ce serait un transfert."
+  },
+  {
+    section: "🤔 Transfert ou conversion ?", expert: false,
+    q: "Une bouilloire électrique chauffe de l'eau. L'eau chaude réchauffe ensuite la tasse posée dessus. Identifie les deux phénomènes.",
+    hint: "Bouilloire → eau : la forme change ? Eau → tasse : la forme change ?",
+    options: [
+      "2 conversions : électrique→thermique, puis thermique→thermique",
+      "Bouilloire→eau : CONVERSION (électrique→thermique) · Eau→tasse : TRANSFERT (thermique d'un objet à un autre, même forme)",
+      "2 transferts : l'énergie reste électrique tout du long",
+      "1 conversion et 1 conversion : les formes changent à chaque fois"
+    ],
+    answer: 1,
+    explain: "Bouilloire → eau : électrique → thermique = CONVERSION (la forme change). Eau chaude → tasse : énergie thermique qui passe de l'eau à la tasse, sans changer de forme = TRANSFERT thermique."
+  },
+  {
+    section: "🤔 Transfert ou conversion ?", expert: false,
+    q: "Un micro-onde chauffe un plat. Il émet des micro-ondes (rayonnement) qui font vibrer les molécules d'eau dans les aliments, produisant de la chaleur. Quelle conversion se produit ?",
+    hint: "Les micro-ondes sont une forme d'énergie lumineuse (rayonnement). La chaleur est thermique.",
+    options: [
+      "Énergie électrique → énergie cinétique",
+      "Énergie électrique → énergie lumineuse (micro-ondes) → énergie thermique",
+      "Énergie chimique → énergie thermique",
+      "Énergie thermique → énergie lumineuse → énergie cinétique"
+    ],
+    answer: 1,
+    explain: "Double conversion : électrique → lumineuse (micro-ondes = rayonnement électromagnétique) → thermique (les molécules vibrent et chauffent). C'est plus complexe qu'un simple four électrique !"
+  },
+
+  /* ── RAISONNEMENT AVANCÉ ── */
+  {
+    section: "🧠 Raisonnement avancé", expert: true,
+    q: "Pourquoi dit-on que l'énergie perdue est <em>presque toujours sous forme thermique</em> ?",
+    hint: "Pense aux frottements, à la résistance électrique...",
+    options: [
+      "Parce que les ingénieurs font exprès de produire de la chaleur",
+      "Parce que les frottements et les résistances électriques transforment toujours une partie de l'énergie en chaleur, quel que soit le système",
+      "Parce que la chaleur est l'énergie la plus facile à produire",
+      "Parce que l'énergie thermique peut facilement être reconvertie en énergie utile"
+    ],
+    answer: 1,
+    explain: "Dans tout système réel, les frottements (mécaniques) et les résistances électriques dégradent inévitablement une partie de l'énergie en chaleur. C'est pourquoi aucun convertisseur n'est jamais parfait à 100%."
+  },
+  {
+    section: "🧠 Raisonnement avancé", expert: true,
+    q: "Un élève dit : <em>« Si on met deux panneaux solaires au lieu d'un, on crée plus d'énergie. »</em> Est-ce correct ?",
+    hint: "Rappelle-toi : l'énergie ne peut pas être créée...",
+    options: [
+      "Oui, plus de panneaux = plus d'énergie créée",
+      "Oui, mais seulement si le Soleil brille fort",
+      "Non : on ne crée pas d'énergie. Deux panneaux convertissent plus d'énergie lumineuse en électrique, mais cette énergie venait déjà du Soleil",
+      "Non : deux panneaux produisent la même quantité qu'un seul"
+    ],
+    answer: 2,
+    explain: "On ne CRÉE jamais d'énergie. Deux panneaux CONVERTISSENT plus d'énergie lumineuse (qui vient du Soleil) en énergie électrique. L'énergie totale reste la même, elle change juste de forme plus efficacement."
+  },
+  {
+    section: "🧠 Raisonnement avancé", expert: true,
+    q: "Un panneau solaire <em>thermique</em> et un panneau <em>photovoltaïque</em> captent tous les deux l'énergie du Soleil. Quelle est la différence fondamentale ?",
+    hint: "Quelle forme d'énergie produisent-ils respectivement ?",
+    options: [
+      "Il n'y a aucune différence, les deux produisent de l'électricité",
+      "Le panneau thermique convertit en énergie thermique (chaleur eau chaude) · Le panneau photovoltaïque convertit en énergie électrique",
+      "Le panneau thermique est renouvelable, le photovoltaïque ne l'est pas",
+      "Le panneau photovoltaïque produit de la chaleur, le thermique produit de l'électricité"
+    ],
+    answer: 1,
+    explain: "Panneau solaire THERMIQUE : lumineuse → thermique (chauffe l'eau du circuit). Panneau PHOTOVOLTAÏQUE : lumineuse → électrique. Les deux captent le Soleil mais produisent des formes d'énergie différentes !"
+  },
+  {
+    section: "🧠 Raisonnement avancé", expert: true,
+    q: "Dans quelle situation l'énergie thermique est-elle l'énergie <em>utile</em> (et non perdue) ?",
+    hint: "Dans quels appareils veut-on produire de la chaleur ?",
+    options: [
+      "Dans un moteur de voiture à essence",
+      "Dans une ampoule à filament",
+      "Dans un radiateur électrique, un four ou un sèche-cheveux",
+      "La chaleur n'est jamais utile, elle est toujours perdue"
+    ],
+    answer: 2,
+    explain: "L'énergie est utile si c'est CE QU'ON CHERCHE à produire. Radiateur : on veut la chaleur → utile. Four : on veut cuire → thermique utile. Sèche-cheveux : on veut sécher → thermique utile. Moteur de voiture : on veut le mouvement → la chaleur est PERDUE."
+  },
+
+  /* ── APPLICATIONS COMPLEXES ── */
+  {
+    section: "⚡ Application complexe", expert: true,
+    q: "Moteur d'une voiture électrique :<span class='scenario'>Batterie (énergie chimique) <span class='arrow'>→</span> Moteur électrique <span class='arrow'>→</span> Roues (mouvement)</span>Quelle est la chaîne complète avec les énergies utile et perdue ?",
+    hint: "Le moteur électrique chauffe-t-il un peu ? Fait-il du bruit ?",
+    options: [
+      "Chimique → cinétique uniquement (pas de perte)",
+      "Chimique → électrique → cinétique (utile) + thermique (perdue dans le moteur)",
+      "Chimique → thermique (utile) + cinétique (perdue)",
+      "Électrique → chimique → cinétique (utile)"
+    ],
+    answer: 1,
+    explain: "La batterie libère son énergie chimique sous forme électrique → le moteur convertit l'électrique en cinétique (utile, les roues tournent) + thermique (perdue, le moteur chauffe légèrement). Deux conversions en cascade."
+  },
+  {
+    section: "⚡ Application complexe", expert: true,
+    q: "Compare une ampoule à filament et une ampoule LED qui produisent le même éclairage. Laquelle a la chaîne énergétique la plus efficace et pourquoi ?",
+    hint: "Touche une ampoule à filament allumée... puis une LED allumée. Laquelle chauffe plus ?",
+    options: [
+      "L'ampoule à filament : elle produit plus de lumière",
+      "Elles sont équivalentes : même lumière produite, même énergie consommée",
+      "La LED : elle perd beaucoup moins d'énergie sous forme thermique que l'ampoule à filament",
+      "L'ampoule à filament : la chaleur qu'elle produit est une énergie utile"
+    ],
+    answer: 2,
+    explain: "La LED est bien plus efficace : elle perd très peu d'énergie sous forme thermique. L'ampoule à filament convertit une grande partie de l'électricité en chaleur (perdue) et peu en lumière (utile). La LED fait l'inverse : presque tout en lumière."
+  },
+  {
+    section: "⚡ Application complexe", expert: true,
+    q: "Un barrage hydraulique produit de l'électricité. Quelle est la source d'énergie et est-elle renouvelable ?",
+    hint: "D'où vient l'eau qui est en hauteur dans le lac du barrage ? De la pluie, qui vient du cycle de l'eau...",
+    options: [
+      "Source : eau (non renouvelable, car les lacs s'épuisent)",
+      "Source : eau (renouvelable, alimentée par le cycle de l'eau et les pluies, elles-mêmes alimentées par le Soleil)",
+      "Source : énergie nucléaire (non renouvelable)",
+      "Source : énergie fossile stockée dans les roches"
+    ],
+    answer: 1,
+    explain: "L'eau est une source d'énergie RENOUVELABLE : les pluies remplissent continuellement les lacs et rivières grâce au cycle de l'eau (évaporation → nuages → pluie), lui-même alimenté par l'énergie solaire."
+  },
+  {
+    section: "⚡ Application complexe", expert: true,
+    q: "Un élève trace la chaîne d'un four électrique :<span class='scenario'>Réseau électrique <span class='arrow'>→</span> Résistance du four <span class='arrow'>→</span> Énergie thermique (utile) + Énergie lumineuse (perdue)</span>Cette chaîne est-elle correcte ?",
+    hint: "Est-ce que la résistance d'un four produit aussi de la lumière ? Observe une résistance qui rougit...",
+    options: [
+      "Non : il n'y a aucune énergie perdue dans un four",
+      "Non : l'énergie lumineuse ne peut pas être perdue",
+      "Oui et c'est complet : les résistances rougissent et émettent un peu de lumière (perdue) en plus de la chaleur (utile)",
+      "Non : l'énergie utile d'un four est l'énergie cinétique"
+    ],
+    answer: 2,
+    explain: "La chaîne est correcte ! Les résistances électriques d'un four rougissent à haute température et émettent un peu de lumière (énergie lumineuse perdue, non désirée) en plus de la chaleur (énergie thermique utile, voulue pour cuire)."
+  },
+  {
+    section: "⚡ Application complexe", expert: true,
+    q: "Question de synthèse : classe ces ressources dans le bon ordre, de la plus propre à la moins propre (en termes de CO₂ et de renouvellement) :",
+    hint: "Fossile = très polluant (CO₂). Fissile = pas de CO₂ mais déchets nucléaires. Renouvelable = aucune émission.",
+    options: [
+      "Charbon > Vent > Uranium > Pétrole",
+      "Vent = Soleil (renouvelables, 0 CO₂) > Uranium (fissile, peu de CO₂ mais déchets) > Pétrole > Charbon (fossiles, très polluants)",
+      "Uranium > Vent > Charbon > Pétrole",
+      "Pétrole = Charbon = Vent (tous équivalents)"
+    ],
+    answer: 1,
+    explain: "Renouvelables (vent, soleil) = 0 émission de CO₂ et inépuisables → meilleur bilan. Uranium = peu de CO₂ mais déchets radioactifs problématiques. Fossiles (pétrole, charbon) = fort CO₂ + ressource limitée → pire bilan climatique."
+  }
+];
+
+let current = 0, answers = [];
+
+function startQuiz() {
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = QUESTIONS[current], total = QUESTIONS.length;
+  document.getElementById('questionCounter').textContent = `Question ${current+1} / ${total}`;
+  document.getElementById('progressBar').style.width = `${((current+1)/total)*100}%`;
+  document.getElementById('sectionTag').textContent = q.section;
+  const eb = document.getElementById('expertBadge');
+  q.expert ? eb.style.display='inline-flex' : eb.style.display='none';
+  document.getElementById('qNum').textContent = `Question ${current+1}`;
+  document.getElementById('qText').innerHTML = q.q;
+  const hb = document.getElementById('hintBox');
+  if (q.hint) { hb.textContent = '💡 '+q.hint; hb.classList.remove('hidden'); } else { hb.classList.add('hidden'); }
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  ['A','B','C','D'].forEach((l,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option'+(answers[current]===i?' selected':'');
+    btn.innerHTML = `<span class="option-letter">${l}</span><span>${q.options[i]}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    container.appendChild(btn);
+  });
+  const nb = document.getElementById('nextBtn'), isLast = current===total-1;
+  nb.textContent = isLast ? 'Voir mes résultats 🎯' : 'Suivant →';
+  nb.className = `nav-btn ${isLast?'btn-result':'btn-next'}${answers[current]===undefined?' btn-disabled':''}`;
+}
+
+function selectAnswer(idx) {
+  answers[current] = idx;
+  document.querySelectorAll('.option').forEach((b,i)=>b.classList.toggle('selected',i===idx));
+  const isLast = current===QUESTIONS.length-1;
+  document.getElementById('nextBtn').className = `nav-btn ${isLast?'btn-result':'btn-next'}`;
+}
+
+function nextQuestion() {
+  if (answers[current]===undefined) return;
+  if (current<QUESTIONS.length-1){current++;showQuestion();}else showResults();
+}
+
+function showResults() {
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('resultsScreen').classList.remove('hidden');
+  let score=0; const wrongs=[];
+  QUESTIONS.forEach((q,i)=>{if(answers[i]===q.answer)score++;else wrongs.push({i,q,chosen:answers[i]});});
+  const pct=score/QUESTIONS.length, circle=document.getElementById('scoreCircle');
+  document.getElementById('scoreNum').textContent=score;
+  if(pct>=.8){circle.className='score-circle score-excellent';document.getElementById('resultMsg').textContent=score===20?'🏆 Parfait – niveau expert !':'🎉 Excellent niveau expert !';}
+  else if(pct>=.6){circle.className='score-circle score-bien';document.getElementById('resultMsg').textContent='👍 Bon résultat !';}
+  else{circle.className='score-circle score-moyen';document.getElementById('resultMsg').textContent='💪 Ce niveau est difficile, relis le cours !';}
+  document.getElementById('resultSub').textContent=pct>=.8?'Tu maîtrises parfaitement les chaînes énergétiques !':pct>=.6?'Encore un effort sur les cas complexes.':'Commence par le quiz standard, puis reviens ici.';
+  const wl=document.getElementById('wrongList'),cl=document.getElementById('correctList'),ws=document.getElementById('wrongSection');
+  wl.innerHTML='';
+  if(wrongs.length===0){ws.classList.add('hidden');cl.innerHTML='<div class="all-good">🌟 Parfait sur les 20 questions !</div>';}
+  else{ws.classList.remove('hidden');wrongs.forEach(({i,q,chosen})=>{const d=document.createElement('div');d.className='wrong-item';d.innerHTML=`<strong>Q${i+1} – ${q.q.replace(/<[^>]+>/g,'').substring(0,70)}...</strong>Ta réponse : <span style="color:#e94560;font-weight:700;">${chosen!==undefined?q.options[chosen]:'—'}</span><br><span style="color:#28a745;font-weight:700;">✅ ${q.options[q.answer]}</span><br><em style="color:#888;font-size:12px;">${q.explain}</em>`;wl.appendChild(d);});cl.innerHTML=`<div class="all-good" style="background:#f8f9fa;color:#495057;">✅ ${score} question${score>1?'s':''} réussie${score>1?'s':''} sur 20</div>`;}
+  window._quizScore=score;window._quizWrongs=wrongs;
+}
+
+function buildMessage(){
+  const score=window._quizScore,wrongs=window._quizWrongs,pct=Math.round(score/20*100);
+  let msg=`${pct>=80?'🏆':pct>=60?'👍':'💪'} Quiz Physique – L'Énergie EXPERT\nScore : ${score}/20 (${pct}%)\n`;
+  if(wrongs.length===0){msg+='✅ Aucune faute !';}
+  else{msg+='\nQuestions ratées :\n';wrongs.forEach(({i,q,chosen})=>{msg+=`• Q${i+1} – Réponse : « ${chosen!==undefined?q.options[chosen]:'—'} » → Bonne : « ${q.options[q.answer]} »\n`;});}
+  return msg;
+}
+function shareWhatsApp(){window.open('https://wa.me/?text='+encodeURIComponent(buildMessage()),'_blank');}
+function copyResults(){const msg=buildMessage();if(navigator.clipboard)navigator.clipboard.writeText(msg).then(()=>alert('Copié !'));else{const ta=document.createElement('textarea');ta.value=msg;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Copié !');}}
+</script>
+</body>
+</html>
