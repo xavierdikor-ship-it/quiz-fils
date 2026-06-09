@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz – Les Fractions (Niveau difficile)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #eaf4fb; color: #2c3e50; padding: 20px; }
+    .container { max-width: 820px; margin: 0 auto; }
+    header {
+      background: linear-gradient(135deg, #1565c0, #42a5f5);
+      color: white; padding: 30px; border-radius: 16px; margin-bottom: 28px; text-align: center;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 6px; }
+    header p { font-size: 0.95rem; opacity: 0.9; }
+    .badge {
+      display: inline-block; background: #ff6f00; color: white;
+      font-size: 0.7rem; font-weight: bold; padding: 2px 8px;
+      border-radius: 10px; margin-left: 8px; vertical-align: middle;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .section-title {
+      background: #1565c0; color: white; padding: 10px 20px;
+      border-radius: 8px; margin: 28px 0 16px; font-size: 1rem; font-weight: bold;
+    }
+    .rappel {
+      background: #e3f2fd; border-left: 5px solid #1565c0;
+      padding: 12px 16px; border-radius: 0 10px 10px 0; margin-bottom: 16px; font-size: 0.9rem;
+    }
+    .rappel strong { color: #0d47a1; }
+    .question {
+      background: white; border-radius: 12px; padding: 20px 24px;
+      margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border-left: 5px solid #42a5f5;
+    }
+    .question.hard { border-left-color: #ff6f00; }
+    .question-text { font-weight: 600; font-size: 1rem; margin-bottom: 14px; line-height: 1.5; }
+    .options { display: flex; flex-direction: column; gap: 8px; }
+    .option {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 8px; cursor: pointer;
+      border: 2px solid #e0e0e0; background: #fafafa;
+      transition: all 0.2s; font-size: 0.95rem;
+    }
+    .option:hover { border-color: #42a5f5; background: #e3f2fd; }
+    .option input[type="radio"] { accent-color: #1565c0; width: 16px; height: 16px; flex-shrink: 0; }
+    .option.correct { background: #e8f5e9 !important; border-color: #388e3c !important; }
+    .option.wrong { background: #ffebee !important; border-color: #e53935 !important; }
+    .option.missed { background: #fff3e0 !important; border-color: #f57c00 !important; }
+    .explication {
+      display: none; background: #f1f8e9; border-left: 4px solid #388e3c;
+      padding: 10px 14px; border-radius: 0 8px 8px 0; margin-top: 10px;
+      font-size: 0.88rem; line-height: 1.6; color: #1b5e20;
+    }
+    .btn-valider {
+      background: #1565c0; color: white; border: none; padding: 10px 22px;
+      border-radius: 8px; cursor: pointer; margin-top: 14px; font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .btn-valider:hover { background: #0d47a1; }
+    .btn-valider:disabled { background: #90caf9; cursor: default; }
+    #score-section {
+      display: none; background: white; border-radius: 16px; padding: 32px;
+      text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.12); margin-top: 28px;
+    }
+    #score-section h2 { font-size: 1.8rem; color: #1565c0; margin-bottom: 10px; }
+    #score-display { font-size: 3.5rem; font-weight: bold; color: #1565c0; margin: 10px 0; }
+    #score-message { font-size: 1.1rem; color: #555; margin-bottom: 20px; }
+    .errors-list { text-align: left; background: #fff8e1; border-radius: 10px; padding: 16px; margin: 16px 0; }
+    .errors-list h3 { color: #e65100; margin-bottom: 10px; font-size: 0.95rem; }
+    .errors-list li { margin-bottom: 6px; font-size: 0.9rem; line-height: 1.5; }
+    .share-btn {
+      background: #25D366; color: white; border: none; padding: 14px 28px;
+      border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer;
+      margin-top: 16px; transition: background 0.2s;
+    }
+    .share-btn:hover { background: #128C7E; }
+    .btn-voir { background: #42a5f5; color: white; border: none; padding: 10px 22px;
+      border-radius: 8px; cursor: pointer; margin-top: 10px; font-size: 0.9rem; }
+    .btn-voir:hover { background: #1565c0; }
+    #submit-all {
+      display: block; width: 100%; padding: 16px; background: #1565c0; color: white;
+      border: none; border-radius: 12px; font-size: 1.1rem; font-weight: bold;
+      cursor: pointer; margin-top: 24px; transition: background 0.2s;
+    }
+    #submit-all:hover { background: #0d47a1; }
+    .progress-bar {
+      background: #bbdefb; border-radius: 10px; height: 8px; margin-bottom: 20px; overflow: hidden;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, #1565c0, #42a5f5);
+      height: 100%; border-radius: 10px; transition: width 0.3s;
+      width: 0%;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📐 Les Fractions</h1>
+    <p>Quiz Difficile · Mathématiques 5ème · 20 questions</p>
+  </header>
+
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- SECTION 1 -->
+  <div class="section-title">📖 Partie 1 — Définitions &amp; Propriétés</div>
+
+  <div class="rappel">
+    <strong>Rappel :</strong> Le quotient de <em>a</em> par <em>b</em> est le nombre a/b tel que <strong>b × (a/b) = a</strong>.<br>
+    Deux fractions sont égales si : a/b = c/d ⟺ <strong>a × d = b × c</strong> (produit en croix).
+  </div>
+
+  <!-- Q1 -->
+  <div class="question" id="q1">
+    <div class="question-text">1. Le quotient de 5 par 8 est le nombre <em>x</em> tel que :</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q1" value="a"> 5 × x = 8</label>
+      <label class="option"><input type="radio" name="q1" value="b"> 8 × x = 5</label>
+      <label class="option"><input type="radio" name="q1" value="c"> x = 5 + 8 = 13</label>
+      <label class="option"><input type="radio" name="q1" value="d"> x × x = 40</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q1','b')">Valider</button>
+    <div class="explication" id="exp-q1">
+      ✅ Le quotient de <em>a</em> par <em>b</em> est le nombre x tel que <strong>b × x = a</strong>. Ici : 8 × (5/8) = 5. Donc x = 5/8.
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question" id="q2">
+    <div class="question-text">2. Laquelle de ces fractions est égale à 4/6 ?</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q2" value="a"> 2/3</label>
+      <label class="option"><input type="radio" name="q2" value="b"> 8/18</label>
+      <label class="option"><input type="radio" name="q2" value="c"> 3/5</label>
+      <label class="option"><input type="radio" name="q2" value="d"> 12/20</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q2','a')">Valider</button>
+    <div class="explication" id="exp-q2">
+      ✅ 4/6 = 4÷2 / 6÷2 = <strong>2/3</strong>. Vérif : 8/18 = 4/9 ✗ · 12/20 = 3/5 ✗.
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question hard" id="q3">
+    <div class="question-text">3. Si a/b = c/d (avec b ≠ 0 et d ≠ 0), alors on peut affirmer que : <span class="badge">⭐ difficile</span></div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q3" value="a"> a + d = b + c</label>
+      <label class="option"><input type="radio" name="q3" value="b"> a × d = b × c</label>
+      <label class="option"><input type="radio" name="q3" value="c"> a − d = b − c</label>
+      <label class="option"><input type="radio" name="q3" value="d"> a / d = b / c</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q3','b')">Valider</button>
+    <div class="explication" id="exp-q3">
+      ✅ C'est la propriété du <strong>produit en croix</strong> : si a/b = c/d, alors <strong>a × d = b × c</strong>.<br>
+      Exemple : 3/4 = 6/8 → 3 × 8 = 24 et 4 × 6 = 24 ✓.
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question hard" id="q4">
+    <div class="question-text">4. Laquelle de ces égalités est <strong>FAUSSE</strong> ? <span class="badge">⭐ difficile</span></div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q4" value="a"> 6/9 = 2/3</label>
+      <label class="option"><input type="radio" name="q4" value="b"> 15/20 = 3/4</label>
+      <label class="option"><input type="radio" name="q4" value="c"> 8/12 = 2/4</label>
+      <label class="option"><input type="radio" name="q4" value="d"> 10/15 = 2/3</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q4','c')">Valider</button>
+    <div class="explication" id="exp-q4">
+      ✅ <strong>8/12 ≠ 2/4</strong>. En simplifiant par 4 : 8/12 = 2/3 (pas 2/4). Les autres sont correctes : 6/9 = 2/3 (÷3), 15/20 = 3/4 (÷5), 10/15 = 2/3 (÷5).
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section-title">✂️ Partie 2 — Simplification &amp; Amplification</div>
+
+  <div class="rappel">
+    <strong>Rappel :</strong> Pour <strong>simplifier</strong>, divise numérateur et dénominateur par leur plus grand diviseur commun.<br>
+    Pour <strong>amplifier</strong>, multiplie numérateur et dénominateur par un même nombre.
+  </div>
+
+  <!-- Q5 -->
+  <div class="question" id="q5">
+    <div class="question-text">5. Simplifie au maximum la fraction 36/48 :</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q5" value="a"> 18/24</label>
+      <label class="option"><input type="radio" name="q5" value="b"> 3/4</label>
+      <label class="option"><input type="radio" name="q5" value="c"> 6/8</label>
+      <label class="option"><input type="radio" name="q5" value="d"> 12/16</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q5','b')">Valider</button>
+    <div class="explication" id="exp-q5">
+      ✅ Le plus grand diviseur commun de 36 et 48 est <strong>12</strong>. 36÷12 = 3 et 48÷12 = 4. Donc 36/48 = <strong>3/4</strong>. Les autres réponses sont des simplifications incomplètes.
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="question" id="q6">
+    <div class="question-text">6. Trouve le nombre manquant : 3/5 = ?/40</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q6" value="a"> 8</label>
+      <label class="option"><input type="radio" name="q6" value="b"> 24</label>
+      <label class="option"><input type="radio" name="q6" value="c"> 30</label>
+      <label class="option"><input type="radio" name="q6" value="d"> 15</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q6','b')">Valider</button>
+    <div class="explication" id="exp-q6">
+      ✅ 5 × ? = 40, donc ? = 8. On amplifie par 8 : 3×8/5×8 = <strong>24/40</strong>. Vérif : 24/40 = 3/5 ✓.
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="question hard" id="q7">
+    <div class="question-text">7. Un élève simplifie 14/21 en barrant le «1» dans 14 et dans 21, et obtient 4/2 = 2. Quelle est la vraie simplification ? <span class="badge">⭐ piège</span></div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q7" value="a"> L'élève a raison : 14/21 = 2</label>
+      <label class="option"><input type="radio" name="q7" value="b"> 14/21 = 2/3 en divisant par 7</label>
+      <label class="option"><input type="radio" name="q7" value="c"> 14/21 = 7/10.5 en divisant par 2</label>
+      <label class="option"><input type="radio" name="q7" value="d"> 14/21 ne se simplifie pas</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q7','b')">Valider</button>
+    <div class="explication" id="exp-q7">
+      ✅ On ne "barre" jamais des chiffres dans les fractions ! Il faut diviser par un même nombre. PGCD(14, 21) = 7 → 14÷7 = 2 et 21÷7 = 3 → <strong>14/21 = 2/3</strong>.
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="question hard" id="q8">
+    <div class="question-text">8. Quelle est la forme la plus simplifiée de 60/84 ? <span class="badge">⭐ difficile</span></div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q8" value="a"> 30/42</label>
+      <label class="option"><input type="radio" name="q8" value="b"> 10/14</label>
+      <label class="option"><input type="radio" name="q8" value="c"> 15/21</label>
+      <label class="option"><input type="radio" name="q8" value="d"> 5/7</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q8','d')">Valider</button>
+    <div class="explication" id="exp-q8">
+      ✅ PGCD(60, 84) = 12. 60÷12 = 5 et 84÷12 = 7 → <strong>60/84 = 5/7</strong>. Les autres réponses sont des simplifications partielles (÷2, ÷4 ou ÷6).
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-title">🔍 Partie 3 — Comparaison de Fractions</div>
+
+  <div class="rappel">
+    <strong>Rappel :</strong> Pour comparer, mets les fractions au <strong>même dénominateur</strong>, puis compare les numérateurs.
+  </div>
+
+  <!-- Q9 -->
+  <div class="question" id="q9">
+    <div class="question-text">9. Compare 5/8 et 3/5 :</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q9" value="a"> 5/8 &gt; 3/5</label>
+      <label class="option"><input type="radio" name="q9" value="b"> 5/8 &lt; 3/5</label>
+      <label class="option"><input type="radio" name="q9" value="c"> 5/8 = 3/5</label>
+      <label class="option"><input type="radio" name="q9" value="d"> On ne peut pas comparer</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q9','a')">Valider</button>
+    <div class="explication" id="exp-q9">
+      ✅ Dénominateur commun : 40. 5/8 = 25/40 et 3/5 = 24/40. Comme 25 > 24, alors <strong>5/8 &gt; 3/5</strong>.
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="question hard" id="q10">
+    <div class="question-text">10. Range dans l'ordre croissant : 2/3 · 5/9 · 7/12 <span class="badge">⭐ difficile</span></div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q10" value="a"> 2/3 &lt; 5/9 &lt; 7/12</label>
+      <label class="option"><input type="radio" name="q10" value="b"> 5/9 &lt; 7/12 &lt; 2/3</label>
+      <label class="option"><input type="radio" name="q10" value="c"> 7/12 &lt; 5/9 &lt; 2/3</label>
+      <label class="option"><input type="radio" name="q10" value="d"> 5/9 &lt; 2/3 &lt; 7/12</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q10','b')">Valider</button>
+    <div class="explication" id="exp-q10">
+      ✅ Dénominateur commun : 36.<br>
+      2/3 = 24/36 · 5/9 = 20/36 · 7/12 = 21/36.<br>
+      Ordre des numérateurs : 20 &lt; 21 &lt; 24, soit <strong>5/9 &lt; 7/12 &lt; 2/3</strong>.
+    </div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="question hard" id="q11">
+    <div class="question-text">11. Laquelle de ces fractions est comprise entre 1/2 et 2/3 ? <span class="badge">⭐ difficile</span></div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q11" value="a"> 1/3</label>
+      <label class="option"><input type="radio" name="q11" value="b"> 5/12</label>
+      <label class="option"><input type="radio" name="q11" value="c"> 7/12</label>
+      <label class="option"><input type="radio" name="q11" value="d"> 3/4</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q11','c')">Valider</button>
+    <div class="explication" id="exp-q11">
+      ✅ Dénominateur commun : 12. 1/2 = 6/12 et 2/3 = 8/12.<br>
+      7/12 est bien entre 6/12 et 8/12. ✓<br>
+      5/12 &lt; 1/2 ✗ · 1/3 = 4/12 &lt; 1/2 ✗ · 3/4 = 9/12 &gt; 2/3 ✗.
+    </div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="question" id="q12">
+    <div class="question-text">12. Marie mange 3/7 d'une tarte, Léa mange 2/5 d'une tarte identique. Qui en a mangé le plus ? Justifie.</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q12" value="a"> Marie, car 3/7 &gt; 2/5</label>
+      <label class="option"><input type="radio" name="q12" value="b"> Léa, car 2/5 &gt; 3/7</label>
+      <label class="option"><input type="radio" name="q12" value="c"> Elles ont mangé la même quantité</label>
+      <label class="option"><input type="radio" name="q12" value="d"> On ne peut pas savoir</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q12','a')">Valider</button>
+    <div class="explication" id="exp-q12">
+      ✅ Dénominateur commun : 35. 3/7 = 15/35 et 2/5 = 14/35. Comme 15 &gt; 14, <strong>Marie a mangé davantage</strong>.
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section-title">✖️ Partie 4 — Produit d'un Nombre par une Fraction</div>
+
+  <div class="rappel">
+    <strong>Rappel :</strong> a × (b/c) = (a × b) / c — On multiplie SEULEMENT le numérateur, pas le dénominateur !
+  </div>
+
+  <!-- Q13 -->
+  <div class="question" id="q13">
+    <div class="question-text">13. Calcule 7 × (3/5) :</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q13" value="a"> 10/5 = 2</label>
+      <label class="option"><input type="radio" name="q13" value="b"> 21/5</label>
+      <label class="option"><input type="radio" name="q13" value="c"> 21/35</label>
+      <label class="option"><input type="radio" name="q13" value="d"> 3/35</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q13','b')">Valider</button>
+    <div class="explication" id="exp-q13">
+      ✅ 7 × (3/5) = (7 × 3) / 5 = <strong>21/5</strong>. Le dénominateur reste 5, on ne le multiplie pas.
+    </div>
+  </div>
+
+  <!-- Q14 -->
+  <div class="question hard" id="q14">
+    <div class="question-text">14. Calcule 6 × (5/9) et donne la réponse simplifiée. <span class="badge">⭐ difficile</span></div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q14" value="a"> 30/9</label>
+      <label class="option"><input type="radio" name="q14" value="b"> 11/9</label>
+      <label class="option"><input type="radio" name="q14" value="c"> 10/3</label>
+      <label class="option"><input type="radio" name="q14" value="d"> 30/54</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q14','c')">Valider</button>
+    <div class="explication" id="exp-q14">
+      ✅ 6 × (5/9) = 30/9. On simplifie par 3 : 30÷3 / 9÷3 = <strong>10/3</strong>.<br>
+      Astuce : on pouvait simplifier avant : 6 et 9 ont 3 en commun → (6÷3) × 5 / (9÷3) = 2 × 5 / 3 = 10/3.
+    </div>
+  </div>
+
+  <!-- Q15 -->
+  <div class="question" id="q15">
+    <div class="question-text">15. Calcule 4 × (3/12) :</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q15" value="a"> 7/12</label>
+      <label class="option"><input type="radio" name="q15" value="b"> 1</label>
+      <label class="option"><input type="radio" name="q15" value="c"> 4/3</label>
+      <label class="option"><input type="radio" name="q15" value="d"> 12/48</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q15','b')">Valider</button>
+    <div class="explication" id="exp-q15">
+      ✅ 4 × (3/12) = 12/12 = <strong>1</strong>. On peut aussi simplifier 3/12 = 1/4 d'abord, puis 4 × (1/4) = 4/4 = 1.
+    </div>
+  </div>
+
+  <!-- Q16 -->
+  <div class="question hard" id="q16">
+    <div class="question-text">16. Un élève écrit : 5 × (2/3) = 10/15. Est-ce correct ? Justifie. <span class="badge">⭐ piège</span></div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q16" value="a"> Oui, car on multiplie aussi le dénominateur par 5</label>
+      <label class="option"><input type="radio" name="q16" value="b"> Non, car 5 × (2/3) = 10/3 (on ne multiplie que le numérateur)</label>
+      <label class="option"><input type="radio" name="q16" value="c"> Non, car 5 × (2/3) = 7/3 (on additionne 5 et 2)</label>
+      <label class="option"><input type="radio" name="q16" value="d"> Non, car 5 × (2/3) = 2/15</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q16','b')">Valider</button>
+    <div class="explication" id="exp-q16">
+      ✅ <strong>Non, c'est faux !</strong> La règle est : a × (b/c) = (a × b) / c. Le dénominateur ne change pas !<br>
+      5 × (2/3) = (5 × 2) / 3 = <strong>10/3</strong>. Si on multipliait aussi le dénominateur, la fraction ne changerait pas (c'est une amplification, pas une multiplication).
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section-title">➕➖ Partie 5 — Addition &amp; Soustraction</div>
+
+  <div class="rappel">
+    <strong>Rappel :</strong> Pour additionner/soustraire des fractions, il faut d'abord les mettre au <strong>même dénominateur</strong>, puis opérer uniquement sur les numérateurs. On n'additionne JAMAIS les dénominateurs !
+  </div>
+
+  <!-- Q17 -->
+  <div class="question" id="q17">
+    <div class="question-text">17. Calcule 1/4 + 3/8 :</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q17" value="a"> 4/12 = 1/3</label>
+      <label class="option"><input type="radio" name="q17" value="b"> 5/8</label>
+      <label class="option"><input type="radio" name="q17" value="c"> 4/8 = 1/2</label>
+      <label class="option"><input type="radio" name="q17" value="d"> 5/12</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q17','b')">Valider</button>
+    <div class="explication" id="exp-q17">
+      ✅ Dénominateur commun : 8. 1/4 = 2/8. Donc 2/8 + 3/8 = <strong>5/8</strong>.
+    </div>
+  </div>
+
+  <!-- Q18 -->
+  <div class="question" id="q18">
+    <div class="question-text">18. Calcule 5/6 − 1/4 :</div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q18" value="a"> 4/2 = 2</label>
+      <label class="option"><input type="radio" name="q18" value="b"> 4/12 = 1/3</label>
+      <label class="option"><input type="radio" name="q18" value="c"> 7/12</label>
+      <label class="option"><input type="radio" name="q18" value="d"> 9/12 = 3/4</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q18','c')">Valider</button>
+    <div class="explication" id="exp-q18">
+      ✅ Dénominateur commun : 12. 5/6 = 10/12 et 1/4 = 3/12. 10/12 − 3/12 = <strong>7/12</strong>.
+    </div>
+  </div>
+
+  <!-- Q19 -->
+  <div class="question hard" id="q19">
+    <div class="question-text">19. Calcule 3/4 + 5/6 : <span class="badge">⭐ difficile</span></div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q19" value="a"> 8/10 = 4/5</label>
+      <label class="option"><input type="radio" name="q19" value="b"> 19/12</label>
+      <label class="option"><input type="radio" name="q19" value="c"> 8/12 = 2/3</label>
+      <label class="option"><input type="radio" name="q19" value="d"> 15/24 = 5/8</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q19','b')">Valider</button>
+    <div class="explication" id="exp-q19">
+      ✅ Dénominateur commun : 12. 3/4 = 9/12 et 5/6 = 10/12. 9/12 + 10/12 = <strong>19/12</strong>.<br>
+      Le résultat est supérieur à 1, c'est normal (19/12 ≈ 1,58).
+    </div>
+  </div>
+
+  <!-- Q20 -->
+  <div class="question hard" id="q20">
+    <div class="question-text">20. Calcule 7/10 + 2/5 − 1/2 et simplifie. <span class="badge">⭐ difficile</span></div>
+    <div class="options">
+      <label class="option"><input type="radio" name="q20" value="a"> 8/15</label>
+      <label class="option"><input type="radio" name="q20" value="b"> 3/5</label>
+      <label class="option"><input type="radio" name="q20" value="c"> 2/5</label>
+      <label class="option"><input type="radio" name="q20" value="d"> 6/5</label>
+    </div>
+    <button class="btn-valider" onclick="valider('q20','b')">Valider</button>
+    <div class="explication" id="exp-q20">
+      ✅ Dénominateur commun : 10.<br>
+      7/10 + 2/5 − 1/2 = 7/10 + 4/10 − 5/10 = 6/10 = <strong>3/5</strong>.
+    </div>
+  </div>
+
+  <button id="submit-all" onclick="showScore()">🎯 Voir mon résultat final</button>
+
+  <!-- Score -->
+  <div id="score-section">
+    <h2>📊 Résultat</h2>
+    <div id="score-display"></div>
+    <div id="score-message"></div>
+    <div class="errors-list" id="errors-container" style="display:none">
+      <h3>❌ Questions à retravailler :</h3>
+      <ul id="errors-list"></ul>
+    </div>
+    <button class="btn-voir" onclick="window.scrollTo({top:0,behavior:'smooth'})">🔍 Revoir les questions</button><br>
+    <button class="share-btn" onclick="shareResult()">📲 Partager sur WhatsApp</button>
+  </div>
+</div>
+
+<script>
+  const correct = {
+    q1:'b', q2:'a', q3:'b', q4:'c',
+    q5:'b', q6:'b', q7:'b', q8:'d',
+    q9:'a', q10:'b', q11:'c', q12:'a',
+    q13:'b', q14:'c', q15:'b', q16:'b',
+    q17:'b', q18:'c', q19:'b', q20:'b'
+  };
+  const labels = {
+    q1:'Q1 – Définition du quotient',
+    q2:'Q2 – Fractions égales à 4/6',
+    q3:'Q3 – Produit en croix (propriété)',
+    q4:'Q4 – Détecter l\'égalité fausse',
+    q5:'Q5 – Simplifier 36/48',
+    q6:'Q6 – Amplifier 3/5 = ?/40',
+    q7:'Q7 – Piège : barrer les chiffres',
+    q8:'Q8 – Simplifier 60/84',
+    q9:'Q9 – Comparer 5/8 et 3/5',
+    q10:'Q10 – Ordonner 2/3, 5/9, 7/12',
+    q11:'Q11 – Fraction entre 1/2 et 2/3',
+    q12:'Q12 – Problème : Marie et Léa',
+    q13:'Q13 – Calcul 7 × (3/5)',
+    q14:'Q14 – Calcul 6 × (5/9) simplifié',
+    q15:'Q15 – Calcul 4 × (3/12)',
+    q16:'Q16 – Piège : 5 × (2/3) = 10/15 ?',
+    q17:'Q17 – Addition 1/4 + 3/8',
+    q18:'Q18 – Soustraction 5/6 − 1/4',
+    q19:'Q19 – Addition 3/4 + 5/6',
+    q20:'Q20 – Calcul 7/10 + 2/5 − 1/2'
+  };
+  const answered = {};
+  let score = 0;
+
+  function valider(qid, rep) {
+    if (answered[qid]) return;
+    const chosen = document.querySelector(`input[name="${qid}"]:checked`);
+    if (!chosen) { alert('Choisis une réponse !'); return; }
+    answered[qid] = chosen.value;
+    const opts = document.querySelectorAll(`#${qid} .option`);
+    opts.forEach((opt, i) => {
+      const val = ['a','b','c','d'][i];
+      opt.style.pointerEvents = 'none';
+      if (val === rep) opt.classList.add('correct');
+      else if (val === chosen.value && chosen.value !== rep) opt.classList.add('wrong');
+    });
+    document.getElementById(`exp-${qid}`).style.display = 'block';
+    document.querySelector(`#${qid} .btn-valider`).disabled = true;
+    if (chosen.value === rep) score++;
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const n = Object.keys(answered).length;
+    document.getElementById('progress').style.width = (n/20*100)+'%';
+  }
+
+  function showScore() {
+    const errors = Object.keys(correct).filter(q => answered[q] !== correct[q]);
+    const missing = Object.keys(correct).filter(q => !answered[q]);
+    document.getElementById('score-display').textContent = score + ' / 20';
+    let msg = '';
+    if (score === 20) msg = '🏆 Parfait ! Bravo, tu maîtrises les fractions !';
+    else if (score >= 17) msg = '🌟 Excellent ! Tu as très bien compris le chapitre.';
+    else if (score >= 14) msg = '👍 Bien ! Quelques points à consolider.';
+    else if (score >= 10) msg = '📚 Encourageant ! Reprends les rappels pour les questions ratées.';
+    else msg = '💪 Continue les efforts ! Relis bien la fiche de révision.';
+    document.getElementById('score-message').textContent = msg;
+    const ec = document.getElementById('errors-container');
+    const el = document.getElementById('errors-list');
+    const allErrors = [...errors, ...missing];
+    if (allErrors.length > 0) {
+      ec.style.display = 'block';
+      el.innerHTML = allErrors.map(q => `<li>${labels[q]}</li>`).join('');
+    }
+    document.getElementById('score-section').style.display = 'block';
+    document.getElementById('submit-all').style.display = 'none';
+    document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+  }
+
+  function shareResult() {
+    const errors = Object.keys(correct).filter(q => answered[q] !== correct[q]);
+    const missing = Object.keys(correct).filter(q => !answered[q]);
+    let txt = `📐 Quiz Fractions – Maths 5ème\nScore : ${score}/20\n`;
+    const allErrors = [...errors, ...missing];
+    if (allErrors.length > 0) {
+      txt += '\nPoints à retravailler :\n' + allErrors.map(q => '• ' + labels[q]).join('\n');
+    } else {
+      txt += '✅ Toutes les questions réussies !';
+    }
+    const url = 'https://wa.me/?text=' + encodeURIComponent(txt);
+    window.open(url, '_blank');
+  }
+</script>
+</body>
+</html>
