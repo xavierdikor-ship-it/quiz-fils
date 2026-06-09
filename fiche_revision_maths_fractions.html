@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fractions – Fiche de Révision</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #eaf4fb; color: #2c3e50; padding: 20px; }
+    .container { max-width: 860px; margin: 0 auto; }
+    header {
+      background: linear-gradient(135deg, #1565c0, #42a5f5);
+      color: white; padding: 32px; border-radius: 16px; margin-bottom: 24px; text-align: center;
+    }
+    header h1 { font-size: 2.2rem; margin-bottom: 6px; }
+    header p { font-size: 1rem; opacity: 0.9; }
+    .section {
+      background: white; border-radius: 12px; padding: 24px;
+      margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      border-left: 6px solid #1565c0;
+    }
+    .section h2 { color: #1565c0; font-size: 1.25rem; margin-bottom: 16px; }
+    .propriete {
+      background: #e3f2fd; border: 1px solid #90caf9;
+      border-radius: 8px; padding: 14px; margin: 12px 0;
+    }
+    .propriete h3 { color: #0d47a1; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .formule {
+      background: #1565c0; color: white; padding: 12px 20px;
+      border-radius: 8px; font-size: 1.05rem; font-weight: bold;
+      text-align: center; margin: 10px 0; font-family: 'Courier New', monospace;
+    }
+    .exemple {
+      background: #fff8e1; border-left: 4px solid #f9a825;
+      padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 0.95rem;
+    }
+    .exemple strong { color: #e65100; }
+    .piege {
+      background: #fce4ec; border: 1px solid #ef9a9a;
+      border-radius: 8px; padding: 12px; margin: 10px 0;
+    }
+    .piege h3 { color: #c62828; font-size: 0.85rem; margin-bottom: 6px; }
+    .methode {
+      background: #e8f5e9; border: 1px solid #a5d6a7;
+      border-radius: 8px; padding: 14px; margin: 12px 0;
+    }
+    .methode h3 { color: #2e7d32; margin-bottom: 10px; font-size: 0.95rem; }
+    .methode ol { padding-left: 20px; }
+    .methode ol li { margin-bottom: 6px; line-height: 1.6; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.95rem; }
+    th { background: #1565c0; color: white; padding: 10px; text-align: center; }
+    td { padding: 10px; border: 1px solid #bbdefb; text-align: center; }
+    tr:nth-child(even) td { background: #e3f2fd; }
+    .recap { border-left-color: #6a1b9a; }
+    .recap h2 { color: #6a1b9a; }
+    .recap th { background: #6a1b9a; }
+    .astuce {
+      background: #f3e5f5; border: 1px solid #ce93d8;
+      border-radius: 8px; padding: 12px; margin: 10px 0;
+    }
+    .astuce h3 { color: #6a1b9a; font-size: 0.85rem; margin-bottom: 6px; }
+    @media print {
+      body { background: white; padding: 10px; }
+      .section { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📐 Les Fractions</h1>
+    <p>Fiche de Révision · Mathématiques · 5ème</p>
+  </header>
+
+  <!-- I. Quotient -->
+  <div class="section">
+    <h2>🔢 I. Quotient et Fraction</h2>
+    <div class="propriete">
+      <h3>Définition</h3>
+      <p>Le quotient de <strong>a</strong> par <strong>b</strong> (non nul) est le nombre <strong>a/b</strong> tel que :</p>
+      <div class="formule">b × (a ÷ b) = a</div>
+      <p style="margin-top:8px; font-size:0.9rem;">Le chiffre du haut s'appelle le <strong>numérateur</strong>, celui du bas le <strong>dénominateur</strong> (≠ 0).</p>
+    </div>
+    <div class="exemple"><strong>Exemple :</strong> Le quotient de 7 par 3 est 7/3, car 3 × (7/3) = 7.</div>
+  </div>
+
+  <!-- II. Égalité -->
+  <div class="section">
+    <h2>⚖️ II. Égalité de Fractions</h2>
+    <div class="propriete">
+      <h3>Propriété fondamentale</h3>
+      <p>Une fraction ne change pas si l'on <strong>multiplie</strong> (ou <strong>divise</strong>) son numérateur <em>et</em> son dénominateur par un même nombre non nul.</p>
+      <div class="formule">a/b = (a × k) / (b × k) &nbsp;&nbsp; avec b ≠ 0 et k ≠ 0</div>
+    </div>
+    <table>
+      <tr><th>Action</th><th>Nom</th><th>Exemple</th></tr>
+      <tr><td>× k au numérateur ET dénominateur</td><td><strong>Amplification</strong></td><td>3/5 = 6/10 (×2)</td></tr>
+      <tr><td>÷ k au numérateur ET dénominateur</td><td><strong>Simplification</strong></td><td>12/18 = 2/3 (÷6)</td></tr>
+    </table>
+    <div class="piege">
+      <h3>⚠️ Erreur classique à éviter</h3>
+      <p>On ne peut PAS ajouter ou soustraire le même nombre au numérateur et au dénominateur : 2/4 ≠ 3/5 (en ajoutant 1 à chaque).</p>
+    </div>
+  </div>
+
+  <!-- III. Comparaison -->
+  <div class="section">
+    <h2>🔍 III. Comparaison de Fractions</h2>
+    <div class="methode">
+      <h3>📋 Méthode en 3 étapes</h3>
+      <ol>
+        <li>Trouver un <strong>dénominateur commun</strong> (un multiple des deux dénominateurs).</li>
+        <li>Réécrire chaque fraction avec ce dénominateur (amplifier).</li>
+        <li>Comparer les <strong>numérateurs</strong>.</li>
+      </ol>
+    </div>
+    <div class="exemple">
+      <strong>Exemple :</strong> Comparer 3/4 et 5/7<br>
+      Dénominateur commun : 4 × 7 = 28<br>
+      3/4 = 21/28 &nbsp;|&nbsp; 5/7 = 20/28<br>
+      Comme 21 > 20, alors <strong>3/4 > 5/7</strong>
+    </div>
+    <div class="piege">
+      <h3>⚠️ Piège classique</h3>
+      <p>Un numérateur ou un dénominateur plus grand ne signifie pas que la fraction est plus grande !<br>
+      Ici 3/4 > 5/7 alors que 5 > 3 et 7 > 4.</p>
+    </div>
+  </div>
+
+  <!-- IV. Produit -->
+  <div class="section">
+    <h2>✖️ IV. Produit d'un Nombre par une Fraction</h2>
+    <div class="propriete">
+      <h3>Propriété</h3>
+      <div class="formule">a × (b/c) = (a × b) / c &nbsp;&nbsp; avec c ≠ 0</div>
+    </div>
+    <div class="exemple">
+      <strong>Exemples :</strong><br>
+      · 3 × (2/5) = 6/5<br>
+      · 6 × (5/9) = 30/9 = 10/3 (simplifié par 3)<br>
+      · 4 × (3/12) = 12/12 = 1
+    </div>
+    <div class="astuce">
+      <h3>💡 Astuce</h3>
+      <p>Tu peux simplifier <em>avant</em> de multiplier pour obtenir des nombres plus petits.<br>
+      Ex : 6 × (5/9) → divise 6 et 9 par 3 → 2 × (5/3) = 10/3</p>
+    </div>
+    <div class="piege">
+      <h3>⚠️ Erreur fréquente</h3>
+      <p>On multiplie SEULEMENT le numérateur, PAS le dénominateur !<br>
+      5 × (2/3) = 10/3 &nbsp;✓&nbsp;&nbsp; et non 10/15 &nbsp;✗</p>
+    </div>
+  </div>
+
+  <!-- V. Addition & Soustraction -->
+  <div class="section">
+    <h2>➕➖ V. Addition et Soustraction</h2>
+    <div class="propriete">
+      <h3>Même dénominateur (simple)</h3>
+      <div class="formule">a/b + c/b = (a+c)/b &nbsp;&nbsp;&nbsp; a/b − c/b = (a−c)/b</div>
+    </div>
+    <div class="methode">
+      <h3>📋 Méthode – Dénominateurs différents</h3>
+      <ol>
+        <li>Trouver un dénominateur commun.</li>
+        <li>Amplifier chaque fraction pour obtenir ce dénominateur.</li>
+        <li>Additionner (ou soustraire) les numérateurs uniquement.</li>
+        <li>Simplifier si possible.</li>
+      </ol>
+    </div>
+    <div class="formule">a/b + c/d = (a×d + c×b) / (b×d) &nbsp;&nbsp; avec b ≠ 0 et d ≠ 0</div>
+    <div class="exemple">
+      <strong>Exemple 1 :</strong> 1/3 + 1/4<br>
+      Dénominateur commun : 12 → 1/3 = 4/12 et 1/4 = 3/12<br>
+      4/12 + 3/12 = <strong>7/12</strong>
+    </div>
+    <div class="exemple" style="margin-top:8px">
+      <strong>Exemple 2 :</strong> 5/6 − 1/4<br>
+      Dénominateur commun : 12 → 5/6 = 10/12 et 1/4 = 3/12<br>
+      10/12 − 3/12 = <strong>7/12</strong>
+    </div>
+    <div class="piege">
+      <h3>⚠️ Erreur classique</h3>
+      <p>On n'additionne JAMAIS les dénominateurs entre eux !<br>
+      1/3 + 1/4 <span style="color:red">≠</span> 2/7 &nbsp;✗&nbsp;&nbsp;&nbsp; 1/3 + 1/4 = 7/12 &nbsp;✓</p>
+    </div>
+  </div>
+
+  <!-- Récapitulatif -->
+  <div class="section recap">
+    <h2>📋 Récapitulatif des Formules Clés</h2>
+    <table>
+      <tr><th>Opération</th><th>Formule</th><th>Condition</th></tr>
+      <tr><td><strong>Égalité</strong></td><td>a/b = (a×k)/(b×k)</td><td>b ≠ 0, k ≠ 0</td></tr>
+      <tr><td><strong>Produit</strong></td><td>a × (b/c) = (a×b)/c</td><td>c ≠ 0</td></tr>
+      <tr><td><strong>Addition</strong></td><td>a/b + c/d = (a×d + c×b)/(b×d)</td><td>b ≠ 0, d ≠ 0</td></tr>
+      <tr><td><strong>Soustraction</strong></td><td>a/b − c/d = (a×d − c×b)/(b×d)</td><td>b ≠ 0, d ≠ 0</td></tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>
