@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Nombres relatifs, Proportionnalité, Équations & Stats – 5ème</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#fce4ec;color:#1a1a2e;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#880e4f,#c2185b);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.75rem;margin-bottom:6px}
+header p{font-size:.9rem;opacity:.9}
+.badge{display:inline-block;background:#ff6f00;color:white;font-size:.68rem;font-weight:bold;padding:2px 7px;border-radius:10px;margin-left:7px;text-transform:uppercase}
+.section-title{background:#880e4f;color:white;padding:9px 18px;border-radius:8px;margin:24px 0 13px;font-size:.95rem;font-weight:bold}
+.rappel{background:#f8bbd0;border-left:5px solid #880e4f;padding:10px 14px;border-radius:0 10px 10px 0;margin-bottom:13px;font-size:.87rem}
+.rappel strong{color:#880e4f}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #c2185b}
+.question.hard{border-left-color:#ff6f00}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#c2185b;background:#fce4ec}
+.option input[type=radio]{accent-color:#880e4f;width:15px;height:15px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#fce4ec;border-left:4px solid #c2185b;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#880e4f}
+.btn-valider{background:#880e4f;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem}
+.btn-valider:hover{background:#560027}
+.btn-valider:disabled{background:#f48fb1;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#880e4f;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#880e4f;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem;line-height:1.5}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+.share-btn:hover{background:#128C7E}
+.btn-voir{background:#c2185b;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:8px;font-size:.87rem}
+#submit-all{display:block;width:100%;padding:14px;background:#880e4f;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
+#submit-all:hover{background:#560027}
+.progress-bar{background:#f48fb1;border-radius:10px;height:7px;margin-bottom:17px;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,#880e4f,#c2185b);height:100%;border-radius:10px;transition:width .3s;width:0%}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>📊 Nombres relatifs · Proportionnalité<br>Équations · Statistiques</h1>
+  <p>Quiz · Mathématiques 5ème · 20 questions</p>
+</header>
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+<div class="section-title">➕➖ Partie 1 — Nombres relatifs</div>
+<div class="rappel"><strong>Rappel :</strong> Même signe → on additionne, on garde le signe. Signes différents → on soustrait, on garde le signe de la plus grande valeur. − × − = + · + × − = −</div>
+
+<div class="question" id="q1">
+  <div class="question-text">1. Ranger dans l'ordre croissant : −3 · +1 · −7 · 0 · +4</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> −3 · −7 · 0 · +1 · +4</label>
+    <label class="option"><input type="radio" name="q1" value="b"> −7 · −3 · 0 · +1 · +4</label>
+    <label class="option"><input type="radio" name="q1" value="c"> +4 · +1 · 0 · −3 · −7</label>
+    <label class="option"><input type="radio" name="q1" value="d"> −7 · −3 · +1 · 0 · +4</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','b')">Valider</button>
+  <div class="explication" id="exp-q1">✅ <strong>−7 · −3 · 0 · +1 · +4</strong> : sur la droite des nombres, les négatifs sont à gauche. −7 est plus à gauche que −3, donc −7 &lt; −3. Ordre croissant = du plus petit au plus grand.</div>
+</div>
+
+<div class="question" id="q2">
+  <div class="question-text">2. Calculer : (−5) + (−3)</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> +8</label>
+    <label class="option"><input type="radio" name="q2" value="b"> −2</label>
+    <label class="option"><input type="radio" name="q2" value="c"> −8</label>
+    <label class="option"><input type="radio" name="q2" value="d"> +2</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','c')">Valider</button>
+  <div class="explication" id="exp-q2">✅ <strong>−8</strong> : même signe (tous les deux négatifs) → on additionne les valeurs et on garde le signe − → −(5+3) = −8.</div>
+</div>
+
+<div class="question" id="q3">
+  <div class="question-text">3. Calculer : (+8) + (−3)</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> +11</label>
+    <label class="option"><input type="radio" name="q3" value="b"> −5</label>
+    <label class="option"><input type="radio" name="q3" value="c"> −11</label>
+    <label class="option"><input type="radio" name="q3" value="d"> +5</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','d')">Valider</button>
+  <div class="explication" id="exp-q3">✅ <strong>+5</strong> : signes différents → on soustrait 8−3=5. Le signe + domine car |8| &gt; |3|. Pensez à la température : si il fait +8° et il descend de 3° → +5°.</div>
+</div>
+
+<div class="question hard" id="q4">
+  <div class="question-text">4. Calculer : (+5) − (−3) <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> +2</label>
+    <label class="option"><input type="radio" name="q4" value="b"> −8</label>
+    <label class="option"><input type="radio" name="q4" value="c"> +8</label>
+    <label class="option"><input type="radio" name="q4" value="d"> −2</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','c')">Valider</button>
+  <div class="explication" id="exp-q4">✅ <strong>+8</strong> : soustraire un négatif = ajouter → (+5) − (−3) = (+5) + (+3) = +8. Règle : − × − = + donc − (−3) = +3.</div>
+</div>
+
+<div class="question hard" id="q5">
+  <div class="question-text">5. Calculer : (−4) × (−3) <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> −12</label>
+    <label class="option"><input type="radio" name="q5" value="b"> +12</label>
+    <label class="option"><input type="radio" name="q5" value="c"> −7</label>
+    <label class="option"><input type="radio" name="q5" value="d"> +7</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','b')">Valider</button>
+  <div class="explication" id="exp-q5">✅ <strong>+12</strong> : deux nombres de même signe → résultat positif. − × − = +, donc (−4)×(−3) = +12. Un négatif × un négatif donne TOUJOURS un positif !</div>
+</div>
+
+<div class="section-title">📏 Partie 2 — Proportionnalité & Pourcentages</div>
+<div class="rappel"><strong>Rappel :</strong> Tableau proportionnel → rapport constant. Produit en croix : a/b = c/d → a×d = b×c. Pourcentage : valeur × (taux/100).</div>
+
+<div class="question" id="q6">
+  <div class="question-text">6. Ce tableau est-il proportionnel ? &nbsp; x : 2 · 4 · 6 &nbsp;|&nbsp; y : 5 · 10 · 15</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> Non, car 5 et 10 sont différents</label>
+    <label class="option"><input type="radio" name="q6" value="b"> Oui, car y/x = 2,5 dans chaque colonne</label>
+    <label class="option"><input type="radio" name="q6" value="c"> Non, car x et y ne sont pas égaux</label>
+    <label class="option"><input type="radio" name="q6" value="d"> Oui, car les nombres augmentent</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q6','b')">Valider</button>
+  <div class="explication" id="exp-q6">✅ <strong>Oui</strong> : 5/2 = 2,5 · 10/4 = 2,5 · 15/6 = 2,5. Le rapport est constant → tableau proportionnel. Le coefficient de proportionnalité est 2,5.</div>
+</div>
+
+<div class="question hard" id="q7">
+  <div class="question-text">7. 5 cahiers coûtent 7,50€. Combien coûtent 8 cahiers ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> 10€</label>
+    <label class="option"><input type="radio" name="q7" value="b"> 12€</label>
+    <label class="option"><input type="radio" name="q7" value="c"> 9,50€</label>
+    <label class="option"><input type="radio" name="q7" value="d"> 11€</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q7','b')">Valider</button>
+  <div class="explication" id="exp-q7">✅ <strong>12€</strong> : produit en croix → x = (8 × 7,50) / 5 = 60 / 5 = 12€. On peut aussi : 1 cahier = 7,50÷5 = 1,50€ · 8 cahiers = 8×1,50 = 12€.</div>
+</div>
+
+<div class="question" id="q8">
+  <div class="question-text">8. Calculer 30% de 200</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> 30</label>
+    <label class="option"><input type="radio" name="q8" value="b"> 60</label>
+    <label class="option"><input type="radio" name="q8" value="c"> 600</label>
+    <label class="option"><input type="radio" name="q8" value="d"> 6</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q8','b')">Valider</button>
+  <div class="explication" id="exp-q8">✅ <strong>60</strong> : 200 × 30/100 = 200 × 0,30 = 60. Astuce : 10% de 200 = 20, donc 30% = 3 × 20 = 60.</div>
+</div>
+
+<div class="question hard" id="q9">
+  <div class="question-text">9. Un article coûte 120€. Il est soldé à −25%. Quel est le nouveau prix ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> 95€</label>
+    <label class="option"><input type="radio" name="q9" value="b"> 90€</label>
+    <label class="option"><input type="radio" name="q9" value="c"> 30€</label>
+    <label class="option"><input type="radio" name="q9" value="d"> 100€</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q9','b')">Valider</button>
+  <div class="explication" id="exp-q9">✅ <strong>90€</strong> : réduction = 120 × 25/100 = 30€. Nouveau prix = 120 − 30 = 90€. Ou directement : 120 × 0,75 = 90€ (car on garde 75% du prix).</div>
+</div>
+
+<div class="section-title">⚖️ Partie 3 — Équations</div>
+<div class="rappel"><strong>Rappel :</strong> Isoler x en effectuant la même opération des deux côtés. TOUJOURS vérifier en remplaçant x dans l'équation de départ.</div>
+
+<div class="question" id="q10">
+  <div class="question-text">10. Résoudre : x + 9 = 15</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> x = 24</label>
+    <label class="option"><input type="radio" name="q10" value="b"> x = 4</label>
+    <label class="option"><input type="radio" name="q10" value="c"> x = 6</label>
+    <label class="option"><input type="radio" name="q10" value="d"> x = 9</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q10','c')">Valider</button>
+  <div class="explication" id="exp-q10">✅ <strong>x = 6</strong> : on soustrait 9 des deux côtés → x = 15 − 9 = 6. Vérif : 6 + 9 = 15 ✓.</div>
+</div>
+
+<div class="question" id="q11">
+  <div class="question-text">11. Résoudre : 4x = 28</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q11" value="a"> x = 112</label>
+    <label class="option"><input type="radio" name="q11" value="b"> x = 7</label>
+    <label class="option"><input type="radio" name="q11" value="c"> x = 24</label>
+    <label class="option"><input type="radio" name="q11" value="d"> x = 32</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q11','b')">Valider</button>
+  <div class="explication" id="exp-q11">✅ <strong>x = 7</strong> : on divise les deux côtés par 4 → x = 28 ÷ 4 = 7. Vérif : 4 × 7 = 28 ✓.</div>
+</div>
+
+<div class="question hard" id="q12">
+  <div class="question-text">12. Résoudre : 3x + 5 = 20 <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q12" value="a"> x = 8,3</label>
+    <label class="option"><input type="radio" name="q12" value="b"> x = 5</label>
+    <label class="option"><input type="radio" name="q12" value="c"> x = 75</label>
+    <label class="option"><input type="radio" name="q12" value="d"> x = 3</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q12','b')">Valider</button>
+  <div class="explication" id="exp-q12">✅ <strong>x = 5</strong> : étape 1 → 3x = 20−5 = 15. Étape 2 → x = 15÷3 = 5. Vérif : 3×5 + 5 = 15 + 5 = 20 ✓.</div>
+</div>
+
+<div class="question hard" id="q13">
+  <div class="question-text">13. Résoudre : 5x − 3 = 2x + 9 <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q13" value="a"> x = 2</label>
+    <label class="option"><input type="radio" name="q13" value="b"> x = 6</label>
+    <label class="option"><input type="radio" name="q13" value="c"> x = 4</label>
+    <label class="option"><input type="radio" name="q13" value="d"> x = 3</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q13','c')">Valider</button>
+  <div class="explication" id="exp-q13">✅ <strong>x = 4</strong> : on regroupe les x → 5x−2x = 9+3 → 3x = 12 → x = 4. Vérif : 5×4−3 = 17 et 2×4+9 = 17 ✓.</div>
+</div>
+
+<div class="question hard" id="q14">
+  <div class="question-text">14. Trouver x : "Le triple d'un nombre diminué de 4 donne 17" <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q14" value="a"> x = 7</label>
+    <label class="option"><input type="radio" name="q14" value="b"> x = 4</label>
+    <label class="option"><input type="radio" name="q14" value="c"> x = 13</label>
+    <label class="option"><input type="radio" name="q14" value="d"> x = 11</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q14','a')">Valider</button>
+  <div class="explication" id="exp-q14">✅ <strong>x = 7</strong> : "triple d'un nombre" = 3x, "diminué de 4" = −4, "donne 17" = =17. Équation : 3x − 4 = 17 → 3x = 21 → x = 7. Vérif : 3×7−4 = 17 ✓.</div>
+</div>
+
+<div class="section-title">📊 Partie 4 — Statistiques</div>
+<div class="rappel"><strong>Rappel :</strong> Moyenne = somme ÷ nombre de valeurs. Médiane = valeur du milieu (après tri). Mode = valeur la plus fréquente. Étendue = max − min.</div>
+
+<div class="question" id="q15">
+  <div class="question-text">15. Notes d'Oscar : 8, 12, 14, 10, 16. Quelle est sa moyenne ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q15" value="a"> 12</label>
+    <label class="option"><input type="radio" name="q15" value="b"> 10</label>
+    <label class="option"><input type="radio" name="q15" value="c"> 14</label>
+    <label class="option"><input type="radio" name="q15" value="d"> 11</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q15','a')">Valider</button>
+  <div class="explication" id="exp-q15">✅ <strong>12</strong> : somme = 8+12+14+10+16 = 60. Nombre de notes = 5. Moyenne = 60÷5 = 12.</div>
+</div>
+
+<div class="question hard" id="q16">
+  <div class="question-text">16. Quelle est la médiane de la série : 3, 7, 9, 12, 15 ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q16" value="a"> 7</label>
+    <label class="option"><input type="radio" name="q16" value="b"> 9,2</label>
+    <label class="option"><input type="radio" name="q16" value="c"> 12</label>
+    <label class="option"><input type="radio" name="q16" value="d"> 9</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q16','d')">Valider</button>
+  <div class="explication" id="exp-q16">✅ <strong>9</strong> : série déjà triée · 5 valeurs (impair) · la valeur du milieu est la 3ème → 3 · 7 · <strong>9</strong> · 12 · 15. La médiane est 9.</div>
+</div>
+
+<div class="question" id="q17">
+  <div class="question-text">17. Série : 5, 3, 7, 3, 9, 3, 6. Quel est le mode ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q17" value="a"> 5</label>
+    <label class="option"><input type="radio" name="q17" value="b"> 7</label>
+    <label class="option"><input type="radio" name="q17" value="c"> 3</label>
+    <label class="option"><input type="radio" name="q17" value="d"> 9</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q17','c')">Valider</button>
+  <div class="explication" id="exp-q17">✅ <strong>3</strong> : le mode est la valeur la plus fréquente. Dans la série, 3 apparaît 3 fois, toutes les autres valeurs n'apparaissent qu'une fois. Donc mode = 3.</div>
+</div>
+
+<div class="question" id="q18">
+  <div class="question-text">18. Série : 4, 7, 11, 2, 9. Quelle est l'étendue ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q18" value="a"> 6,6</label>
+    <label class="option"><input type="radio" name="q18" value="b"> 9</label>
+    <label class="option"><input type="radio" name="q18" value="c"> 7</label>
+    <label class="option"><input type="radio" name="q18" value="d"> 11</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q18','b')">Valider</button>
+  <div class="explication" id="exp-q18">✅ <strong>9</strong> : étendue = valeur max − valeur min = 11 − 2 = 9. L'étendue mesure la dispersion de la série (entre la plus grande et la plus petite valeur).</div>
+</div>
+
+<div class="question hard" id="q19">
+  <div class="question-text">19. Médiane de : 2, 5, 8, 11 (nombre pair de valeurs) <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q19" value="a"> 8</label>
+    <label class="option"><input type="radio" name="q19" value="b"> 6,5</label>
+    <label class="option"><input type="radio" name="q19" value="c"> 5</label>
+    <label class="option"><input type="radio" name="q19" value="d"> 6</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q19','b')">Valider</button>
+  <div class="explication" id="exp-q19">✅ <strong>6,5</strong> : 4 valeurs (pair) → la médiane est la moyenne des 2 valeurs du milieu → (5+8)÷2 = 13÷2 = 6,5. On prend les 2ème et 3ème valeurs.</div>
+</div>
+
+<div class="question hard" id="q20">
+  <div class="question-text">20. Moyenne pondérée : Maths coeff.3 → 14 ; Français coeff.2 → 10 ; Sport coeff.1 → 18. Quelle est la moyenne ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q20" value="a"> 14</label>
+    <label class="option"><input type="radio" name="q20" value="b"> 13</label>
+    <label class="option"><input type="radio" name="q20" value="c"> 12</label>
+    <label class="option"><input type="radio" name="q20" value="d"> 15</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q20','b')">Valider</button>
+  <div class="explication" id="exp-q20">✅ <strong>13</strong> : (14×3 + 10×2 + 18×1) ÷ (3+2+1) = (42 + 20 + 18) ÷ 6 = 80 ÷ 6 = 13,33... → arrondi à 13. ⚠️ On divise par la somme des coefficients (6), pas par le nombre de matières (3) !</div>
+</div>
+
+<button id="submit-all" onclick="showScore()">🎯 Voir mon résultat final</button>
+
+<div id="score-section">
+  <h2>📊 Résultat</h2>
+  <div id="score-display"></div>
+  <div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none">
+    <h3>❌ Questions à retravailler :</h3>
+    <ul id="errors-list"></ul>
+  </div>
+  <button class="btn-voir" onclick="window.scrollTo({top:0,behavior:'smooth'})">🔍 Revoir les questions</button><br>
+  <button class="share-btn" onclick="shareResult()">📲 Partager sur WhatsApp</button>
+</div>
+</div>
+
+<script>
+const correct={q1:'b',q2:'c',q3:'d',q4:'c',q5:'b',q6:'b',q7:'b',q8:'b',q9:'b',q10:'c',q11:'b',q12:'b',q13:'c',q14:'a',q15:'a',q16:'d',q17:'c',q18:'b',q19:'b',q20:'b'};
+const labels={q1:'Q1 – Ordre croissant des relatifs',q2:'Q2 – (−5)+(−3) = −8',q3:'Q3 – (+8)+(−3) = +5',q4:'Q4 – (+5)−(−3) = +8 [soustraction d\'un négatif]',q5:'Q5 – (−4)×(−3) = +12 [− × − = +]',q6:'Q6 – Tableau proportionnel (rapport constant)',q7:'Q7 – Règle de trois : 8 cahiers à 1,50€ = 12€',q8:'Q8 – 30% de 200 = 60',q9:'Q9 – Solde −25% sur 120€ = 90€',q10:'Q10 – Équation x+9=15 → x=6',q11:'Q11 – Équation 4x=28 → x=7',q12:'Q12 – Équation 3x+5=20 → x=5',q13:'Q13 – Équation 5x−3=2x+9 → x=4',q14:'Q14 – Mise en équation : 3x−4=17 → x=7',q15:'Q15 – Moyenne de 8,12,14,10,16 = 12',q16:'Q16 – Médiane de 3,7,9,12,15 = 9',q17:'Q17 – Mode = 3 (valeur la plus fréquente)',q18:'Q18 – Étendue = max−min = 11−2 = 9',q19:'Q19 – Médiane (pair) : (5+8)÷2 = 6,5',q20:'Q20 – Moyenne pondérée avec coefficients'};
+const answered={};let score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  const chosen=document.querySelector(`input[name="${qid}"]:checked`);
+  if(!chosen){alert('Choisis une réponse !');return;}
+  answered[qid]=chosen.value;
+  document.querySelectorAll(`#${qid} .option`).forEach((opt,i)=>{
+    const val=['a','b','c','d'][i];
+    opt.style.pointerEvents='none';
+    if(val===rep)opt.classList.add('correct');
+    else if(val===chosen.value&&chosen.value!==rep)opt.classList.add('wrong');
+  });
+  document.getElementById(`exp-${qid}`).style.display='block';
+  document.querySelector(`#${qid} .btn-valider`).disabled=true;
+  if(chosen.value===rep)score++;
+  document.getElementById('progress').style.width=(Object.keys(answered).length/20*100)+'%';
+}
+function showScore(){
+  const errors=Object.keys(correct).filter(q=>answered[q]!==correct[q]);
+  const missing=Object.keys(correct).filter(q=>!answered[q]);
+  document.getElementById('score-display').textContent=score+' / 20';
+  let msg='';
+  if(score===20)msg='🏆 Parfait ! Maîtrise totale des 4 chapitres !';
+  else if(score>=17)msg='🌟 Excellent ! Très bon travail !';
+  else if(score>=14)msg='👍 Bien ! Quelques points à revoir avec la fiche.';
+  else if(score>=10)msg='📚 Continue ! Relis la fiche et refais les exemples.';
+  else msg='💪 Courage ! Ces chapitres demandent de la pratique.';
+  document.getElementById('score-message').textContent=msg;
+  const allErrors=[...errors,...missing];
+  if(allErrors.length>0){
+    document.getElementById('errors-container').style.display='block';
+    document.getElementById('errors-list').innerHTML=allErrors.map(q=>`<li>${labels[q]}</li>`).join('');
+  }
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function shareResult(){
+  const errors=Object.keys(correct).filter(q=>answered[q]!==correct[q]);
+  const missing=Object.keys(correct).filter(q=>!answered[q]);
+  let txt=`📊 Quiz Nombres relatifs, Proportionnalité, Équations & Stats – Maths 5ème\nScore : ${score}/20\n`;
+  const allErrors=[...errors,...missing];
+  if(allErrors.length>0)txt+='\nPoints à retravailler :\n'+allErrors.map(q=>'• '+labels[q]).join('\n');
+  else txt+='✅ Toutes les questions réussies !';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script>
+</body>
+</html>
