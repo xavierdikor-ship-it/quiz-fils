@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Calcul littéral & Divisibilité 5ème</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e8eaf6;color:#1a1a2e;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#283593,#3949ab);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{font-size:.9rem;opacity:.9}
+.badge{display:inline-block;background:#ff6f00;color:white;font-size:.68rem;font-weight:bold;padding:2px 7px;border-radius:10px;margin-left:7px;text-transform:uppercase}
+.section-title{background:#283593;color:white;padding:9px 18px;border-radius:8px;margin:24px 0 13px;font-size:.95rem;font-weight:bold}
+.rappel{background:#c5cae9;border-left:5px solid #283593;padding:10px 14px;border-radius:0 10px 10px 0;margin-bottom:13px;font-size:.87rem}
+.rappel strong{color:#283593}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #3949ab}
+.question.hard{border-left-color:#ff6f00}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#3949ab;background:#e8eaf6}
+.option input[type=radio]{accent-color:#283593;width:15px;height:15px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#e8eaf6;border-left:4px solid #3949ab;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#283593}
+.btn-valider{background:#283593;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem}
+.btn-valider:hover{background:#1a237e}
+.btn-valider:disabled{background:#9fa8da;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#283593;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#283593;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem;line-height:1.5}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+.share-btn:hover{background:#128C7E}
+.btn-voir{background:#3949ab;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:8px;font-size:.87rem}
+#submit-all{display:block;width:100%;padding:14px;background:#283593;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
+#submit-all:hover{background:#1a237e}
+.progress-bar{background:#9fa8da;border-radius:10px;height:7px;margin-bottom:17px;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,#283593,#3949ab);height:100%;border-radius:10px;transition:width .3s;width:0%}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>🔢 Calcul littéral & Divisibilité</h1>
+  <p>Quiz · Mathématiques 5ème · 20 questions</p>
+</header>
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+<div class="section-title">✏️ Partie 1 — Expressions littérales & Réduction</div>
+<div class="rappel"><strong>Rappel :</strong> Termes semblables = même lettre. On additionne/soustrait leurs coefficients. Ex : 5x + 3x = 8x. ⚠️ 3x + 2 ≠ 5x (pas la même nature).</div>
+
+<div class="question" id="q1">
+  <div class="question-text">1. Laquelle de ces expressions est une expression littérale ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> 3 + 5 = 8</label>
+    <label class="option"><input type="radio" name="q1" value="b"> 4 × 7</label>
+    <label class="option"><input type="radio" name="q1" value="c"> 3x + 5</label>
+    <label class="option"><input type="radio" name="q1" value="d"> 100 − 25</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','c')">Valider</button>
+  <div class="explication" id="exp-q1">✅ <strong>3x + 5</strong> est une expression littérale car elle contient une lettre (x). Les autres ne contiennent que des nombres.</div>
+</div>
+
+<div class="question" id="q2">
+  <div class="question-text">2. Dans l'expression 7a + 3, quel est le coefficient de a ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> 3</label>
+    <label class="option"><input type="radio" name="q2" value="b"> a</label>
+    <label class="option"><input type="radio" name="q2" value="c"> 7</label>
+    <label class="option"><input type="radio" name="q2" value="d"> 10</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','c')">Valider</button>
+  <div class="explication" id="exp-q2">✅ <strong>7</strong> : le coefficient est le nombre devant la lettre. Dans 7a, le coefficient est 7 et la variable est a.</div>
+</div>
+
+<div class="question" id="q3">
+  <div class="question-text">3. Réduire : 5x + 3x</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> 8x²</label>
+    <label class="option"><input type="radio" name="q3" value="b"> 8x</label>
+    <label class="option"><input type="radio" name="q3" value="c"> 15x</label>
+    <label class="option"><input type="radio" name="q3" value="d"> 5x + 3x (déjà réduit)</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','b')">Valider</button>
+  <div class="explication" id="exp-q3">✅ <strong>8x</strong> : 5x + 3x = (5+3)x = 8x. On additionne les coefficients et on garde la lettre.</div>
+</div>
+
+<div class="question" id="q4">
+  <div class="question-text">4. Réduire : 7a − 2a + 3</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> 8a</label>
+    <label class="option"><input type="radio" name="q4" value="b"> 5a + 3</label>
+    <label class="option"><input type="radio" name="q4" value="c"> 8a + 3</label>
+    <label class="option"><input type="radio" name="q4" value="d"> 5a</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','b')">Valider</button>
+  <div class="explication" id="exp-q4">✅ <strong>5a + 3</strong> : 7a − 2a = 5a. Le +3 reste seul (pas de lettre, pas semblable à 5a).</div>
+</div>
+
+<div class="question hard" id="q5">
+  <div class="question-text">5. Réduire : 4x + 3y + 2x − y <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> 9xy</label>
+    <label class="option"><input type="radio" name="q5" value="b"> 6x + 4y</label>
+    <label class="option"><input type="radio" name="q5" value="c"> 6x + 2y</label>
+    <label class="option"><input type="radio" name="q5" value="d"> 8xy</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','c')">Valider</button>
+  <div class="explication" id="exp-q5">✅ <strong>6x + 2y</strong> : on regroupe x avec x → 4x+2x=6x, et y avec y → 3y−y=2y. ⚠️ On ne peut pas mélanger x et y !</div>
+</div>
+
+<div class="question hard" id="q6">
+  <div class="question-text">6. Laquelle de ces égalités est VRAIE ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> 3x + 2 = 5x</label>
+    <label class="option"><input type="radio" name="q6" value="b"> 4x + 3x² = 7x²</label>
+    <label class="option"><input type="radio" name="q6" value="c"> 6a − 2a = 4a</label>
+    <label class="option"><input type="radio" name="q6" value="d"> 5x + 3y = 8xy</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q6','c')">Valider</button>
+  <div class="explication" id="exp-q6">✅ <strong>6a − 2a = 4a</strong> ✓ : termes semblables, on soustrait les coefficients 6−2=4. Les autres sont fausses : 3x et 2 ne sont pas semblables ; x et x² non plus ; x et y non plus.</div>
+</div>
+
+<div class="question" id="q7">
+  <div class="question-text">7. Réduire : 3a + 5 + 2a − 1</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> 10a</label>
+    <label class="option"><input type="radio" name="q7" value="b"> 5a + 4</label>
+    <label class="option"><input type="radio" name="q7" value="c"> 5a + 6</label>
+    <label class="option"><input type="radio" name="q7" value="d"> 3a + 6</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q7','b')">Valider</button>
+  <div class="explication" id="exp-q7">✅ <strong>5a + 4</strong> : les a : 3a + 2a = 5a. Les nombres : 5 − 1 = 4. Résultat : 5a + 4.</div>
+</div>
+
+<div class="question" id="q8">
+  <div class="question-text">8. Réduire : 6x − x + 4</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> 5x + 4</label>
+    <label class="option"><input type="radio" name="q8" value="b"> 6x + 4</label>
+    <label class="option"><input type="radio" name="q8" value="c"> 10x</label>
+    <label class="option"><input type="radio" name="q8" value="d"> 5 + 4</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q8','a')">Valider</button>
+  <div class="explication" id="exp-q8">✅ <strong>5x + 4</strong> : 6x − x = 5x (attention : x seul = 1x). Et + 4 reste. Résultat : 5x + 4.</div>
+</div>
+
+<div class="question hard" id="q9">
+  <div class="question-text">9. Réduire : 2x + 5y − x + 3y <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> 9xy</label>
+    <label class="option"><input type="radio" name="q9" value="b"> x + 8y</label>
+    <label class="option"><input type="radio" name="q9" value="c"> 3x + 8y</label>
+    <label class="option"><input type="radio" name="q9" value="d"> x + 2y</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q9','b')">Valider</button>
+  <div class="explication" id="exp-q9">✅ <strong>x + 8y</strong> : les x : 2x − x = x. Les y : 5y + 3y = 8y. ⚠️ On ne mélange jamais x et y.</div>
+</div>
+
+<div class="section-title">➗ Partie 3 — Critères de divisibilité</div>
+<div class="rappel"><strong>Rappel :</strong> Par 2 → pair. Par 3 → somme des chiffres divisible par 3. Par 5 → finit par 0 ou 5. Par 9 → somme divisible par 9. Par 10 → finit par 0.</div>
+
+<div class="question" id="q10">
+  <div class="question-text">10. Le nombre 348 est-il divisible par 3 ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> Non, car il est pair</label>
+    <label class="option"><input type="radio" name="q10" value="b"> Oui, car 3+4+8 = 15 et 15 est divisible par 3</label>
+    <label class="option"><input type="radio" name="q10" value="c"> Non, car il ne finit pas par 3</label>
+    <label class="option"><input type="radio" name="q10" value="d"> Oui, car il finit par 8</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q10','b')">Valider</button>
+  <div class="explication" id="exp-q10">✅ <strong>Oui</strong> : critère par 3 → somme des chiffres : 3+4+8 = 15, et 15÷3 = 5. Donc 348 est divisible par 3 → 348÷3 = 116.</div>
+</div>
+
+<div class="question" id="q11">
+  <div class="question-text">11. Parmi ces nombres, lequel est divisible à la fois par 2 ET par 5 ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q11" value="a"> 125</label>
+    <label class="option"><input type="radio" name="q11" value="b"> 324</label>
+    <label class="option"><input type="radio" name="q11" value="c"> 350</label>
+    <label class="option"><input type="radio" name="q11" value="d"> 155</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q11','c')">Valider</button>
+  <div class="explication" id="exp-q11">✅ <strong>350</strong> : finit par 0 → divisible par 2 ET par 5. Un nombre divisible par 2 et 5 finit toujours par 0 (donc divisible par 10).</div>
+</div>
+
+<div class="question hard" id="q12">
+  <div class="question-text">12. Le nombre 2 340 est-il divisible par 9 ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q12" value="a"> Non, car il est pair</label>
+    <label class="option"><input type="radio" name="q12" value="b"> Non, car 2+3+4+0 = 9 n'est pas divisible par 9</label>
+    <label class="option"><input type="radio" name="q12" value="c"> Oui, car 2+3+4+0 = 9 et 9÷9 = 1</label>
+    <label class="option"><input type="radio" name="q12" value="d"> Oui, car il finit par 0</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q12','c')">Valider</button>
+  <div class="explication" id="exp-q12">✅ <strong>Oui</strong> : 2+3+4+0 = 9, et 9 est divisible par 9 → donc 2 340 est divisible par 9. 2340÷9 = 260.</div>
+</div>
+
+<div class="section-title">🔑 Partie 4 — Nombres premiers & Décomposition</div>
+<div class="rappel"><strong>Rappel :</strong> Nombre premier = divisible uniquement par 1 et lui-même. 1 n'est PAS premier. Décomposition : on divise successivement par 2, 3, 5, 7...</div>
+
+<div class="question" id="q13">
+  <div class="question-text">13. Lequel de ces nombres est premier ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q13" value="a"> 9</label>
+    <label class="option"><input type="radio" name="q13" value="b"> 15</label>
+    <label class="option"><input type="radio" name="q13" value="c"> 1</label>
+    <label class="option"><input type="radio" name="q13" value="d"> 17</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q13','d')">Valider</button>
+  <div class="explication" id="exp-q13">✅ <strong>17</strong> est premier : ses seuls diviseurs sont 1 et 17. 9 = 3×3, 15 = 3×5. Et 1 n'est PAS premier par définition.</div>
+</div>
+
+<div class="question hard" id="q14">
+  <div class="question-text">14. Quelle est la décomposition en facteurs premiers de 36 ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q14" value="a"> 4 × 9</label>
+    <label class="option"><input type="radio" name="q14" value="b"> 2² × 3²</label>
+    <label class="option"><input type="radio" name="q14" value="c"> 6 × 6</label>
+    <label class="option"><input type="radio" name="q14" value="d"> 2 × 18</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q14','b')">Valider</button>
+  <div class="explication" id="exp-q14">✅ <strong>2² × 3²</strong> : 36÷2=18, 18÷2=9, 9÷3=3, 3÷3=1 → 36 = 2×2×3×3 = 2²×3². ⚠️ 4×9 et 6×6 ne sont pas des décompositions en facteurs PREMIERS (4, 6, 9 ne sont pas premiers).</div>
+</div>
+
+<div class="section-title">🧮 Partie 5 — PGCD, PPCM & Synthèse</div>
+
+<div class="question hard" id="q15">
+  <div class="question-text">15. Quel est le PGCD de 24 et 36 ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q15" value="a"> 4</label>
+    <label class="option"><input type="radio" name="q15" value="b"> 6</label>
+    <label class="option"><input type="radio" name="q15" value="c"> 12</label>
+    <label class="option"><input type="radio" name="q15" value="d"> 72</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q15','c')">Valider</button>
+  <div class="explication" id="exp-q15">✅ <strong>12</strong> : 24=2³×3 et 36=2²×3². Facteurs communs (plus petit exposant) : 2² et 3 → PGCD = 4×3 = 12. Vérif : 24÷12=2 ✓ et 36÷12=3 ✓.</div>
+</div>
+
+<div class="question hard" id="q16">
+  <div class="question-text">16. Simplifier la fraction 18/24 grâce au PGCD <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q16" value="a"> 9/12</label>
+    <label class="option"><input type="radio" name="q16" value="b"> 3/4</label>
+    <label class="option"><input type="radio" name="q16" value="c"> 2/3</label>
+    <label class="option"><input type="radio" name="q16" value="d"> 6/8</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q16','b')">Valider</button>
+  <div class="explication" id="exp-q16">✅ <strong>3/4</strong> : PGCD(18,24) = 6. On divise : 18÷6 = 3 et 24÷6 = 4 → 3/4. C'est la fraction irréductible car PGCD(3,4)=1.</div>
+</div>
+
+<div class="question" id="q17">
+  <div class="question-text">17. Quel est le PPCM de 4 et 6 ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q17" value="a"> 2</label>
+    <label class="option"><input type="radio" name="q17" value="b"> 24</label>
+    <label class="option"><input type="radio" name="q17" value="c"> 12</label>
+    <label class="option"><input type="radio" name="q17" value="d"> 10</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q17','c')">Valider</button>
+  <div class="explication" id="exp-q17">✅ <strong>12</strong> : multiples de 4 → 4, 8, 12... Multiples de 6 → 6, 12... Le plus petit commun est 12. Utile pour calculer 1/4 + 1/6 = 3/12 + 2/12 = 5/12.</div>
+</div>
+
+<div class="question" id="q18">
+  <div class="question-text">18. Dans l'expression 3x + 5, combien y a-t-il de termes ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q18" value="a"> 1</label>
+    <label class="option"><input type="radio" name="q18" value="b"> 2</label>
+    <label class="option"><input type="radio" name="q18" value="c"> 3</label>
+    <label class="option"><input type="radio" name="q18" value="d"> 4</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q18','b')">Valider</button>
+  <div class="explication" id="exp-q18">✅ <strong>2 termes</strong> : 3x + 5 est composé du terme 3x et du terme 5, séparés par le signe +.</div>
+</div>
+
+<div class="question hard" id="q19">
+  <div class="question-text">19. Réduire : 8a + 3b − 3a + b <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q19" value="a"> 5ab + 4ab</label>
+    <label class="option"><input type="radio" name="q19" value="b"> 9ab</label>
+    <label class="option"><input type="radio" name="q19" value="c"> 5a + 4b</label>
+    <label class="option"><input type="radio" name="q19" value="d"> 11a + 2b</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q19','c')">Valider</button>
+  <div class="explication" id="exp-q19">✅ <strong>5a + 4b</strong> : les a : 8a − 3a = 5a. Les b : 3b + b = 4b. ⚠️ On ne multiplie pas a et b ensemble.</div>
+</div>
+
+<div class="question hard" id="q20">
+  <div class="question-text">20. Laquelle de ces affirmations est FAUSSE ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q20" value="a"> 2 est le seul nombre premier pair</label>
+    <label class="option"><input type="radio" name="q20" value="b"> Un nombre divisible par 9 est aussi divisible par 3</label>
+    <label class="option"><input type="radio" name="q20" value="c"> 1 est un nombre premier</label>
+    <label class="option"><input type="radio" name="q20" value="d"> Le PGCD de deux nombres est toujours ≤ au plus petit des deux</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q20','c')">Valider</button>
+  <div class="explication" id="exp-q20">✅ C'est "<strong>1 est un nombre premier</strong>" qui est FAUSSE : 1 n'est pas premier par définition (un nombre premier doit avoir exactement 2 diviseurs distincts, or 1 n'en a qu'un seul : lui-même).</div>
+</div>
+
+<button id="submit-all" onclick="showScore()">🎯 Voir mon résultat final</button>
+
+<div id="score-section">
+  <h2>📊 Résultat</h2>
+  <div id="score-display"></div>
+  <div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none">
+    <h3>❌ Questions à retravailler :</h3>
+    <ul id="errors-list"></ul>
+  </div>
+  <button class="btn-voir" onclick="window.scrollTo({top:0,behavior:'smooth'})">🔍 Revoir les questions</button><br>
+  <button class="share-btn" onclick="shareResult()">📲 Partager sur WhatsApp</button>
+</div>
+</div>
+
+<script>
+const correct={q1:'c',q2:'c',q3:'b',q4:'b',q5:'c',q6:'c',q7:'b',q8:'a',q9:'b',q10:'b',q11:'c',q12:'c',q13:'d',q14:'b',q15:'c',q16:'b',q17:'c',q18:'b',q19:'c',q20:'c'};
+const labels={q1:'Q1 – Expression littérale = contient une lettre',q2:'Q2 – Coefficient de a dans 7a+3 = 7',q3:'Q3 – Réduire 5x+3x = 8x',q4:'Q4 – Réduire 7a−2a+3 = 5a+3',q5:'Q5 – Réduire 4x+3y+2x−y = 6x+2y',q6:'Q6 – 6a−2a=4a (seule vraie)',q7:'Q7 – Réduire 3a+5+2a−1 = 5a+4',q8:'Q8 – Réduire 6x−x+4 = 5x+4',q9:'Q9 – Réduire 2x+5y−x+3y = x+8y',q10:'Q10 – 348 divisible par 3 (somme=15)',q11:'Q11 – Divisible par 2 et 5 → finit par 0 (350)',q12:'Q12 – 2340 divisible par 9 (somme=9)',q13:'Q13 – 17 est premier (pas 1, 9, 15)',q14:'Q14 – 36 = 2²×3²',q15:'Q15 – PGCD(24,36) = 12',q16:'Q16 – Simplifier 18/24 = 3/4',q17:'Q17 – PPCM(4,6) = 12',q18:'Q18 – 3x+5 a 2 termes',q19:'Q19 – Réduire 8a+3b−3a+b = 5a+4b',q20:'Q20 – FAUSSE : 1 n\'est PAS premier'};
+const answered={};let score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  const chosen=document.querySelector(`input[name="${qid}"]:checked`);
+  if(!chosen){alert('Choisis une réponse !');return;}
+  answered[qid]=chosen.value;
+  document.querySelectorAll(`#${qid} .option`).forEach((opt,i)=>{
+    const val=['a','b','c','d'][i];
+    opt.style.pointerEvents='none';
+    if(val===rep)opt.classList.add('correct');
+    else if(val===chosen.value&&chosen.value!==rep)opt.classList.add('wrong');
+  });
+  document.getElementById(`exp-${qid}`).style.display='block';
+  document.querySelector(`#${qid} .btn-valider`).disabled=true;
+  if(chosen.value===rep)score++;
+  document.getElementById('progress').style.width=(Object.keys(answered).length/20*100)+'%';
+}
+function showScore(){
+  const errors=Object.keys(correct).filter(q=>answered[q]!==correct[q]);
+  const missing=Object.keys(correct).filter(q=>!answered[q]);
+  document.getElementById('score-display').textContent=score+' / 20';
+  let msg='';
+  if(score===20)msg='🏆 Parfait ! Champion du calcul littéral et de la divisibilité !';
+  else if(score>=17)msg='🌟 Excellent ! Très bonne maîtrise des notions.';
+  else if(score>=14)msg='👍 Bien ! Quelques points à revoir avec la fiche.';
+  else if(score>=10)msg='📚 Continue ! Relis bien les exemples de la fiche.';
+  else msg='💪 Courage ! Ces notions demandent de la pratique.';
+  document.getElementById('score-message').textContent=msg;
+  const allErrors=[...errors,...missing];
+  if(allErrors.length>0){
+    document.getElementById('errors-container').style.display='block';
+    document.getElementById('errors-list').innerHTML=allErrors.map(q=>`<li>${labels[q]}</li>`).join('');
+  }
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function shareResult(){
+  const errors=Object.keys(correct).filter(q=>answered[q]!==correct[q]);
+  const missing=Object.keys(correct).filter(q=>!answered[q]);
+  let txt=`🔢 Quiz Calcul littéral & Divisibilité – Maths 5ème\nScore : ${score}/20\n`;
+  const allErrors=[...errors,...missing];
+  if(allErrors.length>0)txt+='\nPoints à retravailler :\n'+allErrors.map(q=>'• '+labels[q]).join('\n');
+  else txt+='✅ Toutes les questions réussies !';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script>
+</body>
+</html>
