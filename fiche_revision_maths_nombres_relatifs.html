@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maths – Nombres relatifs, Proportionnalité, Équations & Statistiques – 5ème</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#fce4ec;color:#1a1a2e;padding:20px;line-height:1.6}
+.container{max-width:880px;margin:0 auto}
+header{background:linear-gradient(135deg,#880e4f,#c2185b);color:white;padding:32px;border-radius:16px;margin-bottom:26px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{font-size:.95rem;opacity:.9}
+.section{background:white;border-radius:14px;padding:24px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.08);border-left:7px solid #880e4f}
+.section h2{color:#880e4f;font-size:1.25rem;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #fce4ec}
+.subsection{margin-bottom:22px}
+.subsection h3{color:#c2185b;font-size:1rem;margin-bottom:10px;background:#fce4ec;padding:7px 12px;border-radius:6px}
+.def{background:#fce4ec;border-left:5px solid #c2185b;padding:13px 16px;border-radius:0 10px 10px 0;margin:10px 0;font-size:.93rem}
+.def strong{color:#880e4f}
+.exemple-box{background:#fff8e1;border:2px solid #ffc107;border-radius:10px;padding:14px 16px;margin:12px 0}
+.exemple-box .titre{color:#e65100;font-weight:bold;font-size:.85rem;margin-bottom:8px;text-transform:uppercase}
+.exemple-box p{font-size:.92rem;margin-bottom:5px}
+.exemple-box .calcul{background:#fffde7;border-radius:6px;padding:8px 12px;font-family:monospace;font-size:.94rem;margin:6px 0}
+.regle{background:#e3f2fd;border-left:5px solid #1565c0;padding:12px 16px;border-radius:0 10px 10px 0;margin:10px 0;font-size:.92rem}
+.regle strong{color:#0d47a1}
+.piege{background:#fff3e0;border:2px solid #ff9800;border-radius:10px;padding:12px 16px;margin:12px 0}
+.piege .titre{color:#e65100;font-weight:bold;font-size:.85rem;margin-bottom:6px}
+.methode{background:#e8f5e9;border-left:5px solid #2e7d32;padding:12px 16px;border-radius:0 10px 10px 0;margin:10px 0;font-size:.92rem}
+.methode strong{color:#1b5e20}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.9rem}
+th{background:#880e4f;color:white;padding:10px;text-align:center}
+td{padding:10px;border:1px solid #f48fb1;text-align:center}
+tr:nth-child(even) td{background:#fce4ec}
+td:first-child{text-align:left;font-weight:600}
+.droite{background:#f5f5f5;border-radius:10px;padding:14px;margin:10px 0;text-align:center;font-family:monospace;font-size:1rem;letter-spacing:2px;overflow-x:auto}
+.droite span.neg{color:#c2185b;font-weight:bold}
+.droite span.pos{color:#1565c0;font-weight:bold}
+.droite span.zero{color:#555;font-weight:bold}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+@media(max-width:600px){.grid2{grid-template-columns:1fr}}
+.card{background:#fce4ec;border-radius:10px;padding:12px 14px;font-size:.9rem}
+.card strong{color:#880e4f;display:block;margin-bottom:4px}
+.etape{background:#f3e5f5;border-left:4px solid #7b1fa2;padding:9px 14px;border-radius:0 8px 8px 0;margin:6px 0;font-size:.91rem}
+.etape span{color:#7b1fa2;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>📊 Nombres Relatifs · Proportionnalité<br>Équations · Statistiques</h1>
+  <p>Fiche de Révision · Mathématiques · 5ème</p>
+</header>
+
+<!-- ===================== PARTIE 1 : NOMBRES RELATIFS ===================== -->
+<div class="section">
+  <h2>➕➖ PARTIE 1 — Les Nombres Relatifs</h2>
+
+  <div class="subsection">
+    <h3>1.1 — C'est quoi un nombre relatif ?</h3>
+    <div class="def">
+      Un <strong>nombre relatif</strong> est un nombre accompagné d'un signe + ou −.<br>
+      • Les nombres <strong>positifs</strong> (+) sont supérieurs à 0 : +3, +7, +15...<br>
+      • Les nombres <strong>négatifs</strong> (−) sont inférieurs à 0 : −3, −7, −15...<br>
+      • 0 n'est ni positif ni négatif.
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemples de la vie réelle</div>
+      <p>🌡️ Température : −8°C = 8 degrés sous zéro | +25°C = 25 degrés au-dessus de zéro</p>
+      <p>🏦 Banque : −150€ = découvert de 150€ | +300€ = avoir de 300€</p>
+      <p>⛰️ Altitude : −50m = 50m sous le niveau de la mer | +1500m = 1500m au-dessus</p>
+    </div>
+    <div class="droite">
+      <span class="neg">−5</span> · <span class="neg">−4</span> · <span class="neg">−3</span> · <span class="neg">−2</span> · <span class="neg">−1</span> · <span class="zero">0</span> · <span class="pos">+1</span> · <span class="pos">+2</span> · <span class="pos">+3</span> · <span class="pos">+4</span> · <span class="pos">+5</span>
+      <div style="font-size:.75rem;color:#888;margin-top:6px">← nombres négatifs &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nombres positifs →</div>
+    </div>
+    <div class="regle"><strong>Sur la droite des nombres :</strong> plus on va vers la droite, plus le nombre est grand.<br>−2 &gt; −5 (car −2 est plus à droite) &nbsp; | &nbsp; −1 &lt; 3 (car −1 est plus à gauche)</div>
+  </div>
+
+  <div class="subsection">
+    <h3>1.2 — Addition et soustraction de nombres relatifs</h3>
+    <div class="regle">
+      <strong>Règle :</strong><br>
+      • <strong>Même signe</strong> → on additionne les valeurs et on garde le signe<br>
+      • <strong>Signes différents</strong> → on soustrait la plus petite valeur à la plus grande, on garde le signe de la plus grande valeur
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemples pas à pas</div>
+      <p><strong>Même signe :</strong></p>
+      <div class="calcul">(+5) + (+3) = +8 &nbsp;&nbsp; (même signe + → on additionne)</div>
+      <div class="calcul">(−5) + (−3) = −8 &nbsp;&nbsp; (même signe − → on additionne, résultat négatif)</div>
+      <p><strong>Signes différents :</strong></p>
+      <div class="calcul">(+8) + (−3) = +5 &nbsp;&nbsp; (8−3=5, le + domine car |8|>|3|)</div>
+      <div class="calcul">(+3) + (−8) = −5 &nbsp;&nbsp; (8−3=5, le − domine car |8|>|3|)</div>
+      <p><strong>Soustraire = ajouter l'opposé :</strong></p>
+      <div class="calcul">(+5) − (−3) = (+5) + (+3) = +8 &nbsp;&nbsp; (− × − = +)</div>
+      <div class="calcul">(+5) − (+3) = (+5) + (−3) = +2</div>
+    </div>
+    <div class="piege">
+      <div class="titre">⚠️ La règle des signes</div>
+      <p>+ × + = + &nbsp;&nbsp; − × − = + &nbsp;&nbsp; + × − = − &nbsp;&nbsp; − × + = −</p>
+      <p style="margin-top:6px">Ex : 3 − (−5) = 3 + 5 = 8 &nbsp;&nbsp;&nbsp;&nbsp; (le − devant la parenthèse change le signe)</p>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>1.3 — Multiplication et division de nombres relatifs</h3>
+    <div class="regle">
+      <strong>Règle :</strong><br>
+      • <strong>Deux nombres de même signe</strong> → résultat <strong>positif</strong><br>
+      • <strong>Deux nombres de signes différents</strong> → résultat <strong>négatif</strong>
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemples</div>
+      <div class="calcul">(+3) × (+4) = +12 &nbsp;&nbsp; (+ × + = +)</div>
+      <div class="calcul">(−3) × (−4) = +12 &nbsp;&nbsp; (− × − = +)</div>
+      <div class="calcul">(+3) × (−4) = −12 &nbsp;&nbsp; (+ × − = −)</div>
+      <div class="calcul">(−3) × (+4) = −12 &nbsp;&nbsp; (− × + = −)</div>
+      <div class="calcul">(−12) ÷ (−3) = +4 &nbsp;&nbsp; (même signe → résultat positif)</div>
+      <div class="calcul">(+12) ÷ (−3) = −4 &nbsp;&nbsp; (signes différents → résultat négatif)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PARTIE 2 : PROPORTIONNALITE ===================== -->
+<div class="section">
+  <h2>📏 PARTIE 2 — La Proportionnalité</h2>
+
+  <div class="subsection">
+    <h3>2.1 — C'est quoi la proportionnalité ?</h3>
+    <div class="def">
+      Deux grandeurs sont <strong>proportionnelles</strong> quand leur rapport est constant (toujours le même).<br>
+      Si on double l'une, l'autre double aussi. Si on triple l'une, l'autre triple aussi.
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Tableau de proportionnalité</div>
+      <table>
+        <tr><th>Nombre de kg</th><th>1</th><th>2</th><th>3</th><th>5</th><th>10</th></tr>
+        <tr><td>Prix en €</td><td>2</td><td>4</td><td>6</td><td>10</td><td>20</td></tr>
+      </table>
+      <p>→ Le rapport est toujours : Prix ÷ Quantité = 2 &nbsp; (le coefficient de proportionnalité)</p>
+      <div class="calcul">2/1 = 4/2 = 6/3 = 10/5 = 20/10 = 2</div>
+    </div>
+    <div class="regle"><strong>Vérifier si un tableau est proportionnel :</strong> le rapport ligne 2 / ligne 1 doit être TOUJOURS le même.</div>
+  </div>
+
+  <div class="subsection">
+    <h3>2.2 — La règle de trois (ou produit en croix)</h3>
+    <div class="methode">
+      <strong>Méthode :</strong> Si a/b = c/d alors a × d = b × c (produit en croix)<br>
+      Pour trouver une valeur manquante x : on pose la proportion et on croise.
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemple 1 : 3 stylos coûtent 4,50€. Combien coûtent 7 stylos ?</div>
+      <div class="calcul">3 stylos → 4,50€
+7 stylos → x€
+
+3/7 = 4,50/x  →  x = (7 × 4,50) / 3 = 31,50 / 3 = 10,50€</div>
+      <p>→ 7 stylos coûtent <strong>10,50€</strong></p>
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemple 2 : Sur une carte, 2 cm représente 50 km. Quelle distance représente 7 cm ?</div>
+      <div class="calcul">2 cm → 50 km
+7 cm → x km
+
+x = (7 × 50) / 2 = 350 / 2 = 175 km</div>
+      <p>→ 7 cm représente <strong>175 km</strong></p>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>2.3 — Les pourcentages</h3>
+    <div class="def">
+      Un <strong>pourcentage</strong> est une proportion exprimée sur 100.<br>
+      30% signifie "30 pour 100" → 30/100 = 0,30
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Calculs de pourcentage</div>
+      <p><strong>Calculer 20% de 150 :</strong></p>
+      <div class="calcul">150 × 20/100 = 150 × 0,20 = 30</div>
+      <p><strong>Un article à 80€ est soldé à −25%. Nouveau prix ?</strong></p>
+      <div class="calcul">Réduction = 80 × 25/100 = 80 × 0,25 = 20€
+Nouveau prix = 80 − 20 = 60€</div>
+      <p><strong>Exprimer 15 sur 60 en pourcentage :</strong></p>
+      <div class="calcul">(15/60) × 100 = 0,25 × 100 = 25%</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PARTIE 3 : EQUATIONS ===================== -->
+<div class="section">
+  <h2>⚖️ PARTIE 3 — Les Équations du 1er degré</h2>
+
+  <div class="subsection">
+    <h3>3.1 — C'est quoi une équation ?</h3>
+    <div class="def">
+      Une <strong>équation</strong> est une égalité avec une (ou plusieurs) inconnue(s).<br>
+      <strong>Résoudre</strong> une équation = trouver la valeur de l'inconnue (souvent x) qui rend l'égalité vraie.<br>
+      Cette valeur s'appelle la <strong>solution</strong> de l'équation.
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Analogie de la balance</div>
+      <p>Une équation, c'est comme une balance en équilibre : ce qu'on fait d'un côté, on doit le faire de l'autre pour garder l'équilibre.</p>
+      <div class="calcul">x + 5 = 12 &nbsp;&nbsp; → la balance est en équilibre
+x = 12 − 5 = 7 &nbsp;&nbsp; → on enlève 5 des deux côtés</div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>3.2 — Résoudre une équation (méthode pas à pas)</h3>
+    <div class="methode">
+      <strong>Principe fondamental :</strong> On peut effectuer la même opération des deux côtés de l'égalité sans changer la solution.<br>
+      But : isoler x d'un côté du signe =<br>
+      <strong>Astuce :</strong> ce qui "passe" de l'autre côté du = change de signe.
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemple 1 (facile) : Résoudre x + 8 = 15</div>
+      <div class="etape"><span>Étape 1 :</span> Isoler x en soustrayant 8 des deux côtés</div>
+      <div class="calcul">x + 8 − 8 = 15 − 8
+x = 7</div>
+      <div class="etape"><span>Étape 2 :</span> Vérifier : 7 + 8 = 15 ✓</div>
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemple 2 : Résoudre 3x = 21</div>
+      <div class="etape"><span>Étape 1 :</span> Diviser les deux côtés par 3</div>
+      <div class="calcul">3x ÷ 3 = 21 ÷ 3
+x = 7</div>
+      <div class="etape"><span>Étape 2 :</span> Vérifier : 3 × 7 = 21 ✓</div>
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemple 3 (deux étapes) : Résoudre 2x + 5 = 13</div>
+      <div class="etape"><span>Étape 1 :</span> Soustraire 5 des deux côtés → isoler le terme en x</div>
+      <div class="calcul">2x + 5 − 5 = 13 − 5
+2x = 8</div>
+      <div class="etape"><span>Étape 2 :</span> Diviser par 2</div>
+      <div class="calcul">2x ÷ 2 = 8 ÷ 2
+x = 4</div>
+      <div class="etape"><span>Vérification :</span> 2 × 4 + 5 = 8 + 5 = 13 ✓</div>
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemple 4 (avec x des deux côtés) : Résoudre 5x − 3 = 2x + 9</div>
+      <div class="etape"><span>Étape 1 :</span> Regrouper les x à gauche</div>
+      <div class="calcul">5x − 2x − 3 = 9
+3x − 3 = 9</div>
+      <div class="etape"><span>Étape 2 :</span> Ajouter 3 des deux côtés</div>
+      <div class="calcul">3x = 12</div>
+      <div class="etape"><span>Étape 3 :</span> Diviser par 3</div>
+      <div class="calcul">x = 4</div>
+      <div class="etape"><span>Vérification :</span> 5×4−3 = 17 et 2×4+9 = 17 ✓</div>
+    </div>
+    <div class="piege">
+      <div class="titre">⚠️ TOUJOURS vérifier ta solution !</div>
+      <p>Remplace x par ta réponse dans l'équation de départ et vérifie que les deux membres sont égaux. Si c'est juste, tu as bon !</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PARTIE 4 : STATISTIQUES ===================== -->
+<div class="section">
+  <h2>📊 PARTIE 4 — Les Statistiques</h2>
+
+  <div class="subsection">
+    <h3>4.1 — Vocabulaire de base</h3>
+    <div class="def">
+      • <strong>Population</strong> : l'ensemble des individus étudiés (ex : les élèves de la classe)<br>
+      • <strong>Caractère</strong> : ce qu'on mesure (ex : la taille, la note, le sport pratiqué)<br>
+      • <strong>Effectif</strong> : le nombre de fois qu'une valeur apparaît<br>
+      • <strong>Fréquence</strong> : effectif divisé par effectif total (souvent en %)<br>
+      • <strong>Série statistique</strong> : l'ensemble des données collectées
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>4.2 — La Moyenne</h3>
+    <div class="def">
+      La <strong>moyenne</strong> est la valeur "équilibrée" de la série. On l'obtient en additionnant toutes les valeurs et en divisant par le nombre de valeurs.
+    </div>
+    <div class="regle"><strong>Formule :</strong> Moyenne = Somme de toutes les valeurs ÷ Nombre de valeurs</div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemple : Notes d'Oscar : 12, 15, 8, 17, 13</div>
+      <div class="calcul">Somme = 12 + 15 + 8 + 17 + 13 = 65
+Nombre de notes = 5
+Moyenne = 65 ÷ 5 = 13</div>
+      <p>→ La moyenne d'Oscar est <strong>13/20</strong></p>
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Moyenne pondérée (avec coefficients)</div>
+      <p>Maths coeff. 4 : note 14 &nbsp; | &nbsp; Français coeff. 3 : note 12 &nbsp; | &nbsp; Sport coeff. 1 : note 18</p>
+      <div class="calcul">Moyenne = (14×4 + 12×3 + 18×1) ÷ (4+3+1)
+= (56 + 36 + 18) ÷ 8
+= 110 ÷ 8
+= 13,75</div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>4.3 — La Médiane</h3>
+    <div class="def">
+      La <strong>médiane</strong> est la valeur du milieu quand on range les données dans l'ordre croissant. Elle partage la série en deux parties égales (50% des valeurs en dessous, 50% au-dessus).
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemple avec 5 valeurs (impair) : 8, 12, 13, 15, 17</div>
+      <div class="calcul">Valeurs rangées : 8 · 12 · [13] · 15 · 17
+                                  ↑
+                               médiane</div>
+      <p>→ La médiane est <strong>13</strong> (3ème valeur sur 5)</p>
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemple avec 6 valeurs (pair) : 8, 10, 12, 14, 15, 17</div>
+      <div class="calcul">Valeurs rangées : 8 · 10 · [12 · 14] · 15 · 17
+                                       ↑↑
+                                 les deux du milieu</div>
+      <div class="calcul">Médiane = (12 + 14) ÷ 2 = 26 ÷ 2 = 13</div>
+      <p>→ La médiane est <strong>13</strong></p>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>4.4 — Le Mode et l'Étendue</h3>
+    <div class="def">
+      • <strong>Mode</strong> : la valeur qui apparaît le plus souvent dans la série<br>
+      • <strong>Étendue</strong> : différence entre la valeur maximale et la valeur minimale
+    </div>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemple : Série 3, 5, 5, 7, 8, 5, 9, 3, 5</div>
+      <div class="calcul">Mode = 5 (apparaît 4 fois, c'est le plus fréquent)
+Étendue = 9 − 3 = 6
+Valeur max = 9 · Valeur min = 3</div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>4.5 — Tableau de fréquences</h3>
+    <div class="exemple-box">
+      <div class="titre">📝 Exemple : Couleur des yeux dans une classe de 25 élèves</div>
+      <table>
+        <tr><th>Couleur</th><th>Effectif</th><th>Fréquence</th><th>Fréquence (%)</th></tr>
+        <tr><td>Bleus</td><td>8</td><td>8/25 = 0,32</td><td>32%</td></tr>
+        <tr><td>Marrons</td><td>12</td><td>12/25 = 0,48</td><td>48%</td></tr>
+        <tr><td>Verts</td><td>5</td><td>5/25 = 0,20</td><td>20%</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>25</strong></td><td><strong>1</strong></td><td><strong>100%</strong></td></tr>
+      </table>
+      <p style="font-size:.85rem;color:#555;margin-top:6px">La somme des effectifs = effectif total. La somme des fréquences = 1 (ou 100%).</p>
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#fce4ec,#f8bbd0);border-radius:12px;padding:16px;margin-top:8px">
+    <strong style="color:#880e4f">📋 À retenir — Résumé des 4 chapitres</strong>
+    <div class="grid2" style="margin-top:12px">
+      <div class="card" style="background:white"><strong>Nombres relatifs</strong>Même signe → on additionne, on garde le signe<br>Signes différents → on soustrait, le signe est celui du plus grand<br>− × − = + · + × − = −</div>
+      <div class="card" style="background:white"><strong>Proportionnalité</strong>Rapport constant entre deux grandeurs<br>Produit en croix : a/b = c/d → a×d = b×c<br>Pourcentage = (valeur/total) × 100</div>
+      <div class="card" style="background:white"><strong>Équations</strong>Isoler x en effectuant la même opération des deux côtés<br>TOUJOURS vérifier la solution en remplaçant x</div>
+      <div class="card" style="background:white"><strong>Statistiques</strong>Moyenne = somme ÷ nombre de valeurs<br>Médiane = valeur du milieu (après tri)<br>Mode = valeur la plus fréquente<br>Étendue = max − min</div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
