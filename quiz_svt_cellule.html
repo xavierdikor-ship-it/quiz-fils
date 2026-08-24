@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – SVT Cellule & Nutrition 5ème</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e8f5e9;color:#2c3e50;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#1b5e20,#43a047);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{font-size:.9rem;opacity:.9}
+.badge{display:inline-block;background:#ff6f00;color:white;font-size:.68rem;font-weight:bold;padding:2px 7px;border-radius:10px;margin-left:7px;text-transform:uppercase}
+.section-title{background:#1b5e20;color:white;padding:9px 18px;border-radius:8px;margin:24px 0 13px;font-size:.95rem;font-weight:bold}
+.rappel{background:#c8e6c9;border-left:5px solid #1b5e20;padding:10px 14px;border-radius:0 10px 10px 0;margin-bottom:13px;font-size:.87rem}
+.rappel strong{color:#1b5e20}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #43a047}
+.question.hard{border-left-color:#ff6f00}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#43a047;background:#c8e6c9}
+.option input[type=radio]{accent-color:#1b5e20;width:15px;height:15px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f1f8e9;border-left:4px solid #388e3c;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#1b5e20}
+.btn-valider{background:#1b5e20;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem}
+.btn-valider:hover{background:#145214}
+.btn-valider:disabled{background:#a5d6a7;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#1b5e20;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#1b5e20;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem;line-height:1.5}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+.share-btn:hover{background:#128C7E}
+.btn-voir{background:#43a047;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:8px;font-size:.87rem}
+#submit-all{display:block;width:100%;padding:14px;background:#1b5e20;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
+#submit-all:hover{background:#145214}
+.progress-bar{background:#a5d6a7;border-radius:10px;height:7px;margin-bottom:17px;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,#1b5e20,#43a047);height:100%;border-radius:10px;transition:width .3s;width:0%}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>🔬 SVT – Cellule & Nutrition</h1>
+  <p>Quiz · SVT 5ème · 20 questions</p>
+</header>
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+<div class="section-title">🧫 Partie 1 — La Cellule</div>
+<div class="rappel"><strong>Rappel :</strong> Cellule = unité du vivant. Tous les êtres vivants sont constitués de cellules. Cellule animale : membrane + cytoplasme + noyau + mitochondries.</div>
+
+<div class="question" id="q1">
+  <div class="question-text">1. Quelle est la plus petite unité structurale et fonctionnelle du vivant ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> L'atome</label>
+    <label class="option"><input type="radio" name="q1" value="b"> La cellule</label>
+    <label class="option"><input type="radio" name="q1" value="c"> Le tissu</label>
+    <label class="option"><input type="radio" name="q1" value="d"> L'organe</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','b')">Valider</button>
+  <div class="explication" id="exp-q1">✅ La <strong>cellule</strong> est la plus petite unité du vivant. Elle est à la fois structurale (constituant de base) et fonctionnelle (réalise les activités de la vie).</div>
+</div>
+
+<div class="question" id="q2">
+  <div class="question-text">2. Quel organite contient l'ADN et contrôle les activités de la cellule ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> La mitochondrie</label>
+    <label class="option"><input type="radio" name="q2" value="b"> Le chloroplaste</label>
+    <label class="option"><input type="radio" name="q2" value="c"> Le noyau</label>
+    <label class="option"><input type="radio" name="q2" value="d"> La membrane cellulaire</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','c')">Valider</button>
+  <div class="explication" id="exp-q2">✅ Le <strong>noyau</strong> contient l'ADN (information génétique). Il est le "centre de commande" de la cellule. Les mitochondries produisent l'énergie.</div>
+</div>
+
+<div class="question hard" id="q3">
+  <div class="question-text">3. Quel organite produit l'énergie dans les cellules ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> Le noyau</label>
+    <label class="option"><input type="radio" name="q3" value="b"> La mitochondrie</label>
+    <label class="option"><input type="radio" name="q3" value="c"> La vacuole</label>
+    <label class="option"><input type="radio" name="q3" value="d"> La paroi cellulaire</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','b')">Valider</button>
+  <div class="explication" id="exp-q3">✅ La <strong>mitochondrie</strong> est le "moteur" de la cellule : elle réalise la respiration cellulaire pour produire l'énergie (ATP) nécessaire à toutes les activités cellulaires.</div>
+</div>
+
+<div class="question hard" id="q4">
+  <div class="question-text">4. Quelle structure est présente dans la cellule végétale mais ABSENTE dans la cellule animale ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> Le noyau et les mitochondries</label>
+    <label class="option"><input type="radio" name="q4" value="b"> La membrane cellulaire</label>
+    <label class="option"><input type="radio" name="q4" value="c"> La paroi cellulaire, les chloroplastes et la vacuole</label>
+    <label class="option"><input type="radio" name="q4" value="d"> Le cytoplasme</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','c')">Valider</button>
+  <div class="explication" id="exp-q4">✅ La cellule végétale possède en plus : la <strong>paroi cellulaire</strong> (rigidité), les <strong>chloroplastes</strong> (photosynthèse) et une grande <strong>vacuole</strong> centrale (stockage eau/nutriments).</div>
+</div>
+
+<div class="question" id="q5">
+  <div class="question-text">5. Comment appelle-t-on un organisme constitué d'une seule cellule ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> Pluricellulaire</label>
+    <label class="option"><input type="radio" name="q5" value="b"> Unicellulaire</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Procaryote</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Eucaryote</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','b')">Valider</button>
+  <div class="explication" id="exp-q5">✅ Un organisme <strong>unicellulaire</strong> est constitué d'une seule cellule (ex : paramécie, bactérie, amiibe). Un organisme <strong>pluricellulaire</strong> en a des milliards (humain, plante).</div>
+</div>
+
+<div class="section-title">🌿 Partie 2 — Nutrition et Photosynthèse</div>
+<div class="rappel"><strong>Rappel :</strong> Autotrophes = fabriquent leur propre nourriture (plantes). Hétérotrophes = mangent d'autres organismes (animaux). Photosynthèse : CO₂ + H₂O + lumière → glucose + O₂.</div>
+
+<div class="question" id="q6">
+  <div class="question-text">6. Qu'est-ce qu'un organisme autotrophe ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> Un organisme qui mange d'autres animaux</label>
+    <label class="option"><input type="radio" name="q6" value="b"> Un organisme qui fabrique sa propre matière organique à partir de matières minérales</label>
+    <label class="option"><input type="radio" name="q6" value="c"> Un organisme qui décompose la matière morte</label>
+    <label class="option"><input type="radio" name="q6" value="d"> Un organisme qui vit sans énergie</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q6','b')">Valider</button>
+  <div class="explication" id="exp-q6">✅ Un organisme <strong>autotrophe</strong> ("auto" = soi-même) fabrique ses propres matières organiques à partir de matières minérales (CO₂, H₂O) et d'énergie solaire. Les plantes vertes sont les principaux autotrophes.</div>
+</div>
+
+<div class="question hard" id="q7">
+  <div class="question-text">7. Quel est le bilan de la photosynthèse ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> Glucose + O₂ → CO₂ + H₂O + énergie</label>
+    <label class="option"><input type="radio" name="q7" value="b"> CO₂ + H₂O + lumière → glucose + O₂</label>
+    <label class="option"><input type="radio" name="q7" value="c"> O₂ + lumière → CO₂ + glucose</label>
+    <label class="option"><input type="radio" name="q7" value="d"> H₂O + lumière → O₂ + énergie</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q7','b')">Valider</button>
+  <div class="explication" id="exp-q7">✅ Photosynthèse : <strong>CO₂ + H₂O + lumière → glucose + O₂</strong>. Les plantes consomment du CO₂ et rejettent de l'O₂. C'est l'inverse de la respiration !</div>
+</div>
+
+<div class="question hard" id="q8">
+  <div class="question-text">8. Dans quel organite se déroule la photosynthèse ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> La mitochondrie</label>
+    <label class="option"><input type="radio" name="q8" value="b"> Le noyau</label>
+    <label class="option"><input type="radio" name="q8" value="c"> La vacuole</label>
+    <label class="option"><input type="radio" name="q8" value="d"> Le chloroplaste</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q8','d')">Valider</button>
+  <div class="explication" id="exp-q8">✅ La photosynthèse se déroule dans les <strong>chloroplastes</strong>, qui contiennent la chlorophylle (pigment vert). C'est pourquoi les feuilles sont vertes et captent la lumière.</div>
+</div>
+
+<div class="section-title">🍎 Partie 3 — La Digestion</div>
+<div class="rappel"><strong>Rappel :</strong> La digestion transforme les aliments en nutriments assimilables. L'absorption se fait dans l'intestin grêle. Les enzymes digestives découpent les grosses molécules.</div>
+
+<div class="question" id="q9">
+  <div class="question-text">9. Où se fait principalement l'absorption des nutriments dans le sang ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> Dans l'estomac</label>
+    <label class="option"><input type="radio" name="q9" value="b"> Dans la bouche</label>
+    <label class="option"><input type="radio" name="q9" value="c"> Dans l'intestin grêle</label>
+    <label class="option"><input type="radio" name="q9" value="d"> Dans le gros intestin</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q9','c')">Valider</button>
+  <div class="explication" id="exp-q9">✅ L'<strong>intestin grêle</strong> est le site principal de l'absorption. Sa grande surface (villosités intestinales) permet le passage des nutriments (glucose, acides aminés, acides gras) dans le sang.</div>
+</div>
+
+<div class="question" id="q10">
+  <div class="question-text">10. Les protéines sont découpées en quoi lors de la digestion ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> En glucose</label>
+    <label class="option"><input type="radio" name="q10" value="b"> En acides aminés</label>
+    <label class="option"><input type="radio" name="q10" value="c"> En acides gras</label>
+    <label class="option"><input type="radio" name="q10" value="d"> En vitamines</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q10','b')">Valider</button>
+  <div class="explication" id="exp-q10">✅ Les <strong>protéines</strong> → <strong>acides aminés</strong> (digestion). Les glucides (amidon) → glucose. Les lipides (graisses) → acides gras + glycérol.</div>
+</div>
+
+<div class="question hard" id="q11">
+  <div class="question-text">11. Quel organe produit la bile, essentielle à la digestion des graisses ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q11" value="a"> Le pancréas</label>
+    <label class="option"><input type="radio" name="q11" value="b"> L'estomac</label>
+    <label class="option"><input type="radio" name="q11" value="c"> Le foie</label>
+    <label class="option"><input type="radio" name="q11" value="d"> L'intestin grêle</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q11','c')">Valider</button>
+  <div class="explication" id="exp-q11">✅ Le <strong>foie</strong> produit la bile (stockée dans la vésicule biliaire), qui émulsionne les graisses pour faciliter leur digestion. Le pancréas, lui, produit le suc pancréatique (enzymes).</div>
+</div>
+
+<div class="question hard" id="q12">
+  <div class="question-text">12. Quel est le rôle de l'estomac dans la digestion ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q12" value="a"> Absorber les nutriments dans le sang</label>
+    <label class="option"><input type="radio" name="q12" value="b"> Digérer chimiquement les aliments grâce au suc gastrique acide</label>
+    <label class="option"><input type="radio" name="q12" value="c"> Stocker les matières fécales</label>
+    <label class="option"><input type="radio" name="q12" value="d"> Produire les enzymes pour les graisses</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q12','b')">Valider</button>
+  <div class="explication" id="exp-q12">✅ L'<strong>estomac</strong> digère les aliments grâce au suc gastrique très acide (pH ~2) et à des enzymes (pepsine) qui dégradent les protéines. Il transforme les aliments en bouillie (chyme).</div>
+</div>
+
+<div class="section-title">💨 Partie 4 — Respiration cellulaire</div>
+<div class="rappel"><strong>Rappel :</strong> Respiration cellulaire : glucose + O₂ → énergie + CO₂ + H₂O. Se déroule dans les mitochondries. C'est l'inverse de la photosynthèse.</div>
+
+<div class="question" id="q13">
+  <div class="question-text">13. Quel est le bilan de la respiration cellulaire ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q13" value="a"> CO₂ + H₂O + lumière → glucose + O₂</label>
+    <label class="option"><input type="radio" name="q13" value="b"> Glucose + O₂ → énergie + CO₂ + H₂O</label>
+    <label class="option"><input type="radio" name="q13" value="c"> O₂ + énergie → CO₂ + glucose</label>
+    <label class="option"><input type="radio" name="q13" value="d"> Glucose → énergie + H₂O</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q13','b')">Valider</button>
+  <div class="explication" id="exp-q13">✅ Respiration cellulaire : <strong>Glucose + O₂ → énergie (ATP) + CO₂ + H₂O</strong>. Les cellules brûlent le glucose pour libérer de l'énergie utilisable. C'est l'inverse de la photosynthèse !</div>
+</div>
+
+<div class="question" id="q14">
+  <div class="question-text">14. La respiration cellulaire se produit dans quel organite ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q14" value="a"> Le chloroplaste</label>
+    <label class="option"><input type="radio" name="q14" value="b"> Le noyau</label>
+    <label class="option"><input type="radio" name="q14" value="c"> La mitochondrie</label>
+    <label class="option"><input type="radio" name="q14" value="d"> La vacuole</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q14','c')">Valider</button>
+  <div class="explication" id="exp-q14">✅ La respiration cellulaire se déroule dans les <strong>mitochondries</strong>. Chloroplaste → photosynthèse. Mitochondrie → respiration. Retiens bien la différence !</div>
+</div>
+
+<div class="section-title">🌍 Partie 5 — Écosystème et chaînes alimentaires</div>
+
+<div class="question" id="q15">
+  <div class="question-text">15. Dans une chaîne alimentaire, qui sont les "producteurs" ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q15" value="a"> Les animaux carnivores</label>
+    <label class="option"><input type="radio" name="q15" value="b"> Les décomposeurs</label>
+    <label class="option"><input type="radio" name="q15" value="c"> Les végétaux (plantes)</label>
+    <label class="option"><input type="radio" name="q15" value="d"> Les herbivores</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q15','c')">Valider</button>
+  <div class="explication" id="exp-q15">✅ Les <strong>végétaux</strong> sont les producteurs : ils fabriquent la matière organique par photosynthèse. Les herbivores sont les consommateurs primaires, les carnivores les consommateurs secondaires.</div>
+</div>
+
+<div class="question hard" id="q16">
+  <div class="question-text">16. Quel est le rôle des décomposeurs dans un écosystème ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q16" value="a"> Produire de l'oxygène</label>
+    <label class="option"><input type="radio" name="q16" value="b"> Chasser les herbivores</label>
+    <label class="option"><input type="radio" name="q16" value="c"> Décomposer la matière organique morte et la restituer au sol</label>
+    <label class="option"><input type="radio" name="q16" value="d"> Protéger les végétaux</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q16','c')">Valider</button>
+  <div class="explication" id="exp-q16">✅ Les <strong>décomposeurs</strong> (champignons, bactéries, vers...) dégradent la matière organique morte (feuilles, cadavres) et la transforment en matières minérales restituées au sol, que les plantes réutilisent.</div>
+</div>
+
+<div class="question hard" id="q17">
+  <div class="question-text">17. Qu'est-ce qu'un écosystème ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q17" value="a"> L'ensemble des êtres vivants d'une forêt</label>
+    <label class="option"><input type="radio" name="q17" value="b"> L'ensemble des plantes d'une région</label>
+    <label class="option"><input type="radio" name="q17" value="c"> L'association d'un milieu de vie (biotope) et de ses êtres vivants (biocénose)</label>
+    <label class="option"><input type="radio" name="q17" value="d"> Un ensemble de chaînes alimentaires</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q17','c')">Valider</button>
+  <div class="explication" id="exp-q17">✅ Un <strong>écosystème</strong> = <strong>biotope</strong> (milieu de vie : sol, eau, air, température) + <strong>biocénose</strong> (ensemble des êtres vivants). Ex : un étang = biotope eau + biocénose (poissons, algues, grenouilles...).</div>
+</div>
+
+<div class="question" id="q18">
+  <div class="question-text">18. Herbe → Lapin → Renard → Décomposeurs. Dans cette chaîne, le lapin est :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q18" value="a"> Un producteur</label>
+    <label class="option"><input type="radio" name="q18" value="b"> Un consommateur primaire (herbivore)</label>
+    <label class="option"><input type="radio" name="q18" value="c"> Un consommateur secondaire (carnivore)</label>
+    <label class="option"><input type="radio" name="q18" value="d"> Un décomposeur</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q18','b')">Valider</button>
+  <div class="explication" id="exp-q18">✅ Le lapin est un <strong>consommateur primaire (herbivore)</strong> : il mange l'herbe (producteur). Le renard est le consommateur secondaire (carnivore) car il mange le lapin.</div>
+</div>
+
+<div class="question hard" id="q19">
+  <div class="question-text">19. Pourquoi les plantes vertes sont-elles indispensables à la vie sur Terre ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q19" value="a"> Parce qu'elles respirent comme les animaux</label>
+    <label class="option"><input type="radio" name="q19" value="b"> Parce qu'elles produisent de la matière organique et libèrent de l'O₂ par photosynthèse</label>
+    <label class="option"><input type="radio" name="q19" value="c"> Parce qu'elles décomposent la matière morte</label>
+    <label class="option"><input type="radio" name="q19" value="d"> Parce qu'elles sont les seules à avoir des cellules</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q19','b')">Valider</button>
+  <div class="explication" id="exp-q19">✅ Les plantes vertes sont à la base de toute vie : elles produisent de la <strong>matière organique</strong> (glucose) qui nourrit toute la chaîne alimentaire, et libèrent de l'<strong>O₂</strong> indispensable à la respiration de tous les êtres vivants.</div>
+</div>
+
+<div class="question hard" id="q20">
+  <div class="question-text">20. Une plante en pot est placée dans une pièce sans lumière pendant plusieurs jours. Que se passe-t-il ? <span class="badge">⭐</span></div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q20" value="a"> Elle photosynthétise normalement</label>
+    <label class="option"><input type="radio" name="q20" value="b"> Elle produit plus de CO₂ car elle ne peut pas photosynthétiser</label>
+    <label class="option"><input type="radio" name="q20" value="c"> Elle arrête de respirer</label>
+    <label class="option"><input type="radio" name="q20" value="d"> Elle se nourrit par ses racines uniquement</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q20','b')">Valider</button>
+  <div class="explication" id="exp-q20">✅ Sans lumière, la plante <strong>ne peut pas photosynthétiser</strong>. Elle continue à respirer (consomme O₂, rejette CO₂) mais ne produit plus de matière organique ni d'O₂. Elle s'affaiblit et finit par mourir si la privation de lumière dure.</div>
+</div>
+
+<button id="submit-all" onclick="showScore()">🎯 Voir mon résultat final</button>
+
+<div id="score-section">
+  <h2>📊 Résultat</h2>
+  <div id="score-display"></div>
+  <div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none">
+    <h3>❌ Questions à retravailler :</h3>
+    <ul id="errors-list"></ul>
+  </div>
+  <button class="btn-voir" onclick="window.scrollTo({top:0,behavior:'smooth'})">🔍 Revoir les questions</button><br>
+  <button class="share-btn" onclick="shareResult()">📲 Partager sur WhatsApp</button>
+</div>
+</div>
+
+<script>
+const correct={q1:'b',q2:'c',q3:'b',q4:'c',q5:'b',q6:'b',q7:'b',q8:'d',q9:'c',q10:'b',q11:'c',q12:'b',q13:'b',q14:'c',q15:'c',q16:'c',q17:'c',q18:'b',q19:'b',q20:'b'};
+const labels={q1:'Q1 – La cellule = unité du vivant',q2:'Q2 – Le noyau contient l\'ADN',q3:'Q3 – Mitochondrie = production d\'énergie',q4:'Q4 – Paroi + chloroplastes + vacuole (cellule végétale)',q5:'Q5 – Organisme unicellulaire',q6:'Q6 – Organisme autotrophe',q7:'Q7 – Bilan de la photosynthèse',q8:'Q8 – Photosynthèse dans le chloroplaste',q9:'Q9 – Absorption dans l\'intestin grêle',q10:'Q10 – Protéines → acides aminés',q11:'Q11 – Le foie produit la bile',q12:'Q12 – Rôle de l\'estomac (suc gastrique)',q13:'Q13 – Bilan de la respiration cellulaire',q14:'Q14 – Respiration dans la mitochondrie',q15:'Q15 – Les végétaux = producteurs',q16:'Q16 – Rôle des décomposeurs',q17:'Q17 – Définition de l\'écosystème',q18:'Q18 – Le lapin = consommateur primaire',q19:'Q19 – Plantes = base de la vie',q20:'Q20 – Plante sans lumière (pas de photosynthèse)'};
+const answered={};let score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  const chosen=document.querySelector(`input[name="${qid}"]:checked`);
+  if(!chosen){alert('Choisis une réponse !');return;}
+  answered[qid]=chosen.value;
+  document.querySelectorAll(`#${qid} .option`).forEach((opt,i)=>{
+    const val=['a','b','c','d'][i];
+    opt.style.pointerEvents='none';
+    if(val===rep)opt.classList.add('correct');
+    else if(val===chosen.value&&chosen.value!==rep)opt.classList.add('wrong');
+  });
+  document.getElementById(`exp-${qid}`).style.display='block';
+  document.querySelector(`#${qid} .btn-valider`).disabled=true;
+  if(chosen.value===rep)score++;
+  document.getElementById('progress').style.width=(Object.keys(answered).length/20*100)+'%';
+}
+function showScore(){
+  const errors=Object.keys(correct).filter(q=>answered[q]!==correct[q]);
+  const missing=Object.keys(correct).filter(q=>!answered[q]);
+  document.getElementById('score-display').textContent=score+' / 20';
+  let msg='';
+  if(score===20)msg='🏆 Parfait ! Tu maîtrises la SVT comme un(e) biologiste !';
+  else if(score>=17)msg='🌟 Excellent ! La cellule et la nutrition n\'ont plus de secrets !';
+  else if(score>=14)msg='👍 Bien ! Quelques notions à revoir, continue !';
+  else if(score>=10)msg='📚 Courage ! Relis bien ta fiche de révision SVT.';
+  else msg='💪 C\'est un peu difficile, mais avec la fiche tu vas y arriver !';
+  document.getElementById('score-message').textContent=msg;
+  const allErrors=[...errors,...missing];
+  if(allErrors.length>0){
+    document.getElementById('errors-container').style.display='block';
+    document.getElementById('errors-list').innerHTML=allErrors.map(q=>`<li>${labels[q]}</li>`).join('');
+  }
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function shareResult(){
+  const errors=Object.keys(correct).filter(q=>answered[q]!==correct[q]);
+  const missing=Object.keys(correct).filter(q=>!answered[q]);
+  let txt=`🔬 Quiz SVT Cellule & Nutrition – 5ème\nScore : ${score}/20\n`;
+  const allErrors=[...errors,...missing];
+  if(allErrors.length>0)txt+='\nPoints à retravailler :\n'+allErrors.map(q=>'• '+labels[q]).join('\n');
+  else txt+='✅ Toutes les questions réussies !';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Géométrie – Fiche de Révision 5ème</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e8f4f8;color:#2c3e50;padding:20px}
+.container{max-width:860px;margin:0 auto}
+header{background:linear-gradient(135deg,#0077b6,#48cae4);color:white;padding:30px;border-radius:16px;margin-bottom:24px;text-align:center}
+header h1{font-size:2rem;margin-bottom:6px}
+header p{font-size:.95rem;opacity:.9}
+.section{background:white;border-radius:12px;padding:22px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.07);border-left:6px solid #0077b6}
+.section h2{color:#0077b6;font-size:1.2rem;margin-bottom:14px}
+.prop{background:#e0f3fb;border:1px solid #90d5f0;border-radius:8px;padding:13px;margin:10px 0}
+.prop h3{color:#005f8a;font-size:.82rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
+.formule{background:#0077b6;color:white;padding:10px 18px;border-radius:8px;font-size:1rem;font-weight:bold;text-align:center;margin:10px 0;font-family:'Courier New',monospace}
+.exemple{background:#fff8e1;border-left:4px solid #f9a825;padding:9px 13px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.9rem}
+.exemple strong{color:#e65100}
+.piege{background:#fce4ec;border:1px solid #ef9a9a;border-radius:8px;padding:11px;margin:10px 0}
+.piege h3{color:#c62828;font-size:.82rem;margin-bottom:5px}
+.astuce{background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;padding:11px;margin:10px 0}
+.astuce h3{color:#2e7d32;font-size:.82rem;margin-bottom:5px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.9rem}
+th{background:#0077b6;color:white;padding:9px;text-align:center}
+td{padding:9px;border:1px solid #b3dff0;text-align:center}
+tr:nth-child(even) td{background:#e0f3fb}
+.recap{border-left-color:#6a1b9a}
+.recap h2{color:#6a1b9a}
+.recap th{background:#6a1b9a}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>📐 Géométrie</h1>
+  <p>Fiche de Révision · Mathématiques · 5ème</p>
+</header>
+
+<div class="section">
+  <h2>📏 I. Angles</h2>
+  <div class="prop">
+    <h3>Définitions essentielles</h3>
+    <p>• <strong>Angles complémentaires :</strong> somme = 90°</p>
+    <p>• <strong>Angles supplémentaires :</strong> somme = 180°</p>
+    <p>• <strong>Angles opposés par le sommet :</strong> toujours égaux</p>
+    <p>• <strong>Angle plat :</strong> 180° · <strong>Angle nul :</strong> 0° · <strong>Angle plein :</strong> 360°</p>
+  </div>
+  <div class="prop">
+    <h3>Droites parallèles coupées par une sécante</h3>
+    <p>Quand deux droites <strong>parallèles</strong> sont coupées par une sécante :</p>
+    <p style="margin-top:6px">• <strong>Angles alternes-internes</strong> → égaux (en forme de Z)</p>
+    <p>• <strong>Angles correspondants</strong> → égaux (en forme de F)</p>
+    <p>• <strong>Angles alternes-externes</strong> → égaux</p>
+    <p>• <strong>Angles co-internes</strong> → supplémentaires (somme = 180°)</p>
+  </div>
+  <div class="astuce"><h3>💡 Réciproque utile</h3><p>Si deux angles alternes-internes sont égaux, alors les droites sont parallèles !</p></div>
+  <div class="exemple"><strong>Exemple :</strong> Si d₁ ∥ d₂ et qu'un angle mesuré vaut 65°, alors son angle alterne-interne vaut aussi 65° et son angle co-interne vaut 180° − 65° = 115°.</div>
+</div>
+
+<div class="section">
+  <h2>🔺 II. Triangles</h2>
+  <div class="prop">
+    <h3>Propriété fondamentale</h3>
+    <div class="formule">La somme des angles d'un triangle = 180°</div>
+    <p>Si les angles sont a, b et c, alors a + b + c = 180°.</p>
+  </div>
+  <table>
+    <tr><th>Type de triangle</th><th>Côtés</th><th>Angles</th></tr>
+    <tr><td><strong>Quelconque</strong></td><td>Tous différents</td><td>a + b + c = 180°</td></tr>
+    <tr><td><strong>Isocèle</strong></td><td>2 côtés égaux</td><td>2 angles à la base égaux</td></tr>
+    <tr><td><strong>Équilatéral</strong></td><td>3 côtés égaux</td><td>3 angles de 60°</td></tr>
+    <tr><td><strong>Rectangle</strong></td><td>Quelconques</td><td>Un angle de 90°</td></tr>
+  </table>
+  <div class="prop">
+    <h3>Médiatrice d'un segment</h3>
+    <p>La <strong>médiatrice</strong> d'un segment [AB] est la droite perpendiculaire à [AB] passant par son milieu.</p>
+    <p style="margin-top:6px">Tout point de la médiatrice est à <strong>égale distance</strong> de A et de B.</p>
+    <p style="margin-top:6px">Le <strong>cercle circonscrit</strong> d'un triangle passe par ses 3 sommets. Son centre = point d'intersection des 3 médiatrices.</p>
+  </div>
+  <div class="astuce"><h3>💡 Inégalité triangulaire</h3><p>Pour former un triangle, chaque côté doit être strictement inférieur à la somme des deux autres.</p></div>
+</div>
+
+<div class="section">
+  <h2>🔷 III. Parallélogramme</h2>
+  <div class="prop">
+    <h3>Définition</h3>
+    <p>Un <strong>parallélogramme</strong> est un quadrilatère dont les côtés opposés sont parallèles deux à deux.</p>
+  </div>
+  <table>
+    <tr><th>Figure</th><th>Côtés</th><th>Angles</th><th>Diagonales</th></tr>
+    <tr><td><strong>Parallélogramme</strong></td><td>Opposés égaux et ∥</td><td>Opposés égaux</td><td>Se coupent en leur milieu</td></tr>
+    <tr><td><strong>Rectangle</strong></td><td>Opposés égaux</td><td>4 angles droits (90°)</td><td>Égales, se coupent en leur milieu</td></tr>
+    <tr><td><strong>Losange</strong></td><td>4 côtés égaux</td><td>Opposés égaux</td><td>Perpendiculaires, se coupent en leur milieu</td></tr>
+    <tr><td><strong>Carré</strong></td><td>4 côtés égaux</td><td>4 angles droits (90°)</td><td>Égales, perpendiculaires, se coupent en leur milieu</td></tr>
+  </table>
+  <div class="astuce"><h3>💡 À retenir</h3><p>Carré ⊂ Rectangle ⊂ Parallélogramme et Carré ⊂ Losange ⊂ Parallélogramme. Un carré est à la fois un rectangle ET un losange !</p></div>
+</div>
+
+<div class="section">
+  <h2>🔄 IV. Symétries</h2>
+  <div class="prop">
+    <h3>Symétrie axiale (déjà vue en 6ème)</h3>
+    <p>La symétrie axiale est une réflexion par rapport à un axe (une droite). Le symétrique d'un point A par rapport à un axe (d) est le point A' tel que (d) est la médiatrice de [AA'].</p>
+    <p style="margin-top:6px">La symétrie axiale <strong>conserve</strong> les distances, les angles et les aires.</p>
+  </div>
+  <div class="prop">
+    <h3>Symétrie centrale (nouveau en 5ème)</h3>
+    <p>La symétrie centrale est une rotation de 180° autour d'un point O (le centre). Le symétrique d'un point A par rapport au centre O est le point A' tel que <strong>O est le milieu de [AA']</strong>.</p>
+    <div class="formule">O milieu de [AA'] ⟺ A' est le symétrique de A par rapport à O</div>
+    <p style="margin-top:6px">La symétrie centrale <strong>conserve</strong> les distances, les angles et les aires.</p>
+  </div>
+  <div class="exemple">
+    <strong>Exemple :</strong> Si O est le centre de symétrie et A a pour coordonnées (2 ; 3), alors son symétrique A' a pour coordonnées (−2 ; −3).<br>
+    Méthode : xA' = 2×xO − xA et yA' = 2×yO − yA.
+  </div>
+  <div class="piege"><h3>⚠️ Attention</h3><p>Symétrie axiale = par rapport à une droite. Symétrie centrale = par rapport à un point. Ne pas confondre !</p></div>
+</div>
+
+<div class="section">
+  <h2>📏 V. Aires et Volumes</h2>
+  <table>
+    <tr><th>Figure</th><th>Formule de l'aire</th></tr>
+    <tr><td>Carré (côté a)</td><td>A = a²</td></tr>
+    <tr><td>Rectangle (L × l)</td><td>A = L × l</td></tr>
+    <tr><td>Triangle (base b, hauteur h)</td><td>A = (b × h) ÷ 2</td></tr>
+    <tr><td>Parallélogramme (base b, hauteur h)</td><td>A = b × h</td></tr>
+    <tr><td>Disque (rayon r)</td><td>A = π × r²</td></tr>
+  </table>
+  <table style="margin-top:12px">
+    <tr><th>Solide</th><th>Formule du volume</th></tr>
+    <tr><td>Cube (côté a)</td><td>V = a³</td></tr>
+    <tr><td>Pavé droit (L × l × h)</td><td>V = L × l × h</td></tr>
+    <tr><td>Prisme droit</td><td>V = Aire de la base × hauteur</td></tr>
+  </table>
+</div>
+
+<div class="section recap">
+  <h2>📋 À retenir absolument</h2>
+  <table>
+    <tr><th>Propriété</th><th>Formule / Règle</th></tr>
+    <tr><td>Angles d'un triangle</td><td>a + b + c = 180°</td></tr>
+    <tr><td>Angles complémentaires</td><td>a + b = 90°</td></tr>
+    <tr><td>Angles supplémentaires</td><td>a + b = 180°</td></tr>
+    <tr><td>Alternes-internes (∥)</td><td>Égaux</td></tr>
+    <tr><td>Co-internes (∥)</td><td>Supplémentaires</td></tr>
+    <tr><td>Symétrie centrale</td><td>O milieu de [AA']</td></tr>
+    <tr><td>Médiatrice de [AB]</td><td>⊥ à [AB] passant par son milieu</td></tr>
+  </table>
+</div>
+</div>
+</body>
+</html>
