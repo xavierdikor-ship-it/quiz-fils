@@ -3,234 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Quiz Remédiation Calcul et Fractions</title>
+<title>Quiz Remediation Calcul et Fractions</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', sans-serif; background: #e8eaf6; color: #1a1a2e; padding: 16px; }
-.container { max-width: 820px; margin: 0 auto; }
-header { background: linear-gradient(135deg, #283593, #3949ab); color: white; padding: 24px; border-radius: 16px; margin-bottom: 18px; text-align: center; }
-header h1 { font-size: 1.6rem; margin-bottom: 4px; }
-header p { font-size: .85rem; opacity: .9; }
-.question { background: white; border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.08); border-left: 5px solid #3949ab; }
-.qt { font-weight: 700; font-size: .95rem; margin-bottom: 12px; line-height: 1.5; }
-.opts { display: flex; flex-direction: column; gap: 8px; }
-.opt { padding: 12px 16px; border-radius: 10px; border: 2px solid #e0e0e0; background: #fafafa; font-size: .9rem; cursor: pointer; user-select: none; -webkit-user-select: none; transition: border-color .15s, background .15s; }
-.opt:active { opacity: .85; }
-.opt.selected { border-color: #3949ab; background: #ede7f6; font-weight: 600; }
-.opt.correct { background: #e8f5e9 !important; border-color: #388e3c !important; font-weight: 600; }
-.opt.wrong { background: #ffebee !important; border-color: #e53935 !important; }
-.opt.disabled { pointer-events: none; }
-.exp { display: none; background: #f5f5f5; border-left: 4px solid #3949ab; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-top: 10px; font-size: .84rem; color: #333; line-height: 1.5; }
-.btn { background: #283593; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 12px; font-size: .9rem; font-weight: 600; }
-.btn:disabled { background: #bbb; cursor: default; }
-#res { display: none; background: white; border-radius: 16px; padding: 28px; text-align: center; margin-top: 20px; box-shadow: 0 4px 20px rgba(0,0,0,.1); }
-#res h2 { color: #283593; font-size: 1.5rem; margin-bottom: 8px; }
-#sc { font-size: 3rem; font-weight: bold; color: #283593; margin: 10px 0; }
-.errs { text-align: left; background: #fff8e1; border-radius: 10px; padding: 14px; margin: 12px 0; }
-.errs h3 { color: #e65100; font-size: .9rem; margin-bottom: 8px; }
-.errs li { font-size: .85rem; margin-bottom: 5px; }
-.wa { background: #25D366; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: .95rem; font-weight: bold; cursor: pointer; margin-top: 14px; }
-.sub { display: block; width: 100%; padding: 14px; background: #283593; color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 20px; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e8eaf6;color:#2c3e50;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#283593,#3949ab);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{font-size:.9rem;opacity:.9}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #3949ab}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#3949ab;background:#f3f3ff}
+.option input[type=radio]{accent-color:#283593;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f5f5f5;border-left:4px solid #3949ab;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#333}
+.btn-valider{background:#283593;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem;font-weight:600;display:block}
+.btn-valider:disabled{background:#bbb;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#283593;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#283593;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+#submit-all{display:block;width:100%;padding:14px;background:#283593;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
 </style>
 </head>
 <body>
 <div class="container">
-<header><h1>Quiz Remédiation Calcul et Fractions</h1><p>Maths 5ème · 10 questions ciblées</p></header>
+<header><h1>Quiz Remediation Calcul et Fractions</h1><p>Maths 5eme - 10 questions ciblees</p></header>
 <div class="question" id="q1">
-  <div class="qt">1. Réduire : 5x + 2y + 3x − y =</div>
-  <div class="opts" id="opts-q1">
-    <div class="opt" id="q1-a" onclick="selectOpt('q1','a')">8x + y</div>
-    <div class="opt" id="q1-b" onclick="selectOpt('q1','b')">8xy</div>
-    <div class="opt" id="q1-c" onclick="selectOpt('q1','c')">8x + 3y</div>
-    <div class="opt" id="q1-d" onclick="selectOpt('q1','d')">10xy</div>
+  <div class="question-text">1. Reduire : 5x + 2y + 3x - y =</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> 8x + y</label>
+    <label class="option"><input type="radio" name="q1" value="b"> 8xy</label>
+    <label class="option"><input type="radio" name="q1" value="c"> 8x + 3y</label>
+    <label class="option"><input type="radio" name="q1" value="d"> 10xy</label>
   </div>
-  <button class="btn" id="btn-q1" onclick="valider('q1','a')">Valider</button>
-  <div class="exp" id="exp-q1">✅ <b>8x + y</b> : 5x + 3x = 8x et 2y − y = y. On ne mélange jamais x et y !</div>
+  <button class="btn-valider" onclick="valider('q1','a')">Valider</button>
+  <div class="explication" id="exp-q1"><b>8x + y</b> : 5x+3x=8x et 2y-y=y. On ne melange jamais x et y.</div>
 </div>
 <div class="question" id="q2">
-  <div class="qt">2. Réduire : 6a + 4b − 2a + b =</div>
-  <div class="opts" id="opts-q2">
-    <div class="opt" id="q2-a" onclick="selectOpt('q2','a')">4a + 5b</div>
-    <div class="opt" id="q2-b" onclick="selectOpt('q2','b')">4a + 3b</div>
-    <div class="opt" id="q2-c" onclick="selectOpt('q2','c')">8ab</div>
-    <div class="opt" id="q2-d" onclick="selectOpt('q2','d')">10ab</div>
+  <div class="question-text">2. Reduire : 6a + 4b - 2a + b =</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> 4a + 5b</label>
+    <label class="option"><input type="radio" name="q2" value="b"> 4a + 3b</label>
+    <label class="option"><input type="radio" name="q2" value="c"> 8ab</label>
+    <label class="option"><input type="radio" name="q2" value="d"> 10ab</label>
   </div>
-  <button class="btn" id="btn-q2" onclick="valider('q2','a')">Valider</button>
-  <div class="exp" id="exp-q2">✅ <b>4a + 5b</b> : 6a − 2a = 4a et 4b + b = 5b.</div>
+  <button class="btn-valider" onclick="valider('q2','a')">Valider</button>
+  <div class="explication" id="exp-q2"><b>4a + 5b</b> : 6a-2a=4a et 4b+b=5b.</div>
 </div>
 <div class="question" id="q3">
-  <div class="qt">3. Réduire : x + 3y − x + 5y =</div>
-  <div class="opts" id="opts-q3">
-    <div class="opt" id="q3-a" onclick="selectOpt('q3','a')">2x + 8y</div>
-    <div class="opt" id="q3-b" onclick="selectOpt('q3','b')">8y</div>
-    <div class="opt" id="q3-c" onclick="selectOpt('q3','c')">0</div>
-    <div class="opt" id="q3-d" onclick="selectOpt('q3','d')">8xy</div>
+  <div class="question-text">3. Reduire : x + 3y - x + 5y =</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> 2x + 8y</label>
+    <label class="option"><input type="radio" name="q3" value="b"> 8y</label>
+    <label class="option"><input type="radio" name="q3" value="c"> 0</label>
+    <label class="option"><input type="radio" name="q3" value="d"> 8xy</label>
   </div>
-  <button class="btn" id="btn-q3" onclick="valider('q3','b')">Valider</button>
-  <div class="exp" id="exp-q3">✅ <b>8y</b> : x − x = 0 et 3y + 5y = 8y. Les x s'annulent.</div>
+  <button class="btn-valider" onclick="valider('q3','b')">Valider</button>
+  <div class="explication" id="exp-q3"><b>8y</b> : x-x=0 et 3y+5y=8y. Les x s'annulent.</div>
 </div>
 <div class="question" id="q4">
-  <div class="qt">4. PGCD(18, 24) = ?</div>
-  <div class="opts" id="opts-q4">
-    <div class="opt" id="q4-a" onclick="selectOpt('q4','a')">3</div>
-    <div class="opt" id="q4-b" onclick="selectOpt('q4','b')">6</div>
-    <div class="opt" id="q4-c" onclick="selectOpt('q4','c')">9</div>
-    <div class="opt" id="q4-d" onclick="selectOpt('q4','d')">12</div>
+  <div class="question-text">4. PGCD(18, 24) = ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> 3</label>
+    <label class="option"><input type="radio" name="q4" value="b"> 6</label>
+    <label class="option"><input type="radio" name="q4" value="c"> 9</label>
+    <label class="option"><input type="radio" name="q4" value="d"> 12</label>
   </div>
-  <button class="btn" id="btn-q4" onclick="valider('q4','b')">Valider</button>
-  <div class="exp" id="exp-q4">✅ <b>6</b> : diviseurs communs → 1, 2, 3, 6. Le plus grand est 6.</div>
+  <button class="btn-valider" onclick="valider('q4','b')">Valider</button>
+  <div class="explication" id="exp-q4"><b>6</b> : diviseurs communs de 18 et 24 : 1, 2, 3, 6. Le plus grand est 6.</div>
 </div>
 <div class="question" id="q5">
-  <div class="qt">5. PGCD(24, 36) = ?</div>
-  <div class="opts" id="opts-q5">
-    <div class="opt" id="q5-a" onclick="selectOpt('q5','a')">6</div>
-    <div class="opt" id="q5-b" onclick="selectOpt('q5','b')">8</div>
-    <div class="opt" id="q5-c" onclick="selectOpt('q5','c')">12</div>
-    <div class="opt" id="q5-d" onclick="selectOpt('q5','d')">4</div>
+  <div class="question-text">5. PGCD(24, 36) = ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> 6</label>
+    <label class="option"><input type="radio" name="q5" value="b"> 8</label>
+    <label class="option"><input type="radio" name="q5" value="c"> 12</label>
+    <label class="option"><input type="radio" name="q5" value="d"> 4</label>
   </div>
-  <button class="btn" id="btn-q5" onclick="valider('q5','c')">Valider</button>
-  <div class="exp" id="exp-q5">✅ <b>12</b> : 24 = 2³ × 3, 36 = 2² × 3². Facteurs communs : 2² × 3 = 12.</div>
+  <button class="btn-valider" onclick="valider('q5','c')">Valider</button>
+  <div class="explication" id="exp-q5"><b>12</b> : 24=2^3 x 3, 36=2^2 x 3^2. Facteurs communs : 2^2 x 3 = 12.</div>
 </div>
 <div class="question" id="q6">
-  <div class="qt">6. Simplifier 18/24 au maximum :</div>
-  <div class="opts" id="opts-q6">
-    <div class="opt" id="q6-a" onclick="selectOpt('q6','a')">9/12</div>
-    <div class="opt" id="q6-b" onclick="selectOpt('q6','b')">6/8</div>
-    <div class="opt" id="q6-c" onclick="selectOpt('q6','c')">3/4</div>
-    <div class="opt" id="q6-d" onclick="selectOpt('q6','d')">2/3</div>
+  <div class="question-text">6. Simplifier 18/24 au maximum :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> 9/12</label>
+    <label class="option"><input type="radio" name="q6" value="b"> 6/8</label>
+    <label class="option"><input type="radio" name="q6" value="c"> 3/4</label>
+    <label class="option"><input type="radio" name="q6" value="d"> 2/3</label>
   </div>
-  <button class="btn" id="btn-q6" onclick="valider('q6','c')">Valider</button>
-  <div class="exp" id="exp-q6">✅ <b>3/4</b> : PGCD(18, 24) = 6 → 18 ÷ 6 = 3 et 24 ÷ 6 = 4.</div>
+  <button class="btn-valider" onclick="valider('q6','c')">Valider</button>
+  <div class="explication" id="exp-q6"><b>3/4</b> : PGCD(18,24)=6. 18:6=3 et 24:6=4.</div>
 </div>
 <div class="question" id="q7">
-  <div class="qt">7. Simplifier 15/25 au maximum :</div>
-  <div class="opts" id="opts-q7">
-    <div class="opt" id="q7-a" onclick="selectOpt('q7','a')">5/10</div>
-    <div class="opt" id="q7-b" onclick="selectOpt('q7','b')">3/5</div>
-    <div class="opt" id="q7-c" onclick="selectOpt('q7','c')">1/5</div>
-    <div class="opt" id="q7-d" onclick="selectOpt('q7','d')">6/10</div>
+  <div class="question-text">7. Simplifier 15/25 au maximum :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> 5/10</label>
+    <label class="option"><input type="radio" name="q7" value="b"> 3/5</label>
+    <label class="option"><input type="radio" name="q7" value="c"> 1/5</label>
+    <label class="option"><input type="radio" name="q7" value="d"> 6/10</label>
   </div>
-  <button class="btn" id="btn-q7" onclick="valider('q7','b')">Valider</button>
-  <div class="exp" id="exp-q7">✅ <b>3/5</b> : PGCD(15, 25) = 5 → 15 ÷ 5 = 3 et 25 ÷ 5 = 5.</div>
+  <button class="btn-valider" onclick="valider('q7','b')">Valider</button>
+  <div class="explication" id="exp-q7"><b>3/5</b> : PGCD(15,25)=5. 15:5=3 et 25:5=5.</div>
 </div>
 <div class="question" id="q8">
-  <div class="qt">8. Ranger en ordre croissant : 1/2, 1/3, 2/5. PPCM = 30 :</div>
-  <div class="opts" id="opts-q8">
-    <div class="opt" id="q8-a" onclick="selectOpt('q8','a')">1/3 &lt; 1/2 &lt; 2/5</div>
-    <div class="opt" id="q8-b" onclick="selectOpt('q8','b')">2/5 &lt; 1/3 &lt; 1/2</div>
-    <div class="opt" id="q8-c" onclick="selectOpt('q8','c')">1/3 &lt; 2/5 &lt; 1/2</div>
-    <div class="opt" id="q8-d" onclick="selectOpt('q8','d')">1/2 &lt; 2/5 &lt; 1/3</div>
+  <div class="question-text">8. Classer en ordre croissant : 1/2, 1/3, 2/5 (PPCM=30) :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> 1/3 < 1/2 < 2/5</label>
+    <label class="option"><input type="radio" name="q8" value="b"> 2/5 < 1/3 < 1/2</label>
+    <label class="option"><input type="radio" name="q8" value="c"> 1/3 < 2/5 < 1/2</label>
+    <label class="option"><input type="radio" name="q8" value="d"> 1/2 < 2/5 < 1/3</label>
   </div>
-  <button class="btn" id="btn-q8" onclick="valider('q8','c')">Valider</button>
-  <div class="exp" id="exp-q8">✅ <b>1/3 &lt; 2/5 &lt; 1/2</b> : 1/3 = 10/30, 2/5 = 12/30, 1/2 = 15/30 → ordre : 10 &lt; 12 &lt; 15.</div>
+  <button class="btn-valider" onclick="valider('q8','c')">Valider</button>
+  <div class="explication" id="exp-q8"><b>1/3 < 2/5 < 1/2</b> : 1/3=10/30, 2/5=12/30, 1/2=15/30. Ordre : 10 < 12 < 15.</div>
 </div>
 <div class="question" id="q9">
-  <div class="qt">9. Comparer 3/4 et 7/10. PPCM(4,10) = 20 :</div>
-  <div class="opts" id="opts-q9">
-    <div class="opt" id="q9-a" onclick="selectOpt('q9','a')">3/4 &lt; 7/10</div>
-    <div class="opt" id="q9-b" onclick="selectOpt('q9','b')">3/4 = 7/10</div>
-    <div class="opt" id="q9-c" onclick="selectOpt('q9','c')">3/4 &gt; 7/10</div>
-    <div class="opt" id="q9-d" onclick="selectOpt('q9','d')">Impossible</div>
+  <div class="question-text">9. Comparer 3/4 et 7/10 (PPCM=20) :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> 3/4 < 7/10</label>
+    <label class="option"><input type="radio" name="q9" value="b"> 3/4 = 7/10</label>
+    <label class="option"><input type="radio" name="q9" value="c"> 3/4 > 7/10</label>
+    <label class="option"><input type="radio" name="q9" value="d"> Impossible</label>
   </div>
-  <button class="btn" id="btn-q9" onclick="valider('q9','c')">Valider</button>
-  <div class="exp" id="exp-q9">✅ <b>3/4 &gt; 7/10</b> : 3/4 = 15/20 et 7/10 = 14/20. 15 &gt; 14 donc 3/4 &gt; 7/10.</div>
+  <button class="btn-valider" onclick="valider('q9','c')">Valider</button>
+  <div class="explication" id="exp-q9"><b>3/4 > 7/10</b> : 3/4=15/20 et 7/10=14/20. 15 > 14, donc 3/4 > 7/10.</div>
 </div>
 <div class="question" id="q10">
-  <div class="qt">10. Réduire : 3x + 2y − x − 2y =</div>
-  <div class="opts" id="opts-q10">
-    <div class="opt" id="q10-a" onclick="selectOpt('q10','a')">2x</div>
-    <div class="opt" id="q10-b" onclick="selectOpt('q10','b')">4x + 4y</div>
-    <div class="opt" id="q10-c" onclick="selectOpt('q10','c')">2x + 4y</div>
-    <div class="opt" id="q10-d" onclick="selectOpt('q10','d')">4xy</div>
+  <div class="question-text">10. Reduire : 3x + 2y - x - 2y =</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> 2x</label>
+    <label class="option"><input type="radio" name="q10" value="b"> 4x + 4y</label>
+    <label class="option"><input type="radio" name="q10" value="c"> 2x + 4y</label>
+    <label class="option"><input type="radio" name="q10" value="d"> 4xy</label>
   </div>
-  <button class="btn" id="btn-q10" onclick="valider('q10','a')">Valider</button>
-  <div class="exp" id="exp-q10">✅ <b>2x</b> : 3x − x = 2x et 2y − 2y = 0. Les y s'annulent.</div>
+  <button class="btn-valider" onclick="valider('q10','a')">Valider</button>
+  <div class="explication" id="exp-q10"><b>2x</b> : 3x-x=2x et 2y-2y=0. Les y s'annulent.</div>
 </div>
 
-<button class="sub" onclick="showRes()">Voir mon résultat</button>
-<div id="res">
-  <h2>Résultat</h2>
-  <div id="sc"></div>
-  <div id="msg" style="font-size:1.1rem;margin:8px 0;"></div>
-  <div class="errs" id="ec" style="display:none"><h3>À retravailler :</h3><ul id="el"></ul></div>
-  <button class="wa" onclick="share()">Partager sur WhatsApp</button>
+<button id="submit-all" onclick="showScore()">Voir mon resultat</button>
+<div id="score-section">
+  <h2>Resultat</h2>
+  <div id="score-display"></div>
+  <div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none">
+    <h3>A retravailler :</h3>
+    <ul id="errors-list"></ul>
+  </div>
+  <button class="share-btn" onclick="shareResult()">Partager sur WhatsApp</button>
 </div>
 </div>
 <script>
-var C = {q1:'a',q2:'a',q3:'b',q4:'b',q5:'c',q6:'c',q7:'b',q8:'c',q9:'c',q10:'a'};
-var L = {q1:'Q1 - 5x+3x=8x et 2y-y=y',q2:'Q2 - 6a-2a=4a et 4b+b=5b',q3:'Q3 - x-x=0 et 3y+5y=8y',q4:'Q4 - PGCD(18,24)=6',q5:'Q5 - PGCD(24,36)=12',q6:'Q6 - 18/24 = 3/4',q7:'Q7 - 15/25 = 3/5',q8:'Q8 - Ordre croissant 1/3 < 2/5 < 1/2',q9:'Q9 - 3/4 supérieur à 7/10',q10:'Q10 - 3x-x=2x et 2y-2y=0'};
-var SEL = {};
-var DONE = {};
-var sc = 0;
-var n = 10;
-
-function selectOpt(q, k) {
-  if (DONE[q]) return;
-  SEL[q] = k;
-  var opts = document.querySelectorAll('#opts-' + q + ' .opt');
-  for (var i = 0; i < opts.length; i++) {
-    opts[i].classList.remove('selected');
+var correct={q1:'a',q2:'a',q3:'b',q4:'b',q5:'c',q6:'c',q7:'b',q8:'c',q9:'c',q10:'a'};
+var labels={q1:'Q1 - 5x+3x=8x et 2y-y=y',q2:'Q2 - 6a-2a=4a et 4b+b=5b',q3:'Q3 - x-x=0 et 3y+5y=8y',q4:'Q4 - PGCD(18,24)=6',q5:'Q5 - PGCD(24,36)=12',q6:'Q6 - 18/24 simplifie = 3/4',q7:'Q7 - 15/25 simplifie = 3/5',q8:'Q8 - Ordre croissant 1/3 < 2/5 < 1/2',q9:'Q9 - 3/4 superieur a 7/10',q10:'Q10 - 3x-x=2x et 2y-2y=0'};
+var answered={};
+var score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une reponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){
+    var val=['a','b','c','d'][i];
+    opts[i].style.pointerEvents='none';
+    if(val===rep){opts[i].classList.add('correct');}
+    else if(val===chosen.value&&chosen.value!==rep){opts[i].classList.add('wrong');}
   }
-  document.getElementById(q + '-' + k).classList.add('selected');
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
+  if(chosen.value===rep){score++;}
 }
-
-function valider(q, r) {
-  if (DONE[q]) return;
-  var k = SEL[q];
-  if (!k) { alert('Choisis une réponse !'); return; }
-  DONE[q] = true;
-  var opts = document.querySelectorAll('#opts-' + q + ' .opt');
-  for (var i = 0; i < opts.length; i++) {
-    opts[i].classList.add('disabled');
-    opts[i].classList.remove('selected');
+function showScore(){
+  var errors=[];
+  var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){
+    if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);
   }
-  var keys = ['a','b','c','d'];
-  for (var j = 0; j < 4; j++) {
-    var el = document.getElementById(q + '-' + keys[j]);
-    if (keys[j] === r) el.classList.add('correct');
-    else if (keys[j] === k && k !== r) el.classList.add('wrong');
-  }
-  document.getElementById('exp-' + q).style.display = 'block';
-  document.getElementById('btn-' + q).disabled = true;
-  if (k === r) sc++;
-}
-
-function showRes() {
-  var errs = [];
-  for (var q in C) { if (!DONE[q] || SEL[q] !== C[q]) errs.push(q); }
-  document.getElementById('sc').textContent = sc + ' / ' + n;
-  var m;
-  if (sc === n) m = 'Parfait !';
-  else if (sc >= n - 2) m = 'Tres bien !';
-  else if (sc >= 6) m = 'Bien, continue !';
-  else m = 'Relis la fiche et reessaie !';
-  document.getElementById('msg').textContent = m;
-  if (errs.length) {
-    document.getElementById('ec').style.display = 'block';
-    var ul = document.getElementById('el');
-    ul.innerHTML = '';
-    for (var i = 0; i < errs.length; i++) {
-      var li = document.createElement('li');
-      li.textContent = L[errs[i]];
+  document.getElementById('score-display').textContent=score+' / 10';
+  var msg='';
+  if(score===10)msg='Parfait !';
+  else if(score>=8)msg='Tres bien !';
+  else if(score>=6)msg='Bien, continue !';
+  else msg='Relis la fiche et reessaie !';
+  document.getElementById('score-message').textContent=msg;
+  if(errors.length>0){
+    document.getElementById('errors-container').style.display='block';
+    var ul=document.getElementById('errors-list');
+    ul.innerHTML='';
+    for(var j=0;j<errors.length;j++){
+      var li=document.createElement('li');
+      li.textContent=labels[errors[j]];
       ul.appendChild(li);
     }
   }
-  document.getElementById('res').style.display = 'block';
-  document.querySelector('.sub').style.display = 'none';
-  document.getElementById('res').scrollIntoView({behavior: 'smooth'});
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
 }
-
-function share() {
-  var errs = [];
-  for (var q in C) { if (!DONE[q] || SEL[q] !== C[q]) errs.push(q); }
-  var t = 'Quiz Remédiation Calcul et Fractions' + '\nScore : ' + sc + '/' + n + '\n';
-  if (errs.length) {
-    t += '\nA retravailler :\n';
-    for (var i = 0; i < errs.length; i++) t += '- ' + L[errs[i]] + '\n';
-  } else {
-    t += 'Tout juste !';
+function shareResult(){
+  var errors=[];
+  var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){
+    if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);
   }
-  window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank');
+  var txt='Quiz Remediation Calcul et Fractions\nScore : '+score+'/10\n';
+  if(errors.length>0){
+    txt+='\nA retravailler :\n';
+    for(var j=0;j<errors.length;j++){txt+='- '+labels[errors[j]]+'\n';}
+  } else {txt+='Tout juste !';}
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
 }
 </script>
 </body>

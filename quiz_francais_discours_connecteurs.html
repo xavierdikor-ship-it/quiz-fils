@@ -5,254 +5,242 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Quiz Discours et Connecteurs</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', sans-serif; background: #e8eaf6; color: #1a1a2e; padding: 16px; }
-.container { max-width: 820px; margin: 0 auto; }
-header { background: linear-gradient(135deg, #1a237e, #303f9f); color: white; padding: 24px; border-radius: 16px; margin-bottom: 18px; text-align: center; }
-header h1 { font-size: 1.6rem; margin-bottom: 4px; }
-header p { font-size: .85rem; opacity: .9; }
-.question { background: white; border-radius: 12px; padding: 16px 18px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.08); border-left: 5px solid #303f9f; }
-.qt { font-weight: 700; font-size: .95rem; margin-bottom: 12px; line-height: 1.5; }
-.opts { display: flex; flex-direction: column; gap: 8px; }
-.opt { padding: 12px 16px; border-radius: 10px; border: 2px solid #e0e0e0; background: #fafafa; font-size: .9rem; cursor: pointer; user-select: none; -webkit-user-select: none; transition: border-color .15s, background .15s; }
-.opt:active { opacity: .85; }
-.opt.selected { border-color: #303f9f; background: #ede7f6; font-weight: 600; }
-.opt.correct { background: #e8f5e9 !important; border-color: #388e3c !important; font-weight: 600; }
-.opt.wrong { background: #ffebee !important; border-color: #e53935 !important; }
-.opt.disabled { pointer-events: none; }
-.exp { display: none; background: #f5f5f5; border-left: 4px solid #303f9f; padding: 10px 14px; border-radius: 0 8px 8px 0; margin-top: 10px; font-size: .84rem; color: #333; line-height: 1.5; }
-.btn { background: #1a237e; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 12px; font-size: .9rem; font-weight: 600; }
-.btn:disabled { background: #bbb; cursor: default; }
-#res { display: none; background: white; border-radius: 16px; padding: 28px; text-align: center; margin-top: 20px; box-shadow: 0 4px 20px rgba(0,0,0,.1); }
-#res h2 { color: #1a237e; font-size: 1.5rem; margin-bottom: 8px; }
-#sc { font-size: 3rem; font-weight: bold; color: #1a237e; margin: 10px 0; }
-.errs { text-align: left; background: #fff8e1; border-radius: 10px; padding: 14px; margin: 12px 0; }
-.errs h3 { color: #e65100; font-size: .9rem; margin-bottom: 8px; }
-.errs li { font-size: .85rem; margin-bottom: 5px; }
-.wa { background: #25D366; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: .95rem; font-weight: bold; cursor: pointer; margin-top: 14px; }
-.sub { display: block; width: 100%; padding: 14px; background: #1a237e; color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 20px; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e8eaf6;color:#2c3e50;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#1a237e,#303f9f);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{font-size:.9rem;opacity:.9}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #303f9f}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#303f9f;background:#f3f3ff}
+.option input[type=radio]{accent-color:#1a237e;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f5f5f5;border-left:4px solid #303f9f;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#333}
+.btn-valider{background:#1a237e;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem;font-weight:600;display:block}
+.btn-valider:disabled{background:#bbb;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#1a237e;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#1a237e;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+#submit-all{display:block;width:100%;padding:14px;background:#1a237e;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
 </style>
 </head>
 <body>
 <div class="container">
-<header><h1>Quiz Discours et Connecteurs</h1><p>Français 5ème · 12 questions</p></header>
+<header><h1>Quiz Discours et Connecteurs</h1><p>Francais 5eme - 12 questions</p></header>
 <div class="question" id="q1">
-  <div class="qt">1. Paul dit : « Je viendrai demain. » → discours indirect ?</div>
-  <div class="opts" id="opts-q1">
-    <div class="opt" id="q1-a" onclick="selectOpt('q1','a')">Paul dit qu'il vient demain.</div>
-    <div class="opt" id="q1-b" onclick="selectOpt('q1','b')">Paul dit qu'il viendrait le lendemain.</div>
-    <div class="opt" id="q1-c" onclick="selectOpt('q1','c')">Paul dit qu'il viendra demain.</div>
-    <div class="opt" id="q1-d" onclick="selectOpt('q1','d')">Paul dit qu'il venait demain.</div>
+  <div class="question-text">1. Paul dit : 'Je viendrai demain.' Au discours indirect ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> Paul dit qu'il vient demain.</label>
+    <label class="option"><input type="radio" name="q1" value="b"> Paul dit qu'il viendrait le lendemain.</label>
+    <label class="option"><input type="radio" name="q1" value="c"> Paul dit qu'il viendra demain.</label>
+    <label class="option"><input type="radio" name="q1" value="d"> Paul dit qu'il venait demain.</label>
   </div>
-  <button class="btn" id="btn-q1" onclick="valider('q1','b')">Valider</button>
-  <div class="exp" id="exp-q1">✅ <b>qu'il viendrait le lendemain</b> : futur → conditionnel, je → il, demain → le lendemain.</div>
+  <button class="btn-valider" onclick="valider('q1','b')">Valider</button>
+  <div class="explication" id="exp-q1"><b>qu'il viendrait le lendemain</b> : futur -> conditionnel ; 'je' -> 'il' ; 'demain' -> 'le lendemain'.</div>
 </div>
 <div class="question" id="q2">
-  <div class="qt">2. Elle demanda : « Où vas-tu ? » → discours indirect ?</div>
-  <div class="opts" id="opts-q2">
-    <div class="opt" id="q2-a" onclick="selectOpt('q2','a')">Elle demanda où tu allais.</div>
-    <div class="opt" id="q2-b" onclick="selectOpt('q2','b')">Elle demanda où il allait.</div>
-    <div class="opt" id="q2-c" onclick="selectOpt('q2','c')">Elle demanda s'il allait.</div>
-    <div class="opt" id="q2-d" onclick="selectOpt('q2','d')">Elle demanda qu'il allait.</div>
+  <div class="question-text">2. Elle demanda : 'Ou vas-tu ?' Au discours indirect ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> Elle demanda ou tu allais.</label>
+    <label class="option"><input type="radio" name="q2" value="b"> Elle demanda ou il allait.</label>
+    <label class="option"><input type="radio" name="q2" value="c"> Elle demanda s'il allait.</label>
+    <label class="option"><input type="radio" name="q2" value="d"> Elle demanda qu'il allait.</label>
   </div>
-  <button class="btn" id="btn-q2" onclick="valider('q2','b')">Valider</button>
-  <div class="exp" id="exp-q2">✅ <b>où il allait</b> : mot interrogatif conservé (où), pronom changé (tu→il), présent→imparfait.</div>
+  <button class="btn-valider" onclick="valider('q2','b')">Valider</button>
+  <div class="explication" id="exp-q2"><b>ou il allait</b> : mot interrogatif conserve, pronom change, present -> imparfait.</div>
 </div>
 <div class="question" id="q3">
-  <div class="qt">3. Au discours indirect, le présent devient :</div>
-  <div class="opts" id="opts-q3">
-    <div class="opt" id="q3-a" onclick="selectOpt('q3','a')">Futur</div>
-    <div class="opt" id="q3-b" onclick="selectOpt('q3','b')">Imparfait</div>
-    <div class="opt" id="q3-c" onclick="selectOpt('q3','c')">Passé simple</div>
-    <div class="opt" id="q3-d" onclick="selectOpt('q3','d')">Conditionnel</div>
+  <div class="question-text">3. Au discours indirect, le present devient :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> Futur</label>
+    <label class="option"><input type="radio" name="q3" value="b"> Imparfait</label>
+    <label class="option"><input type="radio" name="q3" value="c"> Passe simple</label>
+    <label class="option"><input type="radio" name="q3" value="d"> Conditionnel</label>
   </div>
-  <button class="btn" id="btn-q3" onclick="valider('q3','b')">Valider</button>
-  <div class="exp" id="exp-q3">✅ <b>Imparfait</b> : quand le verbe introducteur est au passé, présent → imparfait.</div>
+  <button class="btn-valider" onclick="valider('q3','b')">Valider</button>
+  <div class="explication" id="exp-q3"><b>Imparfait</b> : quand le verbe introducteur est au passe, le present se transforme en imparfait.</div>
 </div>
 <div class="question" id="q4">
-  <div class="qt">4. « Aujourd'hui » au discours indirect devient :</div>
-  <div class="opts" id="opts-q4">
-    <div class="opt" id="q4-a" onclick="selectOpt('q4','a')">Demain</div>
-    <div class="opt" id="q4-b" onclick="selectOpt('q4','b')">Ce jour-là</div>
-    <div class="opt" id="q4-c" onclick="selectOpt('q4','c')">Maintenant</div>
-    <div class="opt" id="q4-d" onclick="selectOpt('q4','d')">La veille</div>
+  <div class="question-text">4. 'Aujourd'hui' au discours indirect devient :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> Demain</label>
+    <label class="option"><input type="radio" name="q4" value="b"> Ce jour-la</label>
+    <label class="option"><input type="radio" name="q4" value="c"> Maintenant</label>
+    <label class="option"><input type="radio" name="q4" value="d"> La veille</label>
   </div>
-  <button class="btn" id="btn-q4" onclick="valider('q4','b')">Valider</button>
-  <div class="exp" id="exp-q4">✅ <b>Ce jour-là</b> : les indicateurs de temps changent au discours indirect.</div>
+  <button class="btn-valider" onclick="valider('q4','b')">Valider</button>
+  <div class="explication" id="exp-q4"><b>Ce jour-la</b> : les indicateurs de temps changent au discours indirect.</div>
 </div>
 <div class="question" id="q5">
-  <div class="qt">5. « L'enfant courait. Il était épuisé. » → « Il » est une reprise :</div>
-  <div class="opts" id="opts-q5">
-    <div class="opt" id="q5-a" onclick="selectOpt('q5','a')">Nominale synonyme</div>
-    <div class="opt" id="q5-b" onclick="selectOpt('q5','b')">Pronominale</div>
-    <div class="opt" id="q5-c" onclick="selectOpt('q5','c')">Périphrase</div>
-    <div class="opt" id="q5-d" onclick="selectOpt('q5','d')">Par déterminant défini</div>
+  <div class="question-text">5. 'L'enfant courait. Il etait epuise.' Le 'Il' est une reprise :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> Nominale synonyme</label>
+    <label class="option"><input type="radio" name="q5" value="b"> Pronominale</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Periphrase</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Par determinant defini</label>
   </div>
-  <button class="btn" id="btn-q5" onclick="valider('q5','b')">Valider</button>
-  <div class="exp" id="exp-q5">✅ <b>Pronominale</b> : le pronom « il » reprend le nom « l'enfant » pour éviter la répétition.</div>
+  <button class="btn-valider" onclick="valider('q5','b')">Valider</button>
+  <div class="explication" id="exp-q5"><b>Pronominale</b> : le pronom 'il' reprend le nom 'L'enfant' pour eviter la repetition.</div>
 </div>
 <div class="question" id="q6">
-  <div class="qt">6. « Un château. La forteresse était immense. » → reprise ?</div>
-  <div class="opts" id="opts-q6">
-    <div class="opt" id="q6-a" onclick="selectOpt('q6','a')">Pronominale</div>
-    <div class="opt" id="q6-b" onclick="selectOpt('q6','b')">Par pronom démonstratif</div>
-    <div class="opt" id="q6-c" onclick="selectOpt('q6','c')">Nominale synonyme</div>
-    <div class="opt" id="q6-d" onclick="selectOpt('q6','d')">Par déterminant indéfini</div>
+  <div class="question-text">6. 'Un chateau. La forteresse etait immense.' Reprise ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> Pronominale</label>
+    <label class="option"><input type="radio" name="q6" value="b"> Par pronom demonstratif</label>
+    <label class="option"><input type="radio" name="q6" value="c"> Nominale synonyme</label>
+    <label class="option"><input type="radio" name="q6" value="d"> Par determinant indefini</label>
   </div>
-  <button class="btn" id="btn-q6" onclick="valider('q6','c')">Valider</button>
-  <div class="exp" id="exp-q6">✅ <b>Nominale synonyme</b> : « la forteresse » est un synonyme de « château ».</div>
+  <button class="btn-valider" onclick="valider('q6','c')">Valider</button>
+  <div class="explication" id="exp-q6"><b>Nominale synonyme</b> : 'la forteresse' est un synonyme de 'chateau'.</div>
 </div>
 <div class="question" id="q7">
-  <div class="qt">7. « D'abord il hésita, ensuite il avança. » → « ensuite » indique :</div>
-  <div class="opts" id="opts-q7">
-    <div class="opt" id="q7-a" onclick="selectOpt('q7','a')">Une cause</div>
-    <div class="opt" id="q7-b" onclick="selectOpt('q7','b')">Une opposition</div>
-    <div class="opt" id="q7-c" onclick="selectOpt('q7','c')">Une succession</div>
-    <div class="opt" id="q7-d" onclick="selectOpt('q7','d')">Une conséquence</div>
+  <div class="question-text">7. 'D'abord il hesita, ensuite il avanca.' 'Ensuite' indique :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> Une cause</label>
+    <label class="option"><input type="radio" name="q7" value="b"> Une opposition</label>
+    <label class="option"><input type="radio" name="q7" value="c"> Une succession</label>
+    <label class="option"><input type="radio" name="q7" value="d"> Une consequence</label>
   </div>
-  <button class="btn" id="btn-q7" onclick="valider('q7','c')">Valider</button>
-  <div class="exp" id="exp-q7">✅ <b>Une succession</b> : « ensuite » marque une suite chronologique.</div>
+  <button class="btn-valider" onclick="valider('q7','c')">Valider</button>
+  <div class="explication" id="exp-q7"><b>Une succession</b> : 'ensuite' marque une suite chronologique.</div>
 </div>
 <div class="question" id="q8">
-  <div class="qt">8. « Il était fatigué, pourtant il continua. » → « pourtant » indique :</div>
-  <div class="opts" id="opts-q8">
-    <div class="opt" id="q8-a" onclick="selectOpt('q8','a')">Une cause</div>
-    <div class="opt" id="q8-b" onclick="selectOpt('q8','b')">Une opposition</div>
-    <div class="opt" id="q8-c" onclick="selectOpt('q8','c')">Une conséquence</div>
-    <div class="opt" id="q8-d" onclick="selectOpt('q8','d')">Un exemple</div>
+  <div class="question-text">8. 'Il etait fatigue, pourtant il continua.' 'Pourtant' indique :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> Une cause</label>
+    <label class="option"><input type="radio" name="q8" value="b"> Une opposition</label>
+    <label class="option"><input type="radio" name="q8" value="c"> Une consequence</label>
+    <label class="option"><input type="radio" name="q8" value="d"> Un exemple</label>
   </div>
-  <button class="btn" id="btn-q8" onclick="valider('q8','b')">Valider</button>
-  <div class="exp" id="exp-q8">✅ <b>Une opposition</b> : « pourtant » s'oppose à ce qui précède.</div>
+  <button class="btn-valider" onclick="valider('q8','b')">Valider</button>
+  <div class="explication" id="exp-q8"><b>Une opposition</b> : 'pourtant' s'oppose a ce qui precede.</div>
 </div>
 <div class="question" id="q9">
-  <div class="qt">9. « Il ne vint pas, car il était malade. » → « car » indique :</div>
-  <div class="opts" id="opts-q9">
-    <div class="opt" id="q9-a" onclick="selectOpt('q9','a')">Une conséquence</div>
-    <div class="opt" id="q9-b" onclick="selectOpt('q9','b')">Un but</div>
-    <div class="opt" id="q9-c" onclick="selectOpt('q9','c')">Une cause</div>
-    <div class="opt" id="q9-d" onclick="selectOpt('q9','d')">Une addition</div>
+  <div class="question-text">9. 'Il ne vint pas, car il etait malade.' 'Car' indique :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> Une consequence</label>
+    <label class="option"><input type="radio" name="q9" value="b"> Un but</label>
+    <label class="option"><input type="radio" name="q9" value="c"> Une cause</label>
+    <label class="option"><input type="radio" name="q9" value="d"> Une addition</label>
   </div>
-  <button class="btn" id="btn-q9" onclick="valider('q9','c')">Valider</button>
-  <div class="exp" id="exp-q9">✅ <b>Une cause</b> : « car » explique la raison (= parce que).</div>
+  <button class="btn-valider" onclick="valider('q9','c')">Valider</button>
+  <div class="explication" id="exp-q9"><b>Une cause</b> : 'car' explique la raison (= parce que).</div>
 </div>
 <div class="question" id="q10">
-  <div class="qt">10. « Il travailla dur, donc il réussit. » → « donc » indique :</div>
-  <div class="opts" id="opts-q10">
-    <div class="opt" id="q10-a" onclick="selectOpt('q10','a')">Une cause</div>
-    <div class="opt" id="q10-b" onclick="selectOpt('q10','b')">Une conséquence</div>
-    <div class="opt" id="q10-c" onclick="selectOpt('q10','c')">Une opposition</div>
-    <div class="opt" id="q10-d" onclick="selectOpt('q10','d')">Un exemple</div>
+  <div class="question-text">10. 'Il travailla dur, donc il reussit.' 'Donc' indique :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> Une cause</label>
+    <label class="option"><input type="radio" name="q10" value="b"> Une consequence</label>
+    <label class="option"><input type="radio" name="q10" value="c"> Une opposition</label>
+    <label class="option"><input type="radio" name="q10" value="d"> Un exemple</label>
   </div>
-  <button class="btn" id="btn-q10" onclick="valider('q10','b')">Valider</button>
-  <div class="exp" id="exp-q10">✅ <b>Une conséquence</b> : « donc » introduit le résultat de l'effort fourni.</div>
+  <button class="btn-valider" onclick="valider('q10','b')">Valider</button>
+  <div class="explication" id="exp-q10"><b>Une consequence</b> : 'donc' introduit le resultat de l'effort fourni.</div>
 </div>
 <div class="question" id="q11">
-  <div class="qt">11. Laquelle n'est PAS une marque du discours direct ?</div>
-  <div class="opts" id="opts-q11">
-    <div class="opt" id="q11-a" onclick="selectOpt('q11','a')">Les guillemets</div>
-    <div class="opt" id="q11-b" onclick="selectOpt('q11','b')">Les deux-points</div>
-    <div class="opt" id="q11-c" onclick="selectOpt('q11','c')">La conjonction que</div>
-    <div class="opt" id="q11-d" onclick="selectOpt('q11','d')">Le verbe introducteur</div>
+  <div class="question-text">11. Laquelle n'est PAS une marque du discours direct ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q11" value="a"> Les guillemets</label>
+    <label class="option"><input type="radio" name="q11" value="b"> Les deux-points</label>
+    <label class="option"><input type="radio" name="q11" value="c"> La conjonction que</label>
+    <label class="option"><input type="radio" name="q11" value="d"> Le verbe introducteur</label>
   </div>
-  <button class="btn" id="btn-q11" onclick="valider('q11','c')">Valider</button>
-  <div class="exp" id="exp-q11">✅ <b>La conjonction que</b> : c'est une marque du discours INDIRECT (ex. : il dit qu'il viendrait).</div>
+  <button class="btn-valider" onclick="valider('q11','c')">Valider</button>
+  <div class="explication" id="exp-q11"><b>La conjonction 'que'</b> est une marque du discours INDIRECT (il dit qu'il viendrait).</div>
 </div>
 <div class="question" id="q12">
-  <div class="qt">12. « En effet, les températures ont chuté. » → connecteur de :</div>
-  <div class="opts" id="opts-q12">
-    <div class="opt" id="q12-a" onclick="selectOpt('q12','a')">Conséquence</div>
-    <div class="opt" id="q12-b" onclick="selectOpt('q12','b')">Cause et explication</div>
-    <div class="opt" id="q12-c" onclick="selectOpt('q12','c')">Opposition</div>
-    <div class="opt" id="q12-d" onclick="selectOpt('q12','d')">But</div>
+  <div class="question-text">12. 'En effet, les temperatures ont chute.' Connecteur de :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q12" value="a"> Consequence</label>
+    <label class="option"><input type="radio" name="q12" value="b"> Cause et explication</label>
+    <label class="option"><input type="radio" name="q12" value="c"> Opposition</label>
+    <label class="option"><input type="radio" name="q12" value="d"> But</label>
   </div>
-  <button class="btn" id="btn-q12" onclick="valider('q12','b')">Valider</button>
-  <div class="exp" id="exp-q12">✅ <b>Cause / explication</b> : « en effet » introduit une explication de ce qui précède.</div>
+  <button class="btn-valider" onclick="valider('q12','b')">Valider</button>
+  <div class="explication" id="exp-q12"><b>Cause et explication</b> : 'en effet' introduit une explication de ce qui precede.</div>
 </div>
 
-<button class="sub" onclick="showRes()">Voir mon résultat</button>
-<div id="res">
-  <h2>Résultat</h2>
-  <div id="sc"></div>
-  <div id="msg" style="font-size:1.1rem;margin:8px 0;"></div>
-  <div class="errs" id="ec" style="display:none"><h3>À retravailler :</h3><ul id="el"></ul></div>
-  <button class="wa" onclick="share()">Partager sur WhatsApp</button>
+<button id="submit-all" onclick="showScore()">Voir mon resultat</button>
+<div id="score-section">
+  <h2>Resultat</h2>
+  <div id="score-display"></div>
+  <div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none">
+    <h3>A retravailler :</h3>
+    <ul id="errors-list"></ul>
+  </div>
+  <button class="share-btn" onclick="shareResult()">Partager sur WhatsApp</button>
 </div>
 </div>
 <script>
-var C = {q1:'b',q2:'b',q3:'b',q4:'b',q5:'b',q6:'c',q7:'c',q8:'b',q9:'c',q10:'b',q11:'c',q12:'b'};
-var L = {q1:'Q1 - Discours indirect futur conditionnel',q2:'Q2 - Interrogation indirecte où il allait',q3:'Q3 - Présent devient imparfait',q4:'Q4 - Ce jour-là remplace aujourd\'hui',q5:'Q5 - Il = reprise pronominale',q6:'Q6 - La forteresse = reprise nominale synonyme',q7:'Q7 - Ensuite = connecteur de succession',q8:'Q8 - Pourtant = connecteur d\'opposition',q9:'Q9 - Car = connecteur de cause',q10:'Q10 - Donc = connecteur de conséquence',q11:'Q11 - Que = marque du discours indirect',q12:'Q12 - En effet = cause et explication'};
-var SEL = {};
-var DONE = {};
-var sc = 0;
-var n = 12;
-
-function selectOpt(q, k) {
-  if (DONE[q]) return;
-  SEL[q] = k;
-  var opts = document.querySelectorAll('#opts-' + q + ' .opt');
-  for (var i = 0; i < opts.length; i++) {
-    opts[i].classList.remove('selected');
+var correct={q1:'b',q2:'b',q3:'b',q4:'b',q5:'b',q6:'c',q7:'c',q8:'b',q9:'c',q10:'b',q11:'c',q12:'b'};
+var labels={q1:'Q1 - Discours indirect futur->conditionnel lendemain',q2:'Q2 - Interrogation indirecte ou il allait',q3:'Q3 - Present -> imparfait au discours indirect',q4:'Q4 - Ce jour-la remplace aujourd\'hui',q5:'Q5 - Il = reprise pronominale',q6:'Q6 - La forteresse = reprise nominale synonyme',q7:'Q7 - Ensuite = connecteur de succession',q8:'Q8 - Pourtant = connecteur d\'opposition',q9:'Q9 - Car = connecteur de cause',q10:'Q10 - Donc = connecteur de consequence',q11:'Q11 - Que = marque du discours indirect',q12:'Q12 - En effet = cause et explication'};
+var answered={};
+var score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une reponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){
+    var val=['a','b','c','d'][i];
+    opts[i].style.pointerEvents='none';
+    if(val===rep){opts[i].classList.add('correct');}
+    else if(val===chosen.value&&chosen.value!==rep){opts[i].classList.add('wrong');}
   }
-  document.getElementById(q + '-' + k).classList.add('selected');
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
+  if(chosen.value===rep){score++;}
 }
-
-function valider(q, r) {
-  if (DONE[q]) return;
-  var k = SEL[q];
-  if (!k) { alert('Choisis une réponse !'); return; }
-  DONE[q] = true;
-  var opts = document.querySelectorAll('#opts-' + q + ' .opt');
-  for (var i = 0; i < opts.length; i++) {
-    opts[i].classList.add('disabled');
-    opts[i].classList.remove('selected');
+function showScore(){
+  var errors=[];
+  var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){
+    if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);
   }
-  var keys = ['a','b','c','d'];
-  for (var j = 0; j < 4; j++) {
-    var el = document.getElementById(q + '-' + keys[j]);
-    if (keys[j] === r) el.classList.add('correct');
-    else if (keys[j] === k && k !== r) el.classList.add('wrong');
-  }
-  document.getElementById('exp-' + q).style.display = 'block';
-  document.getElementById('btn-' + q).disabled = true;
-  if (k === r) sc++;
-}
-
-function showRes() {
-  var errs = [];
-  for (var q in C) { if (!DONE[q] || SEL[q] !== C[q]) errs.push(q); }
-  document.getElementById('sc').textContent = sc + ' / ' + n;
-  var m;
-  if (sc === n) m = 'Parfait !';
-  else if (sc >= n - 2) m = 'Tres bien !';
-  else if (sc >= 7) m = 'Bien, continue !';
-  else m = 'Relis la fiche et reessaie !';
-  document.getElementById('msg').textContent = m;
-  if (errs.length) {
-    document.getElementById('ec').style.display = 'block';
-    var ul = document.getElementById('el');
-    ul.innerHTML = '';
-    for (var i = 0; i < errs.length; i++) {
-      var li = document.createElement('li');
-      li.textContent = L[errs[i]];
+  document.getElementById('score-display').textContent=score+' / 12';
+  var msg='';
+  if(score===12)msg='Parfait !';
+  else if(score>=10)msg='Tres bien !';
+  else if(score>=7)msg='Bien, continue !';
+  else msg='Relis la fiche et reessaie !';
+  document.getElementById('score-message').textContent=msg;
+  if(errors.length>0){
+    document.getElementById('errors-container').style.display='block';
+    var ul=document.getElementById('errors-list');
+    ul.innerHTML='';
+    for(var j=0;j<errors.length;j++){
+      var li=document.createElement('li');
+      li.textContent=labels[errors[j]];
       ul.appendChild(li);
     }
   }
-  document.getElementById('res').style.display = 'block';
-  document.querySelector('.sub').style.display = 'none';
-  document.getElementById('res').scrollIntoView({behavior: 'smooth'});
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
 }
-
-function share() {
-  var errs = [];
-  for (var q in C) { if (!DONE[q] || SEL[q] !== C[q]) errs.push(q); }
-  var t = 'Quiz Discours et Connecteurs' + '\nScore : ' + sc + '/' + n + '\n';
-  if (errs.length) {
-    t += '\nA retravailler :\n';
-    for (var i = 0; i < errs.length; i++) t += '- ' + L[errs[i]] + '\n';
-  } else {
-    t += 'Tout juste !';
+function shareResult(){
+  var errors=[];
+  var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){
+    if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);
   }
-  window.open('https://wa.me/?text=' + encodeURIComponent(t), '_blank');
+  var txt='Quiz Discours et Connecteurs\nScore : '+score+'/12\n';
+  if(errors.length>0){
+    txt+='\nA retravailler :\n';
+    for(var j=0;j<errors.length;j++){txt+='- '+labels[errors[j]]+'\n';}
+  } else {txt+='Tout juste !';}
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
 }
 </script>
 </body>
