@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remédiation – Géométrie – Maths 5ème</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e8f5e9;color:#1a1a2e;padding:20px;line-height:1.6}
+.container{max-width:880px;margin:0 auto}
+header{background:linear-gradient(135deg,#1b5e20,#388e3c);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{font-size:.9rem;opacity:.9}
+.alerte{background:#fff3e0;border:2px solid #ff6f00;border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:.92rem}
+.alerte strong{color:#e65100}
+.section{background:white;border-radius:14px;padding:22px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.08);border-left:7px solid #388e3c}
+.section h2{color:#1b5e20;font-size:1.1rem;margin-bottom:14px;padding-bottom:7px;border-bottom:2px solid #e8f5e9}
+.erreur{background:#ffebee;border:2px solid #e53935;border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:.91rem}
+.erreur .titre{color:#c62828;font-weight:bold;font-size:.85rem;margin-bottom:6px}
+.correction{background:#e8f5e9;border-left:5px solid #2e7d32;padding:12px 16px;border-radius:0 10px 10px 0;margin:10px 0;font-size:.91rem}
+.correction strong{color:#1b5e20}
+.ex{background:#fff8e1;border:2px solid #ffc107;border-radius:10px;padding:12px 16px;margin:10px 0}
+.ex .titre{color:#e65100;font-weight:bold;font-size:.82rem;margin-bottom:7px;text-transform:uppercase}
+.calcul{background:#fffde7;border-radius:6px;padding:8px 12px;font-family:monospace;font-size:.92rem;margin:6px 0;line-height:1.7}
+.methode{background:#e3f2fd;border-left:5px solid #1565c0;padding:12px 16px;border-radius:0 10px 10px 0;margin:10px 0;font-size:.91rem}
+.methode strong{color:#0d47a1}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>📐 Remédiation — Géométrie</h1>
+  <p>Fiche ciblée · Mathématiques 5ème · 5 points à retravailler</p>
+</header>
+
+<div class="alerte">
+  🎯 <strong>Oscar a eu 15/20 en géométrie.</strong> Cette fiche reprend uniquement les 5 points ratés pour les retravailler en profondeur.
+</div>
+
+<!-- Q3 -->
+<div class="section">
+  <h2>📌 Point 1 — Angles co-internes et droites parallèles (Q3)</h2>
+  <div class="erreur">
+    <div class="titre">❌ L'erreur fréquente</div>
+    <p>Confondre les angles co-internes avec les angles alternes-internes.</p>
+  </div>
+  <div class="correction">
+    <strong>Quand deux droites parallèles sont coupées par une sécante :</strong><br><br>
+    • <strong>Angles alternes-internes</strong> : de part et d'autre de la sécante, entre les parallèles → ils sont <strong>égaux</strong><br>
+    • <strong>Angles co-internes (ou co-internes)</strong> : du même côté de la sécante, entre les parallèles → leur somme est <strong>égale à 180°</strong> (ils sont supplémentaires)
+  </div>
+  <div class="ex">
+    <div class="titre">📝 Exemple</div>
+    <div class="calcul">Deux droites parallèles coupées par une sécante.
+Angle α = 70° (au-dessus, à gauche)
+→ Angle alterne-interne = 70° (en dessous, à droite)
+→ Angle co-interne = 180° − 70° = 110° (en dessous, à gauche)</div>
+  </div>
+  <div class="methode">
+    <strong>Astuce :</strong> Co-internes → CO-mpléments → Côté → même Côté → somme = 180°.<br>
+    Alternes → ALTernent de côté → sont Égaux.
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="section">
+  <h2>📌 Point 2 — Inégalité triangulaire (Q7)</h2>
+  <div class="erreur">
+    <div class="titre">❌ L'erreur fréquente</div>
+    <p>Oublier de vérifier TOUTES les combinaisons, ou mal formuler la règle.</p>
+  </div>
+  <div class="correction">
+    <strong>Règle :</strong> Trois longueurs a, b, c peuvent former un triangle si et seulement si :<br><br>
+    La somme de deux côtés quelconques est <strong>strictement supérieure</strong> au troisième côté.<br><br>
+    On vérifie les 3 conditions : a + b > c &nbsp;·&nbsp; a + c > b &nbsp;·&nbsp; b + c > a
+  </div>
+  <div class="ex">
+    <div class="titre">📝 Exemple 1 : 3 cm, 4 cm, 6 cm → triangle possible ?</div>
+    <div class="calcul">3 + 4 = 7 > 6 ✓
+3 + 6 = 9 > 4 ✓
+4 + 6 = 10 > 3 ✓
+→ OUI, on peut construire ce triangle.</div>
+  </div>
+  <div class="ex">
+    <div class="titre">📝 Exemple 2 : 2 cm, 3 cm, 7 cm → triangle possible ?</div>
+    <div class="calcul">2 + 3 = 5 > 7 ? NON ✗
+→ On s'arrête : ce triangle est IMPOSSIBLE.
+(La somme des deux plus petits côtés doit être > au plus grand.)</div>
+  </div>
+  <div class="methode">
+    <strong>Astuce rapide :</strong> Vérifier en priorité si la somme des DEUX PLUS PETITS côtés > au PLUS GRAND. C'est la condition la plus souvent violée.
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="section">
+  <h2>📌 Point 3 — Côtés du parallélogramme (Q9)</h2>
+  <div class="erreur">
+    <div class="titre">❌ L'erreur fréquente</div>
+    <p>Confondre les propriétés du parallélogramme avec celles du losange ou du rectangle.</p>
+  </div>
+  <div class="correction">
+    <strong>Propriétés du parallélogramme :</strong><br><br>
+    • Les côtés opposés sont <strong>parallèles deux à deux</strong><br>
+    • Les côtés opposés sont <strong>égaux deux à deux</strong> (AB = CD et BC = AD)<br>
+    • Les diagonales se <strong>coupent en leur milieu</strong><br>
+    • Les angles opposés sont <strong>égaux</strong><br>
+    • ⚠️ Les 4 côtés ne sont PAS forcément égaux (c'est le losange qui a 4 côtés égaux)
+  </div>
+  <div class="ex">
+    <div class="titre">📝 Exemple</div>
+    <div class="calcul">Parallélogramme ABCD :
+AB = CD = 5 cm (côtés opposés égaux)
+BC = AD = 3 cm (côtés opposés égaux)
+AB ≠ BC → pas un losange</div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="section">
+  <h2>📌 Point 4 — Le carré = rectangle ET losange (Q12)</h2>
+  <div class="erreur">
+    <div class="titre">❌ L'erreur fréquente</div>
+    <p>Ne pas voir le carré comme un cas particulier à la fois du rectangle et du losange.</p>
+  </div>
+  <div class="correction">
+    <strong>Hiérarchie des quadrilatères :</strong><br><br>
+    • <strong>Parallélogramme</strong> : côtés opposés parallèles et égaux<br>
+    • <strong>Rectangle</strong> : parallélogramme + 4 angles droits (90°)<br>
+    • <strong>Losange</strong> : parallélogramme + 4 côtés égaux<br>
+    • <strong>Carré</strong> : rectangle + losange → 4 angles droits ET 4 côtés égaux
+  </div>
+  <div class="ex">
+    <div class="titre">📝 Schéma des inclusions</div>
+    <div class="calcul">Parallélogramme
+├── Rectangle (angles droits)
+│   └── Carré (angles droits + côtés égaux)
+└── Losange (côtés égaux)
+    └── Carré (angles droits + côtés égaux)</div>
+    <p style="font-size:.84rem;margin-top:6px">→ Un carré est un rectangle. ✓ &nbsp; Un carré est un losange. ✓ &nbsp; Mais un rectangle n'est pas un losange (sauf s'il est carré).</p>
+  </div>
+</div>
+
+<!-- Q16 -->
+<div class="section">
+  <h2>📌 Point 5 — Milieu et symétrie centrale (Q16)</h2>
+  <div class="erreur">
+    <div class="titre">❌ L'erreur fréquente</div>
+    <p>Confondre symétrie axiale (axe de symétrie) et symétrie centrale (centre de symétrie).</p>
+  </div>
+  <div class="correction">
+    <strong>Symétrie centrale :</strong><br><br>
+    • Le <strong>centre de symétrie</strong> O est le <strong>milieu du segment [AB]</strong> reliant un point A à son symétrique A'.<br>
+    • O est equidistant de A et A' : OA = OA'<br>
+    • Pour trouver le symétrique d'un point, on prolonge le segment jusqu'à l'égale distance de l'autre côté.
+  </div>
+  <div class="ex">
+    <div class="titre">📝 Exemple</div>
+    <div class="calcul">A(1 ; 2) a pour symétrique A' par rapport au centre O(3 ; 4).
+O est le milieu de [AA'] donc :
+xO = (xA + xA') / 2  → 3 = (1 + xA') / 2 → xA' = 5
+yO = (yA + yA') / 2  → 4 = (2 + yA') / 2 → yA' = 6
+→ A'(5 ; 6)</div>
+  </div>
+  <div class="methode">
+    <strong>Différence clé :</strong><br>
+    Symétrie <strong>axiale</strong> → réflexion par rapport à une <strong>droite</strong> (comme dans un miroir)<br>
+    Symétrie <strong>centrale</strong> → rotation de 180° autour d'un <strong>point</strong> (le centre)
+  </div>
+</div>
+
+</div>
+</body>
+</html>
