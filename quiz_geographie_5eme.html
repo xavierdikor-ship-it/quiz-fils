@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz Géographie 5ème</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e3f2fd;color:#2c3e50;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{font-size:.9rem;opacity:.9}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #1976d2}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#1976d2;background:#f3f3ff}
+.option input[type=radio]{accent-color:#0d47a1;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f5f5f5;border-left:4px solid #1976d2;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#333}
+.btn-valider{background:#0d47a1;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem;font-weight:600;display:block}
+.btn-valider:disabled{background:#bbb;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#0d47a1;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#0d47a1;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+#submit-all{display:block;width:100%;padding:14px;background:#0d47a1;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="container">
+<header><h1>Quiz Géographie 5ème</h1><p>Programme complet – 15 questions</p></header>
+<div class="question" id="q1">
+  <div class="question-text">1. Combien y a-t-il environ d'habitants sur Terre en 2023 ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> 6 milliards</label>
+    <label class="option"><input type="radio" name="q1" value="b"> 7 milliards</label>
+    <label class="option"><input type="radio" name="q1" value="c"> 8 milliards</label>
+    <label class="option"><input type="radio" name="q1" value="d"> 10 milliards</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','c')">Valider</button>
+  <div class="explication" id="exp-q1"><b>8 milliards</b> : la population mondiale a atteint 8 milliards en 2022.</div>
+</div>
+<div class="question" id="q2">
+  <div class="question-text">2. Que mesure l'IDH ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> Le produit interieur brut</label>
+    <label class="option"><input type="radio" name="q2" value="b"> Le developpement humain (sante + education + revenu)</label>
+    <label class="option"><input type="radio" name="q2" value="c"> La superficie d'un pays</label>
+    <label class="option"><input type="radio" name="q2" value="d"> Le taux de natalite</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','b')">Valider</button>
+  <div class="explication" id="exp-q2"><b>L'IDH</b> (Indice de Developpement Humain) combine esperance de vie, niveau d'education et revenu. Plus l'IDH est proche de 1, plus le pays est developpe.</div>
+</div>
+<div class="question" id="q3">
+  <div class="question-text">3. Quelle proportion de l'eau de la Terre est de l'eau douce ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> 30%</label>
+    <label class="option"><input type="radio" name="q3" value="b"> 10%</label>
+    <label class="option"><input type="radio" name="q3" value="c"> 3%</label>
+    <label class="option"><input type="radio" name="q3" value="d"> 50%</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','c')">Valider</button>
+  <div class="explication" id="exp-q3"><b>3%</b> seulement de l'eau de la planete est douce. Une grande partie est gelee (glaciers).</div>
+</div>
+<div class="question" id="q4">
+  <div class="question-text">4. Le stress hydrique designe :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> Une inondation</label>
+    <label class="option"><input type="radio" name="q4" value="b"> Un manque d'eau pour les besoins de la population</label>
+    <label class="option"><input type="radio" name="q4" value="c"> Une tempete violente</label>
+    <label class="option"><input type="radio" name="q4" value="d"> Une pollution des oceans</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','b')">Valider</button>
+  <div class="explication" id="exp-q4"><b>Le stress hydrique</b> : situation ou la demande en eau depasse les ressources disponibles. Touche surtout l'Afrique du Nord et le Moyen-Orient.</div>
+</div>
+<div class="question" id="q5">
+  <div class="question-text">5. Quelles energies sont NON renouvelables ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> Solaire et eolienne</label>
+    <label class="option"><input type="radio" name="q5" value="b"> Hydraulique et geothermique</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Petrole, gaz et charbon</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Biomasse et maree</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','c')">Valider</button>
+  <div class="explication" id="exp-q5"><b>Le petrole, le gaz et le charbon</b> sont des energies fossiles : non renouvelables et responsables du rechauffement climatique.</div>
+</div>
+<div class="question" id="q6">
+  <div class="question-text">6. La periurbanisation, c'est :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> L'exode rural massif</label>
+    <label class="option"><input type="radio" name="q6" value="b"> L'extension des villes dans les campagnes proches</label>
+    <label class="option"><input type="radio" name="q6" value="c"> La creation de nouvelles villes</label>
+    <label class="option"><input type="radio" name="q6" value="d"> La disparition des villages</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q6','b')">Valider</button>
+  <div class="explication" id="exp-q6"><b>La periurbanisation</b> : des habitants quittent la ville-centre pour s'installer dans les communes rurales proches, tout en gardant un lien avec la ville.</div>
+</div>
+<div class="question" id="q7">
+  <div class="question-text">7. Quelle difference entre un emigrant et un immigrant ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> Ce sont des synonymes</label>
+    <label class="option"><input type="radio" name="q7" value="b"> L'emigrant quitte son pays, l'immigrant arrive dans un nouveau pays</label>
+    <label class="option"><input type="radio" name="q7" value="c"> L'immigrant quitte son pays, l'emigrant arrive</label>
+    <label class="option"><input type="radio" name="q7" value="d"> L'emigrant est refuge, l'immigrant est touriste</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q7','b')">Valider</button>
+  <div class="explication" id="exp-q7"><b>Emigrant = quitte son pays. Immigrant = arrive dans un nouveau pays.</b> Les deux designe la meme personne selon le point de vue.</div>
+</div>
+<div class="question" id="q8">
+  <div class="question-text">8. Un refugie est une personne qui :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> Cherche du travail a l'etranger</label>
+    <label class="option"><input type="radio" name="q8" value="b"> Fuit un danger (guerre, persecutions)</label>
+    <label class="option"><input type="radio" name="q8" value="c"> Fait du tourisme</label>
+    <label class="option"><input type="radio" name="q8" value="d"> Etudie a l'etranger</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q8','b')">Valider</button>
+  <div class="explication" id="exp-q8"><b>Un refugie</b> fuit un danger dans son pays (guerre, persecutions). Il est protege par le droit international (convention de Geneve 1951).</div>
+</div>
+<div class="question" id="q9">
+  <div class="question-text">9. Les 3 piliers du developpement durable sont :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> Economique, social, militaire</label>
+    <label class="option"><input type="radio" name="q9" value="b"> Economique, social, environnemental</label>
+    <label class="option"><input type="radio" name="q9" value="c"> Agricole, industriel, commercial</label>
+    <label class="option"><input type="radio" name="q9" value="d"> Urbain, rural, maritime</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q9','b')">Valider</button>
+  <div class="explication" id="exp-q9"><b>Economique, social, environnemental</b> : le developpement durable cherche a concilier croissance, equite sociale et protection de l'environnement.</div>
+</div>
+<div class="question" id="q10">
+  <div class="question-text">10. Quelle est la 1ere puissance economique mondiale ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> La Chine</label>
+    <label class="option"><input type="radio" name="q10" value="b"> L'Allemagne</label>
+    <label class="option"><input type="radio" name="q10" value="c"> Les Etats-Unis</label>
+    <label class="option"><input type="radio" name="q10" value="d"> Le Japon</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q10','c')">Valider</button>
+  <div class="explication" id="exp-q10"><b>Les Etats-Unis</b> ont le PIB le plus eleve au monde, devant la Chine.</div>
+</div>
+<div class="question" id="q11">
+  <div class="question-text">11. Le Bresil fait partie de quel groupe de pays emergents ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q11" value="a"> G7</label>
+    <label class="option"><input type="radio" name="q11" value="b"> BRICS</label>
+    <label class="option"><input type="radio" name="q11" value="c"> OCDE</label>
+    <label class="option"><input type="radio" name="q11" value="d"> ONU</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q11','b')">Valider</button>
+  <div class="explication" id="exp-q11"><b>BRICS</b> : groupe de pays emergents = Bresil, Russie, Inde, Chine, Afrique du Sud (+ nouveaux membres depuis 2024).</div>
+</div>
+<div class="question" id="q12">
+  <div class="question-text">12. Que sont les favelas au Bresil ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q12" value="a"> Des plages celebres</label>
+    <label class="option"><input type="radio" name="q12" value="b"> Des quartiers tres pauvres, souvent auto-construits</label>
+    <label class="option"><input type="radio" name="q12" value="c"> Des forets tropicales</label>
+    <label class="option"><input type="radio" name="q12" value="d"> Des grands stades de football</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q12','b')">Valider</button>
+  <div class="explication" id="exp-q12"><b>Les favelas</b> : quartiers tres pauvres situes en peripherie des grandes villes bresiliennes (Rio, Sao Paulo). Symbole des inegalites.</div>
+</div>
+<div class="question" id="q13">
+  <div class="question-text">13. Qu'est-ce que la transition energetique ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q13" value="a"> Le passage du gaz vers le petrole</label>
+    <label class="option"><input type="radio" name="q13" value="b"> Le passage des energies fossiles vers les renouvelables</label>
+    <label class="option"><input type="radio" name="q13" value="c"> L'arret de toute production d'energie</label>
+    <label class="option"><input type="radio" name="q13" value="d"> La nationalisation des energies</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q13','b')">Valider</button>
+  <div class="explication" id="exp-q13"><b>La transition energetique</b> : processus de remplacement progressif des energies fossiles par des energies renouvelables pour reduire les emissions de CO2.</div>
+</div>
+<div class="question" id="q14">
+  <div class="question-text">14. Quel pays accueille le plus de touristes internationaux ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q14" value="a"> L'Espagne</label>
+    <label class="option"><input type="radio" name="q14" value="b"> Les Etats-Unis</label>
+    <label class="option"><input type="radio" name="q14" value="c"> La France</label>
+    <label class="option"><input type="radio" name="q14" value="d"> L'Italie</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q14','c')">Valider</button>
+  <div class="explication" id="exp-q14"><b>La France</b> est le 1er pays le plus visite au monde avec environ 90 millions de touristes par an (avant Covid).</div>
+</div>
+<div class="question" id="q15">
+  <div class="question-text">15. Qui sont les acteurs de l'amenagement du territoire ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q15" value="a"> Uniquement l'Etat</label>
+    <label class="option"><input type="radio" name="q15" value="b"> L'Etat, les collectivites locales, l'UE, les entreprises</label>
+    <label class="option"><input type="radio" name="q15" value="c"> Uniquement les entreprises privees</label>
+    <label class="option"><input type="radio" name="q15" value="d"> Les touristes et les migrants</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q15','b')">Valider</button>
+  <div class="explication" id="exp-q15"><b>L'Etat, les collectivites locales (regions, communes), l'Union europeenne et les entreprises</b> sont tous acteurs de l'amenagement du territoire.</div>
+</div>
+
+<button id="submit-all" onclick="showScore()">Voir mon resultat</button>
+<div id="score-section">
+  <h2>Resultat</h2>
+  <div id="score-display"></div>
+  <div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none">
+    <h3>A retravailler :</h3>
+    <ul id="errors-list"></ul>
+  </div>
+  <button class="share-btn" onclick="shareResult()">Partager sur WhatsApp</button>
+</div>
+</div>
+<script>
+var correct={q1:'c',q2:'b',q3:'c',q4:'b',q5:'c',q6:'b',q7:'b',q8:'b',q9:'b',q10:'c',q11:'b',q12:'b',q13:'b',q14:'c',q15:'b'};
+var labels={q1:'Q1 - Population mondiale = 8 milliards',q2:'Q2 - IDH = sante + education + revenu',q3:'Q3 - Eau douce = 3% de l\'eau totale',q4:'Q4 - Stress hydrique = manque d\'eau',q5:'Q5 - Petrole/gaz/charbon = energies non renouvelables',q6:'Q6 - Periurbanisation = extension villes en campagne',q7:'Q7 - Emigrant quitte / immigrant arrive',q8:'Q8 - Refugie = fuit un danger',q9:'Q9 - Developpement durable = 3 piliers',q10:'Q10 - USA = 1ere puissance economique',q11:'Q11 - Bresil = BRICS',q12:'Q12 - Favelas = quartiers pauvres bresil',q13:'Q13 - Transition energetique = fossiles vers renouvelables',q14:'Q14 - France = 1er pays touristique mondial',q15:'Q15 - Amenagement = Etat + collectivites + UE + entreprises'};
+var answered={};
+var score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une reponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){
+    var val=['a','b','c','d'][i];
+    opts[i].style.pointerEvents='none';
+    if(val===rep){opts[i].classList.add('correct');}
+    else if(val===chosen.value&&chosen.value!==rep){opts[i].classList.add('wrong');}
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
+  if(chosen.value===rep){score++;}
+}
+function showScore(){
+  var errors=[];
+  var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){
+    if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);
+  }
+  document.getElementById('score-display').textContent=score+' / 15';
+  var msg='';
+  if(score===15)msg='Parfait !';
+  else if(score>=13)msg='Tres bien !';
+  else if(score>=8)msg='Bien, continue !';
+  else msg='Relis la fiche et reessaie !';
+  document.getElementById('score-message').textContent=msg;
+  if(errors.length>0){
+    document.getElementById('errors-container').style.display='block';
+    var ul=document.getElementById('errors-list');
+    ul.innerHTML='';
+    for(var j=0;j<errors.length;j++){
+      var li=document.createElement('li');
+      li.textContent=labels[errors[j]];
+      ul.appendChild(li);
+    }
+  }
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function shareResult(){
+  var errors=[];
+  var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){
+    if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);
+  }
+  var txt='Quiz Géographie 5ème\nScore : '+score+'/15\n';
+  if(errors.length>0){
+    txt+='\nA retravailler :\n';
+    for(var j=0;j<errors.length;j++){txt+='- '+labels[errors[j]]+'\n';}
+  } else {txt+='Tout juste !';}
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script>
+</body>
+</html>

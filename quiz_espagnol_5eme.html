@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz Espagnol 5ème</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#fff3e0;color:#2c3e50;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#c62828,#f44336);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{font-size:.9rem;opacity:.9}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #f44336}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#f44336;background:#f3f3ff}
+.option input[type=radio]{accent-color:#c62828;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f5f5f5;border-left:4px solid #f44336;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#333}
+.btn-valider{background:#c62828;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem;font-weight:600;display:block}
+.btn-valider:disabled{background:#bbb;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#c62828;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#c62828;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+#submit-all{display:block;width:100%;padding:14px;background:#c62828;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="container">
+<header><h1>Quiz Espagnol 5ème</h1><p>Bases de l'espagnol – 15 questions</p></header>
+<div class="question" id="q1">
+  <div class="question-text">1. 'Ella ___ estudiante.' (etre = ser/estar) La bonne forme ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> es</label>
+    <label class="option"><input type="radio" name="q1" value="b"> esta</label>
+    <label class="option"><input type="radio" name="q1" value="c"> son</label>
+    <label class="option"><input type="radio" name="q1" value="d"> somos</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','a')">Valider</button>
+  <div class="explication" id="exp-q1"><b>es</b> : SER s'utilise pour une caracteristique permanente (profession, nationalite, identite). Ella es estudiante.</div>
+</div>
+<div class="question" id="q2">
+  <div class="question-text">2. 'Yo ___ cansado.' (je suis fatigue) Ser ou estar ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> soy</label>
+    <label class="option"><input type="radio" name="q2" value="b"> estoy</label>
+    <label class="option"><input type="radio" name="q2" value="c"> eres</label>
+    <label class="option"><input type="radio" name="q2" value="d"> estas</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','b')">Valider</button>
+  <div class="explication" id="exp-q2"><b>estoy</b> : ESTAR s'utilise pour un etat temporaire (fatigue, malade, content...). Yo estoy cansado.</div>
+</div>
+<div class="question" id="q3">
+  <div class="question-text">3. Comment dit-on 'J'aime le football' en espagnol ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> Yo gusto el futbol.</label>
+    <label class="option"><input type="radio" name="q3" value="b"> Me gusta el futbol.</label>
+    <label class="option"><input type="radio" name="q3" value="c"> Me gustan el futbol.</label>
+    <label class="option"><input type="radio" name="q3" value="d"> Yo amo futbol.</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','b')">Valider</button>
+  <div class="explication" id="exp-q3"><b>Me gusta el futbol.</b> : GUSTAR fonctionne a l'envers : le sujet est 'el futbol' (singulier), donc 'gusta' (pas 'gusto').</div>
+</div>
+<div class="question" id="q4">
+  <div class="question-text">4. Quel est l'article defini masculin singulier en espagnol ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> La</label>
+    <label class="option"><input type="radio" name="q4" value="b"> El</label>
+    <label class="option"><input type="radio" name="q4" value="c"> Un</label>
+    <label class="option"><input type="radio" name="q4" value="d"> Los</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','b')">Valider</button>
+  <div class="explication" id="exp-q4"><b>El</b> : article defini masculin singulier (= le). La = feminin singulier. Los = masculin pluriel. Las = feminin pluriel.</div>
+</div>
+<div class="question" id="q5">
+  <div class="question-text">5. Comment dit-on 'une maison' (article indefini feminin) ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> El casa</label>
+    <label class="option"><input type="radio" name="q5" value="b"> La casa</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Un casa</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Una casa</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','d')">Valider</button>
+  <div class="explication" id="exp-q5"><b>Una casa</b> : 'casa' est feminin → article indefini feminin = una. Un = masculin.</div>
+</div>
+<div class="question" id="q6">
+  <div class="question-text">6. Conjuguer 'hablar' (parler) a la 1ere personne : yo ___</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> hablas</label>
+    <label class="option"><input type="radio" name="q6" value="b"> hablo</label>
+    <label class="option"><input type="radio" name="q6" value="c"> habla</label>
+    <label class="option"><input type="radio" name="q6" value="d"> hablamos</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q6','b')">Valider</button>
+  <div class="explication" id="exp-q6"><b>hablo</b> : verbes reguliers en -AR : yo hablo, tu hablas, el habla, nosotros hablamos, vosotros hablais, ellos hablan.</div>
+</div>
+<div class="question" id="q7">
+  <div class="question-text">7. Conjuguer 'comer' (manger) a la 2eme personne : tu ___</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> como</label>
+    <label class="option"><input type="radio" name="q7" value="b"> come</label>
+    <label class="option"><input type="radio" name="q7" value="c"> comes</label>
+    <label class="option"><input type="radio" name="q7" value="d"> comemos</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q7','c')">Valider</button>
+  <div class="explication" id="exp-q7"><b>comes</b> : verbes reguliers en -ER : yo como, tu comes, el come, nosotros comemos, vosotros comeis, ellos comen.</div>
+</div>
+<div class="question" id="q8">
+  <div class="question-text">8. Comment dit-on 'Je m'appelle Oscar' ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> Yo llamo Oscar.</label>
+    <label class="option"><input type="radio" name="q8" value="b"> Me llamo Oscar.</label>
+    <label class="option"><input type="radio" name="q8" value="c"> Mi nombre es Oscar.</label>
+    <label class="option"><input type="radio" name="q8" value="d"> Llamo me Oscar.</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q8','b')">Valider</button>
+  <div class="explication" id="exp-q8"><b>Me llamo Oscar.</b> : verbe reflexif llamarse. Me llamo = je m'appelle. Mi nombre es Oscar est aussi correct.</div>
+</div>
+<div class="question" id="q9">
+  <div class="question-text">9. 'Tengo doce anos.' Que signifie 'tener' ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> Etre</label>
+    <label class="option"><input type="radio" name="q9" value="b"> Vouloir</label>
+    <label class="option"><input type="radio" name="q9" value="c"> Avoir</label>
+    <label class="option"><input type="radio" name="q9" value="d"> Aller</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q9','c')">Valider</button>
+  <div class="explication" id="exp-q9"><b>Avoir</b> : TENER = avoir. Tengo = j'ai. Tengo doce anos = j'ai douze ans. A ne pas confondre avec SER/ESTAR (etre).</div>
+</div>
+<div class="question" id="q10">
+  <div class="question-text">10. Comment dit-on 'Comment t'appelles-tu ?' en espagnol ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> Como estas?</label>
+    <label class="option"><input type="radio" name="q10" value="b"> Como te llamas?</label>
+    <label class="option"><input type="radio" name="q10" value="c"> Donde vives?</label>
+    <label class="option"><input type="radio" name="q10" value="d"> Cuantos anos tienes?</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q10','b')">Valider</button>
+  <div class="explication" id="exp-q10"><b>Como te llamas?</b> : 'como' = comment, 'te llamas' = tu t'appelles (verbe llamarse). Tres utile pour se presenter.</div>
+</div>
+<div class="question" id="q11">
+  <div class="question-text">11. Quel est le pluriel de 'el libro' (le livre) ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q11" value="a"> Las libros</label>
+    <label class="option"><input type="radio" name="q11" value="b"> El libros</label>
+    <label class="option"><input type="radio" name="q11" value="c"> Los libros</label>
+    <label class="option"><input type="radio" name="q11" value="d"> Unos libro</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q11','c')">Valider</button>
+  <div class="explication" id="exp-q11"><b>Los libros</b> : pluriel masculin : el → los, on ajoute -s au nom. Los libros = les livres.</div>
+</div>
+<div class="question" id="q12">
+  <div class="question-text">12. Comment dit-on 'je ne comprends pas' ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q12" value="a"> No entiendo.</label>
+    <label class="option"><input type="radio" name="q12" value="b"> No entiendes.</label>
+    <label class="option"><input type="radio" name="q12" value="c"> Entiendo no.</label>
+    <label class="option"><input type="radio" name="q12" value="d"> No entender.</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q12','a')">Valider</button>
+  <div class="explication" id="exp-q12"><b>No entiendo.</b> : la negation en espagnol = 'no' devant le verbe. Entender (comprendre) → yo entiendo.</div>
+</div>
+<div class="question" id="q13">
+  <div class="question-text">13. 'Vivo en Paris.' Que signifie 'vivir' ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q13" value="a"> Travailler</label>
+    <label class="option"><input type="radio" name="q13" value="b"> Habiter / vivre</label>
+    <label class="option"><input type="radio" name="q13" value="c"> Voyager</label>
+    <label class="option"><input type="radio" name="q13" value="d"> Etudier</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q13','b')">Valider</button>
+  <div class="explication" id="exp-q13"><b>Habiter / vivre</b> : VIVIR = vivre, habiter. Verbe en -IR : yo vivo, tu vives, el vive...</div>
+</div>
+<div class="question" id="q14">
+  <div class="question-text">14. Traduire : 'Mes amis sont espagnols.'</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q14" value="a"> Mis amigos son espanoles.</label>
+    <label class="option"><input type="radio" name="q14" value="b"> Mi amigos esta espanol.</label>
+    <label class="option"><input type="radio" name="q14" value="c"> Mis amigos es espanol.</label>
+    <label class="option"><input type="radio" name="q14" value="d"> Mis amigos estan espanoles.</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q14','a')">Valider</button>
+  <div class="explication" id="exp-q14"><b>Mis amigos son espanoles.</b> : 'son' = ils sont (SER + nationalite). Pluriel : espanoles. Mis = mes (possessif pluriel).</div>
+</div>
+<div class="question" id="q15">
+  <div class="question-text">15. Comment dit-on les jours de la semaine : lundi → ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q15" value="a"> El lunes</label>
+    <label class="option"><input type="radio" name="q15" value="b"> La lunes</label>
+    <label class="option"><input type="radio" name="q15" value="c"> Un lunes</label>
+    <label class="option"><input type="radio" name="q15" value="d"> Los lune</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q15','a')">Valider</button>
+  <div class="explication" id="exp-q15"><b>El lunes</b> : les jours de la semaine sont masculins et s'ecrivent en minuscule en espagnol. Lunes, martes, miercoles, jueves, viernes, sabado, domingo.</div>
+</div>
+
+<button id="submit-all" onclick="showScore()">Voir mon resultat</button>
+<div id="score-section">
+  <h2>Resultat</h2>
+  <div id="score-display"></div>
+  <div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none">
+    <h3>A retravailler :</h3>
+    <ul id="errors-list"></ul>
+  </div>
+  <button class="share-btn" onclick="shareResult()">Partager sur WhatsApp</button>
+</div>
+</div>
+<script>
+var correct={q1:'a',q2:'b',q3:'b',q4:'b',q5:'d',q6:'b',q7:'c',q8:'b',q9:'c',q10:'b',q11:'c',q12:'a',q13:'b',q14:'a',q15:'a'};
+var labels={q1:'Q1 - Ser = caracteristique permanente ella es',q2:'Q2 - Estar = etat temporaire yo estoy',q3:'Q3 - Gustar = me gusta + singulier',q4:'Q4 - El = article masculin singulier',q5:'Q5 - Una = article indefini feminin',q6:'Q6 - Hablar yo hablo',q7:'Q7 - Comer tu comes',q8:'Q8 - Me llamo = je m appelle',q9:'Q9 - Tener = avoir tengo = j ai',q10:'Q10 - Como te llamas = comment t appelles-tu',q11:'Q11 - Los libros = pluriel masculin',q12:'Q12 - No entiendo = negation devant verbe',q13:'Q13 - Vivir = habiter vivre',q14:'Q14 - Mis amigos son espanoles',q15:'Q15 - El lunes = lundi masculin'};
+var answered={};
+var score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une reponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){
+    var val=['a','b','c','d'][i];
+    opts[i].style.pointerEvents='none';
+    if(val===rep){opts[i].classList.add('correct');}
+    else if(val===chosen.value&&chosen.value!==rep){opts[i].classList.add('wrong');}
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
+  if(chosen.value===rep){score++;}
+}
+function showScore(){
+  var errors=[];
+  var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){
+    if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);
+  }
+  document.getElementById('score-display').textContent=score+' / 15';
+  var msg='';
+  if(score===15)msg='Parfait !';
+  else if(score>=13)msg='Tres bien !';
+  else if(score>=8)msg='Bien, continue !';
+  else msg='Relis la fiche et reessaie !';
+  document.getElementById('score-message').textContent=msg;
+  if(errors.length>0){
+    document.getElementById('errors-container').style.display='block';
+    var ul=document.getElementById('errors-list');
+    ul.innerHTML='';
+    for(var j=0;j<errors.length;j++){
+      var li=document.createElement('li');
+      li.textContent=labels[errors[j]];
+      ul.appendChild(li);
+    }
+  }
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function shareResult(){
+  var errors=[];
+  var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){
+    if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);
+  }
+  var txt='Quiz Espagnol 5ème\nScore : '+score+'/15\n';
+  if(errors.length>0){
+    txt+='\nA retravailler :\n';
+    for(var j=0;j<errors.length;j++){txt+='- '+labels[errors[j]]+'\n';}
+  } else {txt+='Tout juste !';}
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script>
+</body>
+</html>
