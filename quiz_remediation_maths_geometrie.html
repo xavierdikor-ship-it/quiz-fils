@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Quiz Remediation Geometrie</title>
+<title>Quiz Remédiation Géométrie</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#e8f5e9;color:#2c3e50;padding:20px}
@@ -35,28 +35,28 @@ header p{font-size:.9rem;opacity:.9}
 </head>
 <body>
 <div class="container">
-<header><h1>Quiz Remediation Geometrie</h1><p>Maths 5eme - 10 questions ciblees</p></header>
+<header><h1>Quiz Remédiation Géométrie</h1><p>Maths 5ème – 10 questions ciblées</p></header>
 <div class="question" id="q1">
-  <div class="question-text">1. Deux droites paralleles coupees par une secante. Un angle co-interne = 65 degres. L'autre co-interne = ?</div>
+  <div class="question-text">1. Deux droites paralleles coupees par une secante. Un angle co-interne = 65°. L'autre co-interne = ?</div>
   <div class="options">
-    <label class="option"><input type="radio" name="q1" value="a"> 65 degres</label>
-    <label class="option"><input type="radio" name="q1" value="b"> 90 degres</label>
-    <label class="option"><input type="radio" name="q1" value="c"> 115 degres</label>
-    <label class="option"><input type="radio" name="q1" value="d"> 180 degres</label>
+    <label class="option"><input type="radio" name="q1" value="a"> 65°</label>
+    <label class="option"><input type="radio" name="q1" value="b"> 90°</label>
+    <label class="option"><input type="radio" name="q1" value="c"> 115°</label>
+    <label class="option"><input type="radio" name="q1" value="d"> 180°</label>
   </div>
   <button class="btn-valider" onclick="valider('q1','c')">Valider</button>
-  <div class="explication" id="exp-q1"><b>115 degres</b> : les angles co-internes sont supplementaires (somme = 180). 180 - 65 = 115.</div>
+  <div class="explication" id="exp-q1"><b>115°</b> : angles co-internes supplementaires (somme = 180°). 180 - 65 = 115.</div>
 </div>
 <div class="question" id="q2">
   <div class="question-text">2. Les angles alternes-internes (droites paralleles + secante) sont :</div>
   <div class="options">
-    <label class="option"><input type="radio" name="q2" value="a"> Supplementaires (somme 180)</label>
+    <label class="option"><input type="radio" name="q2" value="a"> Supplementaires</label>
     <label class="option"><input type="radio" name="q2" value="b"> Egaux</label>
-    <label class="option"><input type="radio" name="q2" value="c"> Complementaires (somme 90)</label>
+    <label class="option"><input type="radio" name="q2" value="c"> Complementaires</label>
     <label class="option"><input type="radio" name="q2" value="d"> Quelconques</label>
   </div>
   <button class="btn-valider" onclick="valider('q2','b')">Valider</button>
-  <div class="explication" id="exp-q2"><b>Egaux</b> : les alternes-internes sont de part et d'autre de la secante. Ils sont toujours egaux.</div>
+  <div class="explication" id="exp-q2"><b>Egaux</b> : les alternes-internes sont de part et d'autre de la secante, toujours egaux.</div>
 </div>
 <div class="question" id="q3">
   <div class="question-text">3. Peut-on construire un triangle avec 3 cm, 5 cm et 9 cm ?</div>
@@ -67,7 +67,7 @@ header p{font-size:.9rem;opacity:.9}
     <label class="option"><input type="radio" name="q3" value="d"> Non : 5+9 inferieur a 3</label>
   </div>
   <button class="btn-valider" onclick="valider('q3','b')">Valider</button>
-  <div class="explication" id="exp-q3"><b>Non</b> : 3+5=8 qui est inferieur a 9. La somme des deux petits cotes doit etre superieure au plus grand.</div>
+  <div class="explication" id="exp-q3"><b>Non</b> : 3+5=8 < 9. La somme des deux petits cotes doit etre superieure au plus grand.</div>
 </div>
 <div class="question" id="q4">
   <div class="question-text">4. Triangle avec 4 cm, 6 cm et 8 cm : possible ?</div>
@@ -75,10 +75,10 @@ header p{font-size:.9rem;opacity:.9}
     <label class="option"><input type="radio" name="q4" value="a"> Non</label>
     <label class="option"><input type="radio" name="q4" value="b"> Oui : 4+6=10 superieur a 8</label>
     <label class="option"><input type="radio" name="q4" value="c"> Non : 6+8 inferieur a 4</label>
-    <label class="option"><input type="radio" name="q4" value="d"> Impossible a savoir</label>
+    <label class="option"><input type="radio" name="q4" value="d"> Impossible</label>
   </div>
   <button class="btn-valider" onclick="valider('q4','b')">Valider</button>
-  <div class="explication" id="exp-q4"><b>Oui</b> : 4+6=10 superieur a 8. L'inegalite triangulaire est respectee.</div>
+  <div class="explication" id="exp-q4"><b>Oui</b> : 4+6=10 > 8. L'inegalite triangulaire est respectee.</div>
 </div>
 <div class="question" id="q5">
   <div class="question-text">5. Dans un parallelogramme ABCD, AB=7 cm et BC=4 cm. CD = ?</div>
@@ -89,25 +89,25 @@ header p{font-size:.9rem;opacity:.9}
     <label class="option"><input type="radio" name="q5" value="d"> 3 cm</label>
   </div>
   <button class="btn-valider" onclick="valider('q5','b')">Valider</button>
-  <div class="explication" id="exp-q5"><b>7 cm</b> : dans un parallelogramme, les cotes opposes sont egaux. CD = AB = 7 cm.</div>
+  <div class="explication" id="exp-q5"><b>7 cm</b> : cotes opposes egaux dans un parallelogramme. CD = AB = 7 cm.</div>
 </div>
 <div class="question" id="q6">
   <div class="question-text">6. Un carre est-il toujours un rectangle ?</div>
   <div class="options">
     <label class="option"><input type="radio" name="q6" value="a"> Non</label>
     <label class="option"><input type="radio" name="q6" value="b"> Oui, toujours</label>
-    <label class="option"><input type="radio" name="q6" value="c"> Oui seulement si ses cotes sont egaux</label>
+    <label class="option"><input type="radio" name="q6" value="c"> Oui seulement si cotes egaux</label>
     <label class="option"><input type="radio" name="q6" value="d"> Parfois</label>
   </div>
   <button class="btn-valider" onclick="valider('q6','b')">Valider</button>
-  <div class="explication" id="exp-q6"><b>Oui, toujours</b> : un carre possede 4 angles droits, donc c'est aussi un rectangle.</div>
+  <div class="explication" id="exp-q6"><b>Oui, toujours</b> : le carre a 4 angles droits → c'est aussi un rectangle.</div>
 </div>
 <div class="question" id="q7">
   <div class="question-text">7. Un rectangle est-il toujours un losange ?</div>
   <div class="options">
     <label class="option"><input type="radio" name="q7" value="a"> Oui</label>
     <label class="option"><input type="radio" name="q7" value="b"> Non, sauf s'il est carre</label>
-    <label class="option"><input type="radio" name="q7" value="c"> Oui car il a 4 angles droits</label>
+    <label class="option"><input type="radio" name="q7" value="c"> Oui car 4 angles droits</label>
     <label class="option"><input type="radio" name="q7" value="d"> Non, jamais</label>
   </div>
   <button class="btn-valider" onclick="valider('q7','b')">Valider</button>
@@ -116,24 +116,24 @@ header p{font-size:.9rem;opacity:.9}
 <div class="question" id="q8">
   <div class="question-text">8. Centre O(5,7), point A(2,4). Symetrique A' par rapport a O :</div>
   <div class="options">
-    <label class="option"><input type="radio" name="q8" value="a"> (3, 3)</label>
-    <label class="option"><input type="radio" name="q8" value="b"> (8, 10)</label>
-    <label class="option"><input type="radio" name="q8" value="c"> (7, 11)</label>
-    <label class="option"><input type="radio" name="q8" value="d"> (4, 6)</label>
+    <label class="option"><input type="radio" name="q8" value="a"> (3,3)</label>
+    <label class="option"><input type="radio" name="q8" value="b"> (8,10)</label>
+    <label class="option"><input type="radio" name="q8" value="c"> (7,11)</label>
+    <label class="option"><input type="radio" name="q8" value="d"> (4,6)</label>
   </div>
   <button class="btn-valider" onclick="valider('q8','b')">Valider</button>
-  <div class="explication" id="exp-q8"><b>(8, 10)</b> : O est le milieu de [AA']. x'=2x5-2=8 et y'=2x7-4=10.</div>
+  <div class="explication" id="exp-q8"><b>(8,10)</b> : x'=2×5-2=8 et y'=2×7-4=10.</div>
 </div>
 <div class="question" id="q9">
   <div class="question-text">9. La symetrie centrale est une rotation de :</div>
   <div class="options">
-    <label class="option"><input type="radio" name="q9" value="a"> 90 degres</label>
-    <label class="option"><input type="radio" name="q9" value="b"> 180 degres</label>
-    <label class="option"><input type="radio" name="q9" value="c"> 270 degres</label>
-    <label class="option"><input type="radio" name="q9" value="d"> 360 degres</label>
+    <label class="option"><input type="radio" name="q9" value="a"> 90°</label>
+    <label class="option"><input type="radio" name="q9" value="b"> 180°</label>
+    <label class="option"><input type="radio" name="q9" value="c"> 270°</label>
+    <label class="option"><input type="radio" name="q9" value="d"> 360°</label>
   </div>
   <button class="btn-valider" onclick="valider('q9','b')">Valider</button>
-  <div class="explication" id="exp-q9"><b>180 degres</b> : la symetrie centrale est un demi-tour autour du centre O.</div>
+  <div class="explication" id="exp-q9"><b>180°</b> : la symetrie centrale = demi-tour autour du centre O.</div>
 </div>
 <div class="question" id="q10">
   <div class="question-text">10. En symetrie centrale de centre O, OA=5 cm. OA' = ?</div>
@@ -141,10 +141,10 @@ header p{font-size:.9rem;opacity:.9}
     <label class="option"><input type="radio" name="q10" value="a"> 10 cm</label>
     <label class="option"><input type="radio" name="q10" value="b"> 2,5 cm</label>
     <label class="option"><input type="radio" name="q10" value="c"> 5 cm</label>
-    <label class="option"><input type="radio" name="q10" value="d"> Impossible a savoir</label>
+    <label class="option"><input type="radio" name="q10" value="d"> Impossible</label>
   </div>
   <button class="btn-valider" onclick="valider('q10','c')">Valider</button>
-  <div class="explication" id="exp-q10"><b>5 cm</b> : O est le milieu de [AA'] donc OA = OA' = 5 cm.</div>
+  <div class="explication" id="exp-q10"><b>5 cm</b> : O est le milieu de [AA'] donc OA = OA'.</div>
 </div>
 
 <button id="submit-all" onclick="showScore()">Voir mon resultat</button>
@@ -161,9 +161,8 @@ header p{font-size:.9rem;opacity:.9}
 </div>
 <script>
 var correct={q1:'c',q2:'b',q3:'b',q4:'b',q5:'b',q6:'b',q7:'b',q8:'b',q9:'b',q10:'c'};
-var labels={q1:'Q1 - Co-internes supplementaires 180-65=115',q2:'Q2 - Alternes-internes egaux',q3:'Q3 - 3+5=8 inferieur a 9 triangle impossible',q4:'Q4 - 4+6=10 superieur a 8 triangle possible',q5:'Q5 - Cotes opposes egaux CD=AB=7cm',q6:'Q6 - Carre = toujours un rectangle',q7:'Q7 - Rectangle = losange seulement si carre',q8:'Q8 - Symetrique de A(2,4) par O(5,7) = (8,10)',q9:'Q9 - Symetrie centrale = rotation de 180 degres',q10:'Q10 - OA = OA\' = 5cm'};
-var answered={};
-var score=0;
+var labels={q1:'Q1 - Co-internes supplementaires 180-65=115',q2:'Q2 - Alternes-internes egaux',q3:'Q3 - 3+5=8 triangle impossible',q4:'Q4 - 4+6=10 triangle possible',q5:'Q5 - Cotes opposes CD=AB=7cm',q6:'Q6 - Carre = toujours rectangle',q7:'Q7 - Rectangle = losange seulement si carre',q8:'Q8 - Symetrique A(2,4) par O(5,7)=(8,10)',q9:'Q9 - Symetrie centrale = 180 degres',q10:'Q10 - OA=OA=5cm'};
+var answered={};var score=0;
 function valider(qid,rep){
   if(answered[qid])return;
   var chosen=document.querySelector('input[name="'+qid+'"]:checked');
@@ -171,8 +170,7 @@ function valider(qid,rep){
   answered[qid]=chosen.value;
   var opts=document.querySelectorAll('#'+qid+' .option');
   for(var i=0;i<opts.length;i++){
-    var val=['a','b','c','d'][i];
-    opts[i].style.pointerEvents='none';
+    var val=['a','b','c','d'][i];opts[i].style.pointerEvents='none';
     if(val===rep){opts[i].classList.add('correct');}
     else if(val===chosen.value&&chosen.value!==rep){opts[i].classList.add('wrong');}
   }
@@ -181,11 +179,8 @@ function valider(qid,rep){
   if(chosen.value===rep){score++;}
 }
 function showScore(){
-  var errors=[];
-  var ks=Object.keys(correct);
-  for(var i=0;i<ks.length;i++){
-    if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);
-  }
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
   document.getElementById('score-display').textContent=score+' / 10';
   var msg='';
   if(score===10)msg='Parfait !';
@@ -195,29 +190,19 @@ function showScore(){
   document.getElementById('score-message').textContent=msg;
   if(errors.length>0){
     document.getElementById('errors-container').style.display='block';
-    var ul=document.getElementById('errors-list');
-    ul.innerHTML='';
-    for(var j=0;j<errors.length;j++){
-      var li=document.createElement('li');
-      li.textContent=labels[errors[j]];
-      ul.appendChild(li);
-    }
+    var ul=document.getElementById('errors-list');ul.innerHTML='';
+    for(var j=0;j<errors.length;j++){var li=document.createElement('li');li.textContent=labels[errors[j]];ul.appendChild(li);}
   }
   document.getElementById('score-section').style.display='block';
   document.getElementById('submit-all').style.display='none';
   document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
 }
 function shareResult(){
-  var errors=[];
-  var ks=Object.keys(correct);
-  for(var i=0;i<ks.length;i++){
-    if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);
-  }
-  var txt='Quiz Remediation Geometrie\nScore : '+score+'/10\n';
-  if(errors.length>0){
-    txt+='\nA retravailler :\n';
-    for(var j=0;j<errors.length;j++){txt+='- '+labels[errors[j]]+'\n';}
-  } else {txt+='Tout juste !';}
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
+  var txt='Quiz Remédiation Géométrie\nScore : '+score+'/10\n';
+  if(errors.length>0){txt+='\nA retravailler :\n';for(var j=0;j<errors.length;j++){txt+='- '+labels[errors[j]]+'\n';}}
+  else{txt+='Tout juste !';}
   window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
 }
 </script>
