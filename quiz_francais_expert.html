@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz Français Expert</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#ffebee;color:#2c3e50;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#b71c1c,#c62828);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}header p{font-size:.9rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.25);border-radius:20px;padding:4px 14px;font-size:.82rem;margin-top:8px;font-weight:bold}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #c62828}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#c62828;background:#f3f3ff}
+.option input[type=radio]{accent-color:#b71c1c;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f5f5f5;border-left:4px solid #c62828;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#333}
+.btn-valider{background:#b71c1c;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem;font-weight:600;display:block}
+.btn-valider:disabled{background:#bbb;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#b71c1c;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#b71c1c;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+#submit-all{display:block;width:100%;padding:14px;background:#b71c1c;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
+</style></head><body><div class="container">
+<header><h1>Quiz Français Expert</h1><p>Grammaire, conjugaison, style, orthographe – Niveau difficile</p><div class="badge">Niveau EXPERT</div></header>
+<div class="question" id="q1">
+  <div class="question-text">1. Identifie la fonction du groupe souligné : '<u>Quand il pleut</u>, je reste chez moi.'</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> Sujet</label>
+    <label class="option"><input type="radio" name="q1" value="b"> COD</label>
+    <label class="option"><input type="radio" name="q1" value="c"> Complément circonstanciel de temps</label>
+    <label class="option"><input type="radio" name="q1" value="d"> Attribut du sujet</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','c')">Valider</button>
+  <div class="explication" id="exp-q1"><b>Complément circonstanciel de temps</b> : 'Quand il pleut' est une proposition subordonnée conjonctive qui indique le moment de l'action principale.</div>
+</div>
+<div class="question" id="q2">
+  <div class="question-text">2. Quel est le mode de 'qu'il vienne' dans : 'Je veux qu'il vienne.' ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> Indicatif présent</label>
+    <label class="option"><input type="radio" name="q2" value="b"> Conditionnel présent</label>
+    <label class="option"><input type="radio" name="q2" value="c"> Subjonctif présent</label>
+    <label class="option"><input type="radio" name="q2" value="d"> Infinitif</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','c')">Valider</button>
+  <div class="explication" id="exp-q2"><b>Subjonctif présent</b> : après 'vouloir que', on emploie le subjonctif. Conjugaison : que je vienne, que tu viennes, qu'il vienne...</div>
+</div>
+<div class="question" id="q3">
+  <div class="question-text">3. Quelle figure de style est : 'Il court comme le vent.' ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> Métaphore</label>
+    <label class="option"><input type="radio" name="q3" value="b"> Comparaison</label>
+    <label class="option"><input type="radio" name="q3" value="c"> Personnification</label>
+    <label class="option"><input type="radio" name="q3" value="d"> Hyperbole</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','b')">Valider</button>
+  <div class="explication" id="exp-q3"><b>Comparaison</b> : présence de l'outil comparatif 'comme'. Une métaphore dirait 'Il est le vent.' (sans outil comparatif).</div>
+</div>
+<div class="question" id="q4">
+  <div class="question-text">4. 'Sa voix était une musique douce.' — Figure de style ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> Comparaison</label>
+    <label class="option"><input type="radio" name="q4" value="b"> Hyperbole</label>
+    <label class="option"><input type="radio" name="q4" value="c"> Métaphore</label>
+    <label class="option"><input type="radio" name="q4" value="d"> Anaphore</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','c')">Valider</button>
+  <div class="explication" id="exp-q4"><b>Métaphore</b> : identification directe sans outil comparatif ('comme', 'tel'). 'Voix = musique' → rapprochement implicite.</div>
+</div>
+<div class="question" id="q5">
+  <div class="question-text">5. Transforme au discours indirect : Il dit : 'Je viendrai demain.'</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> Il dit qu'il viendra demain</label>
+    <label class="option"><input type="radio" name="q5" value="b"> Il dit qu'il venait demain</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Il dit qu'il vient demain</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Il dit qu'il viendrait hier</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','a')">Valider</button>
+  <div class="explication" id="exp-q5"><b>Il dit qu'il viendra demain</b> : le présent 'Je viendrai' → futur maintenu si le verbe principal est au présent. 'Demain' reste 'demain'.</div>
+</div>
+<div class="question" id="q6">
+  <div class="question-text">6. 'Les nuages <u>gris et lourds</u> annonçaient la tempête.' — Nature des mots soulignés ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> Noms communs</label>
+    <label class="option"><input type="radio" name="q6" value="b"> Adverbes</label>
+    <label class="option"><input type="radio" name="q6" value="c"> Adjectifs qualificatifs épithètes</label>
+    <label class="option"><input type="radio" name="q6" value="d"> Pronoms</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q6','c')">Valider</button>
+  <div class="explication" id="exp-q6"><b>Adjectifs qualificatifs épithètes</b> : ils qualifient le nom 'nuages' directement (sans verbe d'état entre eux).</div>
+</div>
+<div class="question" id="q7">
+  <div class="question-text">7. Quel temps est 'ils eurent chanté' ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> Passé composé</label>
+    <label class="option"><input type="radio" name="q7" value="b"> Plus-que-parfait</label>
+    <label class="option"><input type="radio" name="q7" value="c"> Passé antérieur</label>
+    <label class="option"><input type="radio" name="q7" value="d"> Conditionnel passé</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q7','c')">Valider</button>
+  <div class="explication" id="exp-q7"><b>Passé antérieur</b> : auxiliaire au passé simple (eurent) + participe passé. Exprime une action terminée juste avant une autre au passé simple.</div>
+</div>
+<div class="question" id="q8">
+  <div class="question-text">8. Quelle est la nature du mot 'rapidement' dans 'Il court rapidement.' ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> Adjectif</label>
+    <label class="option"><input type="radio" name="q8" value="b"> Nom</label>
+    <label class="option"><input type="radio" name="q8" value="c"> Adverbe de manière</label>
+    <label class="option"><input type="radio" name="q8" value="d"> Verbe</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q8','c')">Valider</button>
+  <div class="explication" id="exp-q8"><b>Adverbe de manière</b> : il modifie le verbe 'court' et répond à 'comment ?'. Les adverbes en -ment sont souvent de manière.</div>
+</div>
+<div class="question" id="q9">
+  <div class="question-text">9. Accorde correctement : 'Les fleurs que j'ai <u>cueilli</u>...'</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> cueilli</label>
+    <label class="option"><input type="radio" name="q9" value="b"> cueillie</label>
+    <label class="option"><input type="radio" name="q9" value="c"> cueillis</label>
+    <label class="option"><input type="radio" name="q9" value="d"> cueillies</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q9','d')">Valider</button>
+  <div class="explication" id="exp-q9"><b>cueillies</b> : COD 'que' (= les fleurs, féminin pluriel) placé AVANT l'auxiliaire avoir → accord du participe passé.</div>
+</div>
+<div class="question" id="q10">
+  <div class="question-text">10. Identifie la proposition : 'Je sais <u>que tu mens</u>.'</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> Prop. principale</label>
+    <label class="option"><input type="radio" name="q10" value="b"> Prop. sub. conjonctive COD</label>
+    <label class="option"><input type="radio" name="q10" value="c"> Prop. sub. relative</label>
+    <label class="option"><input type="radio" name="q10" value="d"> Prop. sub. circumstancielle</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q10','b')">Valider</button>
+  <div class="explication" id="exp-q10"><b>Proposition subordonnée conjonctive COD</b> : introduite par 'que', complète le verbe 'sais' et répond à 'Je sais quoi ?'.</div>
+</div>
+<div class="question" id="q11">
+  <div class="question-text">11. Quel est le sens de 'acerbe' ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q11" value="a"> Doux et agréable</label>
+    <label class="option"><input type="radio" name="q11" value="b"> Mordant, sévère et critique</label>
+    <label class="option"><input type="radio" name="q11" value="c"> Vague et imprécis</label>
+    <label class="option"><input type="radio" name="q11" value="d"> Joyeux</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q11','b')">Valider</button>
+  <div class="explication" id="exp-q11"><b>Mordant, sévère et critique</b> : une remarque acerbe blesse par sa dureté. Synonymes : cinglant, caustique, acéré.</div>
+</div>
+<div class="question" id="q12">
+  <div class="question-text">12. 'Jamais je n'oublierai ce jour.' — Analysez 'Jamais'.</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q12" value="a"> Adverbe de lieu</label>
+    <label class="option"><input type="radio" name="q12" value="b"> Adverbe de quantité</label>
+    <label class="option"><input type="radio" name="q12" value="c"> Adverbe de négation (temps)</label>
+    <label class="option"><input type="radio" name="q12" value="d"> Conjonction</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q12','c')">Valider</button>
+  <div class="explication" id="exp-q12"><b>Adverbe de négation (temps)</b> : 'jamais' renforce la négation 'ne' et indique qu'à aucun moment dans le temps l'action ne se produit.</div>
+</div>
+<div class="question" id="q13">
+  <div class="question-text">13. Passé simple de 'tenir' — 3e pers. pl. : ils...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q13" value="a"> tinrent</label>
+    <label class="option"><input type="radio" name="q13" value="b"> tenèrent</label>
+    <label class="option"><input type="radio" name="q13" value="c"> tinèrent</label>
+    <label class="option"><input type="radio" name="q13" value="d"> tenirent</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q13','a')">Valider</button>
+  <div class="explication" id="exp-q13"><b>tinrent</b> : passé simple des verbes en -enir est irrégulier : je tins, tu tins, il tint, nous tînmes, vous tîntes, ils tinrent.</div>
+</div>
+<div class="question" id="q14">
+  <div class="question-text">14. 'Malgré la pluie, <u>il sortit quand même</u>.' — Fonction du groupe souligné ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q14" value="a"> Prop. sub. conjonctive</label>
+    <label class="option"><input type="radio" name="q14" value="b"> Prop. principale</label>
+    <label class="option"><input type="radio" name="q14" value="c"> Complément circonstanciel</label>
+    <label class="option"><input type="radio" name="q14" value="d"> COD</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q14','b')">Valider</button>
+  <div class="explication" id="exp-q14"><b>Proposition principale</b> : c'est la proposition dont dépend toute la phrase. 'Malgré la pluie' est un CC d'opposition.</div>
+</div>
+<div class="question" id="q15">
+  <div class="question-text">15. Quelle est la différence entre 'davantage' et 'd'avantage' ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q15" value="a"> Aucune, ce sont des homophones</label>
+    <label class="option"><input type="radio" name="q15" value="b"> Davantage = plus (adverbe) ; d'avantage = d'un bénéfice (rare)</label>
+    <label class="option"><input type="radio" name="q15" value="c"> Davantage = bénéfice ; d'avantage = plus</label>
+    <label class="option"><input type="radio" name="q15" value="d"> Seul 'davantage' existe</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q15','b')">Valider</button>
+  <div class="explication" id="exp-q15"><b>Davantage = plus (adverbe)</b> ex: 'Je travaille davantage'. 'D'avantage' = 'd'un avantage' (rare, soutenu). Pège classique d'orthographe.</div>
+</div>
+
+<button id="submit-all" onclick="showScore()">Voir mon resultat</button>
+<div id="score-section"><h2>Resultat</h2><div id="score-display"></div><div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none"><h3>A retravailler :</h3><ul id="errors-list"></ul></div>
+  <button class="share-btn" onclick="shareResult()">Partager sur WhatsApp</button>
+</div></div>
+<script>
+var correct={q1:'c',q2:'c',q3:'b',q4:'c',q5:'a',q6:'c',q7:'c',q8:'c',q9:'d',q10:'b',q11:'b',q12:'c',q13:'a',q14:'b',q15:'b'};var labels={q1:'Q1-Subordonnee CC de temps',q2:'Q2-Subjonctif apres vouloir que',q3:'Q3-Comparaison avec comme',q4:'Q4-Metaphore sans outil comparatif',q5:'Q5-Discours indirect viendra demain',q6:'Q6-Adjectifs qualificatifs epithetes',q7:'Q7-Passe anterieur eurent chante',q8:'Q8-Adverbe de maniere',q9:'Q9-Accord PP COD avant avoir=cueillies',q10:'Q10-Subordonnee conjonctive COD',q11:'Q11-Acerbe=mordant severe',q12:'Q12-Jamais=adverbe negation',q13:'Q13-Passe simple tenir=tinrent',q14:'Q14-Proposition principale',q15:'Q15-Davantage vs d-avantage'};var answered={};var score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une reponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){var val=['a','b','c','d'][i];opts[i].style.pointerEvents='none';
+    if(val===rep){opts[i].classList.add('correct');}
+    else if(val===chosen.value&&chosen.value!==rep){opts[i].classList.add('wrong');}
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
+  if(chosen.value===rep){score++;}
+}
+function showScore(){
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
+  document.getElementById('score-display').textContent=score+' / 15';
+  var msg='';
+  if(score>=13)msg='Excellent ! Tu maitrise parfaitement le programme !';
+  else if(score>=10)msg='Tres bien ! Quelques points a revoir.';
+  else if(score>=7)msg='Pas mal, mais relis bien les fiches !';
+  else msg='Courage ! Reprends les fiches depuis le debut.';
+  document.getElementById('score-message').textContent=msg;
+  if(errors.length>0){document.getElementById('errors-container').style.display='block';
+    var ul=document.getElementById('errors-list');ul.innerHTML='';
+    for(var j=0;j<errors.length;j++){var li=document.createElement('li');li.textContent=labels[errors[j]];ul.appendChild(li);}}
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function shareResult(){
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
+  var txt='Quiz Français Expert\nScore : '+score+'/15\n';
+  if(errors.length>0){txt+='\nA retravailler :\n';for(var j=0;j<errors.length;j++){txt+='- '+labels[errors[j]]+'\n';}}
+  else{txt+='Parfait !';}
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script></body></html>
