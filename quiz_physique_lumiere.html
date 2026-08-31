@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz Lumière & Optique</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#fff8e1;color:#2c3e50;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#e65100,#f57f17);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{font-size:.9rem;opacity:.9}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #f57f17}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#f57f17;background:#f3f3ff}
+.option input[type=radio]{accent-color:#e65100;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f5f5f5;border-left:4px solid #f57f17;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#333}
+.btn-valider{background:#e65100;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem;font-weight:600;display:block}
+.btn-valider:disabled{background:#bbb;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#e65100;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#e65100;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+#submit-all{display:block;width:100%;padding:14px;background:#e65100;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="container">
+<header><h1>Quiz Lumière & Optique</h1><p>Physique 5ème – 12 questions</p></header>
+<div class="question" id="q1">
+  <div class="question-text">1. Quelle est la vitesse de la lumière dans le vide ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> 150 000 km/s</label>
+    <label class="option"><input type="radio" name="q1" value="b"> 300 000 km/s</label>
+    <label class="option"><input type="radio" name="q1" value="c"> 1 000 km/s</label>
+    <label class="option"><input type="radio" name="q1" value="d"> 450 000 km/s</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','b')">Valider</button>
+  <div class="explication" id="exp-q1"><b>300 000 km/s</b> (soit 3×10⁸ m/s). C'est la vitesse maximale dans l'univers.</div>
+</div>
+<div class="question" id="q2">
+  <div class="question-text">2. La Lune est une source...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> Primaire : elle produit sa propre lumière</label>
+    <label class="option"><input type="radio" name="q2" value="b"> Secondaire : elle réfléchit la lumière du Soleil</label>
+    <label class="option"><input type="radio" name="q2" value="c"> Artificielle</label>
+    <label class="option"><input type="radio" name="q2" value="d"> Thermique</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','b')">Valider</button>
+  <div class="explication" id="exp-q2"><b>Source secondaire</b> : la Lune ne produit pas de lumière, elle réfléchit celle du Soleil.</div>
+</div>
+<div class="question" id="q3">
+  <div class="question-text">3. La lumière se propage en...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> Courbe</label>
+    <label class="option"><input type="radio" name="q3" value="b"> Spirale</label>
+    <label class="option"><input type="radio" name="q3" value="c"> Ligne droite</label>
+    <label class="option"><input type="radio" name="q3" value="d"> Zigzag</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','c')">Valider</button>
+  <div class="explication" id="exp-q3"><b>Ligne droite</b> dans un milieu homogène. C'est le principe de propagation rectiligne.</div>
+</div>
+<div class="question" id="q4">
+  <div class="question-text">4. Lors d'une éclipse de Soleil, que se passe-t-il ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> La Terre passe devant la Lune</label>
+    <label class="option"><input type="radio" name="q4" value="b"> La Lune passe devant le Soleil</label>
+    <label class="option"><input type="radio" name="q4" value="c"> Le Soleil disparaît</label>
+    <label class="option"><input type="radio" name="q4" value="d"> La Lune s'éteint</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','b')">Valider</button>
+  <div class="explication" id="exp-q4"><b>La Lune passe devant le Soleil</b> : son ombre se projette sur une partie de la Terre.</div>
+</div>
+<div class="question" id="q5">
+  <div class="question-text">5. Un verre dépoli est un milieu...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> Opaque</label>
+    <label class="option"><input type="radio" name="q5" value="b"> Transparent</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Translucide</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Réfléchissant</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','c')">Valider</button>
+  <div class="explication" id="exp-q5"><b>Translucide</b> : laisse passer la lumière mais la diffuse (on ne voit pas nettement à travers).</div>
+</div>
+<div class="question" id="q6">
+  <div class="question-text">6. L'angle d'incidence vaut 40° sur un miroir. L'angle de réflexion = ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> 20°</label>
+    <label class="option"><input type="radio" name="q6" value="b"> 80°</label>
+    <label class="option"><input type="radio" name="q6" value="c"> 40°</label>
+    <label class="option"><input type="radio" name="q6" value="d"> 90°</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q6','c')">Valider</button>
+  <div class="explication" id="exp-q6"><b>40°</b> : loi de réflexion : angle d'incidence = angle de réflexion.</div>
+</div>
+<div class="question" id="q7">
+  <div class="question-text">7. Qu'est-ce que la pénombre ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> Une ombre totale</label>
+    <label class="option"><input type="radio" name="q7" value="b"> Une zone partiellement éclairée</label>
+    <label class="option"><input type="radio" name="q7" value="c"> Une zone sans lumière</label>
+    <label class="option"><input type="radio" name="q7" value="d"> Un halo lumineux</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q7','b')">Valider</button>
+  <div class="explication" id="exp-q7"><b>Zone partiellement éclairée</b> : entre la zone d'ombre totale et la lumière, quand la source est étendue.</div>
+</div>
+<div class="question" id="q8">
+  <div class="question-text">8. La lumière blanche est...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> Une couleur pure</label>
+    <label class="option"><input type="radio" name="q8" value="b"> Un mélange de toutes les couleurs</label>
+    <label class="option"><input type="radio" name="q8" value="c"> Du jaune et du blanc</label>
+    <label class="option"><input type="radio" name="q8" value="d"> Uniquement rouge et bleu</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q8','b')">Valider</button>
+  <div class="explication" id="exp-q8"><b>Un mélange de toutes les couleurs</b>. Un prisme la décompose en spectre coloré.</div>
+</div>
+<div class="question" id="q9">
+  <div class="question-text">9. Qu'est-ce que l'ombre portée ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> L'ombre sur l'objet lui-même</label>
+    <label class="option"><input type="radio" name="q9" value="b"> L'ombre projetée derrière l'objet sur un écran</label>
+    <label class="option"><input type="radio" name="q9" value="c"> La lumière réfléchie</label>
+    <label class="option"><input type="radio" name="q9" value="d"> La pénombre</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q9','b')">Valider</button>
+  <div class="explication" id="exp-q9"><b>L'ombre projetée sur un écran</b> derrière l'objet. L'ombre propre est sur l'objet lui-même.</div>
+</div>
+<div class="question" id="q10">
+  <div class="question-text">10. Lors d'une éclipse de Lune, la Lune est dans l'ombre de...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> La Lune elle-même</label>
+    <label class="option"><input type="radio" name="q10" value="b"> Le Soleil</label>
+    <label class="option"><input type="radio" name="q10" value="c"> La Terre</label>
+    <label class="option"><input type="radio" name="q10" value="d"> Une autre planète</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q10','c')">Valider</button>
+  <div class="explication" id="exp-q10"><b>La Terre</b> : la Terre se place entre le Soleil et la Lune et bloque la lumière solaire.</div>
+</div>
+<div class="question" id="q11">
+  <div class="question-text">11. Dans quel ordre apparaissent les couleurs dans un arc-en-ciel ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q11" value="a"> Violet, bleu, vert, jaune, orangé, rouge</label>
+    <label class="option"><input type="radio" name="q11" value="b"> Rouge, orangé, jaune, vert, bleu, indigo, violet</label>
+    <label class="option"><input type="radio" name="q11" value="c"> Bleu, rouge, vert</label>
+    <label class="option"><input type="radio" name="q11" value="d"> Jaune, rouge, bleu, vert</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q11','b')">Valider</button>
+  <div class="explication" id="exp-q11"><b>Rouge, orangé, jaune, vert, bleu, indigo, violet</b> : du rouge (extérieur) au violet (intérieur).</div>
+</div>
+<div class="question" id="q12">
+  <div class="question-text">12. Quelle propriété fondamentale permet la formation des ombres ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q12" value="a"> La lumière est courbée</label>
+    <label class="option"><input type="radio" name="q12" value="b"> La lumière se propage en ligne droite</label>
+    <label class="option"><input type="radio" name="q12" value="c"> La lumière rebondit</label>
+    <label class="option"><input type="radio" name="q12" value="d"> La lumière est lente</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q12','b')">Valider</button>
+  <div class="explication" id="exp-q12"><b>La propagation rectiligne</b> : les obstacles opaques bloquent la lumière et créent des zones d'ombre.</div>
+</div>
+
+<button id="submit-all" onclick="showScore()">Voir mon resultat</button>
+<div id="score-section">
+  <h2>Resultat</h2>
+  <div id="score-display"></div>
+  <div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none">
+    <h3>A retravailler :</h3>
+    <ul id="errors-list"></ul>
+  </div>
+  <button class="share-btn" onclick="shareResult()">Partager sur WhatsApp</button>
+</div>
+</div>
+<script>
+var correct={q1:'b',q2:'b',q3:'c',q4:'b',q5:'c',q6:'c',q7:'b',q8:'b',q9:'b',q10:'c',q11:'b',q12:'b'};
+var labels={q1:'Q1-Vitesse lumiere 300000km/s',q2:'Q2-Lune source secondaire',q3:'Q3-Propagation rectiligne',q4:'Q4-Eclipse Soleil Lune devant Soleil',q5:'Q5-Verre depoli translucide',q6:'Q6-Angle reflexion=incidence=40',q7:'Q7-Penombre zone partielle',q8:'Q8-Lumiere blanche melange couleurs',q9:'Q9-Ombre portee derriere objet',q10:'Q10-Eclipse Lune ombre Terre',q11:'Q11-Arc-en-ciel ordre rouge violet',q12:'Q12-Ombres propagation rectiligne'};
+var answered={};var score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une reponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){
+    var val=['a','b','c','d'][i];opts[i].style.pointerEvents='none';
+    if(val===rep){opts[i].classList.add('correct');}
+    else if(val===chosen.value&&chosen.value!==rep){opts[i].classList.add('wrong');}
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
+  if(chosen.value===rep){score++;}
+}
+function showScore(){
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
+  document.getElementById('score-display').textContent=score+' / 12';
+  var msg='';
+  if(score===12)msg='Parfait !';
+  else if(score>=10)msg='Tres bien !';
+  else if(score>=7)msg='Bien, continue !';
+  else msg='Relis la fiche et reessaie !';
+  document.getElementById('score-message').textContent=msg;
+  if(errors.length>0){
+    document.getElementById('errors-container').style.display='block';
+    var ul=document.getElementById('errors-list');ul.innerHTML='';
+    for(var j=0;j<errors.length;j++){var li=document.createElement('li');li.textContent=labels[errors[j]];ul.appendChild(li);}
+  }
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function shareResult(){
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
+  var txt='Quiz Lumière & Optique\nScore : '+score+'/12\n';
+  if(errors.length>0){txt+='\nA retravailler :\n';for(var j=0;j<errors.length;j++){txt+='- '+labels[errors[j]]+'\n';}}
+  else{txt+='Tout juste !';}
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script>
+</body>
+</html>

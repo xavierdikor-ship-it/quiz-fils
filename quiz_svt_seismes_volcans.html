@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz Séismes & Volcans</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#efebe9;color:#2c3e50;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#4e342e,#6d4c41);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}header p{font-size:.9rem;opacity:.9}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #6d4c41}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#6d4c41;background:#f3f3ff}
+.option input[type=radio]{accent-color:#4e342e;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f5f5f5;border-left:4px solid #6d4c41;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#333}
+.btn-valider{background:#4e342e;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem;font-weight:600;display:block}
+.btn-valider:disabled{background:#bbb;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#4e342e;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#4e342e;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+#submit-all{display:block;width:100%;padding:14px;background:#4e342e;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
+</style></head><body><div class="container">
+<header><h1>Quiz Séismes & Volcans</h1><p>SVT 5ème – 12 questions</p></header><div class="question" id="q1">
+  <div class="question-text">1. Le foyer (hypocentre) d'un séisme est...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> Le point à la surface le plus proche du séisme</label>
+    <label class="option"><input type="radio" name="q1" value="b"> Le point en profondeur où la rupture a lieu</label>
+    <label class="option"><input type="radio" name="q1" value="c"> Le lieu où les dégâts sont les plus importants</label>
+    <label class="option"><input type="radio" name="q1" value="d"> La station d'enregistrement</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','b')">Valider</button>
+  <div class="explication" id="exp-q1"><b>Le point en profondeur où la rupture a lieu</b> : c'est l'origine du séisme. L'épicentre est le point en surface au-dessus du foyer.</div>
+</div>
+<div class="question" id="q2">
+  <div class="question-text">2. Quel instrument enregistre les séismes ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> Le baromètre</label>
+    <label class="option"><input type="radio" name="q2" value="b"> Le microscope</label>
+    <label class="option"><input type="radio" name="q2" value="c"> Le thermomètre</label>
+    <label class="option"><input type="radio" name="q2" value="d"> Le sismographe</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','d')">Valider</button>
+  <div class="explication" id="exp-q2"><b>Le sismographe</b> : il enregistre les ondes sismiques et produit un sismogramme.</div>
+</div>
+<div class="question" id="q3">
+  <div class="question-text">3. Les plaques tectoniques se déplacent à une vitesse de...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> Quelques cm par an</label>
+    <label class="option"><input type="radio" name="q3" value="b"> Plusieurs km par jour</label>
+    <label class="option"><input type="radio" name="q3" value="c"> Quelques mètres par heure</label>
+    <label class="option"><input type="radio" name="q3" value="d"> Elles sont immobiles</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','a')">Valider</button>
+  <div class="explication" id="exp-q3"><b>Quelques cm par an</b> : imperceptible à l'échelle humaine, mais énorme à l'échelle géologique.</div>
+</div>
+<div class="question" id="q4">
+  <div class="question-text">4. Lors d'une convergence de plaques, une plaque plonge sous l'autre : c'est la...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> Divergence</label>
+    <label class="option"><input type="radio" name="q4" value="b"> Dorsale</label>
+    <label class="option"><input type="radio" name="q4" value="c"> Subduction</label>
+    <label class="option"><input type="radio" name="q4" value="d"> Collision frontale</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','c')">Valider</button>
+  <div class="explication" id="exp-q4"><b>Subduction</b> : la plaque la plus dense plonge sous l'autre. Ce phénomène génère des séismes et des volcans.</div>
+</div>
+<div class="question" id="q5">
+  <div class="question-text">5. Le magma qui sort d'un volcan s'appelle...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> Gaz volcanique</label>
+    <label class="option"><input type="radio" name="q5" value="b"> Cendre</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Lave</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Granite</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','c')">Valider</button>
+  <div class="explication" id="exp-q5"><b>Lave</b> : le magma (roche fondue en profondeur) devient de la lave lorsqu'il arrive en surface.</div>
+</div>
+<div class="question" id="q6">
+  <div class="question-text">6. Un volcan effusif est...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> Très explosif et dangereux</label>
+    <label class="option"><input type="radio" name="q6" value="b"> Peu dangereux avec une lave fluide</label>
+    <label class="option"><input type="radio" name="q6" value="c"> Toujours sous-marin</label>
+    <label class="option"><input type="radio" name="q6" value="d"> Eteint depuis des millénaires</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q6','b')">Valider</button>
+  <div class="explication" id="exp-q6"><b>Peu dangereux avec une lave fluide</b> : ex: Piton de la Fournaise (Réunion). La lave coule lentement.</div>
+</div>
+<div class="question" id="q7">
+  <div class="question-text">7. La ceinture de feu du Pacifique est une zone de...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> Forte biodiversité marine</label>
+    <label class="option"><input type="radio" name="q7" value="b"> Nombreux séismes et volcans aux frontières de plaques</label>
+    <label class="option"><input type="radio" name="q7" value="c"> Froid extrême</label>
+    <label class="option"><input type="radio" name="q7" value="d"> Dorsales uniquement</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q7','b')">Valider</button>
+  <div class="explication" id="exp-q7"><b>Nombreux séismes et volcans</b> : c'est la zone la plus active tectoniquement, aux frontières de plaques.</div>
+</div>
+<div class="question" id="q8">
+  <div class="question-text">8. L'épicentre d'un séisme est...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> Le point le plus profond</label>
+    <label class="option"><input type="radio" name="q8" value="b"> Le point en surface au-dessus du foyer</label>
+    <label class="option"><input type="radio" name="q8" value="c"> La chambre magmatique</label>
+    <label class="option"><input type="radio" name="q8" value="d"> Le sismographe</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q8','b')">Valider</button>
+  <div class="explication" id="exp-q8"><b>Le point en surface au-dessus du foyer</b> : c'est là que les secousses sont généralement les plus fortes.</div>
+</div>
+<div class="question" id="q9">
+  <div class="question-text">9. La lithosphère est composée de...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> Lave et magma</label>
+    <label class="option"><input type="radio" name="q9" value="b"> La croûte et le noyau externe</label>
+    <label class="option"><input type="radio" name="q9" value="c"> La croûte terrestre et la partie supérieure du manteau</label>
+    <label class="option"><input type="radio" name="q9" value="d"> Le manteau uniquement</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q9','c')">Valider</button>
+  <div class="explication" id="exp-q9"><b>La croûte + partie supérieure du manteau</b> : la lithosphère rigide est découpée en plaques tectoniques.</div>
+</div>
+<div class="question" id="q10">
+  <div class="question-text">10. Quelle est la température approximative au centre de la Terre ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> 100°C</label>
+    <label class="option"><input type="radio" name="q10" value="b"> 1000°C</label>
+    <label class="option"><input type="radio" name="q10" value="c"> 6000°C</label>
+    <label class="option"><input type="radio" name="q10" value="d"> 20°C</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q10','c')">Valider</button>
+  <div class="explication" id="exp-q10"><b>~6000°C</b> : la température augmente avec la profondeur. Le centre est aussi chaud que la surface du Soleil.</div>
+</div>
+<div class="question" id="q11">
+  <div class="question-text">11. La dorsale Atlantique est une zone de...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q11" value="a"> Subduction</label>
+    <label class="option"><input type="radio" name="q11" value="b"> Convergence</label>
+    <label class="option"><input type="radio" name="q11" value="c"> Coulissage</label>
+    <label class="option"><input type="radio" name="q11" value="d"> Divergence</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q11','d')">Valider</button>
+  <div class="explication" id="exp-q11"><b>Divergence</b> : les plaques américaine et eurasiatique/africaine s'écartent, créant de nouvelles roches.</div>
+</div>
+<div class="question" id="q12">
+  <div class="question-text">12. Un volcan explosif est dangereux surtout à cause de...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q12" value="a"> Sa lave fluide</label>
+    <label class="option"><input type="radio" name="q12" value="b"> Ses nuées ardentes et sa lave visqueuse</label>
+    <label class="option"><input type="radio" name="q12" value="c"> Ses tremblements de terre</label>
+    <label class="option"><input type="radio" name="q12" value="d"> Son altitude</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q12','b')">Valider</button>
+  <div class="explication" id="exp-q12"><b>Ses nuées ardentes et sa lave visqueuse</b> : les gaz piégés provoquent des explosions violentes. Ex: Vésuve.</div>
+</div>
+
+<button id="submit-all" onclick="showScore()">Voir mon resultat</button>
+<div id="score-section"><h2>Resultat</h2><div id="score-display"></div><div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none"><h3>A retravailler :</h3><ul id="errors-list"></ul></div>
+  <button class="share-btn" onclick="shareResult()">Partager sur WhatsApp</button>
+</div></div>
+<script>
+var correct={q1:'b',q2:'d',q3:'a',q4:'c',q5:'c',q6:'b',q7:'b',q8:'b',q9:'c',q10:'c',q11:'d',q12:'b'};var labels={q1:'Q1-Foyer=point rupture profondeur',q2:'Q2-Sismographe enregistre seismes',q3:'Q3-Plaques=quelques cm par an',q4:'Q4-Convergence=subduction',q5:'Q5-Magma en surface=lave',q6:'Q6-Effusif=peu dangereux lave fluide',q7:'Q7-Ceinture feu=seismes volcans',q8:'Q8-Epicentre=surface au-dessus foyer',q9:'Q9-Lithosphere=croute+manteau superieur',q10:'Q10-Centre Terre=6000 degres',q11:'Q11-Dorsale Atlantique=divergence',q12:'Q12-Explosif=nuees ardentes lave visqueuse'};var answered={};var score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une reponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){var val=['a','b','c','d'][i];opts[i].style.pointerEvents='none';
+    if(val===rep){opts[i].classList.add('correct');}
+    else if(val===chosen.value&&chosen.value!==rep){opts[i].classList.add('wrong');}
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
+  if(chosen.value===rep){score++;}
+}
+function showScore(){
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
+  document.getElementById('score-display').textContent=score+' / 12';
+  var msg='';
+  if(score===12)msg='Parfait !';else if(score>=10)msg='Tres bien !';
+  else if(score>=7)msg='Bien, continue !';else msg='Relis la fiche et reessaie !';
+  document.getElementById('score-message').textContent=msg;
+  if(errors.length>0){document.getElementById('errors-container').style.display='block';
+    var ul=document.getElementById('errors-list');ul.innerHTML='';
+    for(var j=0;j<errors.length;j++){var li=document.createElement('li');li.textContent=labels[errors[j]];ul.appendChild(li);}}
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function shareResult(){
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
+  var txt='Quiz Séismes & Volcans\nScore : '+score+'/12\n';
+  if(errors.length>0){txt+='\nA retravailler :\n';for(var j=0;j<errors.length;j++){txt+='- '+labels[errors[j]]+'\n';}}
+  else{txt+='Tout juste !';}
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script></body></html>
