@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Remédiation – Circuits Électriques 4ème</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e3f2fd;color:#1a1a2e;padding:20px}
+.container{max-width:840px;margin:0 auto}
+header{background:linear-gradient(135deg,#0d47a1,#1565c0);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.8rem;margin-bottom:6px}
+header p{font-size:.9rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.25);border-radius:20px;padding:4px 14px;font-size:.82rem;margin-top:8px;font-weight:bold}
+.section{background:white;border-radius:12px;padding:20px 24px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #e53935}
+.section h2{color:#c62828;font-size:1.05rem;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #ffcdd2}
+.section p,.section li{font-size:.9rem;line-height:1.75;margin-bottom:7px}
+.section ul{padding-left:18px}
+.retenir{background:#e8f5e9;border-left:4px solid #388e3c;padding:10px 14px;border-radius:0 8px 8px 0;font-size:.88rem;margin:10px 0}
+.piege{background:#fce4ec;border-left:4px solid #c62828;padding:10px 14px;border-radius:0 8px 8px 0;font-size:.88rem;margin:10px 0}
+.formule{background:#e3f2fd;border-radius:8px;padding:14px;text-align:center;font-size:1.1rem;font-weight:bold;color:#0d47a1;margin:12px 0}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.88rem}
+th{background:#0d47a1;color:white;padding:8px 10px;text-align:left}
+td{padding:8px 10px;border-bottom:1px solid #eee}
+tr:nth-child(even)td{background:#f5f5f5}
+.erreur-tag{display:inline-block;background:#ffcdd2;color:#b71c1c;border-radius:6px;padding:2px 10px;font-size:.8rem;font-weight:bold;margin-bottom:10px}
+.exemple{background:#f5f5f5;border-radius:8px;padding:10px 14px;margin:8px 0;font-size:.88rem}
+</style></head>
+<body><div class="container">
+<header>
+  <h1>⚡ Remédiation – Circuits Électriques</h1>
+  <p>2 points à renforcer avant le QCM</p>
+  <div class="badge">Score : 13/15 — presque parfait !</div>
+</header>
+
+<div class="section">
+<div class="erreur-tag">POINT FAIBLE 1 — Q4</div>
+<h2>Circuit en SÉRIE : que se passe-t-il si une lampe grille ?</h2>
+<p>Dans un circuit en série, <b>tous les composants sont sur le même et unique chemin</b>. Le courant n'a pas d'autre route possible.</p>
+<p>Si une lampe grille (= filament cassé = circuit ouvert à cet endroit), <b>le chemin est coupé</b>. Le courant ne peut plus circuler <b>nulle part</b>.</p>
+<div class="formule">1 composant en panne → tout le circuit s'éteint</div>
+<div class="piege">Erreur fréquente : croire que seule la lampe "après" la panne s'éteint. NON — en série, c'est tout ou rien. Il n'y a qu'un seul chemin pour le courant.</div>
+<table>
+<tr><th>Situation</th><th>Série</th><th>Dérivation</th></tr>
+<tr><td>1 lampe grille</td><td>⛔ Tout s'éteint</td><td>✅ Les autres restent allumées</td></tr>
+<tr><td>Raison</td><td>1 seul chemin → coupé = plus rien</td><td>Chaque branche est indépendante</td></tr>
+</table>
+<div class="retenir">Mémo : Série = <b>solidaires</b> (tous ensemble ou personne). Dérivation = <b>indépendants</b> (chacun sa vie).</div>
+</div>
+
+<div class="section">
+<div class="erreur-tag">POINT FAIBLE 2 — Q15</div>
+<h2>Circuit en DÉRIVATION : la loi des nœuds (intensités)</h2>
+<p>Dans un circuit en dérivation, le courant se <b>divise</b> aux nœuds. L'intensité totale fournie par le générateur est <b>la somme des intensités de chaque branche</b>.</p>
+<div class="formule">I<sub>total</sub> = I<sub>1</sub> + I<sub>2</sub> + I<sub>3</sub> + ...</div>
+<div class="exemple">
+Exemple : générateur fournit 300 mA. Branche 1 = 100 mA, branche 2 = 200 mA.<br>
+→ I<sub>total</sub> = 100 + 200 = <b>300 mA</b> ✓
+</div>
+<table>
+<tr><th></th><th>Série</th><th>Dérivation</th></tr>
+<tr><td><b>Intensité (I)</b></td><td>Identique partout : I<sub>total</sub> = I<sub>1</sub> = I<sub>2</sub></td><td>Se divise : I<sub>total</sub> = I<sub>1</sub> + I<sub>2</sub></td></tr>
+<tr><td><b>Tension (U)</b></td><td>Se divise : U<sub>total</sub> = U<sub>1</sub> + U<sub>2</sub></td><td>Identique partout : U<sub>total</sub> = U<sub>1</sub> = U<sub>2</sub></td></tr>
+</table>
+<div class="piege">Ne pas confondre : en dérivation c'est l'<b>intensité</b> qui s'additionne (pas la tension). En série c'est la <b>tension</b> qui s'additionne (pas l'intensité).</div>
+<div class="retenir">Astuce : Série → Tension s'additionne (S comme Série, S comme Somme de U). Dérivation → Intensité s'additionne.</div>
+</div>
+
+</div></body></html>

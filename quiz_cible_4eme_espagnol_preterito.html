@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz Ciblé – Pretérito Perfecto</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#fce4ec;color:#2c3e50;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#880e4f,#c2185b);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}header p{font-size:.9rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.25);border-radius:20px;padding:4px 14px;font-size:.82rem;margin-top:8px;font-weight:bold}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #c2185b}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#c2185b;background:#fce4ec}
+.option input[type=radio]{accent-color:#880e4f;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f5f5f5;border-left:4px solid #c2185b;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#333}
+.btn-valider{background:#880e4f;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem;font-weight:600;display:block}
+.btn-valider:disabled{background:#bbb;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#880e4f;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#880e4f;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+#submit-all{display:block;width:100%;padding:14px;background:#880e4f;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
+</style></head><body><div class="container">
+<header><h1>Quiz Ciblé – Pretérito Perfecto</h1><p>Participes irréguliers + conjugaison HABER — 10 questions</p><div class="badge">10 questions ciblées</div></header>
+<div class="question" id="q1">
+  <div class="question-text">1. Quel est le participe passé de HACER (faire) ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> hacido</label>
+    <label class="option"><input type="radio" name="q1" value="b"> hacedo</label>
+    <label class="option"><input type="radio" name="q1" value="c"> hecho</label>
+    <label class="option"><input type="radio" name="q1" value="d"> haco</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','c')">Valider</button>
+  <div class="explication" id="exp-q1"><b>Hecho</b> — irrégulier ! Hacer → <em>hecho</em>. Retiens : HACer → HECho (les lettres se mélangent, pas de règle, à apprendre par coeur).</div>
+</div>
+<div class="question" id="q2">
+  <div class="question-text">2. Quel est le participe passé de DECIR (dire) ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> decido</label>
+    <label class="option"><input type="radio" name="q2" value="b"> dicido</label>
+    <label class="option"><input type="radio" name="q2" value="c"> decho</label>
+    <label class="option"><input type="radio" name="q2" value="d"> dicho</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','d')">Valider</button>
+  <div class="explication" id="exp-q2"><b>Dicho</b> — irrégulier ! Decir → <em>dicho</em>. Même logique que hecho : DECir → DICho.</div>
+</div>
+<div class="question" id="q3">
+  <div class="question-text">3. Complète : Ella ___ comido mucho gelato.</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> he</label>
+    <label class="option"><input type="radio" name="q3" value="b"> han</label>
+    <label class="option"><input type="radio" name="q3" value="c"> ha</label>
+    <label class="option"><input type="radio" name="q3" value="d"> hemos</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','c')">Valider</button>
+  <div class="explication" id="exp-q3"><b>Ha</b> — Ella = 3ème personne singulier → <em>ha</em>. He = yo. Han = ellos. Hemos = nosotros. Ella <em>ha</em> comido. ✓</div>
+</div>
+<div class="question" id="q4">
+  <div class="question-text">4. Complète : Tú ___ hecho los deberes.</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> ha</label>
+    <label class="option"><input type="radio" name="q4" value="b"> has</label>
+    <label class="option"><input type="radio" name="q4" value="c"> han</label>
+    <label class="option"><input type="radio" name="q4" value="d"> hemos</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','b')">Valider</button>
+  <div class="explication" id="exp-q4"><b>Has</b> — Tú → <em>has</em>. Tú <em>has</em> hecho los deberes (tu as fait tes devoirs). Attention : hecho = irrégulier de hacer !</div>
+</div>
+<div class="question" id="q5">
+  <div class="question-text">5. Quelle phrase est correcte ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> Ella he visto la pelicula.</label>
+    <label class="option"><input type="radio" name="q5" value="b"> Ella han visto la pelicula.</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Ella ha visto la pelicula.</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Ella hemos visto la pelicula.</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','c')">Valider</button>
+  <div class="explication" id="exp-q5"><b>Ella ha visto la pelicula.</b> Ella → <em>ha</em>. Et visto = irrégulier de ver. Les deux points importants en une seule phrase !</div>
+</div>
+<div class="question" id="q6">
+  <div class="question-text">6. Complète : Ellos ___ dicho la verdad.</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> ha</label>
+    <label class="option"><input type="radio" name="q6" value="b"> has</label>
+    <label class="option"><input type="radio" name="q6" value="c"> he</label>
+    <label class="option"><input type="radio" name="q6" value="d"> han</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q6','d')">Valider</button>
+  <div class="explication" id="exp-q6"><b>Han</b> — Ellos → <em>han</em>. Et dicho = irrégulier de decir. Ellos <em>han</em> dicho la verdad (ils ont dit la vérité).</div>
+</div>
+<div class="question" id="q7">
+  <div class="question-text">7. Quel est le participe passé de VER (voir) ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> veido</label>
+    <label class="option"><input type="radio" name="q7" value="b"> vido</label>
+    <label class="option"><input type="radio" name="q7" value="c"> vero</label>
+    <label class="option"><input type="radio" name="q7" value="d"> visto</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q7','d')">Valider</button>
+  <div class="explication" id="exp-q7"><b>Visto</b> — irrégulier ! Ver → <em>visto</em>. Les 3 du cours : hecho / dicho / visto. Mémo : He-cho Di-cho Vis-to !</div>
+</div>
+<div class="question" id="q8">
+  <div class="question-text">8. Complète : Usted ___ hablado muy bien.</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> han</label>
+    <label class="option"><input type="radio" name="q8" value="b"> hemos</label>
+    <label class="option"><input type="radio" name="q8" value="c"> ha</label>
+    <label class="option"><input type="radio" name="q8" value="d"> he</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q8','c')">Valider</button>
+  <div class="explication" id="exp-q8"><b>Ha</b> — Usted (= vous de politesse) se conjugue comme él/ella → <em>ha</em>. Usted <em>ha</em> hablado muy bien (vous avez très bien parlé).</div>
+</div>
+<div class="question" id="q9">
+  <div class="question-text">9. Quelle forme de HABER correspond à NOSOTROS ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> han</label>
+    <label class="option"><input type="radio" name="q9" value="b"> habéis</label>
+    <label class="option"><input type="radio" name="q9" value="c"> hemos</label>
+    <label class="option"><input type="radio" name="q9" value="d"> ha</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q9','c')">Valider</button>
+  <div class="explication" id="exp-q9"><b>Hemos</b> — Nosotros → <em>hemos</em>. La série : he / has / ha / <em>hemos</em> / habéis / han.</div>
+</div>
+<div class="question" id="q10">
+  <div class="question-text">10. Complète : Yo ___ hecho mis deberes y ella ___ dicho que es perfecto.</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> ha / he</label>
+    <label class="option"><input type="radio" name="q10" value="b"> he / ha</label>
+    <label class="option"><input type="radio" name="q10" value="c"> han / han</label>
+    <label class="option"><input type="radio" name="q10" value="d"> hemos / habéis</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q10','b')">Valider</button>
+  <div class="explication" id="exp-q10"><b>He / ha</b> — Yo → <em>he</em>, ella → <em>ha</em>. Yo <em>he</em> hecho (irrégulier) + ella <em>ha</em> dicho (irrégulier). Double difficulté !</div>
+</div>
+
+<button id="submit-all" onclick="showScore()">Voir mon résultat</button>
+<div id="score-section"><h2>Résultat</h2><div id="score-display"></div><div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none"><h3>À retravailler :</h3><ul id="errors-list"></ul></div>
+  <button class="share-btn" onclick="shareResult()">Partager sur WhatsApp</button>
+</div></div>
+<script>
+var correct={q1:'c',q2:'d',q3:'c',q4:'b',q5:'c',q6:'d',q7:'d',q8:'c',q9:'c',q10:'b'};var labels={q1:'Q1-Hacer→hecho (irregulier)',q2:'Q2-Decir→dicho (irregulier)',q3:'Q3-Ella ha (pas he ni han)',q4:'Q4-Tu has hecho',q5:'Q5-Ella ha visto (irregulier)',q6:'Q6-Ellos han dicho',q7:'Q7-Ver→visto (irregulier)',q8:'Q8-Usted ha',q9:'Q9-Nosotros hemos',q10:'Q10-Yo he / ella ha'};var answered={};var score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une réponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){var val=['a','b','c','d'][i];opts[i].style.pointerEvents='none';
+    if(val===rep){opts[i].classList.add('correct');}
+    else if(val===chosen.value&&chosen.value!==rep){opts[i].classList.add('wrong');}
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
+  if(chosen.value===rep){score++;}
+}
+function showScore(){
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
+  document.getElementById('score-display').textContent=score+' / 10';
+  var msg='';
+  if(score>=10)msg='¡Perfecto ! Tu maitrises les irreguliers et HABER !';
+  else if(score>=Math.ceil(10*0.8))msg='Tres bien ! Tu as presque tout bon !';
+  else if(score>=Math.ceil(10*0.6))msg='Pas mal, mais relis bien la fiche !';
+  else msg='Reprends la fiche ciblée depuis le debut !';
+  document.getElementById('score-message').textContent=msg;
+  if(errors.length>0){document.getElementById('errors-container').style.display='block';
+    var ul=document.getElementById('errors-list');ul.innerHTML='';
+    for(var j=0;j<errors.length;j++){var li=document.createElement('li');li.textContent=labels[errors[j]];ul.appendChild(li);}}
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function shareResult(){
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
+  var txt='Quiz Ciblé – Pretérito Perfecto\nScore : '+score+'/10\n';
+  if(errors.length>0){txt+='\nA retravailler :\n';for(var j=0;j<errors.length;j++){txt+='- '+labels[errors[j]]+'\n';}}
+  else{txt+='Parfait !';}
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script></body></html>

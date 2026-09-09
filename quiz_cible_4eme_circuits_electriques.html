@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz Ciblé – Série & Dérivation</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e3f2fd;color:#2c3e50;padding:20px}
+.container{max-width:820px;margin:0 auto}
+header{background:linear-gradient(135deg,#0d47a1,#1565c0);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}header p{font-size:.9rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.25);border-radius:20px;padding:4px 14px;font-size:.82rem;margin-top:8px;font-weight:bold}
+.question{background:white;border-radius:12px;padding:17px 21px;margin-bottom:13px;box-shadow:0 2px 7px rgba(0,0,0,.07);border-left:5px solid #1565c0}
+.question-text{font-weight:600;font-size:.96rem;margin-bottom:11px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.91rem}
+.option:hover{border-color:#1565c0;background:#e3f2fd}
+.option input[type=radio]{accent-color:#0d47a1;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f5f5f5;border-left:4px solid #1565c0;padding:9px 13px;border-radius:0 8px 8px 0;margin-top:9px;font-size:.84rem;line-height:1.6;color:#333}
+.btn-valider{background:#0d47a1;color:white;border:none;padding:8px 19px;border-radius:8px;cursor:pointer;margin-top:11px;font-size:.87rem;font-weight:600;display:block}
+.btn-valider:disabled{background:#bbb;cursor:default}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);margin-top:24px}
+#score-section h2{font-size:1.7rem;color:#0d47a1;margin-bottom:8px}
+#score-display{font-size:3.2rem;font-weight:bold;color:#0d47a1;margin:8px 0}
+#score-message{font-size:1rem;color:#555;margin-bottom:16px}
+.errors-list{text-align:left;background:#fff8e1;border-radius:10px;padding:13px;margin:13px 0}
+.errors-list h3{color:#e65100;margin-bottom:7px;font-size:.89rem}
+.errors-list li{margin-bottom:5px;font-size:.86rem}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.93rem;font-weight:bold;cursor:pointer;margin-top:13px}
+#submit-all{display:block;width:100%;padding:14px;background:#0d47a1;color:white;border:none;border-radius:12px;font-size:1.04rem;font-weight:bold;cursor:pointer;margin-top:20px}
+</style></head><body><div class="container">
+<header><h1>Quiz Ciblé – Série & Dérivation</h1><p>Tes 2 points faibles — 10 questions</p><div class="badge">10 questions ciblées</div></header>
+<div class="question" id="q1">
+  <div class="question-text">1. Dans un circuit en SÉRIE avec 3 lampes, si la lampe L2 tombe en panne...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> Seulement L3 s'éteint</label>
+    <label class="option"><input type="radio" name="q1" value="b"> L1 et L3 restent allumées</label>
+    <label class="option"><input type="radio" name="q1" value="c"> Les 3 lampes s'éteignent</label>
+    <label class="option"><input type="radio" name="q1" value="d"> Rien ne change</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','c')">Valider</button>
+  <div class="explication" id="exp-q1"><b>Les 3 lampes s'éteignent.</b> En série = un seul chemin. Si L2 est en panne, le chemin est coupé : le courant ne peut plus passer nulle part.</div>
+</div>
+<div class="question" id="q2">
+  <div class="question-text">2. Pourquoi en série, une panne arrête tout ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> Parce que les lampes sont identiques</label>
+    <label class="option"><input type="radio" name="q2" value="b"> Parce qu'il n'y a qu'un seul chemin pour le courant</label>
+    <label class="option"><input type="radio" name="q2" value="c"> Parce que la tension est nulle</label>
+    <label class="option"><input type="radio" name="q2" value="d"> Parce que les lampes sont trop puissantes</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','b')">Valider</button>
+  <div class="explication" id="exp-q2"><b>Il n'y a qu'un seul chemin.</b> En série, le courant ne peut pas contourner la panne — il s'arrête.</div>
+</div>
+<div class="question" id="q3">
+  <div class="question-text">3. Dans un circuit en DÉRIVATION avec 2 branches, si L1 (branche 1) grille...</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> Tout s'éteint</label>
+    <label class="option"><input type="radio" name="q3" value="b"> L2 (branche 2) reste allumée</label>
+    <label class="option"><input type="radio" name="q3" value="c"> L2 brille deux fois plus</label>
+    <label class="option"><input type="radio" name="q3" value="d"> L2 s'éteint aussi</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','b')">Valider</button>
+  <div class="explication" id="exp-q3"><b>L2 reste allumée.</b> En dérivation, chaque branche est indépendante. La panne d'une branche ne coupe pas les autres.</div>
+</div>
+<div class="question" id="q4">
+  <div class="question-text">4. Un générateur alimente 3 branches en dérivation : I1=100mA, I2=150mA, I3=50mA. Quelle est l'intensité totale ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> 50 mA</label>
+    <label class="option"><input type="radio" name="q4" value="b"> 150 mA</label>
+    <label class="option"><input type="radio" name="q4" value="c"> 300 mA</label>
+    <label class="option"><input type="radio" name="q4" value="d"> 100 mA</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','c')">Valider</button>
+  <div class="explication" id="exp-q4"><b>300 mA.</b> Loi des nœuds : I_total = I1 + I2 + I3 = 100 + 150 + 50 = 300 mA. En dérivation, l'intensité totale = somme des branches.</div>
+</div>
+<div class="question" id="q5">
+  <div class="question-text">5. Dans un circuit en dérivation, I_total = 400 mA et I1 = 250 mA. Quelle est l'intensité I2 dans la 2ème branche ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> 650 mA</label>
+    <label class="option"><input type="radio" name="q5" value="b"> 400 mA</label>
+    <label class="option"><input type="radio" name="q5" value="c"> 150 mA</label>
+    <label class="option"><input type="radio" name="q5" value="d"> 250 mA</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','c')">Valider</button>
+  <div class="explication" id="exp-q5"><b>150 mA.</b> I_total = I1 + I2 → 400 = 250 + I2 → I2 = 400 - 250 = 150 mA.</div>
+</div>
+<div class="question" id="q6">
+  <div class="question-text">6. En dérivation, qu'est-ce qui est IDENTIQUE dans toutes les branches ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> L'intensité</label>
+    <label class="option"><input type="radio" name="q6" value="b"> La résistance</label>
+    <label class="option"><input type="radio" name="q6" value="c"> La tension (voltage)</label>
+    <label class="option"><input type="radio" name="q6" value="d"> La puissance</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q6','c')">Valider</button>
+  <div class="explication" id="exp-q6"><b>La tension.</b> En dérivation : U_total = U1 = U2 = ... En série c'est l'inverse : l'intensité est identique partout.</div>
+</div>
+<div class="question" id="q7">
+  <div class="question-text">7. En série, qu'est-ce qui est IDENTIQUE en tout point du circuit ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q7" value="a"> La tension</label>
+    <label class="option"><input type="radio" name="q7" value="b"> La puissance</label>
+    <label class="option"><input type="radio" name="q7" value="c"> L'intensité</label>
+    <label class="option"><input type="radio" name="q7" value="d"> La résistance</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q7','c')">Valider</button>
+  <div class="explication" id="exp-q7"><b>L'intensité.</b> En série : I est la même partout. La tension, elle, se divise : U_total = U1 + U2 + ...</div>
+</div>
+<div class="question" id="q8">
+  <div class="question-text">8. Un circuit a 2 branches en dérivation. I_total = 600 mA, I1 = I2 (branches identiques). Quelle est I1 ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q8" value="a"> 600 mA</label>
+    <label class="option"><input type="radio" name="q8" value="b"> 200 mA</label>
+    <label class="option"><input type="radio" name="q8" value="c"> 300 mA</label>
+    <label class="option"><input type="radio" name="q8" value="d"> 150 mA</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q8','c')">Valider</button>
+  <div class="explication" id="exp-q8"><b>300 mA.</b> I_total = I1 + I2 et I1 = I2 → 600 = 2 × I1 → I1 = 300 mA. Le courant se divise également entre 2 branches identiques.</div>
+</div>
+<div class="question" id="q9">
+  <div class="question-text">9. Dans quel type de circuit la panne d'un composant n'affecte-t-elle pas les autres ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q9" value="a"> En série</label>
+    <label class="option"><input type="radio" name="q9" value="b"> En court-circuit</label>
+    <label class="option"><input type="radio" name="q9" value="c"> En dérivation (parallèle)</label>
+    <label class="option"><input type="radio" name="q9" value="d"> En circuit ouvert</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q9','c')">Valider</button>
+  <div class="explication" id="exp-q9"><b>En dérivation.</b> Chaque branche est indépendante — c'est pourquoi les installations électriques des maisons sont en dérivation !</div>
+</div>
+<div class="question" id="q10">
+  <div class="question-text">10. En série avec 2 lampes : U_total = 12V, U1 = 5V. Quelle est U2 ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q10" value="a"> 12 V</label>
+    <label class="option"><input type="radio" name="q10" value="b"> 5 V</label>
+    <label class="option"><input type="radio" name="q10" value="c"> 7 V</label>
+    <label class="option"><input type="radio" name="q10" value="d"> 17 V</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q10','c')">Valider</button>
+  <div class="explication" id="exp-q10"><b>7 V.</b> En série : U_total = U1 + U2 → 12 = 5 + U2 → U2 = 7 V. En série la tension se partage entre les composants.</div>
+</div>
+
+<button id="submit-all" onclick="showScore()">Voir mon résultat</button>
+<div id="score-section"><h2>Résultat</h2><div id="score-display"></div><div id="score-message"></div>
+  <div class="errors-list" id="errors-container" style="display:none"><h3>À retravailler :</h3><ul id="errors-list"></ul></div>
+  <button class="share-btn" onclick="shareResult()">Partager sur WhatsApp</button>
+</div></div>
+<script>
+var correct={q1:'c',q2:'b',q3:'b',q4:'c',q5:'c',q6:'c',q7:'c',q8:'c',q9:'c',q10:'c'};var labels={q1:'Q1-Serie panne L2=tout eteint',q2:'Q2-Serie=un seul chemin',q3:'Q3-Derivation panne L1=L2 reste',q4:'Q4-I_total=I1+I2+I3=300mA',q5:'Q5-Loi noeuds I2=150mA',q6:'Q6-Derivation tension identique',q7:'Q7-Serie intensite identique',q8:'Q8-I branches egales=I_total/2',q9:'Q9-Derivation=independant',q10:'Q10-Serie tension se divise'};var answered={};var score=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une réponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){var val=['a','b','c','d'][i];opts[i].style.pointerEvents='none';
+    if(val===rep){opts[i].classList.add('correct');}
+    else if(val===chosen.value&&chosen.value!==rep){opts[i].classList.add('wrong');}
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
+  if(chosen.value===rep){score++;}
+}
+function showScore(){
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
+  document.getElementById('score-display').textContent=score+' / 10';
+  var msg='';
+  if(score>=10)msg='Parfait ! Tu maitrises serie et derivation !';
+  else if(score>=Math.ceil(10*0.8))msg='Tres bien ! Tu as presque tout bon !';
+  else if(score>=Math.ceil(10*0.6))msg='Pas mal, mais relis bien la fiche !';
+  else msg='Reprends la fiche ciblée depuis le debut !';
+  document.getElementById('score-message').textContent=msg;
+  if(errors.length>0){document.getElementById('errors-container').style.display='block';
+    var ul=document.getElementById('errors-list');ul.innerHTML='';
+    for(var j=0;j<errors.length;j++){var li=document.createElement('li');li.textContent=labels[errors[j]];ul.appendChild(li);}}
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('submit-all').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function shareResult(){
+  var errors=[];var ks=Object.keys(correct);
+  for(var i=0;i<ks.length;i++){if(answered[ks[i]]!==correct[ks[i]])errors.push(ks[i]);}
+  var txt='Quiz Ciblé – Série & Dérivation\nScore : '+score+'/10\n';
+  if(errors.length>0){txt+='\nA retravailler :\n';for(var j=0;j<errors.length;j++){txt+='- '+labels[errors[j]]+'\n';}}
+  else{txt+='Parfait !';}
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script></body></html>
