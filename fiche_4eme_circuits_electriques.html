@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Circuits Électriques – 4ème</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e3f2fd;color:#1a1a2e;padding:20px}
+.container{max-width:840px;margin:0 auto}
+header{background:linear-gradient(135deg,#0d47a1,#1565c0);color:white;padding:28px;border-radius:16px;margin-bottom:22px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{font-size:.9rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.25);border-radius:20px;padding:4px 14px;font-size:.82rem;margin-top:8px;font-weight:bold}
+.section{background:white;border-radius:12px;padding:20px 24px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #1565c0}
+.section h2{color:#0d47a1;font-size:1.05rem;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #bbdefb}
+.section p,.section li{font-size:.9rem;line-height:1.75;margin-bottom:7px}
+.section ul,.section ol{padding-left:18px}
+.retenir{background:#e8f5e9;border-left:4px solid #388e3c;padding:10px 14px;border-radius:0 8px 8px 0;font-size:.88rem;margin:10px 0}
+.alerte{background:#fff3e0;border-left:4px solid #e65100;padding:10px 14px;border-radius:0 8px 8px 0;font-size:.88rem;margin:10px 0}
+.piege{background:#fce4ec;border-left:4px solid #c62828;padding:10px 14px;border-radius:0 8px 8px 0;font-size:.88rem;margin:10px 0}
+.encadre{background:#e3f2fd;border-radius:8px;padding:11px 14px;margin:10px 0;font-size:.88rem;line-height:1.7}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.86rem}
+th{background:#0d47a1;color:white;padding:8px 10px;text-align:left}
+td{padding:8px 10px;border-bottom:1px solid #eee;vertical-align:top}
+tr:nth-child(even)td{background:#f5f5f5}
+.symbole-box{display:inline-block;border:2px solid #1565c0;border-radius:6px;padding:3px 10px;margin:2px;font-family:monospace;font-size:.88rem;background:#f8f8ff}
+</style></head>
+<body><div class="container">
+<header>
+  <h1>⚡ Circuits Électriques – 4ème</h1>
+  <p>Symboles, nœuds, branches, série vs dérivation, diodes, sens du courant</p>
+  <div class="badge">QCM demain — révise ce soir !</div>
+</header>
+
+<div class="section">
+<h2>1. Les symboles électriques à connaître</h2>
+<table>
+<tr><th>Composant</th><th>Symbole (description)</th><th>Rôle</th></tr>
+<tr><td><b>Lampe</b></td><td>Cercle avec une croix ×</td><td>Éclaire quand le courant passe</td></tr>
+<tr><td><b>Pile / Générateur</b></td><td>Trait long (borne +) et trait court (borne −)</td><td>Fournit l'énergie électrique</td></tr>
+<tr><td><b>Interrupteur ouvert</b></td><td>Trait avec un "pont" relevé (circuit ouvert)</td><td>Coupe le circuit → plus de courant</td></tr>
+<tr><td><b>Interrupteur fermé</b></td><td>Trait continu (pont abaissé)</td><td>Laisse passer le courant</td></tr>
+<tr><td><b>Résistance</b></td><td>Rectangle ou zigzag</td><td>Limite l'intensité du courant</td></tr>
+<tr><td><b>Moteur</b></td><td>Cercle avec M à l'intérieur</td><td>Convertit énergie électrique en mouvement</td></tr>
+<tr><td><b>DEL</b> (diode électroluminescente)</td><td>Triangle + barre + flèches sortantes</td><td>Émet de la lumière dans un seul sens</td></tr>
+<tr><td><b>Diode</b></td><td>Triangle + barre (sans flèches)</td><td>Laisse passer le courant dans un seul sens</td></tr>
+</table>
+<div class="retenir">À mémoriser : la lampe = cercle + croix. La pile = deux traits (long + et court −). La résistance = rectangle.</div>
+</div>
+
+<div class="section">
+<h2>2. Sens du courant électrique</h2>
+<p>Par convention, le courant électrique circule :</p>
+<p style="text-align:center;font-size:1.1rem;padding:10px;background:#e3f2fd;border-radius:8px;font-weight:bold">Borne + de la pile → dans le circuit → Borne − de la pile</p>
+<div class="alerte">C'est une convention ! En réalité les électrons vont dans le sens inverse, mais au collège on utilise toujours le sens conventionnel (de + vers −).</div>
+</div>
+
+<div class="section">
+<h2>3. Nœuds et branches</h2>
+<p><b>Nœud</b> : point du circuit où se rejoignent ou se séparent plusieurs fils (au moins 3 fils).</p>
+<p><b>Branche</b> : portion du circuit entre deux nœuds consécutifs. Elle contient les dipôles en série.</p>
+<div class="encadre">Dans un circuit en dérivation, on peut identifier les nœuds (points de jonction) et compter les branches entre eux.</div>
+<div class="retenir">Si seulement 2 fils se rejoignent en un point → ce n'est PAS un nœud, juste une connexion.</div>
+</div>
+
+<div class="section">
+<h2>4. Montage en SÉRIE vs en DÉRIVATION</h2>
+<table>
+<tr><th></th><th>Série</th><th>Dérivation (parallèle)</th></tr>
+<tr><td><b>Chemin du courant</b></td><td>Un seul chemin pour tous</td><td>Plusieurs chemins (branches)</td></tr>
+<tr><td><b>Nœuds</b></td><td>Aucun nœud</td><td>Au moins 2 nœuds</td></tr>
+<tr><td><b>Si une lampe grille</b></td><td>Tout s'éteint</td><td>Les autres restent allumées</td></tr>
+<tr><td><b>Tension</b></td><td>U total = U1 + U2 + ...</td><td>U total = U1 = U2 = ...</td></tr>
+<tr><td><b>Intensité</b></td><td>I identique partout</td><td>I total = I1 + I2 + ...</td></tr>
+<tr><td><b>Utilisation</b></td><td>Guirlandes simples</td><td>Installations électriques maison</td></tr>
+</table>
+<div class="retenir">Astuce pour reconnaître : si les lampes sont sur le même chemin sans bifurcation = série. Si le courant peut "choisir" son chemin = dérivation.</div>
+</div>
+
+<div class="section">
+<h2>5. Diodes et DEL : le sens passant</h2>
+<p>Une <b>diode</b> et une <b>DEL</b> ne laissent passer le courant que dans <b>un seul sens</b> : le <b>sens passant</b>.</p>
+<ul>
+<li>Si le courant arrive dans le <b>sens passant</b> (de l'anode vers la cathode) → la diode laisse passer → la DEL s'allume</li>
+<li>Si le courant arrive dans le <b>sens bloquant</b> (sens inverse) → la diode bloque → la DEL ne s'allume pas</li>
+</ul>
+<div class="encadre">Sur le symbole : le triangle pointe dans le sens du courant. La barre (−) = cathode = sortie du courant.</div>
+<div class="piege">Attention aux schémas avec des DEL dans des branches en dérivation : vérifier pour CHAQUE branche si la DEL est dans le bon sens !</div>
+</div>
+
+<div class="section">
+<h2>6. Méthode : analyser un circuit</h2>
+<ol>
+<li><b>Repérer le générateur</b> et identifier les bornes + et −</li>
+<li><b>Tracer le sens du courant</b> (de + vers − à l'extérieur de la pile)</li>
+<li><b>Chercher les nœuds</b> (points où le courant se sépare ou se réunit)</li>
+<li><b>Identifier les branches</b> entre les nœuds</li>
+<li><b>Déterminer série ou dérivation</b></li>
+<li><b>Pour chaque DEL/diode</b> : vérifier si le courant arrive dans le bon sens</li>
+<li><b>Conclure</b> quelles lampes sont allumées</li>
+</ol>
+<div class="retenir">Si l'interrupteur est ouvert → le circuit est coupé → rien ne fonctionne sur cette branche.</div>
+</div>
+
+</div></body></html>
