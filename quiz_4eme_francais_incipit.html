@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz – L'Incipit & Les débuts de récit – Français 4ème</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#f3e5f5;color:#1a1a2e;padding:20px;font-size:15px}
+.container{max-width:840px;margin:0 auto}
+header{background:linear-gradient(135deg,#4a148c,#7b1fa2);color:white;padding:28px;border-radius:16px;margin-bottom:20px;text-align:center}
+header h1{font-size:1.7rem;margin-bottom:6px}
+header p{font-size:.88rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.25);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:8px;font-weight:bold}
+.section-title{background:#4a148c;color:white;padding:11px 18px;border-radius:10px;margin:20px 0 12px;font-weight:700;font-size:.95rem}
+/* QCM */
+.question{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #7b1fa2}
+.question-text{font-weight:600;font-size:.94rem;margin-bottom:12px;line-height:1.6}
+.qnum{display:inline-block;background:#7b1fa2;color:white;border-radius:50%;width:26px;height:26px;text-align:center;line-height:26px;font-size:.82rem;font-weight:bold;margin-right:8px}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.89rem}
+.option:hover{border-color:#7b1fa2;background:#f3e5f5}
+.option input[type=radio]{accent-color:#4a148c;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f5f0ff;border-left:4px solid #7b1fa2;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:.84rem;line-height:1.65}
+.btn{background:#4a148c;color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.87rem;font-weight:600;margin-top:11px;display:inline-block}
+.btn:disabled{background:#bbb;cursor:default}
+/* OPEN QUESTIONS */
+.open-q{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #ab47bc}
+.open-q textarea{width:100%;min-height:110px;padding:11px;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:.88rem;line-height:1.6;margin-top:10px;resize:vertical}
+.open-q textarea:focus{outline:none;border-color:#7b1fa2}
+.model-answer{display:none;margin-top:12px;padding:14px 16px;background:#f9f5ff;border-radius:10px;border:1px solid #ce93d8;font-size:.85rem;line-height:1.75}
+.model-answer h4{color:#4a148c;margin-bottom:8px;font-size:.9rem}
+.model-answer .criteria{background:#e8f5e9;border-radius:6px;padding:8px 12px;margin-top:8px;font-size:.83rem}
+.self-eval{display:none;margin-top:11px;gap:8px;flex-wrap:wrap}
+.self-eval button{border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600}
+.btn-parfait{background:#e8f5e9;color:#1b5e20;border:2px solid #388e3c}
+.btn-partiel{background:#fff8e1;color:#e65100;border:2px solid #f57c00}
+.btn-retravailler{background:#ffebee;color:#b71c1c;border:2px solid #e53935}
+.self-eval button:hover{opacity:.85}
+.eval-done{display:inline-block;padding:4px 12px;border-radius:12px;font-size:.82rem;font-weight:bold;margin-top:8px}
+/* SCORE */
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.12);margin-top:24px}
+#score-section h2{color:#4a148c;font-size:1.5rem;margin-bottom:14px}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;text-align:center}
+.score-card{background:#f9f5ff;border-radius:10px;padding:16px;border:1px solid #ce93d8}
+.score-card .num{font-size:2.4rem;font-weight:bold;color:#4a148c}
+.score-card .label{font-size:.82rem;color:#666;margin-top:4px}
+.score-msg{font-size:.92rem;color:#333;margin:12px 0;padding:12px;background:#f3e5f5;border-radius:8px}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.92rem;font-weight:bold;cursor:pointer;margin-top:12px}
+#btn-show-score{display:block;width:100%;padding:14px;background:#4a148c;color:white;border:none;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;margin-top:22px}
+</style></head>
+<body><div class="container">
+<header>
+  <h1>📖 Quiz — L'Incipit & Les débuts de récit</h1>
+  <p>Français 4ème · QCM + Questions ouvertes avec correction détaillée</p>
+  <div class="badge">5 QCM + 4 questions ouvertes</div>
+</header>
+
+<div class="section-title">Partie 1 — QCM (5 questions)</div>
+
+<div class="question" id="q1">
+  <div class="question-text"><span class="qnum">1</span>Lequel de ces énoncés définit le mieux l'incipit d'une nouvelle ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> Le dernier paragraphe d'une nouvelle, qui contient la chute</label>
+    <label class="option"><input type="radio" name="q1" value="b"> Le premier passage d'un récit qui installe le lecteur dans l'univers de la nouvelle en répondant aux questions où, quand, qui, quoi</label>
+    <label class="option"><input type="radio" name="q1" value="c"> Un résumé de la nouvelle placé en introduction par l'auteur</label>
+    <label class="option"><input type="radio" name="q1" value="d"> Le moment du récit où le personnage principal est présenté pour la première fois, quelle que soit sa position dans le texte</label>
+  </div>
+  <button class="btn" onclick="valider('q1','b')">Valider</button>
+  <div class="explication" id="exp-q1"><b>L'incipit</b> (du latin <em>incipio</em> = commencer) est bien le <b>premier passage</b> d'un récit, qui installe le lecteur dans l'univers de la nouvelle. Il répond aux quatre questions fondamentales : <b>où ? quand ? qui ? quoi ?</b> La proposition d) est fausse : l'incipit est défini par sa <em>position</em> (au début), pas par son contenu.</div>
+</div>
+
+<div class="question" id="q2">
+  <div class="question-text"><span class="qnum">2</span>Lisez ces trois phrases extraites d'un même récit :<br><br><em>a) « La maison <u>était</u> silencieuse depuis des semaines. »<br>b) « Paul <u>ouvrit</u> la porte et <u>entra</u>. »<br>c) « Sa mère lui <u>avait dit</u> de ne jamais revenir. »</em><br><br>Associez correctement chaque phrase à son temps verbal et sa valeur.</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> a=passé simple (action), b=imparfait (description), c=plus-que-parfait (antériorité)</label>
+    <label class="option"><input type="radio" name="q2" value="b"> a=imparfait (état/durée), b=passé simple (actions qui font avancer), c=plus-que-parfait (antérieur au récit)</label>
+    <label class="option"><input type="radio" name="q2" value="c"> a=plus-que-parfait (antériorité), b=passé simple (action), c=imparfait (habitude)</label>
+    <label class="option"><input type="radio" name="q2" value="d"> a=imparfait (habitude), b=plus-que-parfait (antériorité), c=passé simple (action)</label>
+  </div>
+  <button class="btn" onclick="valider('q2','b')">Valider</button>
+  <div class="explication" id="exp-q2"><b>a = imparfait</b> : "était silencieuse" = état qui dure, arrière-plan. <b>b = passé simple</b> : "ouvrit", "entra" = actions ponctuelles qui font avancer le récit. <b>c = plus-que-parfait</b> : "avait dit" = action antérieure à toutes les autres, avant même le début de l'histoire racontée. C'est le temps de l'antériorité dans le passé.</div>
+</div>
+
+<div class="question" id="q3">
+  <div class="question-text"><span class="qnum">3</span>Dans <em>Quand Angèle fut seule</em>, on lit : <em>« Cela lui faisait drôle de se retrouver seule. »</em> Cette phrase indique que le texte est écrit en point de vue :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> Externe — le narrateur décrit la scène comme une caméra, sans accès aux sentiments</label>
+    <label class="option"><input type="radio" name="q3" value="b"> Omniscient — le narrateur connaît les pensées de tous les personnages</label>
+    <label class="option"><input type="radio" name="q3" value="c"> Interne — le narrateur accède aux émotions d'Angèle et perçoit l'histoire à travers elle</label>
+    <label class="option"><input type="radio" name="q3" value="d"> Zéro — le narrateur est absent et ne donne aucun indice sur les émotions</label>
+  </div>
+  <button class="btn" onclick="valider('q3','c')">Valider</button>
+  <div class="explication" id="exp-q3"><b>Point de vue interne.</b> « Cela lui faisait drôle » = accès direct à l'émotion d'Angèle. Un narrateur externe ne pourrait pas savoir ce qu'elle ressent — il pourrait seulement décrire qu'elle semblait troublée. Le point de vue interne = on voit et ressent à travers UN personnage. L'omniscient, lui, accède aux pensées de TOUS les personnages.</div>
+</div>
+
+<div class="question" id="q4">
+  <div class="question-text"><span class="qnum">4</span>Dans <em>Quand Angèle fut seule</em>, les événements antérieurs à l'enterrement (la vie du couple, les disputes, le médecin appelé autrefois) sont exprimés au plus-que-parfait. Pourquoi ce choix de temps ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> Parce que ces événements sont fictifs, donc on utilise un temps différent pour les distinguer du réel</label>
+    <label class="option"><input type="radio" name="q4" value="b"> Parce que le plus-que-parfait indique qu'une action s'est produite avant une autre action passée — ici, avant l'enterrement qui est le moment principal du récit</label>
+    <label class="option"><input type="radio" name="q4" value="c"> Parce que c'est le temps qu'on utilise pour tous les souvenirs des personnages, quelle que soit leur époque</label>
+    <label class="option"><input type="radio" name="q4" value="d"> Parce que ces événements se sont produits à la même époque que l'enterrement mais dans un autre lieu</label>
+  </div>
+  <button class="btn" onclick="valider('q4','b')">Valider</button>
+  <div class="explication" id="exp-q4"><b>Le plus-que-parfait marque l'antériorité.</b> Il situe une action encore plus loin dans le passé qu'une autre action déjà passée. Ici, l'enterrement = moment de référence (passé simple/imparfait). Tout ce qui s'est passé AVANT = plus-que-parfait. C'est une règle de concordance des temps : passé simple/imparfait → plus-que-parfait pour ce qui est encore avant.</div>
+</div>
+
+<div class="question" id="q5">
+  <div class="question-text"><span class="qnum">5</span>Un auteur débute sa nouvelle avec la phrase suivante : <em>« L'enterrement avait eu lieu trois jours plus tôt, par un matin glacial. Angèle se retrouvait seule pour la première fois depuis quarante ans. »</em> Cet incipit est réussi. Laquelle de ces affirmations justifie le mieux ce jugement ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> Il est court, ce qui permet au lecteur de ne pas s'ennuyer dès le début</label>
+    <label class="option"><input type="radio" name="q5" value="b"> Il répond en deux phrases aux questions où/quand/qui/quoi, installe une atmosphère mélancolique, et utilise correctement le plus-que-parfait pour l'antériorité et l'imparfait pour l'état présent du personnage</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Il commence par un événement dramatique (la mort), ce qui accroche automatiquement le lecteur</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Il présente le personnage principal et son nom, ce qui est le minimum attendu d'un incipit</label>
+  </div>
+  <button class="btn" onclick="valider('q5','b')">Valider</button>
+  <div class="explication" id="exp-q5"><b>La réponse b est la plus complète et la plus rigoureuse.</b> Un bon incipit ne se juge pas uniquement sur sa longueur (a) ou son effet dramatique (c — nécessaire mais insuffisant). Il doit fonctionner à plusieurs niveaux simultanément : informer (où/quand/qui/quoi), créer une atmosphère, et utiliser les temps avec précision. Seule la réponse b intègre tous ces critères.</div>
+</div>
+
+<div class="section-title">Partie 2 — Questions ouvertes (auto-évaluation guidée)</div>
+<div style="background:white;padding:12px 16px;border-radius:8px;font-size:.84rem;color:#555;margin-bottom:14px;line-height:1.6">
+  ✍️ Rédigez votre réponse en phrases complètes, puis cliquez sur <b>Voir la réponse modèle</b>. Comparez honnêtement et notez-vous.
+</div>
+
+<div class="open-q" id="oq1">
+  <div class="question-text"><span class="qnum">6</span>Définissez précisément l'incipit : donnez son étymologie, sa définition, ses fonctions dans une nouvelle. Distinguez-le d'un simple "début de récit" en expliquant ce qu'il doit obligatoirement accomplir.</div>
+  <textarea id="oq1-text" placeholder="Votre réponse..."></textarea>
+  <button class="btn" onclick="showModel('oq1')">Voir la réponse modèle</button>
+  <div class="model-answer" id="oq1-model">
+    <h4>✅ Réponse attendue :</h4>
+    <p>L'incipit (du latin <em>incipio</em> = « commencer » ; <em>incipit</em> = « il commence ») est le <b>premier passage d'un récit</b> qui a pour rôle d'installer le lecteur dans l'univers de la nouvelle. Il ne se contente pas d'être un « début » — il doit obligatoirement remplir quatre fonctions : répondre aux questions <b>où ?</b> (cadre spatial, lieu), <b>quand ?</b> (cadre temporel, époque), <b>qui ?</b> (présentation des personnages), <b>quoi ?</b> (situation initiale, enjeu). En plus de ces fonctions informatives, l'incipit crée une <b>atmosphère</b> (mélancolique, mystérieuse, dramatique…) et suscite l'intérêt du lecteur grâce à une « accroche ». Un simple début de récit pourrait ne donner qu'une ou deux de ces informations ; un incipit réussi les articule toutes.</p>
+    <div class="criteria"><b>Critères pour te noter :</b> étymologie correcte (incipio) ✓ · définition : 1er passage qui installe le lecteur ✓ · 4 fonctions (où/quand/qui/quoi) ✓ · mention de l'atmosphère ✓ · distinction incipit/simple début ✓</div>
+  </div>
+  <div class="self-eval" id="oq1-eval">
+    <button class="btn-parfait" onclick="noterOQ('oq1',2)">✅ J'ai tout dit (2 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq1',1)">⚠️ Réponse partielle (1 pt)</button>
+    <button class="btn-retravailler" onclick="noterOQ('oq1',0)">❌ À retravailler (0 pt)</button>
+  </div>
+</div>
+
+<div class="open-q" id="oq2">
+  <div class="question-text"><span class="qnum">7</span>Expliquez la différence entre le passé simple, l'imparfait et le plus-que-parfait dans un récit au passé. Pour chacun : donnez sa valeur principale dans le récit, et inventez une phrase d'exemple qui illustre clairement cet emploi. Soyez précis.</div>
+  <textarea id="oq2-text" placeholder="Votre réponse..."></textarea>
+  <button class="btn" onclick="showModel('oq2')">Voir la réponse modèle</button>
+  <div class="model-answer" id="oq2-model">
+    <h4>✅ Réponse attendue :</h4>
+    <p><b>Passé simple :</b> exprime une action ponctuelle, brève, qui <em>fait avancer le récit</em>. Action complète et délimitée dans le temps. Ex. : <em>« Elle ferma la porte et s'en alla. »</em></p>
+    <p style="margin-top:8px"><b>Imparfait :</b> exprime un état, une description, une habitude ou une action qui <em>dure</em>. Sert à planter le décor, à décrire l'arrière-plan de l'histoire. Ex. : <em>« La nuit était froide et le vent soufflait dans les arbres. »</em> ou <em>« Chaque matin, elle se levait avant l'aube. »</em></p>
+    <p style="margin-top:8px"><b>Plus-que-parfait :</b> exprime une action <em>antérieure</em> à une autre action déjà passée — encore plus loin dans le passé. Ex. : <em>« Il lui avait dit qu'il reviendrait, mais il n'était jamais revenu. »</em> (avait dit / était revenu = avant le moment du récit).</p>
+    <p style="margin-top:8px"><b>Règle mnémotechnique :</b> Passé simple = "soudain, il se passa que..." / Imparfait = "à cette époque, c'était..." / Plus-que-parfait = "bien avant tout cela, il avait..."</p>
+    <div class="criteria"><b>Critères :</b> passé simple = action ponctuelle + exemple correct ✓ · imparfait = état/durée/description + exemple ✓ · plus-que-parfait = antériorité + exemple avec "avait/était + participe" ✓ · les trois temps distincts et clairement expliqués ✓</div>
+  </div>
+  <div class="self-eval" id="oq2-eval">
+    <button class="btn-parfait" onclick="noterOQ('oq2',2)">✅ J'ai tout dit (2 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq2',1)">⚠️ Réponse partielle (1 pt)</button>
+    <button class="btn-retravailler" onclick="noterOQ('oq2',0)">❌ À retravailler (0 pt)</button>
+  </div>
+</div>
+
+<div class="open-q" id="oq3">
+  <div class="question-text"><span class="qnum">8</span>Qu'est-ce que le point de vue interne ? Expliquez sa définition, comment le reconnaître dans un texte, et comment le distinguer du point de vue omniscient. Appuyez-vous sur un exemple précis tiré de <em>Quand Angèle fut seule</em>.</div>
+  <textarea id="oq3-text" placeholder="Votre réponse..."></textarea>
+  <button class="btn" onclick="showModel('oq3')">Voir la réponse modèle</button>
+  <div class="model-answer" id="oq3-model">
+    <h4>✅ Réponse attendue :</h4>
+    <p>Le <b>point de vue interne</b> (ou focalisation interne) est une technique narrative dans laquelle le lecteur perçoit les événements <em>à travers les yeux et les émotions d'un seul personnage</em>. Le narrateur ne sait que ce que ce personnage sait, ne voit que ce qu'il voit, ne ressent que ce qu'il ressent.</p>
+    <p style="margin-top:8px"><b>Comment le reconnaître :</b> présence de verbes d'état intérieur (<em>penser, sentir, sembler, ressentir</em>), accès aux pensées et émotions d'un personnage précis, pas d'informations sur les autres personnages au-delà de ce que le personnage focal peut percevoir.</p>
+    <p style="margin-top:8px"><b>Distinction avec l'omniscient :</b> le narrateur omniscient connaît les pensées et les secrets de <em>tous</em> les personnages simultanément. En point de vue interne, il est limité à <em>un seul</em> personnage à la fois.</p>
+    <p style="margin-top:8px"><b>Exemple dans le texte :</b> <em>« Cela lui faisait drôle de se retrouver seule. »</em> → Le narrateur accède au ressenti d'Angèle (« lui faisait drôle »). Un narrateur externe aurait seulement pu écrire : « Angèle restait immobile. » Sans accès à ses émotions.</p>
+    <div class="criteria"><b>Critères :</b> définition du PV interne (à travers un seul personnage) ✓ · comment le reconnaître (verbes de sentiment, pensées) ✓ · distinction avec omniscient (tous vs un seul) ✓ · exemple du texte cité et analysé ✓</div>
+  </div>
+  <div class="self-eval" id="oq3-eval">
+    <button class="btn-parfait" onclick="noterOQ('oq3',2)">✅ J'ai tout dit (2 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq3',1)">⚠️ Réponse partielle (1 pt)</button>
+    <button class="btn-retravailler" onclick="noterOQ('oq3',0)">❌ À retravailler (0 pt)</button>
+  </div>
+</div>
+
+<div class="open-q" id="oq4">
+  <div class="question-text"><span class="qnum">9</span>Rédigez une réponse complète et organisée à la question suivante, telle qu'elle pourrait apparaître dans un contrôle : <b>« Analysez l'incipit de <em>Quand Angèle fut seule</em>. »</b> Votre réponse doit traiter les personnages, le cadre spatio-temporel, les temps verbaux et leur rôle, le point de vue, l'atmosphère créée, et se conclure par la définition du terme technique approprié.</div>
+  <textarea id="oq4-text" placeholder="Votre réponse..." style="min-height:160px"></textarea>
+  <button class="btn" onclick="showModel('oq4')">Voir la réponse modèle</button>
+  <div class="model-answer" id="oq4-model">
+    <h4>✅ Réponse attendue (niveau contrôle) :</h4>
+    <p>L'incipit de <em>Quand Angèle fut seule</em> installe rapidement le lecteur dans l'univers de la nouvelle.</p>
+    <p style="margin-top:8px"><b>Les personnages (qui ?) :</b> Le personnage principal est Angèle, une femme d'environ 60-70 ans, récemment veuve. D'autres personnages sont mentionnés : Baptiste, son mari décédé, André, son premier fiancé, Cécile, son amie, et Germaine Richard, son ennemie. L'histoire tourne entièrement autour d'Angèle.</p>
+    <p style="margin-top:8px"><b>Le cadre (où ? quand ?) :</b> La scène se situe juste après l'enterrement de Baptiste. Le cadre temporel est donc marqué par le deuil, ce qui donne d'emblée un ton mélancolique et grave.</p>
+    <p style="margin-top:8px"><b>La situation (quoi ?) :</b> Angèle se retrouve seule pour la première fois, confrontée à un vide nouveau. C'est la situation initiale qui va déclencher l'intrigue.</p>
+    <p style="margin-top:8px"><b>Les temps verbaux :</b> Le récit combine trois temps. Le <em>passé simple</em> (« se leva ») pour les actions qui font avancer l'histoire ; l'<em>imparfait</em> (« lui faisait drôle ») pour décrire les états et les émotions d'Angèle ; le <em>plus-que-parfait</em> (« tout n'avait pas toujours marché », « le médecin était revenu ») pour évoquer les événements antérieurs à l'enterrement.</p>
+    <p style="margin-top:8px"><b>Le point de vue :</b> Le texte est écrit en point de vue interne centré sur Angèle : on accède à ses émotions (« cela lui faisait drôle »), ce qui rapproche le lecteur de son vécu.</p>
+    <p style="margin-top:8px"><b>Conclusion :</b> Ce début de récit s'appelle un <b>incipit</b> (du latin <em>incipio</em> = commencer). Il remplit sa fonction en répondant aux questions où, quand, qui et quoi, tout en créant une atmosphère mélancolique et intimiste qui donne le ton de toute la nouvelle.</p>
+    <div class="criteria"><b>Critères :</b> personnages identifiés ✓ · cadre spatio-temporel ✓ · trois temps verbaux nommés et expliqués ✓ · point de vue interne + exemple ✓ · atmosphère décrite ✓ · conclusion avec le terme "incipit" + définition ✓</div>
+  </div>
+  <div class="self-eval" id="oq4-eval">
+    <button class="btn-parfait" onclick="noterOQ('oq4',2)">✅ J'ai tout dit (2 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq4',1)">⚠️ Réponse partielle (1 pt)</button>
+    <button class="btn-retravailler" onclick="noterOQ('oq4',0)">❌ À retravailler (0 pt)</button>
+  </div>
+</div>
+
+<button id="btn-show-score" onclick="showScore()">Voir mon bilan final</button>
+
+<div id="score-section">
+  <h2>Bilan de la séance</h2>
+  <div class="score-grid">
+    <div class="score-card"><div class="num" id="sc-qcm">—</div><div class="label">QCM<br>(sur 5)</div></div>
+    <div class="score-card"><div class="num" id="sc-oq">—</div><div class="label">Questions ouvertes<br>(sur 8)</div></div>
+  </div>
+  <div class="score-card" style="margin:10px 0"><div class="num" id="sc-total">—</div><div class="label">Score total (sur 13)</div></div>
+  <div class="score-msg" id="sc-msg"></div>
+  <button class="share-btn" onclick="partager()">Partager sur WhatsApp</button>
+</div>
+
+</div>
+<script>
+var correct={q1:'b',q2:'b',q3:'c',q4:'b',q5:'b'};
+var answered={};var qcmScore=0;
+var oqScores={oq1:null,oq2:null,oq3:null,oq4:null};
+
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une réponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){
+    var val=['a','b','c','d'][i];
+    opts[i].style.pointerEvents='none';
+    if(val===rep)opts[i].classList.add('correct');
+    else if(val===chosen.value&&chosen.value!==rep)opts[i].classList.add('wrong');
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn').disabled=true;
+  if(chosen.value===rep)qcmScore++;
+}
+
+function showModel(oqid){
+  document.getElementById(oqid+'-model').style.display='block';
+  document.getElementById(oqid+'-eval').style.display='flex';
+  var btn=document.querySelector('#'+oqid+' > .btn');
+  if(btn)btn.disabled=true;
+}
+
+function noterOQ(oqid,pts){
+  oqScores[oqid]=pts;
+  var eval_div=document.getElementById(oqid+'-eval');
+  var labels={2:'✅ Excellent',1:'⚠️ Partiel',0:'❌ À retravailler'};
+  var colors={2:'#1b5e20',1:'#e65100',0:'#b71c1c'};
+  var bgs={2:'#e8f5e9',1:'#fff8e1',0:'#ffebee'};
+  eval_div.innerHTML='<span class="eval-done" style="background:'+bgs[pts]+';color:'+colors[pts]+'">'+labels[pts]+' — '+pts+' pt'+(pts>1?'s':'')+'</span>';
+}
+
+function showScore(){
+  var oqTotal=0;
+  var oqKeys=Object.keys(oqScores);
+  for(var i=0;i<oqKeys.length;i++){
+    if(oqScores[oqKeys[i]]!==null)oqTotal+=oqScores[oqKeys[i]];
+  }
+  var total=qcmScore+oqTotal;
+  document.getElementById('sc-qcm').textContent=qcmScore+'/5';
+  document.getElementById('sc-oq').textContent=oqTotal+'/8';
+  document.getElementById('sc-total').textContent=total+'/13';
+  var msg='';
+  if(total>=11)msg='Excellent ! Tu maitrises très bien le cours — tu es prêt pour le contrôle.';
+  else if(total>=9)msg='Bien ! Quelques points à retravailler avant le contrôle.';
+  else if(total>=6)msg='Passable — relis attentivement la fiche de révision ce soir.';
+  else msg='Insuffisant — reprends la fiche depuis le début et refais le quiz demain.';
+  document.getElementById('sc-msg').textContent=msg;
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('btn-show-score').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+
+function partager(){
+  var oqTotal=0;
+  var oqKeys=Object.keys(oqScores);
+  for(var i=0;i<oqKeys.length;i++){if(oqScores[oqKeys[i]]!==null)oqTotal+=oqScores[oqKeys[i]];}
+  var total=qcmScore+oqTotal;
+  var txt='Quiz Incipit – Français 4ème\nQCM : '+qcmScore+'/5\nQuestions ouvertes : '+oqTotal+'/8\nTotal : '+total+'/13';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script>
+</body></html>
