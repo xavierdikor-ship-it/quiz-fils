@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz – La Mondialisation – Géographie 4ème</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e0f2f1;color:#1a1a2e;padding:20px;font-size:15px}
+.container{max-width:840px;margin:0 auto}
+header{background:linear-gradient(135deg,#004d40,#00796b);color:white;padding:28px;border-radius:16px;margin-bottom:20px;text-align:center}
+header h1{font-size:1.7rem;margin-bottom:6px}header p{font-size:.88rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:8px;font-weight:bold}
+.section-title{background:#004d40;color:white;padding:11px 18px;border-radius:10px;margin:20px 0 12px;font-weight:700;font-size:.95rem}
+.question{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #00796b}
+.question-text{font-weight:600;font-size:.94rem;margin-bottom:12px;line-height:1.6}
+.qnum{display:inline-block;background:#00796b;color:white;border-radius:50%;width:26px;height:26px;text-align:center;line-height:26px;font-size:.82rem;font-weight:bold;margin-right:8px}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.89rem}
+.option:hover{border-color:#00796b;background:#e0f2f1}
+.option input[type=radio]{accent-color:#004d40;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#e8f5f4;border-left:4px solid #00796b;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:.84rem;line-height:1.65}
+.btn{background:#004d40;color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.87rem;font-weight:600;margin-top:11px}
+.btn:disabled{background:#bbb;cursor:default}
+.open-q{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #26a69a}
+.open-q textarea{width:100%;min-height:110px;padding:11px;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:.88rem;line-height:1.6;margin-top:10px;resize:vertical}
+.open-q textarea:focus{outline:none;border-color:#00796b}
+.model-answer{display:none;margin-top:12px;padding:14px 16px;background:#f0faf9;border-radius:10px;border:1px solid #80cbc4;font-size:.85rem;line-height:1.75}
+.model-answer h4{color:#004d40;margin-bottom:8px;font-size:.9rem}
+.model-answer p{margin-bottom:7px}
+.criteria{background:#e8f5e9;border-radius:6px;padding:8px 12px;margin-top:8px;font-size:.83rem}
+.self-eval{display:none;margin-top:11px;gap:8px;flex-wrap:wrap}
+.self-eval button{border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600}
+.btn-parfait{background:#e8f5e9;color:#1b5e20;border:2px solid #388e3c}
+.btn-partiel{background:#fff8e1;color:#e65100;border:2px solid #f57c00}
+.btn-retravailler{background:#ffebee;color:#b71c1c;border:2px solid #e53935}
+.eval-done{display:inline-block;padding:4px 12px;border-radius:12px;font-size:.82rem;font-weight:bold;margin-top:8px}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.12);margin-top:24px}
+#score-section h2{color:#004d40;font-size:1.5rem;margin-bottom:14px}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.score-card{background:#e0f2f1;border-radius:10px;padding:16px;border:1px solid #80cbc4}
+.score-card .num{font-size:2.4rem;font-weight:bold;color:#004d40}
+.score-card .label{font-size:.82rem;color:#555;margin-top:4px}
+.score-msg{font-size:.92rem;color:#333;margin:12px 0;padding:12px;background:#e0f2f1;border-radius:8px}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.92rem;font-weight:bold;cursor:pointer;margin-top:12px}
+#btn-show-score{display:block;width:100%;padding:14px;background:#004d40;color:white;border:none;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;margin-top:22px}
+</style></head>
+<body><div class="container">
+<header>
+  <h1>🌍 Quiz — La Mondialisation</h1>
+  <p>Géographie 4ème · QCM + Questions ouvertes</p>
+  <div class="badge">6 QCM + 3 questions ouvertes · sur 15</div>
+</header>
+
+<div class="section-title">Partie 1 — QCM (6 questions)</div>
+
+<div class="question" id="q1">
+  <div class="question-text"><span class="qnum">1</span>Quelle définition décrit le mieux la mondialisation ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> L'uniformisation des cultures à travers le monde sous l'influence américaine</label>
+    <label class="option"><input type="radio" name="q1" value="b"> Le processus par lequel les différentes régions du monde sont reliées par des flux croissants, créant une interdépendance</label>
+    <label class="option"><input type="radio" name="q1" value="c"> Le développement du commerce uniquement entre les pays riches de la Triade</label>
+    <label class="option"><input type="radio" name="q1" value="d"> La domination économique des États-Unis sur le reste du monde depuis 1945</label>
+  </div>
+  <button class="btn" onclick="valider('q1','b')">Valider</button>
+  <div class="explication" id="exp-q1"><b>La mondialisation = interdépendance par les flux.</b> Elle concerne TOUS les types de flux (marchandises, capitaux, personnes, idées) et TOUS les pays (pas seulement les riches). La mondialisation n'est pas un phénomène purement culturel ou uniquement américain. Le mot-clé est <b>interdépendance</b>.</div>
+</div>
+
+<div class="question" id="q2">
+  <div class="question-text"><span class="qnum">2</span>Parmi ces exemples, lequel illustre un <em>flux de capitaux</em> (et non un flux de marchandises ou humain) ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> Un porte-conteneurs transportant des téléphones depuis la Chine vers l'Europe</label>
+    <label class="option"><input type="radio" name="q2" value="b"> Des migrants sénégalais rejoignant la France pour travailler</label>
+    <label class="option"><input type="radio" name="q2" value="c"> Une entreprise française qui investit 500 millions d'euros pour ouvrir une usine au Mexique</label>
+    <label class="option"><input type="radio" name="q2" value="d"> Des étudiants chinois qui suivent des cours en ligne dispensés par une université américaine</label>
+  </div>
+  <button class="btn" onclick="valider('q2','c')">Valider</button>
+  <div class="explication" id="exp-q2"><b>Flux de capitaux = mouvements d'argent et d'investissements.</b> a = flux de marchandises (produits physiques transportés). b = flux humains (personnes). d = flux d'informations/idées. c = investissement d'une entreprise à l'étranger = flux de capitaux. Les capitaux circulent sous forme d'investissements directs étrangers (IDE).</div>
+</div>
+
+<div class="question" id="q3">
+  <div class="question-text"><span class="qnum">3</span>Qu'est-ce qu'une Firme Transnationale (FTN) et quel est son rôle dans la mondialisation ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> Une organisation internationale créée par les États pour réguler le commerce mondial</label>
+    <label class="option"><input type="radio" name="q3" value="b"> Une grande entreprise qui possède des filiales et des activités dans plusieurs pays, et qui est un moteur majeur des échanges mondiaux</label>
+    <label class="option"><input type="radio" name="q3" value="c"> Une banque centrale qui gère les transferts d'argent entre pays</label>
+    <label class="option"><input type="radio" name="q3" value="d"> Une entreprise nationale qui exporte une partie de sa production vers l'étranger</label>
+  </div>
+  <button class="btn" onclick="valider('q3','b')">Valider</button>
+  <div class="explication" id="exp-q3"><b>FTN = entreprise implantée dans plusieurs pays.</b> Différence avec une simple exportatrice (d) : la FTN a des FILIALES (usines, bureaux, magasins) dans d'autres pays. Elle organise la production à l'échelle mondiale, délocalise là où c'est moins cher. Ex : Apple conçoit aux USA, fabrique en Asie, vend partout dans le monde.</div>
+</div>
+
+<div class="question" id="q4">
+  <div class="question-text"><span class="qnum">4</span>La mondialisation est souvent présentée comme un phénomène récent lié à Internet. Cette affirmation est :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> Vraie — la mondialisation n'existe vraiment que depuis l'invention d'Internet dans les années 1990</label>
+    <label class="option"><input type="radio" name="q4" value="b"> Partiellement vraie — Internet a accéléré la mondialisation, mais celle-ci a démarré dès le XVIe siècle avec les Grandes Découvertes</label>
+    <label class="option"><input type="radio" name="q4" value="c"> Fausse — la mondialisation existait déjà dans l'Antiquité, et Internet n'a eu aucun impact significatif</label>
+    <label class="option"><input type="radio" name="q4" value="d"> Vraie — avant Internet, les pays n'échangeaient pas entre eux</label>
+  </div>
+  <button class="btn" onclick="valider('q4','b')">Valider</button>
+  <div class="explication" id="exp-q4"><b>La mondialisation a démarré au XVIe siècle.</b> Les Grandes Découvertes (Colomb 1492, Vasco de Gama 1498…) ont créé les premiers liens intercontinentaux à grande échelle. Elle s'est ensuite intensifiée avec la révolution industrielle (XIXe), puis la libéralisation des échanges (années 70-80), puis Internet (années 90-2000). Internet est un accélérateur, pas le point de départ.</div>
+</div>
+
+<div class="question" id="q5">
+  <div class="question-text"><span class="qnum">5</span>Qu'appelle-t-on "la Triade" dans le cadre de la mondialisation ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> Les trois principales organisations mondiales : ONU, OMC et FMI</label>
+    <label class="option"><input type="radio" name="q5" value="b"> Les trois pays les plus peuplés du monde : Chine, Inde, États-Unis</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Les trois pôles dominants de la mondialisation : Europe occidentale, Amérique du Nord, Asie-Pacifique</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Les trois types de flux de la mondialisation : marchandises, capitaux, personnes</label>
+  </div>
+  <button class="btn" onclick="valider('q5','c')">Valider</button>
+  <div class="explication" id="exp-q5"><b>La Triade = les 3 pôles dominants.</b> Ces trois régions concentrent la majorité des échanges mondiaux, des sièges de FTN et des flux financiers. Les BRICS (Brésil, Russie, Inde, Chine, Afrique du Sud) sont des puissances émergentes qui se rapprochent du centre, mais la Triade reste dominante.</div>
+</div>
+
+<div class="question" id="q6">
+  <div class="question-text"><span class="qnum">6</span>Une usine textile française ferme et ses dirigeants transfèrent la production au Bangladesh où les salaires sont 10 fois moins élevés. Ce phénomène s'appelle :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q6" value="a"> La métropolisation</label>
+    <label class="option"><input type="radio" name="q6" value="b"> L'interdépendance</label>
+    <label class="option"><input type="radio" name="q6" value="c"> La délocalisation</label>
+    <label class="option"><input type="radio" name="q6" value="d"> La décolonisation</label>
+  </div>
+  <button class="btn" onclick="valider('q6','c')">Valider</button>
+  <div class="explication" id="exp-q6"><b>Délocalisation</b> = transfert d'une activité vers un pays où les coûts (salaires, normes) sont moins élevés. C'est l'une des manifestations concrètes de la mondialisation. Elle crée du chômage dans les pays développés mais génère des emplois dans les pays d'accueil — avec souvent de mauvaises conditions de travail.</div>
+</div>
+
+<div class="section-title">Partie 2 — Questions ouvertes (auto-évaluation guidée)</div>
+<div style="background:white;padding:12px 16px;border-radius:8px;font-size:.84rem;color:#555;margin-bottom:14px;line-height:1.6">
+  ✍️ Répondez en phrases complètes et développées. Cliquez sur <b>Voir la réponse modèle</b> après avoir rédigé, puis évaluez-vous honnêtement.
+</div>
+
+<div class="open-q" id="oq1">
+  <div class="question-text"><span class="qnum">7</span>Définissez la mondialisation en expliquant les trois grands types de flux qui la composent. Pour chaque type de flux, donnez un exemple concret tiré de la vie quotidienne.</div>
+  <textarea id="oq1-text" placeholder="Votre réponse..."></textarea>
+  <button class="btn" onclick="showModel('oq1')">Voir la réponse modèle</button>
+  <div class="model-answer" id="oq1-model">
+    <h4>✅ Réponse attendue :</h4>
+    <p>La <b>mondialisation</b> est le processus par lequel les différentes régions du monde sont reliées par des flux de plus en plus intenses, créant une <b>interdépendance</b> entre les pays.</p>
+    <p>Elle repose sur trois grands types de flux :</p>
+    <p>— Les <b>flux de marchandises</b> : échange de produits physiques entre pays. Ex. : un smartphone conçu aux États-Unis, fabriqué en Chine à partir de composants coréens, vendu en France.</p>
+    <p>— Les <b>flux de capitaux</b> : mouvements d'argent et d'investissements. Ex. : une entreprise française qui ouvre une usine au Maroc, ou des transactions boursières entre New York et Tokyo.</p>
+    <p>— Les <b>flux humains</b> : déplacements de personnes (migrations économiques, réfugiés, touristes). Ex. : des travailleurs africains qui émigrent en Europe pour travailler.</p>
+    <p>À ces trois flux s'ajoutent les <b>flux d'informations</b> (Internet, réseaux sociaux), qui accélèrent tous les autres échanges.</p>
+    <div class="criteria"><b>Critères :</b> définition avec le mot "interdépendance" ✓ · flux de marchandises + exemple ✓ · flux de capitaux + exemple ✓ · flux humains + exemple ✓ · mention des flux d'informations (bonus) ✓</div>
+  </div>
+  <div class="self-eval" id="oq1-eval">
+    <button class="btn-parfait" onclick="noterOQ('oq1',3)">✅ Complet (3 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq1',2)">⚠️ 2 flux sur 3 (2 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq1',1)">⚠️ Incomplet (1 pt)</button>
+    <button class="btn-retravailler" onclick="noterOQ('oq1',0)">❌ À retravailler (0)</button>
+  </div>
+</div>
+
+<div class="open-q" id="oq2">
+  <div class="question-text"><span class="qnum">8</span>Quels sont les acteurs de la mondialisation ? Présentez-en au moins trois en expliquant le rôle spécifique de chacun. Montrez que leurs intérêts peuvent parfois s'opposer.</div>
+  <textarea id="oq2-text" placeholder="Votre réponse..."></textarea>
+  <button class="btn" onclick="showModel('oq2')">Voir la réponse modèle</button>
+  <div class="model-answer" id="oq2-model">
+    <h4>✅ Réponse attendue :</h4>
+    <p>Les acteurs de la mondialisation sont nombreux et aux intérêts parfois divergents :</p>
+    <p>— Les <b>Firmes Transnationales (FTN)</b> sont les moteurs économiques de la mondialisation. Elles organisent leur production à l'échelle mondiale, délocalisent pour réduire leurs coûts et vendent leurs produits partout. Ex. : Apple, Nike, Toyota. Leur intérêt : maximiser les profits.</p>
+    <p>— Les <b>États</b> signent des accords commerciaux (ex. : l'UE crée un marché unique), mais peuvent aussi protéger leur économie avec des taxes douanières. Leur intérêt : développement économique et protection des emplois nationaux.</p>
+    <p>— Les <b>individus</b> participent comme <b>consommateurs</b> (en achetant des produits étrangers) et comme <b>migrants</b> (en se déplaçant pour travailler). Leur intérêt : trouver de meilleures conditions de vie.</p>
+    <p>— Les <b>ONG</b> (Greenpeace, Oxfam) dénoncent les effets négatifs : exploitation des travailleurs, atteintes à l'environnement. Leur intérêt : justice sociale et protection de la planète.</p>
+    <p><b>Opposition d'intérêts :</b> une FTN délocalise pour faire des profits → l'État perd des emplois et des impôts → l'ONG dénonce les mauvaises conditions de travail dans le pays d'accueil.</p>
+    <div class="criteria"><b>Critères :</b> FTN expliquée ✓ · États expliqués ✓ · individus (consommateurs/migrants) ✓ · ONG (bonus) ✓ · opposition d'intérêts montrée ✓</div>
+  </div>
+  <div class="self-eval" id="oq2-eval">
+    <button class="btn-parfait" onclick="noterOQ('oq2',3)">✅ Complet (3 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq2',2)">⚠️ Partiel (2 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq2',1)">⚠️ Incomplet (1 pt)</button>
+    <button class="btn-retravailler" onclick="noterOQ('oq2',0)">❌ À retravailler (0)</button>
+  </div>
+</div>
+
+<div class="open-q" id="oq3">
+  <div class="question-text"><span class="qnum">9</span>La mondialisation profite-t-elle à tous les pays de la même façon ? Expliquez en distinguant les espaces qui en bénéficient (centres) et ceux qui en sont marginalisés (périphéries). Donnez des exemples de pays ou de régions pour chaque catégorie.</div>
+  <textarea id="oq3-text" placeholder="Votre réponse..." style="min-height:130px"></textarea>
+  <button class="btn" onclick="showModel('oq3')">Voir la réponse modèle</button>
+  <div class="model-answer" id="oq3-model">
+    <h4>✅ Réponse attendue :</h4>
+    <p>Non, la mondialisation ne profite pas à tous les pays de la même façon. On distingue trois catégories d'espaces :</p>
+    <p>— Les <b>centres</b> (espaces dominants) : ce sont les pays de <b>la Triade</b> — Europe occidentale (France, Allemagne, Royaume-Uni), Amérique du Nord (États-Unis, Canada) et Asie-Pacifique (Japon, Corée du Sud, Australie). Ces pays concentrent la majorité des sièges de FTN, des échanges commerciaux et des flux financiers. Leurs grandes métropoles (New York, Londres, Tokyo) sont les nœuds de la mondialisation.</p>
+    <p>— Les <b>pays émergents</b> : les BRICS (Brésil, Russie, Inde, Chine, Afrique du Sud) s'intègrent de plus en plus dans la mondialisation. La Chine est devenue le 1er exportateur mondial. Mais cette intégration crée aussi des inégalités internes.</p>
+    <p>— Les <b>espaces marginalisés</b> : certaines régions restent à l'écart, comme une grande partie de l'Afrique subsaharienne. Elles reçoivent peu d'investissements, exportent surtout des matières premières à bas prix, et leurs habitants ont peu accès aux réseaux de communication.</p>
+    <p><b>Conclusion :</b> La mondialisation tend à enrichir les centres et à creuser les inégalités avec les périphéries, même si certains pays émergents réduisent progressivement l'écart.</p>
+    <div class="criteria"><b>Critères :</b> réponse négative argumentée ✓ · centres/Triade avec exemples ✓ · pays émergents/BRICS ✓ · espaces marginalisés avec exemples ✓ · conclusion sur les inégalités ✓</div>
+  </div>
+  <div class="self-eval" id="oq3-eval">
+    <button class="btn-parfait" onclick="noterOQ('oq3',3)">✅ Complet (3 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq3',2)">⚠️ Partiel (2 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq3',1)">⚠️ Incomplet (1 pt)</button>
+    <button class="btn-retravailler" onclick="noterOQ('oq3',0)">❌ À retravailler (0)</button>
+  </div>
+</div>
+
+<button id="btn-show-score" onclick="showScore()">Voir mon bilan final</button>
+
+<div id="score-section">
+  <h2>Bilan de la séance</h2>
+  <div class="score-grid">
+    <div class="score-card"><div class="num" id="sc-qcm">—</div><div class="label">QCM (sur 6)</div></div>
+    <div class="score-card"><div class="num" id="sc-oq">—</div><div class="label">Questions ouvertes (sur 9)</div></div>
+  </div>
+  <div class="score-card" style="margin:10px 0;background:#e0f2f1"><div class="num" id="sc-total">—</div><div class="label">Score total (sur 15)</div></div>
+  <div class="score-msg" id="sc-msg"></div>
+  <button class="share-btn" onclick="partager()">Partager sur WhatsApp</button>
+</div>
+</div>
+
+<script>
+var correct={q1:'b',q2:'c',q3:'b',q4:'b',q5:'c',q6:'c'};
+var answered={};var qcmScore=0;
+var oqScores={oq1:null,oq2:null,oq3:null};
+
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une réponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){
+    var val=['a','b','c','d'][i];opts[i].style.pointerEvents='none';
+    if(val===rep)opts[i].classList.add('correct');
+    else if(val===chosen.value&&chosen.value!==rep)opts[i].classList.add('wrong');
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn').disabled=true;
+  if(chosen.value===rep)qcmScore++;
+}
+
+function showModel(oqid){
+  document.getElementById(oqid+'-model').style.display='block';
+  document.getElementById(oqid+'-eval').style.display='flex';
+  var btns=document.querySelectorAll('#'+oqid+' > .btn');
+  btns.forEach(function(b){b.disabled=true;});
+}
+
+function noterOQ(oqid,pts){
+  oqScores[oqid]=pts;
+  var d=document.getElementById(oqid+'-eval');
+  var labels={3:'✅ Complet',2:'⚠️ Partiel',1:'⚠️ Incomplet',0:'❌ À retravailler'};
+  var colors={3:'#1b5e20',2:'#e65100',1:'#e65100',0:'#b71c1c'};
+  var bgs={3:'#e8f5e9',2:'#fff8e1',1:'#fff8e1',0:'#ffebee'};
+  d.innerHTML='<span class="eval-done" style="background:'+bgs[pts]+';color:'+colors[pts]+'">'+labels[pts]+' — '+pts+' pt'+(pts>1?'s':'')+'</span>';
+}
+
+function showScore(){
+  var oqTotal=0;
+  var keys=Object.keys(oqScores);
+  for(var i=0;i<keys.length;i++){if(oqScores[keys[i]]!==null)oqTotal+=oqScores[keys[i]];}
+  var total=qcmScore+oqTotal;
+  document.getElementById('sc-qcm').textContent=qcmScore+'/6';
+  document.getElementById('sc-oq').textContent=oqTotal+'/9';
+  document.getElementById('sc-total').textContent=total+'/15';
+  var msg=total>=13?'Excellent ! Tu maitrises très bien la mondialisation.':
+          total>=10?'Bien ! Revois les points manquants sur la fiche.':
+          total>=7?'Passable — la fiche doit être relue attentivement.':
+          'Insuffisant — reprends tout depuis le début !';
+  document.getElementById('sc-msg').textContent=msg;
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('btn-show-score').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+
+function partager(){
+  var oqTotal=0;var keys=Object.keys(oqScores);
+  for(var i=0;i<keys.length;i++){if(oqScores[keys[i]]!==null)oqTotal+=oqScores[keys[i]];}
+  var total=qcmScore+oqTotal;
+  var txt='Quiz Mondialisation – Géo 4ème\nQCM : '+qcmScore+'/6\nQuestions ouvertes : '+oqTotal+'/9\nTotal : '+total+'/15';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script>
+</body></html>
