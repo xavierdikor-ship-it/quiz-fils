@@ -7,9 +7,12 @@
 body{font-family:'Segoe UI',sans-serif;background:#e3f2fd;color:#1a1a2e;padding:20px;font-size:15px}
 .container{max-width:840px;margin:0 auto}
 header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:white;padding:28px;border-radius:16px;margin-bottom:20px;text-align:center}
-header h1{font-size:1.7rem;margin-bottom:6px}header p{font-size:.88rem;opacity:.9}
+header h1{font-size:1.7rem;margin-bottom:6px}
+header p{font-size:.88rem;opacity:.9}
 .badge{display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:8px;font-weight:bold}
 .section-title{background:#0d47a1;color:white;padding:11px 18px;border-radius:10px;margin:20px 0 12px;font-weight:700;font-size:.95rem}
+
+/* QCM */
 .question{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #1976d2}
 .question-text{font-weight:600;font-size:.94rem;margin-bottom:12px;line-height:1.6}
 .qnum{display:inline-block;background:#1976d2;color:white;border-radius:50%;width:26px;height:26px;text-align:center;line-height:26px;font-size:.82rem;font-weight:bold;margin-right:8px}
@@ -20,27 +23,60 @@ header h1{font-size:1.7rem;margin-bottom:6px}header p{font-size:.88rem;opacity:.
 .option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
 .option.wrong{background:#ffebee!important;border-color:#e53935!important}
 .explication{display:none;background:#e8eaf6;border-left:4px solid #1976d2;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:.84rem;line-height:1.65}
-.btn{background:#0d47a1;color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.87rem;font-weight:600;margin-top:11px}
-.btn:disabled{background:#bbb;cursor:default}
-.open-q{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #42a5f5}
-.open-q .hint{font-size:.82rem;color:#888;margin-top:5px;font-style:italic}
-.open-q textarea{width:100%;min-height:85px;padding:11px;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:.88rem;line-height:1.6;margin-top:10px;resize:vertical}
-.open-q textarea:focus{outline:none;border-color:#1976d2}
-.model-answer{display:none;margin-top:12px;padding:14px 16px;background:#e8eaf6;border-radius:10px;border:1px solid #90caf9;font-size:.85rem;line-height:1.75}
-.model-answer h4{color:#0d47a1;margin-bottom:8px;font-size:.9rem}
-.model-answer p{margin-bottom:6px}
-.self-eval{display:none;margin-top:11px;gap:8px;flex-wrap:wrap}
-.self-eval button{border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600}
-.btn-ok{background:#e8f5e9;color:#1b5e20;border:2px solid #388e3c}
-.btn-partiel{background:#fff8e1;color:#e65100;border:2px solid #f57c00}
-.btn-non{background:#ffebee;color:#b71c1c;border:2px solid #e53935}
-.eval-done{display:inline-block;padding:4px 12px;border-radius:12px;font-size:.82rem;font-weight:bold;margin-top:8px}
+.btn-valider{background:#0d47a1;color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.87rem;font-weight:600;margin-top:11px}
+.btn-valider:disabled{background:#bbb;cursor:default}
+
+/* MATCHING */
+.match-box{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #42a5f5}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.match-col h4{font-size:.82rem;color:#555;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.match-item{padding:10px 13px;border-radius:8px;border:2px solid #90caf9;background:#e3f2fd;cursor:pointer;font-size:.85rem;line-height:1.5;transition:all .2s;margin-bottom:6px;user-select:none}
+.match-item:hover{border-color:#1976d2;background:#bbdefb}
+.match-item.selected{border-color:#0d47a1;background:#1976d2;color:white;font-weight:600}
+.match-item.matched-ok{border-color:#388e3c!important;background:#e8f5e9!important;color:#1b5e20!important;cursor:default}
+.match-item.matched-wrong{border-color:#e53935!important;background:#ffebee!important;color:#b71c1c!important;cursor:default;animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.match-item.disabled{opacity:.55;cursor:default}
+.match-feedback{font-size:.83rem;margin-top:10px;padding:8px 12px;border-radius:8px;display:none}
+
+/* CLASSEMENT */
+.classif-box{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #66bb6a}
+.classif-item{background:#f5f5f5;border-radius:10px;padding:13px 15px;margin-bottom:10px;border:2px solid #e0e0e0}
+.classif-statement{font-size:.88rem;margin-bottom:9px;line-height:1.55;font-style:italic}
+.classif-btns{display:flex;gap:8px;flex-wrap:wrap}
+.classif-btn{border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:600;transition:all .2s}
+.btn-cause{background:#fff3e0;color:#e65100;border:2px solid #ff9800}
+.btn-cause:hover{background:#ffe0b2}
+.btn-consequence{background:#e8eaf6;color:#3949ab;border:2px solid #5c6bc0}
+.btn-consequence:hover{background:#c5cae9}
+.classif-item.correct-c .classif-statement{color:#1b5e20;font-weight:600}
+.classif-item.correct-c{border-color:#388e3c;background:#e8f5e9}
+.classif-item.wrong-c{border-color:#e53935;background:#ffebee}
+.classif-result{font-size:.81rem;margin-top:6px;display:none}
+
+/* COMPLÉTER */
+.complete-box{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #ab47bc}
+.word-bank{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.word-chip{padding:7px 14px;border-radius:20px;border:2px solid #ce93d8;background:#f3e5f5;cursor:pointer;font-size:.86rem;font-weight:600;color:#6a1b9a;transition:all .2s;user-select:none}
+.word-chip:hover:not(.used){border-color:#7b1fa2;background:#e1bee7}
+.word-chip.used{opacity:.4;cursor:default;text-decoration:line-through}
+.sentence{font-size:.9rem;line-height:2.2;margin:8px 0}
+.blank{display:inline-block;min-width:100px;border-bottom:2px solid #7b1fa2;text-align:center;padding:0 8px;margin:0 4px;font-weight:bold;color:#4a148c;cursor:pointer;border-radius:4px}
+.blank.filled-ok{background:#e8f5e9;border-color:#388e3c;color:#1b5e20;border-bottom:none;border-radius:6px;padding:2px 8px}
+.blank.filled-wrong{background:#ffebee;border-color:#e53935;color:#b71c1c;border-bottom:none;border-radius:6px;padding:2px 8px}
+.complete-check{background:#6a1b9a;color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.87rem;font-weight:600;margin-top:11px}
+.complete-check:disabled{background:#bbb}
+
+/* SCORE */
 #score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.12);margin-top:24px}
 #score-section h2{color:#0d47a1;font-size:1.5rem;margin-bottom:14px}
-.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
-.score-card{background:#e3f2fd;border-radius:10px;padding:16px;border:1px solid #90caf9}
-.score-card .num{font-size:2.4rem;font-weight:bold;color:#0d47a1}
-.score-card .label{font-size:.82rem;color:#555;margin-top:4px}
+.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.score-card{background:#e3f2fd;border-radius:10px;padding:14px;border:1px solid #90caf9}
+.score-card .num{font-size:2rem;font-weight:bold;color:#0d47a1}
+.score-card .label{font-size:.78rem;color:#555;margin-top:4px}
+.score-total{background:#bbdefb;border-radius:10px;padding:16px;margin:10px 0}
+.score-total .num{font-size:2.6rem;font-weight:bold;color:#0d47a1}
+.score-total .label{font-size:.84rem;color:#555}
 .score-msg{font-size:.92rem;color:#333;margin:12px 0;padding:12px;background:#e3f2fd;border-radius:8px}
 .share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.92rem;font-weight:bold;cursor:pointer;margin-top:12px}
 #btn-show-score{display:block;width:100%;padding:14px;background:#0d47a1;color:white;border:none;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;margin-top:22px}
@@ -49,157 +85,184 @@ header h1{font-size:1.7rem;margin-bottom:6px}header p{font-size:.88rem;opacity:.
 <header>
   <h1>🌍 Quiz — La Mondialisation</h1>
   <p>Géographie 4ème · Flux, acteurs, espaces, lexique</p>
-  <div class="badge">6 QCM + 3 questions courtes · sur 12</div>
+  <div class="badge">6 QCM + association + classement + compléter · sur 16</div>
 </header>
 
-<div class="section-title">Partie 1 — QCM (6 questions)</div>
+<!-- PARTIE 1 : QCM -->
+<div class="section-title">Partie 1 — QCM (6 questions · 6 pts)</div>
 
 <div class="question" id="q1">
   <div class="question-text"><span class="qnum">1</span>Quelle est la différence entre une <b>migration</b> et une <b>migration forcée</b> ?</div>
   <div class="options">
     <label class="option"><input type="radio" name="q1" value="a"> Une migration est toujours volontaire ; une migration forcée est toujours économique.</label>
     <label class="option"><input type="radio" name="q1" value="b"> Une migration est un déplacement massif, volontaire ou non ; une migration forcée pousse les individus à fuir (guerre, dictature, crise climatique…).</label>
-    <label class="option"><input type="radio" name="q1" value="c"> Il n'y a aucune différence, les deux termes sont synonymes.</label>
-    <label class="option"><input type="radio" name="q1" value="d"> Une migration concerne les animaux ; une migration forcée concerne uniquement les humains.</label>
+    <label class="option"><input type="radio" name="q1" value="c"> Les deux termes sont synonymes.</label>
+    <label class="option"><input type="radio" name="q1" value="d"> Une migration concerne uniquement les animaux.</label>
   </div>
-  <button class="btn" onclick="valider('q1','b')">Valider</button>
-  <div class="explication" id="exp-q1"><b>Bonne réponse B.</b> La <b>migration</b> = déplacement massif, volontaire ou non. La <b>migration forcée</b> = déplacement contraint par une <em>cause</em> (guerre, dictature, crise climatique…) — les individus n'ont pas le choix. Les réfugiés syriens ou les déplacés climatiques sont des exemples de migrations forcées.</div>
+  <button class="btn-valider" onclick="valider('q1','b')">Valider</button>
+  <div class="explication" id="exp-q1"><b>B.</b> La <b>migration</b> = déplacement massif, volontaire ou non. La <b>migration forcée</b> = contraint par une cause (guerre, dictature, crise climatique). Les réfugiés sont des exemples de migrants forcés.</div>
 </div>
 
 <div class="question" id="q2">
   <div class="question-text"><span class="qnum">2</span>La <b>Triade</b> désigne les 3 pôles dominants de la mondialisation. Lesquels ?</div>
   <div class="options">
-    <label class="option"><input type="radio" name="q2" value="a"> Afrique, Amérique latine et Asie du Sud.</label>
+    <label class="option"><input type="radio" name="q2" value="a"> Afrique, Amérique latine, Asie du Sud.</label>
     <label class="option"><input type="radio" name="q2" value="b"> Amérique du Nord, Europe occidentale, Asie-Pacifique.</label>
     <label class="option"><input type="radio" name="q2" value="c"> USA, Chine, Russie.</label>
     <label class="option"><input type="radio" name="q2" value="d"> ONU, OMC, FMI.</label>
   </div>
-  <button class="btn" onclick="valider('q2','b')">Valider</button>
-  <div class="explication" id="exp-q2"><b>Bonne réponse B.</b> La Triade = <b>Amérique du Nord</b> (USA, Canada), <b>Europe occidentale</b> (UE), <b>Asie-Pacifique</b> (Japon, Corée du Sud, Chine…). Ces 3 pôles concentrent la majorité des flux financiers et des FTN. Piège C : la Russie n'est pas dans la Triade (elle est dans les BRICS).</div>
+  <button class="btn-valider" onclick="valider('q2','b')">Valider</button>
+  <div class="explication" id="exp-q2"><b>B.</b> Triade = <b>Amérique du Nord</b> + <b>Europe occidentale</b> + <b>Asie-Pacifique</b>. Piège : la Russie est dans les BRICS, pas dans la Triade.</div>
 </div>
 
 <div class="question" id="q3">
-  <div class="question-text"><span class="qnum">3</span>Un journaliste écrit : <em>"La guerre a provoqué le départ de millions de personnes."</em> Dans ce cas, la guerre est…</div>
+  <div class="question-text"><span class="qnum">3</span>Apple conçoit ses produits aux USA, les fait fabriquer en Chine et les vend dans le monde entier. Apple est…</div>
   <div class="options">
-    <label class="option"><input type="radio" name="q3" value="a"> Une conséquence des migrations.</label>
-    <label class="option"><input type="radio" name="q3" value="b"> Un paysage de la mondialisation.</label>
-    <label class="option"><input type="radio" name="q3" value="c"> Une cause des migrations.</label>
-    <label class="option"><input type="radio" name="q3" value="d"> Un flux de personnes.</label>
+    <label class="option"><input type="radio" name="q3" value="a"> Une organisation internationale comme l'ONU.</label>
+    <label class="option"><input type="radio" name="q3" value="b"> Un espace marginalisé.</label>
+    <label class="option"><input type="radio" name="q3" value="c"> Une FTN (Firme Transnationale).</label>
+    <label class="option"><input type="radio" name="q3" value="d"> Un flux d'informations.</label>
   </div>
-  <button class="btn" onclick="valider('q3','c')">Valider</button>
-  <div class="explication" id="exp-q3"><b>Une cause.</b> La guerre <em>provoque</em> le départ → c'est une <b>cause</b> (= raison). Les migrations sont la <b>conséquence</b> (= effet, résultat). Mémo : cause → conséquence. "La guerre (cause) → migrations forcées (conséquence)".</div>
+  <button class="btn-valider" onclick="valider('q3','c')">Valider</button>
+  <div class="explication" id="exp-q3"><b>C.</b> Apple est une <b>FTN</b> : présente dans plusieurs pays (conception USA, production Chine, vente mondiale). L'ONU est un acteur politique, pas économique.</div>
 </div>
 
 <div class="question" id="q4">
-  <div class="question-text"><span class="qnum">4</span>Qu'est-ce qu'un <b>paysage</b> selon la définition du cours ?</div>
+  <div class="question-text"><span class="qnum">4</span>Un envoi de données via internet (streaming, réseaux sociaux) est un exemple de…</div>
   <div class="options">
-    <label class="option"><input type="radio" name="q4" value="a"> Uniquement les éléments naturels (forêts, montagnes, rivières).</label>
-    <label class="option"><input type="radio" name="q4" value="b"> Ce que représente une carte géographique.</label>
-    <label class="option"><input type="radio" name="q4" value="c"> L'espace que nos yeux voient, composé d'aménagements humains et/ou d'éléments naturels.</label>
-    <label class="option"><input type="radio" name="q4" value="d"> L'ensemble des flux qui traversent un pays.</label>
+    <label class="option"><input type="radio" name="q4" value="a"> Flux de marchandises.</label>
+    <label class="option"><input type="radio" name="q4" value="b"> Flux de personnes.</label>
+    <label class="option"><input type="radio" name="q4" value="c"> Flux de capitaux.</label>
+    <label class="option"><input type="radio" name="q4" value="d"> Flux d'informations (immatériel).</label>
   </div>
-  <button class="btn" onclick="valider('q4','c')">Valider</button>
-  <div class="explication" id="exp-q4"><b>Définition exacte du cours.</b> Un <b>paysage</b> = ce que nos yeux voient, composé d'<em>aménagements humains</em> (routes, bâtiments, ports…) <b>et/ou</b> d'<em>éléments naturels</em> (fleuves, chaînes de montagnes…). Piège A : un paysage peut être entièrement artificiel (ex : une ville).</div>
+  <button class="btn-valider" onclick="valider('q4','d')">Valider</button>
+  <div class="explication" id="exp-q4"><b>D.</b> Internet = flux <b>immatériel</b> d'informations. Marchandises = objets physiques. Personnes = migrations, tourisme. Capitaux = argent, investissements.</div>
 </div>
 
 <div class="question" id="q5">
-  <div class="question-text"><span class="qnum">5</span>Apple conçoit ses produits aux USA, les fait fabriquer en Chine et les vend dans le monde entier. Apple est…</div>
+  <div class="question-text"><span class="qnum">5</span>Un pays peu connecté aux échanges mondiaux, qui profite peu de la mondialisation, est dit…</div>
   <div class="options">
-    <label class="option"><input type="radio" name="q5" value="a"> Une organisation internationale comme l'ONU.</label>
-    <label class="option"><input type="radio" name="q5" value="b"> Une FTN (Firme Transnationale).</label>
+    <label class="option"><input type="radio" name="q5" value="a"> Un pôle de la Triade.</label>
+    <label class="option"><input type="radio" name="q5" value="b"> Un pays émergent (BRICS).</label>
     <label class="option"><input type="radio" name="q5" value="c"> Un espace marginalisé.</label>
-    <label class="option"><input type="radio" name="q5" value="d"> Un flux d'informations.</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Une FTN en développement.</label>
   </div>
-  <button class="btn" onclick="valider('q5','b')">Valider</button>
-  <div class="explication" id="exp-q5"><b>Une FTN.</b> Apple est une Firme Transnationale : elle est présente (conçoit, produit, vend) dans <b>plusieurs pays</b>. C'est l'acteur économique principal de la mondialisation. L'ONU est une organisation internationale (acteur politique). Un espace marginalisé est un territoire peu intégré à la mondialisation.</div>
+  <button class="btn-valider" onclick="valider('q5','c')">Valider</button>
+  <div class="explication" id="exp-q5"><b>C. Espace marginalisé.</b> Peu de flux, peu d'investissements, souvent source de migrations. À l'opposé : la Triade (centres). Entre les deux : les BRICS (émergents).</div>
 </div>
 
 <div class="question" id="q6">
-  <div class="question-text"><span class="qnum">6</span>Un pays d'Afrique subsaharienne peu connecté aux échanges mondiaux, qui reçoit peu d'investissements et d'où partent des migrants cherchant une vie meilleure — c'est un exemple…</div>
+  <div class="question-text"><span class="qnum">6</span>Lequel de ces éléments fait partie d'un <b>paysage</b> selon la définition du cours ?</div>
   <div class="options">
-    <label class="option"><input type="radio" name="q6" value="a"> D'un pôle de la Triade.</label>
-    <label class="option"><input type="radio" name="q6" value="b"> D'un pays émergent (type BRICS).</label>
-    <label class="option"><input type="radio" name="q6" value="c"> D'un espace marginalisé par la mondialisation.</label>
-    <label class="option"><input type="radio" name="q6" value="d"> D'une FTN en développement.</label>
+    <label class="option"><input type="radio" name="q6" value="a"> Une carte géographique affichée en classe.</label>
+    <label class="option"><input type="radio" name="q6" value="b"> Une autoroute traversant une forêt (aménagement humain + élément naturel).</label>
+    <label class="option"><input type="radio" name="q6" value="c"> Un tableau de statistiques économiques.</label>
+    <label class="option"><input type="radio" name="q6" value="d"> Un graphique de flux commerciaux.</label>
   </div>
-  <button class="btn" onclick="valider('q6','c')">Valider</button>
-  <div class="explication" id="exp-q6"><b>Un espace marginalisé.</b> Peu connecté aux flux mondiaux, peu d'investissements, source de migrations (parfois forcées). C'est l'opposé de la Triade. Les BRICS (Brésil, Russie, Inde, Chine, Afrique du Sud) s'intègrent progressivement — ils ne sont ni marginalisés ni des centres. Certains pays d'Afrique subsaharienne restent très marginalisés.</div>
+  <button class="btn-valider" onclick="valider('q6','b')">Valider</button>
+  <div class="explication" id="exp-q6"><b>B.</b> Un <b>paysage</b> = ce que nos yeux voient = aménagements humains ET/OU éléments naturels. Une autoroute + forêt = parfait exemple (aménagement humain + nature). Une carte ou un tableau n'est pas un paysage.</div>
 </div>
 
-<div class="section-title">Partie 2 — Questions courtes</div>
-<div style="background:white;padding:12px 16px;border-radius:8px;font-size:.84rem;color:#555;margin-bottom:14px;line-height:1.6">
-  ✍️ Réponds en quelques lignes. Clique sur <b>Voir la réponse</b> après avoir rédigé.
+<!-- PARTIE 2 : ASSOCIATION -->
+<div class="section-title">Partie 2 — Association : relie chaque terme à sa définition (4 pts)</div>
+<div class="match-box">
+  <div class="question-text" style="margin-bottom:4px">Clique sur un terme <b>puis</b> sur sa définition pour les relier.</div>
+  <div style="font-size:.82rem;color:#888;margin-bottom:12px">Chaque erreur compte. Lis bien avant de cliquer !</div>
+  <div class="match-grid">
+    <div>
+      <h4>Termes</h4>
+      <div class="match-item term" id="t-flux" onclick="selectTerm('flux')">Un flux</div>
+      <div class="match-item term" id="t-mig" onclick="selectTerm('mig')">Une migration</div>
+      <div class="match-item term" id="t-migf" onclick="selectTerm('migf')">Une migration forcée</div>
+      <div class="match-item term" id="t-pay" onclick="selectTerm('pay')">Un paysage</div>
+    </div>
+    <div>
+      <h4>Définitions</h4>
+      <div class="match-item def" id="d-A" onclick="selectDef('A')">Espace visible composé d'aménagements humains et/ou d'éléments naturels.</div>
+      <div class="match-item def" id="d-B" onclick="selectDef('B')">Un déplacement (de personnes, marchandises, capitaux ou informations).</div>
+      <div class="match-item def" id="d-C" onclick="selectDef('C')">Déplacement massif, volontaire ou non, entre des lieux variés.</div>
+      <div class="match-item def" id="d-D" onclick="selectDef('D')">Déplacement qui pousse à fuir (guerre, dictature, crise climatique…).</div>
+    </div>
+  </div>
+  <div id="match-feedback" class="match-feedback"></div>
 </div>
 
-<div class="open-q" id="oq1">
-  <div class="question-text"><span class="qnum">7</span>Donne la définition exacte de la <b>mondialisation</b> (celle du cours). Ton texte doit mentionner : interdépendance, échanges variés, entreprises, déplacements d'êtres humains.</div>
-  <p class="hint">4 mots-clés obligatoires dans ta réponse</p>
-  <textarea id="oq1-text" placeholder="La mondialisation c'est..."></textarea>
-  <button class="btn" onclick="showModel('oq1')">Voir la réponse</button>
-  <div class="model-answer" id="oq1-model">
-    <h4>✅ Définition exacte du cours :</h4>
-    <p>La mondialisation = la mise en relation de plus en plus forte des différentes régions du monde (qui deviennent <b>interdépendantes</b>) par des <b>échanges variés</b> (marchandises, idées, argent…), par l'installation d'<b>entreprises</b> dans différents pays, par des <b>déplacements d'êtres humains</b>.</p>
+<!-- PARTIE 3 : CLASSEMENT CAUSE / CONSÉQUENCE -->
+<div class="section-title">Partie 3 — Cause ou Conséquence ? (3 pts)</div>
+<div class="classif-box">
+  <div class="question-text" style="margin-bottom:4px">Pour chaque phrase, dis si l'élément souligné est une <b>cause</b> ou une <b>conséquence</b> de la migration.</div>
+  <div style="font-size:.82rem;color:#888;margin-bottom:14px">Rappel : cause = raison / conséquence = effet, résultat</div>
+
+  <div class="classif-item" id="ci1">
+    <div class="classif-statement">En Syrie, la <u>guerre civile</u> a éclaté en 2011.</div>
+    <div class="classif-btns">
+      <button class="classif-btn btn-cause" onclick="classDo('ci1','cause','cause')">Cause</button>
+      <button class="classif-btn btn-consequence" onclick="classDo('ci1','consequence','cause')">Conséquence</button>
+    </div>
+    <div class="classif-result" id="cr1"></div>
   </div>
-  <div class="self-eval" id="oq1-eval">
-    <button class="btn-ok" onclick="noterOQ('oq1',2)">✅ 4 mots-clés présents (2 pts)</button>
-    <button class="btn-partiel" onclick="noterOQ('oq1',1)">⚠️ 2-3 mots-clés (1 pt)</button>
-    <button class="btn-non" onclick="noterOQ('oq1',0)">❌ Définition incorrecte (0)</button>
+
+  <div class="classif-item" id="ci2">
+    <div class="classif-statement">Des millions de <u>réfugiés syriens</u> ont fui vers l'Europe et la Turquie.</div>
+    <div class="classif-btns">
+      <button class="classif-btn btn-cause" onclick="classDo('ci2','cause','consequence')">Cause</button>
+      <button class="classif-btn btn-consequence" onclick="classDo('ci2','consequence','consequence')">Conséquence</button>
+    </div>
+    <div class="classif-result" id="cr2"></div>
+  </div>
+
+  <div class="classif-item" id="ci3">
+    <div class="classif-statement">La <u>pauvreté dans les espaces marginalisés</u> pousse des habitants à quitter leur pays.</div>
+    <div class="classif-btns">
+      <button class="classif-btn btn-cause" onclick="classDo('ci3','cause','cause')">Cause</button>
+      <button class="classif-btn btn-consequence" onclick="classDo('ci3','consequence','cause')">Conséquence</button>
+    </div>
+    <div class="classif-result" id="cr3"></div>
   </div>
 </div>
 
-<div class="open-q" id="oq2">
-  <div class="question-text"><span class="qnum">8</span>Cite les 4 types de <b>flux</b> de la mondialisation et donne un exemple concret pour chacun.</div>
-  <p class="hint">Flux = déplacement. Il en existe 4 grands types.</p>
-  <textarea id="oq2-text" placeholder="1. Flux de... ex : ...\n2. Flux de... ex : ...\n3. Flux de... ex : ...\n4. Flux de... ex : ..."></textarea>
-  <button class="btn" onclick="showModel('oq2')">Voir la réponse</button>
-  <div class="model-answer" id="oq2-model">
-    <h4>✅ Réponse attendue :</h4>
-    <p><b>1. Flux de marchandises</b> → ex : iPhones fabriqués en Chine et vendus en France.</p>
-    <p><b>2. Flux de capitaux</b> → ex : une FTN investit de l'argent pour ouvrir une usine au Mexique.</p>
-    <p><b>3. Flux de personnes</b> → ex : un migrant africain qui part travailler en Europe.</p>
-    <p><b>4. Flux d'informations</b> → ex : données internet, réseaux sociaux, streaming mondial.</p>
+<!-- PARTIE 4 : COMPLÉTER -->
+<div class="section-title">Partie 4 — Complète les phrases (3 pts)</div>
+<div class="complete-box">
+  <div class="question-text" style="margin-bottom:4px">Clique sur le bon mot dans la banque, puis clique sur le blanc correspondant pour le placer.</div>
+  <div class="word-bank" id="word-bank">
+    <div class="word-chip" id="w-interdependantes" onclick="pickWord('interdependantes')">interdépendantes</div>
+    <div class="word-chip" id="w-FTN" onclick="pickWord('FTN')">FTN</div>
+    <div class="word-chip" id="w-marginalisés" onclick="pickWord('marginalisés')">marginalisés</div>
+    <div class="word-chip" id="w-flux" onclick="pickWord('flux')">flux</div>
+    <div class="word-chip" id="w-BRICS" onclick="pickWord('BRICS')">BRICS</div>
+    <div class="word-chip" id="w-paysage" onclick="pickWord('paysage')">paysage</div>
   </div>
-  <div class="self-eval" id="oq2-eval">
-    <button class="btn-ok" onclick="noterOQ('oq2',2)">✅ 4 flux + exemples (2 pts)</button>
-    <button class="btn-partiel" onclick="noterOQ('oq2',1)">⚠️ 2-3 flux corrects (1 pt)</button>
-    <button class="btn-non" onclick="noterOQ('oq2',0)">❌ À retravailler (0)</button>
+  <div style="font-size:.88rem;line-height:2.6;margin-top:6px">
+    <span class="sentence">1. La mondialisation rend les régions du monde de plus en plus <span class="blank" id="bl1" onclick="placeWord('bl1','interdependantes')">___________</span>.</span><br>
+    <span class="sentence">2. Nike, Apple et Toyota sont des exemples de <span class="blank" id="bl2" onclick="placeWord('bl2','FTN')">___________</span>.</span><br>
+    <span class="sentence">3. Les pays peu connectés aux échanges mondiaux sont des espaces <span class="blank" id="bl3" onclick="placeWord('bl3','marginalisés')">___________</span>.</span>
   </div>
-</div>
-
-<div class="open-q" id="oq3">
-  <div class="question-text"><span class="qnum">9</span>Explique en 2-3 phrases : <em>pourquoi certains espaces sont-ils marginalisés par la mondialisation ?</em> Utilise les mots <b>cause</b> et <b>conséquence</b> dans ta réponse.</div>
-  <p class="hint">Pense à ce qui empêche un pays de participer aux échanges mondiaux, et ce qui en résulte pour ses habitants.</p>
-  <textarea id="oq3-text" placeholder="Certains espaces sont marginalisés car (cause)...\nCela a pour conséquence..."></textarea>
-  <button class="btn" onclick="showModel('oq3')">Voir la réponse</button>
-  <div class="model-answer" id="oq3-model">
-    <h4>✅ Réponse attendue :</h4>
-    <p>Certains espaces sont marginalisés car (causes) ils manquent d'infrastructures, sont enclavés, ont des conflits ou des régimes instables qui découragent les investissements des FTN.</p>
-    <p>Cela a pour conséquence que leurs habitants profitent peu des richesses de la mondialisation, restent pauvres, et sont souvent poussés à migrer (parfois en migration forcée) vers des régions plus prospères.</p>
-    <p><em>Les mots "cause" et "conséquence" devaient apparaître dans la réponse.</em></p>
-  </div>
-  <div class="self-eval" id="oq3-eval">
-    <button class="btn-ok" onclick="noterOQ('oq3',2)">✅ Explication claire + cause + conséquence (2 pts)</button>
-    <button class="btn-partiel" onclick="noterOQ('oq3',1)">⚠️ Bonne idée mais incomplet (1 pt)</button>
-    <button class="btn-non" onclick="noterOQ('oq3',0)">❌ À retravailler (0)</button>
-  </div>
+  <button class="complete-check" id="btn-complete" onclick="checkComplete()">Vérifier les réponses</button>
+  <div id="complete-result" style="display:none;margin-top:10px;font-size:.85rem;padding:10px;border-radius:8px"></div>
 </div>
 
 <button id="btn-show-score" onclick="showScore()">Voir mon bilan final</button>
 <div id="score-section">
   <h2>Bilan de la séance</h2>
   <div class="score-grid">
-    <div class="score-card"><div class="num" id="sc-qcm">—</div><div class="label">QCM (sur 6)</div></div>
-    <div class="score-card"><div class="num" id="sc-oq">—</div><div class="label">Questions courtes (sur 6)</div></div>
+    <div class="score-card"><div class="num" id="sc-qcm">—</div><div class="label">QCM (/ 6)</div></div>
+    <div class="score-card"><div class="num" id="sc-match">—</div><div class="label">Association (/ 4)</div></div>
+    <div class="score-card"><div class="num" id="sc-class">—</div><div class="label">Classement (/ 3)</div></div>
   </div>
-  <div class="score-card" style="margin:10px 0;background:#e3f2fd"><div class="num" id="sc-total">—</div><div class="label">Score total (sur 12)</div></div>
+  <div class="score-grid" style="grid-template-columns:1fr 1fr">
+    <div class="score-card"><div class="num" id="sc-complete">—</div><div class="label">Compléter (/ 3)</div></div>
+    <div class="score-total"><div class="num" id="sc-total">—</div><div class="label">Total (/ 16)</div></div>
+  </div>
   <div class="score-msg" id="sc-msg"></div>
   <button class="share-btn" onclick="partager()">Partager sur WhatsApp</button>
 </div>
+
 </div>
 <script>
-var correct={q1:'b',q2:'b',q3:'c',q4:'c',q5:'b',q6:'c'};
+// ── QCM ──────────────────────────────────────────────────
+var correct={q1:'b',q2:'b',q3:'c',q4:'d',q5:'c',q6:'b'};
 var answered={};var qcmScore=0;
-var oqScores={oq1:null,oq2:null,oq3:null};
 function valider(qid,rep){
   if(answered[qid])return;
   var chosen=document.querySelector('input[name="'+qid+'"]:checked');
@@ -212,32 +275,127 @@ function valider(qid,rep){
     else if(val===chosen.value&&chosen.value!==rep)opts[i].classList.add('wrong');
   }
   document.getElementById('exp-'+qid).style.display='block';
-  document.querySelector('#'+qid+' .btn').disabled=true;
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
   if(chosen.value===rep)qcmScore++;
 }
-function showModel(oqid){
-  document.getElementById(oqid+'-model').style.display='block';
-  document.getElementById(oqid+'-eval').style.display='flex';
-  document.querySelectorAll('#'+oqid+' > .btn').forEach(function(b){b.disabled=true;});
+
+// ── MATCHING ─────────────────────────────────────────────
+var matchAnswer={flux:'B',mig:'C',migf:'D',pay:'A'};
+var matchScore=0; var matchDone=0;
+var selectedTerm=null;
+function selectTerm(id){
+  if(document.getElementById('t-'+id).classList.contains('matched-ok')||
+     document.getElementById('t-'+id).classList.contains('disabled'))return;
+  document.querySelectorAll('.match-item.term').forEach(function(el){el.classList.remove('selected')});
+  document.getElementById('t-'+id).classList.add('selected');
+  selectedTerm=id;
 }
-function noterOQ(oqid,pts){
-  oqScores[oqid]=pts;
-  var d=document.getElementById(oqid+'-eval');
-  var labels={2:'✅ Compris',1:'⚠️ Partiel',0:'❌ À retravailler'};
-  var colors={2:'#1b5e20',1:'#e65100',0:'#b71c1c'};
-  var bgs={2:'#e8f5e9',1:'#fff8e1',0:'#ffebee'};
-  d.innerHTML='<span class="eval-done" style="background:'+bgs[pts]+';color:'+colors[pts]+'">'+labels[pts]+' — '+pts+' pt'+(pts>1?'s':'')+'</span>';
+function selectDef(defId){
+  if(!selectedTerm)return;
+  var termEl=document.getElementById('t-'+selectedTerm);
+  var defEl=document.getElementById('d-'+defId);
+  if(defEl.classList.contains('matched-ok')||defEl.classList.contains('disabled'))return;
+  var correct=matchAnswer[selectedTerm]===defId;
+  if(correct){
+    termEl.classList.remove('selected');termEl.classList.add('matched-ok');termEl.onclick=null;
+    defEl.classList.add('matched-ok');defEl.onclick=null;
+    matchScore++;matchDone++;
+  } else {
+    termEl.classList.add('matched-wrong');defEl.classList.add('matched-wrong');
+    setTimeout(function(){termEl.classList.remove('matched-wrong','selected');defEl.classList.remove('matched-wrong');},600);
+    matchDone++;
+  }
+  selectedTerm=null;
+  if(matchDone>=4){
+    var fb=document.getElementById('match-feedback');
+    fb.style.display='block';
+    fb.style.background=matchScore>=3?'#e8f5e9':'#fff3e0';
+    fb.style.color=matchScore>=3?'#1b5e20':'#e65100';
+    fb.textContent=matchScore+'/4 associations correctes'+(matchScore<4?' — relis le lexique de la fiche !':'  ✅');
+  }
 }
+
+// ── CLASSEMENT ────────────────────────────────────────────
+var classScore=0;var classDone={ci1:false,ci2:false,ci3:false};
+function classDo(id,chosen,correct){
+  if(classDone[id])return;
+  classDone[id]=true;
+  var item=document.getElementById(id);
+  var result=document.getElementById('cr'+id.replace('ci',''));
+  item.querySelectorAll('.classif-btn').forEach(function(b){b.disabled=true;b.style.opacity='.6';});
+  result.style.display='block';
+  if(chosen===correct){
+    item.classList.add('correct-c');
+    result.style.color='#1b5e20';
+    result.textContent='✅ Correct ! C\'est bien une '+(correct==='cause'?'cause (= raison qui provoque la migration).':'conséquence (= ce qui résulte de la migration).');
+    classScore++;
+  } else {
+    item.classList.add('wrong-c');
+    result.style.color='#b71c1c';
+    result.textContent='❌ Non — c\'est une '+(correct==='cause'?'cause (= raison) et non une conséquence.':'conséquence (= effet) et non une cause.');
+  }
+}
+
+// ── COMPLÉTER ─────────────────────────────────────────────
+var pickedWord=null;
+var blankAnswers={bl1:'interdependantes',bl2:'FTN',bl3:'marginalisés'};
+var blankFilled={bl1:null,bl2:null,bl3:null};
+var completeScore=0;var completeDone=false;
+function pickWord(w){
+  if(document.getElementById('w-'+w).classList.contains('used'))return;
+  document.querySelectorAll('.word-chip').forEach(function(c){c.style.boxShadow='';c.style.transform='';});
+  pickedWord=w;
+  document.getElementById('w-'+w).style.boxShadow='0 0 0 3px #7b1fa2';
+  document.getElementById('w-'+w).style.transform='scale(1.08)';
+}
+function placeWord(blankId,expectedWord){
+  if(!pickedWord||completeDone)return;
+  if(blankFilled[blankId]){
+    var old=blankFilled[blankId];
+    document.getElementById('w-'+old).classList.remove('used');
+  }
+  blankFilled[blankId]=pickedWord;
+  var bl=document.getElementById(blankId);
+  bl.textContent=pickedWord;
+  bl.className='blank';
+  document.getElementById('w-'+pickedWord).classList.add('used');
+  document.querySelectorAll('.word-chip').forEach(function(c){c.style.boxShadow='';c.style.transform='';});
+  pickedWord=null;
+}
+function checkComplete(){
+  if(completeDone)return;
+  completeDone=true;
+  completeScore=0;
+  var labels={interdependantes:'interdépendantes',FTN:'FTN',marginalisés:'marginalisés'};
+  ['bl1','bl2','bl3'].forEach(function(bl,i){
+    var expected=blankAnswers[bl];
+    var filled=blankFilled[bl];
+    var el=document.getElementById(bl);
+    if(filled===expected){el.classList.add('filled-ok');completeScore++;}
+    else{el.textContent=filled||'(vide)';el.classList.add('filled-wrong');
+      var hint=document.createElement('span');
+      hint.style='font-size:.8rem;color:#b71c1c;margin-left:6px';
+      hint.textContent='→ '+labels[expected];el.after(hint);}
+  });
+  var res=document.getElementById('complete-result');
+  res.style.display='block';
+  res.style.background=completeScore>=2?'#e8f5e9':'#ffebee';
+  res.style.color=completeScore>=2?'#1b5e20':'#b71c1c';
+  res.textContent=completeScore+'/3 — '+(completeScore===3?'Parfait !':completeScore>=2?'Presque — relis la fiche.':'Reprends le lexique.');
+  document.getElementById('btn-complete').disabled=true;
+}
+
+// ── SCORE FINAL ───────────────────────────────────────────
 function showScore(){
-  var oqTotal=0;var keys=Object.keys(oqScores);
-  for(var i=0;i<keys.length;i++){if(oqScores[keys[i]]!==null)oqTotal+=oqScores[keys[i]];}
-  var total=qcmScore+oqTotal;
+  var total=qcmScore+matchScore+classScore+completeScore;
   document.getElementById('sc-qcm').textContent=qcmScore+'/6';
-  document.getElementById('sc-oq').textContent=oqTotal+'/6';
-  document.getElementById('sc-total').textContent=total+'/12';
-  var msg=total>=11?'Excellent ! La mondialisation n\'a plus de secrets.':
-          total>=9?'Très bien ! Revois le point raté.':
-          total>=7?'Pas mal — relis la fiche ce soir.':
+  document.getElementById('sc-match').textContent=matchScore+'/4';
+  document.getElementById('sc-class').textContent=classScore+'/3';
+  document.getElementById('sc-complete').textContent=completeScore+'/3';
+  document.getElementById('sc-total').textContent=total+'/16';
+  var msg=total>=14?'Excellent ! Niveau 17-18 assuré sur ce chapitre.':
+          total>=12?'Très bien ! Revois le point raté.':
+          total>=9?'Pas mal — relis la fiche ce soir.':
           'Reprends la fiche depuis le début.';
   document.getElementById('sc-msg').textContent=msg;
   document.getElementById('score-section').style.display='block';
@@ -245,10 +403,8 @@ function showScore(){
   document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
 }
 function partager(){
-  var oqTotal=0;var keys=Object.keys(oqScores);
-  for(var i=0;i<keys.length;i++){if(oqScores[keys[i]]!==null)oqTotal+=oqScores[keys[i]];}
-  var total=qcmScore+oqTotal;
-  var txt='Quiz Mondialisation – Géo 4ème\nQCM : '+qcmScore+'/6\nQuestions courtes : '+oqTotal+'/6\nTotal : '+total+'/12';
+  var total=qcmScore+matchScore+classScore+completeScore;
+  var txt='Quiz Mondialisation – Géo 4ème\nQCM : '+qcmScore+'/6\nAssociation : '+matchScore+'/4\nClassement : '+classScore+'/3\nCompléter : '+completeScore+'/3\nTotal : '+total+'/16';
   window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
 }
 </script></body></html>
