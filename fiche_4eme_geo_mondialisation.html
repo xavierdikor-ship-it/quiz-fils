@@ -1,177 +1,147 @@
 <!DOCTYPE html>
 <html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>La Mondialisation – Géographie 4ème</title>
+<title>La Mondialisation – Géo 4ème</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',sans-serif;background:#e0f2f1;color:#1a1a2e;padding:20px;font-size:15px}
+body{font-family:'Segoe UI',sans-serif;background:#e3f2fd;color:#1a1a2e;padding:20px;font-size:15px}
 .container{max-width:860px;margin:0 auto}
-header{background:linear-gradient(135deg,#004d40,#00796b);color:white;padding:30px;border-radius:16px;margin-bottom:20px;text-align:center}
-header h1{font-size:1.9rem;margin-bottom:6px}
-header p{font-size:.92rem;opacity:.9}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:white;padding:30px;border-radius:16px;margin-bottom:20px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}header p{font-size:.92rem;opacity:.9}
 .badge{display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:8px;font-weight:bold}
-.section{background:white;border-radius:12px;padding:22px 26px;margin-bottom:16px;box-shadow:0 2px 10px rgba(0,0,0,.08);border-left:5px solid #00796b}
-.section h2{color:#004d40;font-size:1.08rem;margin-bottom:14px;padding-bottom:7px;border-bottom:2px solid #b2dfdb;display:flex;align-items:center;gap:8px}
-.section h3{color:#00695c;font-size:.96rem;margin:14px 0 7px;font-weight:700}
+.section{background:white;border-radius:12px;padding:22px 26px;margin-bottom:16px;box-shadow:0 2px 10px rgba(0,0,0,.08);border-left:5px solid #1976d2}
+.section h2{color:#0d47a1;font-size:1.08rem;margin-bottom:14px;padding-bottom:7px;border-bottom:2px solid #bbdefb}
+.section h3{color:#1565c0;font-size:.96rem;margin:14px 0 7px;font-weight:700}
 .section p,.section li{font-size:.88rem;line-height:1.82;margin-bottom:6px}
-.section ul,.section ol{padding-left:20px}
-.retenir{background:#e8f5e9;border-left:4px solid #388e3c;padding:11px 15px;border-radius:0 8px 8px 0;font-size:.86rem;margin:11px 0;line-height:1.7}
+.section ul{padding-left:20px}
+.retenir{background:#e3f2fd;border-left:4px solid #0d47a1;padding:11px 15px;border-radius:0 8px 8px 0;font-size:.86rem;margin:11px 0;line-height:1.7}
 .alerte{background:#fff3e0;border-left:4px solid #e65100;padding:11px 15px;border-radius:0 8px 8px 0;font-size:.86rem;margin:11px 0;line-height:1.7}
-.definition{background:#e0f2f1;border-radius:10px;padding:13px 16px;margin:11px 0;font-size:.88rem;line-height:1.75;border:1px solid #80cbc4}
-.exemple{background:#fafafa;border-left:3px solid #26a69a;padding:9px 14px;border-radius:0 8px 8px 0;margin:8px 0;font-size:.86rem;line-height:1.7}
+.definition{background:#e8eaf6;border-radius:10px;padding:13px 16px;margin:11px 0;font-size:.88rem;line-height:1.75;border:1px solid #9fa8da}
 table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.84rem}
-th{background:#004d40;color:white;padding:9px 11px;text-align:left;font-weight:600}
+th{background:#0d47a1;color:white;padding:9px 11px;text-align:left}
 td{padding:9px 11px;border-bottom:1px solid #eee;vertical-align:top;line-height:1.6}
-tr:nth-child(even)td{background:#f0faf9}
+tr:nth-child(even)td{background:#e8f4fd}
 .col-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:11px 0}
-.col-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:11px 0}
-.card{background:#f5fffe;border-radius:10px;padding:13px;border:1px solid #80cbc4}
-.card h4{color:#00695c;margin-bottom:7px;font-size:.88rem;font-weight:700}
-.card p,.card li{font-size:.83rem;line-height:1.65}
+.card{background:#e8f4fd;border-radius:10px;padding:13px;border:1px solid #90caf9}
+.card h4{color:#0d47a1;margin-bottom:7px;font-size:.88rem;font-weight:700}
+.card p,.card li{font-size:.84rem;line-height:1.7}
 .card ul{padding-left:16px}
-.chiffre{font-size:1.6rem;font-weight:bold;color:#004d40;display:block;margin-bottom:3px}
-.timeline{position:relative;padding-left:24px;margin:10px 0}
-.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:#80cbc4}
-.tl-item{position:relative;margin-bottom:12px;font-size:.86rem;line-height:1.65}
-.tl-item::before{content:'';position:absolute;left:-20px;top:6px;width:10px;height:10px;border-radius:50%;background:#00796b;border:2px solid white;box-shadow:0 0 0 2px #00796b}
-.tl-date{font-weight:700;color:#004d40}
+.timeline{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.tl-item{display:flex;gap:12px;align-items:flex-start}
+.tl-date{background:#0d47a1;color:white;border-radius:8px;padding:4px 10px;font-size:.8rem;font-weight:bold;white-space:nowrap;margin-top:2px}
+.tl-text{font-size:.85rem;line-height:1.65}
+.vocab-term{font-weight:700;color:#0d47a1}
 </style></head>
 <body><div class="container">
 <header>
   <h1>🌍 La Mondialisation</h1>
-  <p>Géographie 4ème — Fil rouge du programme</p>
+  <p>Géographie 4ème — Flux, acteurs, espaces, lexique</p>
   <div class="badge">Fiche complète de révision</div>
 </header>
 
 <div class="section">
-<h2>① Définition : qu'est-ce que la mondialisation ?</h2>
+<h2>① Définition & interdépendance</h2>
 <div class="definition">
-  La <b>mondialisation</b> désigne le processus par lequel les différentes régions du monde sont de plus en plus <b>liées et interdépendantes</b>. Ces liens se renforcent grâce à des <b>flux</b> (échanges) de plus en plus importants et rapides entre les pays.
+  <b>La mondialisation</b> = la mise en relation de plus en plus forte des différentes régions du monde (qui deviennent <b>interdépendantes</b>) par des échanges variés (de marchandises, d'idées, d'argent…), par l'installation d'entreprises dans différents pays, par des <b>déplacements d'êtres humains</b>.
 </div>
-<p>Ces liens rendent les pays <b>interdépendants</b> : ce qui se passe dans un pays affecte les autres (ex. : une crise financière aux États-Unis impacte l'économie mondiale).</p>
-<div class="retenir">Mot-clé : <b>interdépendance</b> = les régions du monde ont de plus en plus besoin les unes des autres.</div>
+<p>L'<b>interdépendance</b> signifie que les pays dépendent les uns des autres : une crise dans un pays affecte les autres (ex : pandémie, guerre en Ukraine → hausse des prix du blé mondial).</p>
+<div class="retenir">La mondialisation n'est pas seulement économique — elle concerne aussi les hommes (migrations), la culture (musique, cinéma, mode), et l'environnement (pollution sans frontières).</div>
 </div>
 
 <div class="section">
 <h2>② Les flux de la mondialisation</h2>
-<p>La mondialisation s'appuie sur trois grands types de <b>flux</b> :</p>
-<div class="col-3">
-  <div class="card">
-    <h4>📦 Flux de marchandises</h4>
-    <ul><li>Produits manufacturés</li><li>Matières premières</li><li>Produits agricoles</li></ul>
-    <p style="margin-top:6px"><em>Ex : un smartphone fabriqué en Chine vendu en France</em></p>
-  </div>
-  <div class="card">
-    <h4>💰 Flux de capitaux</h4>
-    <ul><li>Investissements d'entreprises</li><li>Transactions financières</li><li>Transferts d'argent</li></ul>
-    <p style="margin-top:6px"><em>Ex : une entreprise française qui investit au Brésil</em></p>
-  </div>
-  <div class="card">
-    <h4>👥 Flux humains</h4>
-    <ul><li>Migrations économiques</li><li>Réfugiés</li><li>Tourisme international</li></ul>
-    <p style="margin-top:6px"><em>Ex : travailleurs qui quittent l'Afrique pour l'Europe</em></p>
-  </div>
-</div>
-<div class="card" style="margin-top:12px">
-  <h4>💡 Flux d'informations et d'idées</h4>
-  <p>Échange de données, de cultures, de savoirs via Internet, les médias, les réseaux sociaux. <em>Ex : une vidéo YouTube vue dans le monde entier.</em></p>
-</div>
-<div class="alerte"><b>Ces flux sont rendus possibles par :</b><br>
-— Les <b>transports</b> : porte-conteneurs (80% du commerce mondial), avions cargo, pipelines<br>
-— Les <b>télécommunications</b> : Internet, câbles sous-marins, satellites
-</div>
+<div class="definition"><b>Un flux</b> = un <b>déplacement</b> (de personnes, de marchandises, de capitaux, d'informations).</div>
+<table>
+<tr><th>Type de flux</th><th>Exemples concrets</th><th>Moyen de transport/diffusion</th></tr>
+<tr><td><b>Flux de marchandises</b></td><td>Smartphones fabriqués en Chine, pétrole saoudien, blé ukrainien</td><td>Porte-conteneurs, avion-cargo, oléoduc</td></tr>
+<tr><td><b>Flux de capitaux</b></td><td>Investissements d'une FTN à l'étranger, virements bancaires internationaux</td><td>Internet, réseaux financiers</td></tr>
+<tr><td><b>Flux de personnes</b></td><td>Migrations de travail, tourisme, réfugiés</td><td>Avion, bateau, voiture</td></tr>
+<tr><td><b>Flux d'informations</b></td><td>Internet, réseaux sociaux, téléphone, streaming</td><td>Câbles sous-marins, satellites</td></tr>
+</table>
+<div class="alerte">Distingue bien <b>migration</b> et <b>migration forcée</b> (voir lexique section ⑥).</div>
 </div>
 
 <div class="section">
 <h2>③ Les acteurs de la mondialisation</h2>
 <table>
-<tr><th>Acteur</th><th>Rôle dans la mondialisation</th><th>Exemples</th></tr>
-<tr><td><b>Firmes Transnationales (FTN)</b><br><small>= multinationales</small></td><td>Produisent et vendent dans plusieurs pays. Délocalisent leur production là où c'est moins cher.</td><td>Apple, Toyota, Nike, Total, Amazon</td></tr>
-<tr><td><b>États et gouvernements</b></td><td>Signent des accords commerciaux, ouvrent ou ferment leurs frontières, régulent les échanges.</td><td>UE, accords de libre-échange, OMC</td></tr>
-<tr><td><b>Organisations internationales</b></td><td>Régulent le commerce mondial et les relations entre pays.</td><td>OMC (commerce), FMI (finances), ONU</td></tr>
-<tr><td><b>Individus</b></td><td>En tant que <b>consommateurs</b> (achètent des produits du monde entier) et <b>migrants</b> (se déplacent pour travailler).</td><td>Un consommateur qui achète chinois, un migrant sénégalais en France</td></tr>
-<tr><td><b>ONG</b></td><td>Dénoncent les inégalités et les effets négatifs de la mondialisation.</td><td>Greenpeace, Oxfam, Médecins sans frontières</td></tr>
+<tr><th>Acteur</th><th>Rôle</th><th>Exemple</th></tr>
+<tr><td><b>FTN</b> (Firmes Transnationales)</td><td>Entreprises qui produisent et vendent dans plusieurs pays. Moteur économique principal.</td><td>Apple, Nike, Toyota, Total</td></tr>
+<tr><td><b>États</b></td><td>Régulent les échanges (droits de douane, traités), attirent les investissements</td><td>USA, Chine, UE</td></tr>
+<tr><td><b>Organisations internationales</b></td><td>Encadrent les règles du commerce mondial</td><td>OMC, FMI, Banque mondiale</td></tr>
+<tr><td><b>Individus</b></td><td>Consommateurs, migrants, touristes, internautes</td><td>Toi qui achètes un iPhone</td></tr>
+<tr><td><b>ONG</b></td><td>Défendent des causes sociales ou environnementales face à la mondialisation</td><td>Greenpeace, Amnesty International</td></tr>
 </table>
-<div class="retenir">Les <b>FTN</b> sont les acteurs économiques les plus puissants. Certaines ont un chiffre d'affaires supérieur au PIB de pays entiers.</div>
 </div>
 
 <div class="section">
-<h2>④ Quand a démarré la mondialisation ?</h2>
-<p>La mondialisation <b>n'est pas un phénomène récent</b>. Elle s'est construite en plusieurs étapes :</p>
+<h2>④ Chronologie de la mondialisation</h2>
 <div class="timeline">
-  <div class="tl-item"><span class="tl-date">XVIe siècle (1492…)</span> — Les <b>Grandes Découvertes</b> : explorateurs européens (Colomb, Vasco de Gama, Magellan) atteignent l'Amérique, l'Asie du Sud et de l'Est. Premiers échanges intercontinentaux à grande échelle.</div>
-  <div class="tl-item"><span class="tl-date">XIXe siècle</span> — La <b>révolution industrielle</b> : développement de la machine à vapeur, des chemins de fer, des bateaux à vapeur. Le commerce mondial s'intensifie. Les empires coloniaux européens structurent les échanges.</div>
-  <div class="tl-item"><span class="tl-date">Années 1970-1980</span> — <b>Libéralisation des échanges</b> : levée des barrières douanières, développement des FTN, délocalisations vers les pays à bas coûts.</div>
-  <div class="tl-item"><span class="tl-date">Années 1990-2000</span> — <b>Révolution numérique</b> : Internet accélère considérablement les échanges d'informations et les transactions financières. La mondialisation s'accélère massivement.</div>
-  <div class="tl-item"><span class="tl-date">Aujourd'hui</span> — La mondialisation est un phénomène <b>global et permanent</b>, mais contesté (montée des nationalismes, protectionnisme, questions écologiques).</div>
+  <div class="tl-item"><span class="tl-date">XVIe s.</span><span class="tl-text"><b>Grandes Découvertes</b> : routes commerciales mondiales, colonisation, échanges Europe-Amériques-Asie.</span></div>
+  <div class="tl-item"><span class="tl-date">XIXe s.</span><span class="tl-text"><b>Révolution industrielle</b> : bateau à vapeur, chemin de fer, essor du commerce de matières premières.</span></div>
+  <div class="tl-item"><span class="tl-date">1970-80</span><span class="tl-text"><b>Libéralisation</b> : suppression des droits de douane, délocalisation des usines vers les pays à bas coûts.</span></div>
+  <div class="tl-item"><span class="tl-date">1990-2000</span><span class="tl-text"><b>Révolution numérique</b> : internet, conteneurs, essor des FTN. Explosion des flux d'informations.</span></div>
+  <div class="tl-item"><span class="tl-date">Aujourd'hui</span><span class="tl-text">Mondialisation à vitesse maximale + tensions (protectionnisme, crises climatiques, migrations forcées).</span></div>
 </div>
 </div>
 
 <div class="section">
-<h2>⑤ Des espaces inégalement intégrés</h2>
-<p>Tous les pays ne profitent pas de la même façon de la mondialisation :</p>
+<h2>⑤ Espaces gagnants et espaces marginalisés</h2>
 <div class="col-2">
   <div class="card">
-    <h4>🌟 Les centres (espaces dominants)</h4>
+    <h4>🏆 Centres : la Triade</h4>
     <ul>
-      <li><b>La Triade</b> : Europe occidentale, Amérique du Nord, Asie-Pacifique (Japon, Corée, Australie)</li>
-      <li>Concentrent l'essentiel des échanges, des sièges de FTN, des flux financiers</li>
-      <li>Les <b>mégalopoles</b> (New York, Londres, Tokyo) sont les nœuds de la mondialisation</li>
+      <li>Amérique du Nord (USA, Canada)</li>
+      <li>Europe occidentale (UE)</li>
+      <li>Asie-Pacifique (Japon, Corée du Sud, Chine)</li>
     </ul>
+    <p style="margin-top:6px">Concentrent les FTN, les flux financiers et les technologies.</p>
   </div>
   <div class="card">
-    <h4>📈 Les pays émergents</h4>
+    <h4>📈 Émergents : BRICS</h4>
     <ul>
-      <li><b>BRICS</b> : Brésil, Russie, Inde, Chine, Afrique du Sud</li>
-      <li>Intégration croissante mais inégale dans la mondialisation</li>
-      <li>La Chine est devenue le 1er exportateur mondial</li>
+      <li>Brésil, Russie, Inde, Chine, Afrique du Sud</li>
     </ul>
+    <p style="margin-top:6px">S'intègrent progressivement — croissance rapide, mais inégalités internes fortes.</p>
   </div>
 </div>
 <div class="card" style="margin-top:12px">
-  <h4>🔻 Les espaces marginalisés (périphéries)</h4>
-  <p>Certaines régions restent à l'écart : une partie de l'Afrique subsaharienne, des zones rurales isolées. Peu de flux, peu d'investissements, peu de connexions aux réseaux mondiaux.</p>
+  <h4>🔴 Espaces marginalisés</h4>
+  <p>Peu connectés aux flux mondiaux. Subissent la mondialisation sans en profiter (certaines régions d'Afrique subsaharienne, pays enclavés). Souvent sources de migrations forcées.</p>
 </div>
-</div>
-
-<div class="section">
-<h2>⑥ Les effets et enjeux de la mondialisation</h2>
-<div class="col-2">
+<div class="col-2" style="margin-top:12px">
   <div class="card">
     <h4>✅ Effets positifs</h4>
     <ul>
-      <li>Croissance économique et baisse de la pauvreté dans certains pays</li>
-      <li>Accès à plus de produits et services</li>
-      <li>Diffusion des technologies et des savoirs</li>
-      <li>Enrichissement culturel (échanges de modes de vie)</li>
+      <li>Croissance économique, emplois dans les pays émergents</li>
+      <li>Accès à des produits moins chers</li>
+      <li>Échanges culturels, progrès technologiques</li>
+      <li>Développement de pays pauvres via investissements</li>
     </ul>
   </div>
   <div class="card">
     <h4>❌ Effets négatifs</h4>
     <ul>
-      <li>Inégalités croissantes entre pays et au sein des pays</li>
-      <li>Délocalisations → chômage dans les pays développés</li>
-      <li>Dégradation de l'environnement (transport, surproduction)</li>
-      <li>Uniformisation culturelle ("américanisation")</li>
+      <li>Inégalités entre espaces (Triade vs marginalisés)</li>
+      <li>Délocalisations → chômage dans les pays riches</li>
+      <li>Dégradation environnementale (transport intensif)</li>
+      <li>Migrations forcées liées aux inégalités</li>
     </ul>
   </div>
 </div>
-<div class="alerte"><b>Débat :</b> La mondialisation est à la fois source de richesses et de nouvelles inégalités. C'est l'un des grands débats politiques et économiques du XXIe siècle.</div>
 </div>
 
 <div class="section">
-<h2>⑦ Vocabulaire essentiel à maîtriser</h2>
+<h2>⑥ Lexique officiel du cours (à connaître par cœur)</h2>
 <table>
-<tr><th>Terme</th><th>Définition</th></tr>
-<tr><td><b>Mondialisation</b></td><td>Processus d'intensification des liens (flux) entre les régions du monde, créant une interdépendance croissante</td></tr>
-<tr><td><b>Flux</b></td><td>Échanges qui circulent dans le monde : marchandises, capitaux, personnes, informations</td></tr>
-<tr><td><b>Interdépendance</b></td><td>État dans lequel les pays dépendent les uns des autres économiquement</td></tr>
-<tr><td><b>FTN (Firme Transnationale)</b></td><td>Entreprise qui possède des filiales dans plusieurs pays (= multinationale)</td></tr>
-<tr><td><b>Délocalisation</b></td><td>Transfert d'une activité productive d'un pays vers un autre où les coûts sont moins élevés</td></tr>
-<tr><td><b>La Triade</b></td><td>Les trois pôles dominants de la mondialisation : Europe / Amérique du Nord / Asie-Pacifique</td></tr>
-<tr><td><b>BRICS</b></td><td>Pays émergents : Brésil, Russie, Inde, Chine, Afrique du Sud</td></tr>
-<tr><td><b>Métropolisation</b></td><td>Concentration des activités mondiales dans de grandes villes (mégalopoles)</td></tr>
-<tr><td><b>Porte-conteneurs</b></td><td>Énorme navire transportant des marchandises dans des conteneurs standardisés — outil clé du commerce mondial</td></tr>
+<tr><th style="width:170px">Terme</th><th>Définition exacte du cours</th></tr>
+<tr><td><span class="vocab-term">La mondialisation</span></td><td>La mise en relation de plus en plus forte des différentes régions du monde (qui deviennent <b>interdépendantes</b>) par des échanges variés (marchandises, idées, argent…), par l'installation d'entreprises dans différents pays, par des déplacements d'êtres humains.</td></tr>
+<tr><td><span class="vocab-term">Un flux</span></td><td>Un <b>déplacement</b> (de personnes, marchandises, capitaux ou informations).</td></tr>
+<tr><td><span class="vocab-term">Une migration</span></td><td>Un déplacement <b>massif</b>, volontaire ou non, de personnes entre des lieux variés (villes, régions, pays).</td></tr>
+<tr><td><span class="vocab-term">Une migration forcée</span></td><td>Un déplacement qui <b>pousse des individus à fuir</b> leur région d'installation (guerre, dictature, crise climatique…).</td></tr>
+<tr><td><span class="vocab-term">Une cause</span></td><td>Une <b>raison</b> (ce qui explique un phénomène).</td></tr>
+<tr><td><span class="vocab-term">Une conséquence</span></td><td>Un <b>effet</b>, un résultat (ce qui découle d'un phénomène).</td></tr>
+<tr><td><span class="vocab-term">Un paysage</span></td><td>Espace que nos yeux voient, composé d'<b>aménagements humains</b> (voies de communication, bâtiments…) <b>et/ou d'éléments naturels</b> (fleuves, chaînes de montagnes…).</td></tr>
 </table>
+<div class="retenir"><b>Mémo cause/conséquence :</b> La guerre (cause) → des gens fuient leur pays (conséquence = migration forcée). La mondialisation (cause) → des inégalités augmentent (conséquence). Toujours savoir dans quel sens ça va !</div>
 </div>
 
 </div></body></html>
