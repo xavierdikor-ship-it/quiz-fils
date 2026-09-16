@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz – Fractions – Maths 4ème</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e8f5e9;color:#1a1a2e;padding:20px;font-size:15px}
+.container{max-width:840px;margin:0 auto}
+header{background:linear-gradient(135deg,#1b5e20,#388e3c);color:white;padding:28px;border-radius:16px;margin-bottom:20px;text-align:center}
+header h1{font-size:1.7rem;margin-bottom:6px}header p{font-size:.88rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:8px;font-weight:bold}
+.section-title{background:#1b5e20;color:white;padding:11px 18px;border-radius:10px;margin:20px 0 12px;font-weight:700;font-size:.95rem}
+.question{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #388e3c}
+.question-text{font-weight:600;font-size:.94rem;margin-bottom:12px;line-height:1.6}
+.qnum{display:inline-block;background:#388e3c;color:white;border-radius:50%;width:26px;height:26px;text-align:center;line-height:26px;font-size:.82rem;font-weight:bold;margin-right:8px}
+.math{font-style:italic;color:#1b5e20;font-weight:bold}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.89rem}
+.option:hover{border-color:#388e3c;background:#e8f5e9}
+.option input[type=radio]{accent-color:#1b5e20;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#f1f8e9;border-left:4px solid #388e3c;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:.84rem;line-height:1.65}
+.btn{background:#1b5e20;color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.87rem;font-weight:600;margin-top:11px}
+.btn:disabled{background:#bbb;cursor:default}
+.open-q{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #66bb6a}
+.open-q .hint{font-size:.82rem;color:#888;margin-top:5px;font-style:italic;line-height:1.5}
+.open-q textarea{width:100%;min-height:90px;padding:11px;border:2px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:.88rem;line-height:1.6;margin-top:10px;resize:vertical}
+.open-q textarea:focus{outline:none;border-color:#388e3c}
+.model-answer{display:none;margin-top:12px;padding:14px 16px;background:#f1f8e9;border-radius:10px;border:1px solid #a5d6a7;font-size:.85rem;line-height:1.9}
+.model-answer h4{color:#1b5e20;margin-bottom:8px;font-size:.9rem}
+.model-answer p{margin-bottom:5px}
+.calc-line{font-family:monospace;font-size:.9rem;color:#1b5e20;background:#e8f5e9;padding:4px 8px;border-radius:4px;display:inline-block;margin:2px 0}
+.self-eval{display:none;margin-top:11px;gap:8px;flex-wrap:wrap}
+.self-eval button{border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600}
+.btn-ok{background:#e8f5e9;color:#1b5e20;border:2px solid #388e3c}
+.btn-partiel{background:#fff8e1;color:#e65100;border:2px solid #f57c00}
+.btn-non{background:#ffebee;color:#b71c1c;border:2px solid #e53935}
+.eval-done{display:inline-block;padding:4px 12px;border-radius:12px;font-size:.82rem;font-weight:bold;margin-top:8px}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.12);margin-top:24px}
+#score-section h2{color:#1b5e20;font-size:1.5rem;margin-bottom:14px}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.score-card{background:#e8f5e9;border-radius:10px;padding:16px;border:1px solid #a5d6a7}
+.score-card .num{font-size:2.4rem;font-weight:bold;color:#1b5e20}
+.score-card .label{font-size:.82rem;color:#555;margin-top:4px}
+.score-msg{font-size:.92rem;color:#333;margin:12px 0;padding:12px;background:#e8f5e9;border-radius:8px}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.92rem;font-weight:bold;cursor:pointer;margin-top:12px}
+#btn-show-score{display:block;width:100%;padding:14px;background:#1b5e20;color:white;border:none;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;margin-top:22px}
+</style></head>
+<body><div class="container">
+<header>
+  <h1>➗ Quiz — Fractions</h1>
+  <p>Maths 4ème · Produit en croix, réduction, addition</p>
+  <div class="badge">5 QCM + 3 calculs guidés · sur 11</div>
+</header>
+
+<div class="section-title">Partie 1 — QCM (5 questions)</div>
+
+<div class="question" id="q1">
+  <div class="question-text"><span class="qnum">1</span>Les fractions <span class="math">6/9</span> et <span class="math">10/15</span> sont-elles égales ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> Non, car 6 ≠ 10 et 9 ≠ 15.</label>
+    <label class="option"><input type="radio" name="q1" value="b"> Oui, car 6 × 15 = 9 × 10 = 90.</label>
+    <label class="option"><input type="radio" name="q1" value="c"> Non, car 6 × 15 ≠ 9 × 10.</label>
+    <label class="option"><input type="radio" name="q1" value="d"> Impossible à savoir sans calculer le résultat décimal.</label>
+  </div>
+  <button class="btn" onclick="valider('q1','b')">Valider</button>
+  <div class="explication" id="exp-q1"><b>Oui, 6/9 = 10/15.</b> Produit en croix : 6 × 15 = 90 et 9 × 10 = 90. Les produits sont égaux → les fractions sont égales. (On peut aussi vérifier : 6/9 = 2/3 et 10/15 = 2/3.) Piège : ne pas comparer numérateurs entre eux ni dénominateurs entre eux séparément.</div>
+</div>
+
+<div class="question" id="q2">
+  <div class="question-text"><span class="qnum">2</span>Pour calculer <span class="math">3/5 + 1/4</span>, quelle est la bonne première étape ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> Additionner les numérateurs : 3 + 1 = 4, et les dénominateurs : 5 + 4 = 9. Résultat : 4/9.</label>
+    <label class="option"><input type="radio" name="q2" value="b"> Réduire au même dénominateur (20) : 3/5 = 12/20 et 1/4 = 5/20, puis additionner.</label>
+    <label class="option"><input type="radio" name="q2" value="c"> Appliquer le produit en croix pour additionner.</label>
+    <label class="option"><input type="radio" name="q2" value="d"> Multiplier 3/5 × 1/4 pour trouver l'addition.</label>
+  </div>
+  <button class="btn" onclick="valider('q2','b')">Valider</button>
+  <div class="explication" id="exp-q2"><b>Réduire au même dénominateur.</b> Dénominateur commun de 5 et 4 = 20. On obtient 12/20 + 5/20 = 17/20. <b>Piège classique :</b> on ne peut JAMAIS additionner les numérateurs et les dénominateurs séparément (3+1)/(5+4) = 4/9 est FAUX. Le produit en croix sert à tester l'égalité, pas à additionner.</div>
+</div>
+
+<div class="question" id="q3">
+  <div class="question-text"><span class="qnum">3</span>On sait que <span class="math">a/8 = 3/12</span>. Quelle est la valeur de <span class="math">a</span> ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> a = 4</label>
+    <label class="option"><input type="radio" name="q3" value="b"> a = 2</label>
+    <label class="option"><input type="radio" name="q3" value="c"> a = 6</label>
+    <label class="option"><input type="radio" name="q3" value="d"> a = 36</label>
+  </div>
+  <button class="btn" onclick="valider('q3','b')">Valider</button>
+  <div class="explication" id="exp-q3"><b>a = 2.</b> Produit en croix : a × 12 = 8 × 3, donc 12a = 24, donc a = 24/12 = 2. Vérification : 2/8 = 1/4 et 3/12 = 1/4 ✓. Piège : a = 36 vient de l'erreur 8 × 3 ÷ 12 mal posé, ou de confondre quel terme multiplier par quel.</div>
+</div>
+
+<div class="question" id="q4">
+  <div class="question-text"><span class="qnum">4</span>Laquelle de ces fractions est la plus grande : <span class="math">5/8</span> ou <span class="math">7/12</span> ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> 7/12, car 7 > 5.</label>
+    <label class="option"><input type="radio" name="q4" value="b"> 5/8, car en réduisant au même dénominateur (24) on obtient 15/24 contre 14/24.</label>
+    <label class="option"><input type="radio" name="q4" value="c"> 7/12, car en réduisant au même dénominateur (24) on obtient 21/24 contre 15/24.</label>
+    <label class="option"><input type="radio" name="q4" value="d"> Elles sont égales car 5 × 12 = 8 × 7.</label>
+  </div>
+  <button class="btn" onclick="valider('q4','b')">Valider</button>
+  <div class="explication" id="exp-q4"><b>5/8 est plus grande.</b> Dénominateur commun = 24 : 5/8 = 15/24 et 7/12 = 14/24. Donc 5/8 > 7/12. Piège A : comparer les numérateurs seuls (7 > 5) ne suffit pas. Piège C : 7/12 en 24e = (7×2)/(12×2) = 14/24, pas 21/24. Piège D : 5×12=60 ≠ 8×7=56, donc elles ne sont pas égales.</div>
+</div>
+
+<div class="question" id="q5">
+  <div class="question-text"><span class="qnum">5</span>Calcule <span class="math">11/6 − 3/4</span>. Quel est le résultat ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> 8/2</label>
+    <label class="option"><input type="radio" name="q5" value="b"> 13/12</label>
+    <label class="option"><input type="radio" name="q5" value="c"> 8/12</label>
+    <label class="option"><input type="radio" name="q5" value="d"> 8/24</label>
+  </div>
+  <button class="btn" onclick="valider('q5','b')">Valider</button>
+  <div class="explication" id="exp-q5"><b>13/12.</b> Dénominateur commun de 6 et 4 = 12. 11/6 = 22/12, 3/4 = 9/12. 22/12 − 9/12 = 13/12. Piège C : 8/12 vient de l'erreur 11−3=8 et on garde un dénominateur quelconque. Piège A : additionner/soustraire dénominateurs (6−4=2). Piège D : multiplier les dénominateurs (6×4=24) sans recalculer les numérateurs.</div>
+</div>
+
+<div class="section-title">Partie 2 — Calculs posés (montre ton travail)</div>
+<div style="background:white;padding:12px 16px;border-radius:8px;font-size:.84rem;color:#555;margin-bottom:14px;line-height:1.6">
+  ✍️ Pose le calcul <b>étape par étape</b> comme en classe. Clique sur <b>Voir la correction</b> et évalue-toi honnêtement.
+</div>
+
+<div class="open-q" id="oq1">
+  <div class="question-text"><span class="qnum">6</span>Calcule et donne le résultat sous forme de fraction : <span class="math">C = 3/4 + 5/6 + 1/3</span></div>
+  <p class="hint">Étape 1 : trouver le dénominateur commun · Étape 2 : réduire chaque fraction · Étape 3 : additionner</p>
+  <textarea id="oq1-text" placeholder="Dénom. commun = ...&#10;3/4 = .../...&#10;5/6 = .../...&#10;1/3 = .../...&#10;C = ... + ... + ... = ..."></textarea>
+  <button class="btn" onclick="showModel('oq1')">Voir la correction</button>
+  <div class="model-answer" id="oq1-model">
+    <h4>✅ Correction détaillée :</h4>
+    <p>Dénominateurs : 4, 6, 3 → PPDC = 12</p>
+    <p class="calc-line">3/4 = (3×3)/(4×3) = 9/12</p>
+    <p class="calc-line">5/6 = (5×2)/(6×2) = 10/12</p>
+    <p class="calc-line">1/3 = (1×4)/(3×4) = 4/12</p>
+    <p class="calc-line">C = 9/12 + 10/12 + 4/12 = 23/12</p>
+    <p><b>Résultat : C = 23/12</b> (ou 1 + 11/12 si demandé en nombre mixte)</p>
+  </div>
+  <div class="self-eval" id="oq1-eval">
+    <button class="btn-ok" onclick="noterOQ('oq1',2)">✅ Bonne démarche + bon résultat (2 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq1',1)">⚠️ Bonne démarche, erreur de calcul (1 pt)</button>
+    <button class="btn-non" onclick="noterOQ('oq1',0)">❌ Démarche incorrecte (0)</button>
+  </div>
+</div>
+
+<div class="open-q" id="oq2">
+  <div class="question-text"><span class="qnum">7</span>Démontre par le produit en croix que <span class="math">14/21</span> et <span class="math">6/9</span> sont égales. Puis simplifie-les pour trouver leur forme irréductible.</div>
+  <p class="hint">Produit en croix : calcule a×d et b×c · Si égaux → égalité démontrée. Puis simplifie en divisant par le PGCD.</p>
+  <textarea id="oq2-text" placeholder="Produit en croix :&#10;14 × 9 = ...&#10;21 × 6 = ...&#10;Donc ...&#10;&#10;Forme irréductible : 14/21 = .../..."></textarea>
+  <button class="btn" onclick="showModel('oq2')">Voir la correction</button>
+  <div class="model-answer" id="oq2-model">
+    <h4>✅ Correction :</h4>
+    <p><b>Produit en croix :</b></p>
+    <p class="calc-line">14 × 9 = 126</p>
+    <p class="calc-line">21 × 6 = 126</p>
+    <p>Les produits sont égaux (126 = 126), donc <b>14/21 = 6/9</b>. ✓</p>
+    <p><b>Forme irréductible :</b><br>14/21 : PGCD(14,21) = 7 → 14÷7 = 2, 21÷7 = 3 → <b>2/3</b><br>
+    6/9 : PGCD(6,9) = 3 → 6÷3 = 2, 9÷3 = 3 → <b>2/3</b> ✓</p>
+  </div>
+  <div class="self-eval" id="oq2-eval">
+    <button class="btn-ok" onclick="noterOQ('oq2',2)">✅ Produit en croix correct + simplification OK (2 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq2',1)">⚠️ Produit en croix OK mais simplification ratée (1 pt)</button>
+    <button class="btn-non" onclick="noterOQ('oq2',0)">❌ Erreur dès le début (0)</button>
+  </div>
+</div>
+
+<div class="open-q" id="oq3">
+  <div class="question-text"><span class="qnum">8</span>Résous : <span class="math">x/15 = 8/20</span>. Montre le calcul avec le produit en croix.</div>
+  <p class="hint">Pose l'équation produit en croix : x × 20 = 15 × 8, puis isole x.</p>
+  <textarea id="oq3-text" placeholder="x × ... = 15 × ...&#10;... x = ...&#10;x = .../...&#10;x = ..."></textarea>
+  <button class="btn" onclick="showModel('oq3')">Voir la correction</button>
+  <div class="model-answer" id="oq3-model">
+    <h4>✅ Correction :</h4>
+    <p class="calc-line">x × 20 = 15 × 8</p>
+    <p class="calc-line">20x = 120</p>
+    <p class="calc-line">x = 120 ÷ 20</p>
+    <p class="calc-line">x = 6</p>
+    <p><b>Vérification :</b> 6/15 = 2/5 et 8/20 = 2/5 ✓</p>
+  </div>
+  <div class="self-eval" id="oq3-eval">
+    <button class="btn-ok" onclick="noterOQ('oq3',2)">✅ Démarche + résultat corrects (2 pts)</button>
+    <button class="btn-partiel" onclick="noterOQ('oq3',1)">⚠️ Bonne idée, erreur de calcul (1 pt)</button>
+    <button class="btn-non" onclick="noterOQ('oq3',0)">❌ Mauvaise méthode (0)</button>
+  </div>
+</div>
+
+<button id="btn-show-score" onclick="showScore()">Voir mon bilan final</button>
+<div id="score-section">
+  <h2>Bilan de la séance</h2>
+  <div class="score-grid">
+    <div class="score-card"><div class="num" id="sc-qcm">—</div><div class="label">QCM (sur 5)</div></div>
+    <div class="score-card"><div class="num" id="sc-oq">—</div><div class="label">Calculs posés (sur 6)</div></div>
+  </div>
+  <div class="score-card" style="margin:10px 0;background:#e8f5e9"><div class="num" id="sc-total">—</div><div class="label">Score total (sur 11)</div></div>
+  <div class="score-msg" id="sc-msg"></div>
+  <button class="share-btn" onclick="partager()">Partager sur WhatsApp</button>
+</div>
+</div>
+<script>
+var correct={q1:'b',q2:'b',q3:'b',q4:'b',q5:'b'};
+var answered={};var qcmScore=0;
+var oqScores={oq1:null,oq2:null,oq3:null};
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une réponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){
+    var val=['a','b','c','d'][i];opts[i].style.pointerEvents='none';
+    if(val===rep)opts[i].classList.add('correct');
+    else if(val===chosen.value&&chosen.value!==rep)opts[i].classList.add('wrong');
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn').disabled=true;
+  if(chosen.value===rep)qcmScore++;
+}
+function showModel(oqid){
+  document.getElementById(oqid+'-model').style.display='block';
+  document.getElementById(oqid+'-eval').style.display='flex';
+  document.querySelectorAll('#'+oqid+' > .btn').forEach(function(b){b.disabled=true;});
+}
+function noterOQ(oqid,pts){
+  oqScores[oqid]=pts;
+  var d=document.getElementById(oqid+'-eval');
+  var labels={2:'✅ Compris',1:'⚠️ Partiel',0:'❌ À retravailler'};
+  var colors={2:'#1b5e20',1:'#e65100',0:'#b71c1c'};
+  var bgs={2:'#e8f5e9',1:'#fff8e1',0:'#ffebee'};
+  d.innerHTML='<span class="eval-done" style="background:'+bgs[pts]+';color:'+colors[pts]+'">'+labels[pts]+' — '+pts+' pt'+(pts>1?'s':'')+'</span>';
+}
+function showScore(){
+  var oqTotal=0;var keys=Object.keys(oqScores);
+  for(var i=0;i<keys.length;i++){if(oqScores[keys[i]]!==null)oqTotal+=oqScores[keys[i]];}
+  var total=qcmScore+oqTotal;
+  document.getElementById('sc-qcm').textContent=qcmScore+'/5';
+  document.getElementById('sc-oq').textContent=oqTotal+'/6';
+  document.getElementById('sc-total').textContent=total+'/11';
+  var msg=total>=10?'Excellent ! Niveau 17-18 assuré sur ce chapitre.':
+          total>=8?'Très bien ! Revois le point raté.':
+          total>=6?'Bien — relis la méthode ce soir.':
+          'Reprends la fiche depuis le début.';
+  document.getElementById('sc-msg').textContent=msg;
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('btn-show-score').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function partager(){
+  var oqTotal=0;var keys=Object.keys(oqScores);
+  for(var i=0;i<keys.length;i++){if(oqScores[keys[i]]!==null)oqTotal+=oqScores[keys[i]];}
+  var total=qcmScore+oqTotal;
+  var txt='Quiz Fractions – Maths 4ème\nQCM : '+qcmScore+'/5\nCalculs : '+oqTotal+'/6\nTotal : '+total+'/11';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script></body></html>

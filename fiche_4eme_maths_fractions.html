@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Fractions – Maths 4ème</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e8f5e9;color:#1a1a2e;padding:20px;font-size:15px}
+.container{max-width:860px;margin:0 auto}
+header{background:linear-gradient(135deg,#1b5e20,#388e3c);color:white;padding:30px;border-radius:16px;margin-bottom:20px;text-align:center}
+header h1{font-size:1.9rem;margin-bottom:6px}
+header p{font-size:.92rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:8px;font-weight:bold}
+.section{background:white;border-radius:12px;padding:22px 26px;margin-bottom:16px;box-shadow:0 2px 10px rgba(0,0,0,.08);border-left:5px solid #388e3c}
+.section h2{color:#1b5e20;font-size:1.08rem;margin-bottom:14px;padding-bottom:7px;border-bottom:2px solid #c8e6c9}
+.section h3{color:#2e7d32;font-size:.96rem;margin:14px 0 7px;font-weight:700}
+.section p,.section li{font-size:.88rem;line-height:1.82;margin-bottom:6px}
+.section ul{padding-left:20px}
+.retenir{background:#e8f5e9;border-left:4px solid #1b5e20;padding:11px 15px;border-radius:0 8px 8px 0;font-size:.86rem;margin:11px 0;line-height:1.7}
+.alerte{background:#fff3e0;border-left:4px solid #e65100;padding:11px 15px;border-radius:0 8px 8px 0;font-size:.86rem;margin:11px 0;line-height:1.7}
+.piege{background:#ffebee;border-left:4px solid #c62828;padding:11px 15px;border-radius:0 8px 8px 0;font-size:.86rem;margin:11px 0;line-height:1.7}
+.propriete{background:#f1f8e9;border:2px solid #558b2f;border-radius:10px;padding:14px 18px;margin:11px 0;font-size:.88rem;line-height:1.8}
+.propriete b{color:#1b5e20}
+.exemple{background:#fafafa;border-left:3px solid #66bb6a;padding:10px 14px;border-radius:0 8px 8px 0;margin:8px 0;font-size:.87rem;line-height:1.9}
+.math{font-style:italic;color:#1b5e20;font-weight:bold}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.85rem}
+th{background:#1b5e20;color:white;padding:9px 11px;text-align:left}
+td{padding:9px 11px;border-bottom:1px solid #eee;vertical-align:top;line-height:1.6}
+tr:nth-child(even)td{background:#f9fbe7}
+.col-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:11px 0}
+.card{background:#f9fbe7;border-radius:10px;padding:13px;border:1px solid #a5d6a7}
+.card h4{color:#2e7d32;margin-bottom:7px;font-size:.88rem;font-weight:700}
+.card p{font-size:.84rem;line-height:1.7}
+.schema{background:#f1f8e9;border-radius:10px;padding:16px;text-align:center;margin:11px 0;font-size:1.1rem;letter-spacing:.5px}
+.arrow{color:#388e3c;font-size:1.3rem;margin:0 8px}
+</style></head>
+<body><div class="container">
+<header>
+  <h1>➗ Fractions & Quotients</h1>
+  <p>Maths 4ème — Réduction, comparaison, produit en croix, addition</p>
+  <div class="badge">Fiche complète de révision</div>
+</header>
+
+<div class="section">
+<h2>① Rappel : qu'est-ce qu'un quotient (fraction) ?</h2>
+<p>Un nombre en <b>écriture fractionnaire</b> s'écrit <span class="math">a/b</span> où :</p>
+<ul>
+  <li><b>a</b> = numérateur (nombre du dessus)</li>
+  <li><b>b</b> = dénominateur (nombre du dessous, <b>toujours ≠ 0</b>)</li>
+</ul>
+<div class="retenir">Une fraction représente une division : <span class="math">a/b = a ÷ b</span>. Le dénominateur ne peut jamais être nul (division par zéro impossible).</div>
+</div>
+
+<div class="section">
+<h2>② B — Réduction au même dénominateur</h2>
+<p>Pour <b>comparer</b>, <b>additionner</b> ou <b>soustraire</b> des fractions qui n'ont <b>pas le même dénominateur</b>, il faut d'abord les <b>réduire au même dénominateur</b>.</p>
+
+<h3>Méthode : trouver le dénominateur commun</h3>
+<div class="alerte"><b>Principe :</b> multiplier numérateur ET dénominateur par le même nombre (la fraction garde la même valeur). On cherche le plus petit dénominateur commun (PPDC) ou on multiplie les deux dénominateurs entre eux.</div>
+
+<div class="exemple">
+<b>Exemple 1 :</b> Réduire 2/9 et 5/12 au même dénominateur.<br>
+→ Dénominateur commun = 36 (car 9×4=36 et 12×3=36)<br>
+<span class="math">2/9 = (2×4)/(9×4) = 8/36</span><br>
+<span class="math">5/12 = (5×3)/(12×3) = 15/36</span><br>
+→ On peut maintenant comparer : 8/36 &lt; 15/36, donc <span class="math">2/9 &lt; 5/12</span>
+</div>
+
+<div class="exemple">
+<b>Exemple 2 :</b> Comparer 2/7 et 3/8.<br>
+→ Dénominateur commun = 56 (7×8)<br>
+<span class="math">2/7 = (2×8)/(7×8) = 16/56</span><br>
+<span class="math">3/8 = (3×7)/(8×7) = 21/56</span><br>
+→ 21 &gt; 16, donc <span class="math">2/7 &lt; 3/8</span>
+</div>
+
+<div class="retenir">Mémo : pour trouver un dénominateur commun, le plus simple est de multiplier les deux dénominateurs ensemble. Si tu veux le plus petit, cherche le PPDC (plus petit multiple commun).</div>
+</div>
+
+<div class="section">
+<h2>③ C — Produit en croix</h2>
+<div class="propriete">
+<b>Propriété :</b> Pour tous nombres a, b, c, d où b ≠ 0 et d ≠ 0 :<br><br>
+<span class="math">a/b = c/d &nbsp; si et seulement si &nbsp; a × d = b × c</span><br><br>
+• Si les fractions sont égales → produits en croix égaux<br>
+• Si les produits en croix sont égaux → fractions égales<br>
+• Si les produits en croix sont différents → fractions différentes
+</div>
+
+<div class="schema">
+  <span style="color:#1b5e20;font-weight:bold">a</span> / <span style="color:#e53935;font-weight:bold">b</span> &nbsp;=&nbsp; <span style="color:#e53935;font-weight:bold">c</span> / <span style="color:#1b5e20;font-weight:bold">d</span>
+  &nbsp;&nbsp;⟺&nbsp;&nbsp;
+  <span style="color:#1b5e20;font-weight:bold">a × d</span> = <span style="color:#e53935;font-weight:bold">b × c</span>
+</div>
+
+<div class="col-2">
+  <div class="card">
+    <h4>Usage 1 : tester l'égalité</h4>
+    <p>Les nombres 2,1/3,5 et 6,4/8,3 sont-ils égaux ?<br>
+    2,1 × 8,3 = 17,43<br>
+    3,5 × 6,4 = 22,40<br>
+    17,43 ≠ 22,40 → <b>différents</b></p>
+  </div>
+  <div class="card">
+    <h4>Usage 2 : trouver un inconnu</h4>
+    <p>Trouver a : a/6 = 7/9<br>
+    a × 9 = 6 × 7<br>
+    9a = 42<br>
+    a = 42/9 = <b>14/3</b></p>
+  </div>
+</div>
+
+<div class="piege"><b>Piège fréquent :</b> le produit en croix, c'est DIAGONALE × DIAGONALE. Pas numérateur × numérateur ! <br>
+a/b = c/d → a×d et b×c (pas a×c).</div>
+</div>
+
+<div class="section">
+<h2>④ II — Addition et soustraction de fractions</h2>
+<h3>A. Même dénominateur</h3>
+<div class="propriete">
+<b>Propriété :</b> Pour tout a, b, c avec b ≠ 0 :<br>
+<span class="math">a/b + c/b = (a+c)/b</span> &nbsp;&nbsp; et &nbsp;&nbsp; <span class="math">a/b − c/b = (a−c)/b</span><br>
+On additionne (ou soustrait) les numérateurs et on garde le dénominateur.
+</div>
+<div class="exemple">
+<span class="math">5/13 + 3/13 = 8/13</span> &nbsp;•&nbsp; <span class="math">11/7 − 4/7 = 7/7 = 1</span>
+</div>
+
+<h3>B. Dénominateurs différents → réduire d'abord !</h3>
+<div class="alerte">Si les dénominateurs sont différents, il FAUT réduire au même dénominateur avant d'additionner. On ne peut pas additionner des "tiers" et des "quarts" directement.</div>
+<div class="exemple">
+<b>Calcule :</b> C = 1 + 13/30 + 11/10<br>
+→ Dénominateur commun = 30 (1=30/30, 13/30=13/30, 11/10=33/30)<br>
+<span class="math">C = 30/30 + 13/30 + 33/30 = 76/30 = 38/15</span>
+
+<br><br>
+<b>Autre exemple :</b> D = 3/4 + 5/6<br>
+→ Dénominateur commun = 12 (4×3=12, 6×2=12)<br>
+<span class="math">D = (3×3)/(4×3) + (5×2)/(6×2) = 9/12 + 10/12 = 19/12</span>
+</div>
+
+<h3>Méthode complète en 3 étapes :</h3>
+<table>
+<tr><th>Étape</th><th>Ce qu'on fait</th><th>Exemple (3/4 + 5/6)</th></tr>
+<tr><td><b>1. Dénominateur commun</b></td><td>Trouver un multiple commun des dénominateurs</td><td>4 et 6 → commun = 12</td></tr>
+<tr><td><b>2. Réduire</b></td><td>Multiplier num. et dénom. pour obtenir ce dénominateur</td><td>3/4 = 9/12 · 5/6 = 10/12</td></tr>
+<tr><td><b>3. Calculer</b></td><td>Additionner (ou soustraire) les numérateurs</td><td>9/12 + 10/12 = 19/12</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>⑤ Récapitulatif : quelle technique utiliser ?</h2>
+<table>
+<tr><th>Situation</th><th>Technique</th></tr>
+<tr><td>Vérifier si deux fractions sont égales</td><td><b>Produit en croix</b> : a×d = b×c ?</td></tr>
+<tr><td>Trouver un inconnu dans une proportion</td><td><b>Produit en croix</b> puis résoudre</td></tr>
+<tr><td>Comparer deux fractions</td><td><b>Réduire au même dénominateur</b>, puis comparer les numérateurs</td></tr>
+<tr><td>Additionner/soustraire, même dénominateur</td><td>Additionner/soustraire les numérateurs directement</td></tr>
+<tr><td>Additionner/soustraire, dénominateurs différents</td><td>Réduire au même dénominateur, puis calculer</td></tr>
+</table>
+</div>
+
+</div></body></html>
