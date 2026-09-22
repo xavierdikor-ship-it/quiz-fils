@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz – Mondialisation (approfondi) – Géo 4ème</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#e0f2f1;color:#1a1a2e;padding:20px;font-size:15px}
+.container{max-width:840px;margin:0 auto}
+header{background:linear-gradient(135deg,#004d40,#00796b);color:white;padding:28px;border-radius:16px;margin-bottom:20px;text-align:center}
+header h1{font-size:1.7rem;margin-bottom:6px}header p{font-size:.88rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:8px;font-weight:bold}
+.section-title{background:#004d40;color:white;padding:11px 18px;border-radius:10px;margin:20px 0 12px;font-weight:700;font-size:.95rem}
+
+/* QCM */
+.question{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #00796b}
+.question-text{font-weight:600;font-size:.94rem;margin-bottom:12px;line-height:1.6}
+.qnum{display:inline-block;background:#00796b;color:white;border-radius:50%;width:26px;height:26px;text-align:center;line-height:26px;font-size:.82rem;font-weight:bold;margin-right:8px}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.89rem}
+.option:hover{border-color:#00796b;background:#e0f2f1}
+.option input[type=radio]{accent-color:#004d40;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#e0f7fa;border-left:4px solid #00796b;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:.84rem;line-height:1.65}
+.btn-valider{background:#004d40;color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.87rem;font-weight:600;margin-top:11px}
+.btn-valider:disabled{background:#bbb;cursor:default}
+
+/* MATCHING */
+.match-box{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #26a69a}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.match-col h4{font-size:.82rem;color:#555;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.match-item{padding:10px 13px;border-radius:8px;border:2px solid #80cbc4;background:#e0f2f1;cursor:pointer;font-size:.85rem;line-height:1.5;transition:all .2s;margin-bottom:6px;user-select:none}
+.match-item:hover{border-color:#00796b;background:#b2dfdb}
+.match-item.selected{border-color:#004d40;background:#004d40;color:white;font-weight:600}
+.match-item.matched-ok{border-color:#388e3c!important;background:#e8f5e9!important;color:#1b5e20!important;cursor:default;font-weight:600}
+.match-item.matched-wrong{border-color:#e53935!important;background:#ffebee!important;animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.match-feedback{font-size:.83rem;margin-top:10px;padding:8px 12px;border-radius:8px;display:none}
+
+/* CLASSEMENT */
+.classif-box{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #4db6ac}
+.classif-item{background:#f5f5f5;border-radius:10px;padding:13px 15px;margin-bottom:10px;border:2px solid #e0e0e0}
+.classif-statement{font-size:.89rem;margin-bottom:9px;line-height:1.55;font-style:italic}
+.classif-btns{display:flex;gap:8px;flex-wrap:wrap}
+.classif-btn{border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:600;transition:all .2s}
+.btn-cause{background:#fff8e1;color:#e65100;border:2px solid #ffb300}
+.btn-consequence{background:#e8eaf6;color:#3949ab;border:2px solid #7986cb}
+.classif-item.correct-c{border-color:#388e3c;background:#e8f5e9}
+.classif-item.wrong-c{border-color:#e53935;background:#ffebee}
+.classif-result{font-size:.81rem;margin-top:7px;display:none;line-height:1.5}
+
+/* COMPLÉTER */
+.complete-box{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #80cbc4}
+.word-bank{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.word-chip{padding:7px 14px;border-radius:20px;border:2px solid #80cbc4;background:#e0f2f1;cursor:pointer;font-size:.86rem;font-weight:600;color:#004d40;transition:all .2s;user-select:none}
+.word-chip:hover:not(.used){border-color:#004d40;background:#b2dfdb}
+.word-chip.used{opacity:.35;cursor:default;text-decoration:line-through}
+.sentence-block{font-size:.9rem;line-height:2.6;margin:8px 0}
+.blank{display:inline-block;min-width:80px;border-bottom:2px solid #00796b;text-align:center;padding:0 6px;margin:0 3px;font-weight:bold;color:#004d40;cursor:pointer;border-radius:4px}
+.blank.filled-ok{background:#e8f5e9;border-color:#388e3c;color:#1b5e20;border-bottom:none;border-radius:6px;padding:2px 8px}
+.blank.filled-wrong{background:#ffebee;border-color:#e53935;color:#b71c1c;border-bottom:none;border-radius:6px;padding:2px 8px}
+.complete-check{background:#004d40;color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.87rem;font-weight:600;margin-top:11px}
+.complete-check:disabled{background:#bbb}
+#complete-result{display:none;margin-top:10px;font-size:.85rem;padding:10px;border-radius:8px}
+
+/* SCORE */
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.12);margin-top:24px}
+#score-section h2{color:#004d40;font-size:1.5rem;margin-bottom:14px}
+.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.score-card{background:#e0f2f1;border-radius:10px;padding:14px;border:1px solid #80cbc4}
+.score-card .num{font-size:2rem;font-weight:bold;color:#004d40}
+.score-card .label{font-size:.78rem;color:#555;margin-top:4px}
+.score-total{background:#b2dfdb;border-radius:10px;padding:16px;margin:10px 0}
+.score-total .num{font-size:2.6rem;font-weight:bold;color:#004d40}
+.score-total .label{font-size:.84rem;color:#555}
+.score-msg{font-size:.92rem;color:#333;margin:12px 0;padding:12px;background:#e0f2f1;border-radius:8px}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.92rem;font-weight:bold;cursor:pointer;margin-top:12px}
+#btn-show-score{display:block;width:100%;padding:14px;background:#004d40;color:white;border:none;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;margin-top:22px}
+</style></head>
+<body><div class="container">
+<header>
+  <h1>🌍 Quiz — La Mondialisation (approfondi)</h1>
+  <p>Géographie 4ème · Causes, conséquences, acteurs, chronologie</p>
+  <div class="badge">5 QCM + association + classement + compléter · sur 16</div>
+</header>
+
+<!-- PARTIE 1 : QCM -->
+<div class="section-title">Partie 1 — QCM (5 questions · 5 pts)</div>
+
+<div class="question" id="q1">
+  <div class="question-text"><span class="qnum">1</span>Pourquoi les FTN implantent-elles des usines dans certains pays plutôt qu'en restant dans leur pays d'origine ? (plusieurs raisons existent — choisis la <b>liste complète et exacte</b>)</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> Uniquement pour payer moins d'impôts.</label>
+    <label class="option"><input type="radio" name="q1" value="b"> Pour trouver une main-d'œuvre à bas salaires, être proche des matières premières, et conquérir de nouveaux marchés de consommation.</label>
+    <label class="option"><input type="radio" name="q1" value="c"> Pour éviter les migrations forcées dans leur pays d'origine.</label>
+    <label class="option"><input type="radio" name="q1" value="d"> Parce que les lois internationales les y obligent.</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','b')">Valider</button>
+  <div class="explication" id="exp-q1"><b>B — les 3 stratégies des FTN.</b> Elles s'implantent à l'étranger pour : <b>main-d'œuvre moins chère</b> (ex : usines au Bangladesh), <b>accès aux matières premières</b> (ex : mines en Afrique), <b>conquérir des marchés</b> (ex : vendre en Chine). Ces 3 raisons sont au cœur de la mondialisation économique.</div>
+</div>
+
+<div class="question" id="q2">
+  <div class="question-text"><span class="qnum">2</span>La mondialisation s'est <b>fortement accélérée</b> à quelle période ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> Au XVIème siècle, avec les Grandes Découvertes.</label>
+    <label class="option"><input type="radio" name="q2" value="b"> Au XIXème siècle, avec la révolution industrielle uniquement.</label>
+    <label class="option"><input type="radio" name="q2" value="c"> Dans la 2ème moitié du XXème siècle (après 1945), avec l'essor des transports et d'internet.</label>
+    <label class="option"><input type="radio" name="q2" value="d"> Au XXIème siècle seulement, grâce aux smartphones.</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','c')">Valider</button>
+  <div class="explication" id="exp-q2"><b>C.</b> La mondialisation <em>a démarré</em> au XVIème s. (Grandes Découvertes), mais elle s'est <b>fortement accélérée dans la 2ème moitié du XXème siècle</b> : porte-conteneurs, avion de ligne, puis internet dans les années 1990. Piège A : le XVIème s. = le début, pas l'accélération maximale.</div>
+</div>
+
+<div class="question" id="q3">
+  <div class="question-text"><span class="qnum">3</span>L'adoption de modes de vie semblables sur toute la planète (fast-food, vêtements de marque, réseaux sociaux…) est…</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> Une cause de la mondialisation.</label>
+    <label class="option"><input type="radio" name="q3" value="b"> Une conséquence de la mondialisation sur la vie des hommes.</label>
+    <label class="option"><input type="radio" name="q3" value="c"> Une caractéristique propre à la Triade uniquement.</label>
+    <label class="option"><input type="radio" name="q3" value="d"> Un flux de capitaux.</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','b')">Valider</button>
+  <div class="explication" id="exp-q3"><b>B — conséquence sur la vie des hommes.</b> Les échanges mondiaux diffusent les mêmes produits, marques et habitudes partout. C'est un <em>effet</em> de la mondialisation (conséquence), pas une cause. Piège A : une cause serait par exemple le développement d'internet.</div>
+</div>
+
+<div class="question" id="q4">
+  <div class="question-text"><span class="qnum">4</span>Parmi ces affirmations sur les conséquences de la mondialisation, laquelle est <b>vraie</b> ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> La mondialisation a uniquement des effets négatifs : pauvreté et inégalités partout.</label>
+    <label class="option"><input type="radio" name="q4" value="b"> La mondialisation a uniquement des effets positifs : tous les pays s'enrichissent également.</label>
+    <label class="option"><input type="radio" name="q4" value="c"> La mondialisation a des effets contradictoires : elle réduit la pauvreté dans certains pays mais creuse les inégalités sociales et aggrave les problèmes environnementaux.</label>
+    <label class="option"><input type="radio" name="q4" value="d"> La mondialisation n'a aucun effet sur l'environnement.</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','c')">Valider</button>
+  <div class="explication" id="exp-q4"><b>C.</b> La mondialisation a des effets <b>contradictoires</b> : ✅ diminution de la pauvreté dans les pays émergents, enrichissement de certains individus. ❌ Mais aussi : creusement des inégalités sociales, enrichissement surtout des plus riches, augmentation des émissions de gaz à effet de serre. Elle n'est ni tout noire ni tout rose.</div>
+</div>
+
+<div class="question" id="q5">
+  <div class="question-text"><span class="qnum">5</span>Quel phénomène du XVIème siècle est considéré comme le <b>point de départ</b> de la mondialisation ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> La révolution industrielle et la machine à vapeur.</label>
+    <label class="option"><input type="radio" name="q5" value="b"> L'invention d'internet et des satellites.</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Les Grandes Découvertes : expéditions d'explorateurs européens vers l'Amérique, l'Asie du Sud et de l'Est.</label>
+    <label class="option"><input type="radio" name="q5" value="d"> La création de l'ONU après la Seconde Guerre mondiale.</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','c')">Valider</button>
+  <div class="explication" id="exp-q5"><b>C.</b> La mondialisation a <em>démarré</em> avec les <b>Grandes Découvertes au XVIème siècle</b> : Christophe Colomb (Amérique, 1492), Vasco de Gama (Asie)… Ces expéditions créent les premières routes commerciales mondiales. La révolution industrielle (XIXème) et internet (XXème) sont des accélérations ultérieures.</div>
+</div>
+
+<!-- PARTIE 2 : ASSOCIATION -->
+<div class="section-title">Partie 2 — Association : cause → exemple concret (4 pts)</div>
+<div class="match-box">
+  <div class="question-text" style="margin-bottom:4px">Chaque cause de l'accélération de la mondialisation correspond à un exemple. Relie-les.</div>
+  <div style="font-size:.82rem;color:#888;margin-bottom:12px">Clique sur une cause, puis sur son exemple.</div>
+  <div class="match-grid">
+    <div>
+      <h4>Cause</h4>
+      <div class="match-item term" id="t-A" onclick="selectTerm('A')">Développement des moyens de transport maritimes</div>
+      <div class="match-item term" id="t-B" onclick="selectTerm('B')">Développement des moyens de communication</div>
+      <div class="match-item term" id="t-C" onclick="selectTerm('C')">Stratégie des FTN : main-d'œuvre bon marché</div>
+      <div class="match-item term" id="t-D" onclick="selectTerm('D')">Augmentation des migrations</div>
+    </div>
+    <div>
+      <h4>Exemple concret</h4>
+      <div class="match-item def" id="d-1" onclick="selectDef('1')">Des millions de travailleurs quittent l'Afrique ou l'Asie du Sud pour l'Europe ou les pays du Golfe.</div>
+      <div class="match-item def" id="d-2" onclick="selectDef('2')">Nike fait fabriquer ses chaussures au Vietnam où les salaires sont 10× moins élevés qu'aux USA.</div>
+      <div class="match-item def" id="d-3" onclick="selectDef('3')">Un porte-conteneurs peut transporter 20 000 boîtes de marchandises en une seule traversée.</div>
+      <div class="match-item def" id="d-4" onclick="selectDef('4')">En quelques secondes, une commande passée en France déclenche l'expédition d'un colis depuis la Chine via internet.</div>
+    </div>
+  </div>
+  <div id="match-feedback" class="match-feedback"></div>
+</div>
+
+<!-- PARTIE 3 : CLASSEMENT CAUSE / CONSÉQUENCE -->
+<div class="section-title">Partie 3 — Cause ou Conséquence de l'accélération ? (4 pts)</div>
+<div class="classif-box">
+  <div class="question-text" style="margin-bottom:4px">Chaque élément est-il une <b>cause</b> (ce qui a provoqué l'accélération) ou une <b>conséquence</b> (ce qui en a résulté) ?</div>
+  <div style="font-size:.82rem;color:#555;margin-bottom:14px">Rappel : cause = raison / conséquence = effet</div>
+
+  <div class="classif-item" id="ci1">
+    <div class="classif-statement">L'essor des navires porte-conteneurs qui permettent de transporter des milliers de tonnes de marchandises à faible coût.</div>
+    <div class="classif-btns">
+      <button class="classif-btn btn-cause" onclick="classDo('ci1','cause','cause')">Cause</button>
+      <button class="classif-btn btn-consequence" onclick="classDo('ci1','consequence','cause')">Conséquence</button>
+    </div>
+    <div class="classif-result" id="cr1"></div>
+  </div>
+
+  <div class="classif-item" id="ci2">
+    <div class="classif-statement">Le creusement des inégalités sociales : les plus riches s'enrichissent encore plus, les travailleurs peu qualifiés voient leurs emplois délocalisés.</div>
+    <div class="classif-btns">
+      <button class="classif-btn btn-cause" onclick="classDo('ci2','cause','consequence')">Cause</button>
+      <button class="classif-btn btn-consequence" onclick="classDo('ci2','consequence','consequence')">Conséquence</button>
+    </div>
+    <div class="classif-result" id="cr2"></div>
+  </div>
+
+  <div class="classif-item" id="ci3">
+    <div class="classif-statement">L'augmentation des émissions de gaz à effet de serre due aux transports aériens, routiers et aux industries mondialisées.</div>
+    <div class="classif-btns">
+      <button class="classif-btn btn-cause" onclick="classDo('ci3','cause','consequence')">Cause</button>
+      <button class="classif-btn btn-consequence" onclick="classDo('ci3','consequence','consequence')">Conséquence</button>
+    </div>
+    <div class="classif-result" id="cr3"></div>
+  </div>
+
+  <div class="classif-item" id="ci4">
+    <div class="classif-statement">La libéralisation des échanges commerciaux : réduction des droits de douane entre pays, création de l'OMC.</div>
+    <div class="classif-btns">
+      <button class="classif-btn btn-cause" onclick="classDo('ci4','cause','cause')">Cause</button>
+      <button class="classif-btn btn-consequence" onclick="classDo('ci4','consequence','cause')">Conséquence</button>
+    </div>
+    <div class="classif-result" id="cr4"></div>
+  </div>
+</div>
+
+<!-- PARTIE 4 : COMPLÉTER -->
+<div class="section-title">Partie 4 — Complète le résumé (3 pts)</div>
+<div class="complete-box">
+  <div class="question-text" style="margin-bottom:4px">Complète ce résumé du cours avec les bons mots.</div>
+  <div class="word-bank" id="word-bank">
+    <div class="word-chip" id="w-XVI" onclick="pickWord('XVI')">XVIème</div>
+    <div class="word-chip" id="w-XX" onclick="pickWord('XX')">XXème</div>
+    <div class="word-chip" id="w-conteneurs" onclick="pickWord('conteneurs')">porte-conteneurs</div>
+    <div class="word-chip" id="w-internet" onclick="pickWord('internet')">internet</div>
+    <div class="word-chip" id="w-FTN" onclick="pickWord('FTN')">FTN</div>
+    <div class="word-chip" id="w-salaires" onclick="pickWord('salaires')">bas salaires</div>
+  </div>
+  <div class="sentence-block">
+    1. La mondialisation a démarré au <span class="blank" id="bl1" onclick="placeWord('bl1','XVI')">______</span> siècle avec les Grandes Découvertes.<br>
+    2. Elle s'est fortement accélérée dans la 2ème moitié du <span class="blank" id="bl2" onclick="placeWord('bl2','XX')">______</span> siècle.<br>
+    3. Les <span class="blank" id="bl3" onclick="placeWord('bl3','FTN')">______</span> s'installent dans des pays à <span class="blank" id="bl4" onclick="placeWord('bl4','salaires')">______</span> pour réduire leurs coûts.
+  </div>
+  <button class="complete-check" id="btn-complete" onclick="checkComplete()">Vérifier</button>
+  <div id="complete-result"></div>
+</div>
+
+<button id="btn-show-score" onclick="showScore()">Voir mon bilan final</button>
+<div id="score-section">
+  <h2>Bilan de la séance</h2>
+  <div class="score-grid">
+    <div class="score-card"><div class="num" id="sc-qcm">—</div><div class="label">QCM (/ 5)</div></div>
+    <div class="score-card"><div class="num" id="sc-match">—</div><div class="label">Association (/ 4)</div></div>
+    <div class="score-card"><div class="num" id="sc-class">—</div><div class="label">Classement (/ 4)</div></div>
+  </div>
+  <div class="score-grid" style="grid-template-columns:1fr 1fr">
+    <div class="score-card"><div class="num" id="sc-complete">—</div><div class="label">Compléter (/ 3)</div></div>
+    <div class="score-total"><div class="num" id="sc-total">—</div><div class="label">Total (/ 16)</div></div>
+  </div>
+  <div class="score-msg" id="sc-msg"></div>
+  <button class="share-btn" onclick="partager()">Partager sur WhatsApp</button>
+</div>
+</div>
+<script>
+// ── QCM ──
+var correct={q1:'b',q2:'c',q3:'b',q4:'c',q5:'c'};
+var answered={};var qcmScore=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une réponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){
+    var v=['a','b','c','d'][i];opts[i].style.pointerEvents='none';
+    if(v===rep)opts[i].classList.add('correct');
+    else if(v===chosen.value&&chosen.value!==rep)opts[i].classList.add('wrong');
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
+  if(chosen.value===rep)qcmScore++;
+}
+// ── MATCHING ──
+var matchAns={A:'3',B:'4',C:'2',D:'1'};
+var matchScore=0;var matchDone=0;var selectedTerm=null;
+function selectTerm(id){
+  if(document.getElementById('t-'+id).classList.contains('matched-ok'))return;
+  document.querySelectorAll('.match-item.term').forEach(function(e){e.classList.remove('selected')});
+  document.getElementById('t-'+id).classList.add('selected');selectedTerm=id;
+}
+function selectDef(defId){
+  if(!selectedTerm)return;
+  var te=document.getElementById('t-'+selectedTerm);
+  var de=document.getElementById('d-'+defId);
+  if(de.classList.contains('matched-ok'))return;
+  if(matchAns[selectedTerm]===defId){
+    te.classList.remove('selected');te.classList.add('matched-ok');te.onclick=null;
+    de.classList.add('matched-ok');de.onclick=null;matchScore++;
+  } else {
+    te.classList.add('matched-wrong');de.classList.add('matched-wrong');
+    setTimeout(function(){te.classList.remove('matched-wrong','selected');de.classList.remove('matched-wrong');},600);
+  }
+  matchDone++;selectedTerm=null;
+  if(matchDone>=4){
+    var fb=document.getElementById('match-feedback');fb.style.display='block';
+    fb.style.background=matchScore>=3?'#e8f5e9':'#fff3e0';
+    fb.style.color=matchScore>=3?'#1b5e20':'#e65100';
+    fb.textContent=matchScore+'/4 associations correctes'+(matchScore<4?' — relis la fiche !':' ✅');
+  }
+}
+// ── CLASSEMENT ──
+var classScore=0;var classDone={ci1:false,ci2:false,ci3:false,ci4:false};
+function classDo(id,chosen,correct){
+  if(classDone[id])return;classDone[id]=true;
+  var item=document.getElementById(id);
+  var num=id.replace('ci','');
+  var res=document.getElementById('cr'+num);
+  item.querySelectorAll('.classif-btn').forEach(function(b){b.disabled=true;b.style.opacity='.55';});
+  res.style.display='block';
+  if(chosen===correct){
+    item.classList.add('correct-c');res.style.color='#1b5e20';
+    res.textContent='✅ Correct — c\'est bien une '+(correct==='cause'?'cause : cela a contribué à accélérer la mondialisation.':'conséquence : c\'est un effet produit par la mondialisation.');
+    classScore++;
+  } else {
+    item.classList.add('wrong-c');res.style.color='#b71c1c';
+    res.textContent='❌ Non — c\'est une '+(correct==='cause'?'cause (= ce qui a provoqué l\'accélération), pas une conséquence.':'conséquence (= ce qui en a résulté), pas une cause.');
+  }
+}
+// ── COMPLÉTER ──
+var pickedWord=null;
+var blankAns={bl1:'XVI',bl2:'XX',bl3:'FTN',bl4:'salaires'};
+var blankFilled={bl1:null,bl2:null,bl3:null,bl4:null};
+var completeScore=0;var completeDone=false;
+function pickWord(w){
+  if(document.getElementById('w-'+w).classList.contains('used'))return;
+  document.querySelectorAll('.word-chip').forEach(function(c){c.style.boxShadow='';c.style.transform='';});
+  pickedWord=w;
+  document.getElementById('w-'+w).style.boxShadow='0 0 0 3px #004d40';
+  document.getElementById('w-'+w).style.transform='scale(1.08)';
+}
+function placeWord(blId){
+  if(!pickedWord||completeDone)return;
+  if(blankFilled[blId]){document.getElementById('w-'+blankFilled[blId]).classList.remove('used');}
+  blankFilled[blId]=pickedWord;
+  var labels={XVI:'XVIème',XX:'XXème',conteneurs:'porte-conteneurs',internet:'internet',FTN:'FTN',salaires:'bas salaires'};
+  document.getElementById(blId).textContent=labels[pickedWord];
+  document.getElementById(blId).className='blank';
+  document.getElementById('w-'+pickedWord).classList.add('used');
+  document.querySelectorAll('.word-chip').forEach(function(c){c.style.boxShadow='';c.style.transform='';});
+  pickedWord=null;
+}
+function checkComplete(){
+  if(completeDone)return;completeDone=true;completeScore=0;
+  var labels={XVI:'XVIème',XX:'XXème',FTN:'FTN',salaires:'bas salaires'};
+  Object.keys(blankAns).forEach(function(bl){
+    var ok=blankFilled[bl]===blankAns[bl];
+    var el=document.getElementById(bl);
+    if(ok){el.classList.add('filled-ok');completeScore++;}
+    else{el.textContent=blankFilled[bl]?labels[blankFilled[bl]]||blankFilled[bl]:'?';
+      el.classList.add('filled-wrong');
+      var h=document.createElement('span');h.style='font-size:.78rem;color:#b71c1c;margin-left:4px';
+      h.textContent='(→'+labels[blankAns[bl]]+')';el.after(h);}
+  });
+  var pts=Math.min(completeScore,3);completeScore=pts;
+  var res=document.getElementById('complete-result');res.style.display='block';
+  res.style.padding='10px';res.style.borderRadius='8px';res.style.marginTop='10px';
+  res.style.background=completeScore>=3?'#e8f5e9':completeScore>=2?'#fff8e1':'#ffebee';
+  res.style.color=completeScore>=3?'#1b5e20':completeScore>=2?'#e65100':'#b71c1c';
+  res.textContent=completeScore+'/3 — '+(completeScore===3?'Parfait !':completeScore>=2?'Presque — relis le cours.':'Reprends la chronologie sur la fiche.');
+  document.getElementById('btn-complete').disabled=true;
+}
+// ── SCORE ──
+function showScore(){
+  var total=qcmScore+matchScore+classScore+completeScore;
+  document.getElementById('sc-qcm').textContent=qcmScore+'/5';
+  document.getElementById('sc-match').textContent=matchScore+'/4';
+  document.getElementById('sc-class').textContent=classScore+'/4';
+  document.getElementById('sc-complete').textContent=completeScore+'/3';
+  document.getElementById('sc-total').textContent=total+'/16';
+  var msg=total>=14?'Excellent ! Niveau 17-18 garanti.':
+          total>=12?'Très bien ! Un point à revoir.':
+          total>=9?'Pas mal — relis la fiche ce soir.':
+          'Reprends le cours depuis le début.';
+  document.getElementById('sc-msg').textContent=msg;
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('btn-show-score').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function partager(){
+  var total=qcmScore+matchScore+classScore+completeScore;
+  var txt='Quiz Mondialisation (approfondi) – Géo 4ème\nQCM : '+qcmScore+'/5\nAssociation : '+matchScore+'/4\nClassement : '+classScore+'/4\nCompléter : '+completeScore+'/3\nTotal : '+total+'/16';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script></body></html>
