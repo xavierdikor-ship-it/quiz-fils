@@ -33,7 +33,7 @@ header h1{font-size:1.7rem;margin-bottom:6px}header p{font-size:.88rem;opacity:.
 .match-item:hover{border-color:#00796b;background:#b2dfdb}
 .match-item.selected{border-color:#004d40;background:#004d40;color:white;font-weight:600}
 .match-item.matched-ok{border-color:#388e3c!important;background:#e8f5e9!important;color:#1b5e20!important;cursor:default;font-weight:600}
-.match-item.matched-wrong{border-color:#e53935!important;background:#ffebee!important;animation:shake .3s}
+.match-item.matched-wrong{border-color:#e53935!important;background:#ffebee!important;color:#b71c1c!important;cursor:default!important;}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 .match-feedback{font-size:.83rem;margin-top:10px;padding:8px 12px;border-radius:8px;display:none}
 
@@ -287,8 +287,7 @@ function selectDef(defId){
     te.classList.remove('selected');te.classList.add('matched-ok');te.onclick=null;
     de.classList.add('matched-ok');de.onclick=null;matchScore++;
   } else {
-    te.classList.add('matched-wrong');de.classList.add('matched-wrong');
-    setTimeout(function(){te.classList.remove('matched-wrong','selected');de.classList.remove('matched-wrong');},600);
+    te.classList.remove('selected');te.classList.add('matched-wrong');te.onclick=null;
   }
   matchDone++;selectedTerm=null;
   if(matchDone>=4){
