@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Fiche – Nombres en écriture fractionnaire – Maths 4ème</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#ede7f6;color:#1a1a2e;padding:20px;font-size:15px}
+.container{max-width:840px;margin:0 auto}
+header{background:linear-gradient(135deg,#4527a0,#7e57c2);color:white;padding:28px;border-radius:16px;margin-bottom:20px;text-align:center}
+header h1{font-size:1.7rem;margin-bottom:6px}
+header p{font-size:.88rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:8px}
+.section{background:white;border-radius:14px;padding:22px 24px;margin-bottom:16px;box-shadow:0 2px 10px rgba(0,0,0,.08);border-left:6px solid #7e57c2}
+.section-title{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.num{display:inline-flex;align-items:center;justify-content:center;background:#4527a0;color:white;border-radius:50%;width:30px;height:30px;font-size:.9rem;font-weight:bold;flex-shrink:0}
+.section h2{font-size:1rem;color:#4527a0;font-weight:700}
+.prop{background:#ede7f6;border-left:4px solid #7e57c2;padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem;line-height:1.7}
+.prop strong{color:#4527a0}
+.example{background:#f3e5f5;border-radius:8px;padding:10px 14px;margin:8px 0;font-size:.87rem;line-height:1.8}
+.example .label{font-weight:700;color:#7e57c2;margin-bottom:4px}
+.formula{background:#1a1a2e;color:#e1bee7;font-family:monospace;padding:8px 14px;border-radius:8px;font-size:.9rem;text-align:center;margin:10px 0;letter-spacing:.5px}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.95em;line-height:1.2;margin:0 2px}
+.frac span:first-child{border-bottom:1.5px solid currentColor;padding:0 3px;font-size:.85em}
+.frac span:last-child{padding:0 3px;font-size:.85em}
+.remark{background:#fff8e1;border-left:4px solid #f9a825;padding:8px 14px;border-radius:0 8px 8px 0;margin:8px 0;font-size:.84rem;line-height:1.6}
+.remark::before{content:"⚠️ Remarque : ";font-weight:700;color:#e65100}
+.step{margin-left:16px;font-size:.87rem;line-height:2;color:#333}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.84rem}
+th{background:#4527a0;color:white;padding:8px 12px;text-align:left}
+td{padding:7px 12px;border-bottom:1px solid #e0d6f5;vertical-align:top}
+tr:nth-child(even) td{background:#f3e5f5}
+</style></head>
+<body><div class="container">
+<header>
+  <h1>📐 Nombres en écriture fractionnaire</h1>
+  <p>Mathématiques 4ème · Chapitre 0</p>
+  <div class="badge">Simplification · Réduction · Produit en croix · Multiplication · Division</div>
+</header>
+
+<!-- I.A -->
+<div class="section">
+  <div class="section-title"><div class="num">①</div><h2>Simplification d'un quotient</h2></div>
+  <div class="prop">
+    <strong>Propriété :</strong> Si on multiplie ou si on divise le numérateur <em>et</em> le dénominateur d'un quotient par un même nombre non nul, on obtient un quotient <strong>égal</strong>.
+    <br><br>Pour tous nombres a, b et k (avec b ≠ 0 et k ≠ 0) :
+  </div>
+  <div class="formula">
+    <span class="frac"><span>a × k</span><span>b × k</span></span> = <span class="frac"><span>a</span><span>b</span></span> &nbsp;&nbsp; et &nbsp;&nbsp;
+    <span class="frac"><span>a ÷ k</span><span>b ÷ k</span></span> = <span class="frac"><span>a</span><span>b</span></span>
+  </div>
+  <div class="example">
+    <div class="label">Exemple 1 – Simplifie 42/70</div>
+    <div class="step">
+      <span class="frac"><span>42</span><span>70</span></span> =
+      <span class="frac"><span>42÷2</span><span>70÷2</span></span> =
+      <span class="frac"><span>21</span><span>35</span></span> =
+      <span class="frac"><span>21÷7</span><span>35÷7</span></span> =
+      <strong><span class="frac"><span>3</span><span>5</span></span></strong>
+    </div>
+  </div>
+  <div class="example">
+    <div class="label">Exemple 2 – Trouve le nombre manquant : 1/6 = a/18</div>
+    <div class="step">
+      <span class="frac"><span>1</span><span>6</span></span> =
+      <span class="frac"><span>1 × 3</span><span>6 × 3</span></span> =
+      <span class="frac"><span>3</span><span>18</span></span>
+      → <strong>a = 3</strong>
+    </div>
+  </div>
+</div>
+
+<!-- I.B -->
+<div class="section">
+  <div class="section-title"><div class="num">②</div><h2>Réduction au même dénominateur & addition</h2></div>
+  <div class="prop">
+    <strong>Méthode :</strong> Pour additionner (ou soustraire) des fractions, il faut d'abord les réduire au <strong>même dénominateur</strong> (PPCM des dénominateurs).
+  </div>
+  <div class="example">
+    <div class="label">Exemple 1 – Compare 2/7 et 3/8</div>
+    <div class="step">
+      PPCM(7, 8) = 56<br>
+      <span class="frac"><span>2</span><span>7</span></span> =
+      <span class="frac"><span>2 × 8</span><span>7 × 8</span></span> =
+      <span class="frac"><span>16</span><span>56</span></span>
+      &nbsp;&nbsp;et&nbsp;&nbsp;
+      <span class="frac"><span>3</span><span>8</span></span> =
+      <span class="frac"><span>3 × 7</span><span>8 × 7</span></span> =
+      <span class="frac"><span>21</span><span>56</span></span><br>
+      16 &lt; 21, donc <strong>2/7 &lt; 3/8</strong>
+    </div>
+  </div>
+  <div class="example">
+    <div class="label">Exemple 2 – Calcule C = 1 + 13/30 + 11/12</div>
+    <div class="step">
+      PPCM(1, 30, 12) = 60<br>
+      C = <span class="frac"><span>60</span><span>60</span></span> +
+      <span class="frac"><span>26</span><span>60</span></span> +
+      <span class="frac"><span>55</span><span>60</span></span> =
+      <span class="frac"><span>60 + 26 + 55</span><span>60</span></span> =
+      <span class="frac"><span>141</span><span>60</span></span> =
+      <strong><span class="frac"><span>47</span><span>20</span></span></strong>
+    </div>
+  </div>
+</div>
+
+<!-- I.C -->
+<div class="section">
+  <div class="section-title"><div class="num">③</div><h2>Produit en croix</h2></div>
+  <div class="prop">
+    <strong>Propriété :</strong> Pour tous nombres a, b, c, d (avec b ≠ 0 et d ≠ 0) :
+  </div>
+  <div class="formula">a/b = c/d &nbsp;⟺&nbsp; a × d = b × c</div>
+  <div class="remark">Pour démontrer que deux fractions sont égales, on calcule les produits en croix et on vérifie qu'ils sont égaux.</div>
+  <div class="example">
+    <div class="label">Exemple – Vérifie que 12/16 = 3/4</div>
+    <div class="step">
+      12 × 4 = 48 &nbsp; et &nbsp; 16 × 3 = 48<br>
+      Les produits en croix sont égaux → <strong>12/16 = 3/4 ✓</strong>
+    </div>
+  </div>
+  <div class="example">
+    <div class="label">Exemple – Trouve x dans x/6 = 10/15</div>
+    <div class="step">
+      x × 15 = 6 × 10 &nbsp; → &nbsp; 15x = 60 &nbsp; → &nbsp; <strong>x = 4</strong>
+    </div>
+  </div>
+</div>
+
+<!-- II -->
+<div class="section">
+  <div class="section-title"><div class="num">④</div><h2>Multiplication de nombres en écriture fractionnaire</h2></div>
+  <div class="prop">
+    <strong>Propriété :</strong> Pour multiplier des fractions, on multiplie les numérateurs entre eux <em>et</em> les dénominateurs entre eux.
+  </div>
+  <div class="formula">
+    <span class="frac"><span>a</span><span>b</span></span> ×
+    <span class="frac"><span>c</span><span>d</span></span> =
+    <span class="frac"><span>a × c</span><span>b × d</span></span>
+    &nbsp;&nbsp;&nbsp; (b ≠ 0, d ≠ 0)
+  </div>
+  <div class="remark">Si b = 1 : a × <span class="frac"><span>c</span><span>d</span></span> = <span class="frac"><span>a × c</span><span>d</span></span></div>
+  <div class="example">
+    <div class="label">Exemple – Calcule B = (35/33) × (99/70) · Simplifier avant de multiplier !</div>
+    <div class="step">
+      B = <span class="frac"><span>35 × 99</span><span>33 × 70</span></span> =
+      <span class="frac"><span>5 × <s>7</s> × 3² × <s>11</s></span><span>3 × <s>11</s> × 2 × 5 × <s>7</s></span></span> =
+      <span class="frac"><span>3</span><span>2</span></span>
+      &nbsp;&nbsp;→ <strong>B = 3/2</strong>
+    </div>
+  </div>
+  <div class="remark">Toujours simplifier en factorisant avant de calculer le produit.</div>
+</div>
+
+<!-- III.A -->
+<div class="section">
+  <div class="section-title"><div class="num">⑤</div><h2>Inverse d'un nombre non nul</h2></div>
+  <div class="prop">
+    <strong>Définition :</strong> Deux nombres sont inverses l'un de l'autre si leur produit est égal à 1 : a × b = 1.
+  </div>
+  <div class="formula">
+    Inverse de x &nbsp;=&nbsp; <span class="frac"><span>1</span><span>x</span></span>
+    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    Inverse de <span class="frac"><span>a</span><span>b</span></span> &nbsp;=&nbsp;
+    <span class="frac"><span>b</span><span>a</span></span>
+  </div>
+  <div class="remark">
+    ① Un nombre et son inverse ont <strong>toujours le même signe</strong>.<br>
+    ② Zéro est le seul nombre qui n'admet <strong>pas</strong> d'inverse (division par 0 impossible).
+  </div>
+  <div class="example">
+    <div class="label">Exemples</div>
+    <div class="step">
+      Inverse de 3 &nbsp;= 1/3 &nbsp; (car 3 × 1/3 = 1)<br>
+      Inverse de 7/3 = 3/7 &nbsp; (car 7/3 × 3/7 = 1)<br>
+      Inverse de −5/3 = −3/5 &nbsp; (même signe négatif)
+    </div>
+  </div>
+</div>
+
+<!-- III.B -->
+<div class="section">
+  <div class="section-title"><div class="num">⑥</div><h2>Division de nombres en écriture fractionnaire</h2></div>
+  <div class="prop">
+    <strong>Propriété :</strong> Diviser par un nombre non nul revient à <strong>multiplier par son inverse</strong>.
+  </div>
+  <div class="formula">
+    <span class="frac"><span>a</span><span>b</span></span> ÷
+    <span class="frac"><span>c</span><span>d</span></span> =
+    <span class="frac"><span>a</span><span>b</span></span> ×
+    <span class="frac"><span>d</span><span>c</span></span> =
+    <span class="frac"><span>a × d</span><span>b × c</span></span>
+    &nbsp;&nbsp;&nbsp; (b, c, d ≠ 0)
+  </div>
+  <div class="example">
+    <div class="label">Exemple 1 – Calcule C = (8/5) ÷ 3</div>
+    <div class="step">
+      C = <span class="frac"><span>8</span><span>5</span></span> ×
+      <span class="frac"><span>1</span><span>3</span></span> =
+      <strong><span class="frac"><span>8</span><span>15</span></span></strong>
+    </div>
+  </div>
+  <div class="example">
+    <div class="label">Exemple 2 – Calcule D = (32/21) ÷ (48/35), résultat simplifié</div>
+    <div class="step">
+      D = <span class="frac"><span>32</span><span>21</span></span> ×
+      <span class="frac"><span>35</span><span>48</span></span> =
+      <span class="frac"><span>32 × 35</span><span>21 × 48</span></span> =
+      <span class="frac"><span>2<sup>5</sup> × 5 × <s>7</s></span><span>3 × <s>7</s> × 2<sup>4</sup> × 3</span></span> =
+      <span class="frac"><span>2 × 5</span><span>3 × 3</span></span> =
+      <strong><span class="frac"><span>10</span><span>9</span></span></strong>
+    </div>
+  </div>
+  <div class="example">
+    <div class="label">Exemple 3 – Quelle est la nature de E = (1 + 2/3) / (1 − 2/3) ?</div>
+    <div class="step">
+      Numérateur : 1 + 2/3 = 3/3 + 2/3 = <strong>5/3</strong><br>
+      Dénominateur : 1 − 2/3 = 3/3 − 2/3 = <strong>1/3</strong><br>
+      E = (5/3) ÷ (1/3) = (5/3) × (3/1) = 15/3 = <strong>5 → E est un entier naturel</strong>
+    </div>
+  </div>
+</div>
+
+<!-- TABLEAU RECAP -->
+<div class="section">
+  <div class="section-title"><div class="num">⑦</div><h2>Récapitulatif — Quelle opération utiliser ?</h2></div>
+  <table>
+    <tr><th>Opération</th><th>Règle</th><th>Exemple</th></tr>
+    <tr><td><strong>Simplifier</strong></td><td>÷ numérateur et dénominateur par le même k</td><td>42/70 = 3/5</td></tr>
+    <tr><td><strong>Comparer / Additionner</strong></td><td>Réduire au même dénominateur (PPCM)</td><td>2/7 et 3/8 → /56</td></tr>
+    <tr><td><strong>Égalité ?</strong></td><td>Produit en croix : a×d = b×c</td><td>12/16 = 3/4 ?</td></tr>
+    <tr><td><strong>Multiplier</strong></td><td>(a/b) × (c/d) = (a×c)/(b×d)</td><td>35/33 × 99/70 = 3/2</td></tr>
+    <tr><td><strong>Inverse</strong></td><td>a/b → b/a (même signe, 0 n'en a pas)</td><td>Inverse −5/3 = −3/5</td></tr>
+    <tr><td><strong>Diviser</strong></td><td>(a/b) ÷ (c/d) = (a/b) × (d/c)</td><td>32/21 ÷ 48/35 = 10/9</td></tr>
+  </table>
+</div>
+</div></body></html>

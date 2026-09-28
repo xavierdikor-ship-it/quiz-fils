@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quiz – Fractions (complet) – Maths 4ème</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#ede7f6;color:#1a1a2e;padding:20px;font-size:15px}
+.container{max-width:840px;margin:0 auto}
+header{background:linear-gradient(135deg,#4527a0,#7e57c2);color:white;padding:28px;border-radius:16px;margin-bottom:20px;text-align:center}
+header h1{font-size:1.7rem;margin-bottom:6px}header p{font-size:.88rem;opacity:.9}
+.badge{display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:4px 16px;font-size:.82rem;margin-top:8px;font-weight:bold}
+.section-title{background:#4527a0;color:white;padding:11px 18px;border-radius:10px;margin:20px 0 12px;font-weight:700;font-size:.95rem}
+.question{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #7e57c2}
+.question-text{font-weight:600;font-size:.94rem;margin-bottom:12px;line-height:1.65}
+.qnum{display:inline-block;background:#7e57c2;color:white;border-radius:50%;width:26px;height:26px;text-align:center;line-height:26px;font-size:.82rem;font-weight:bold;margin-right:8px}
+.options{display:flex;flex-direction:column;gap:7px}
+.option{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:8px;cursor:pointer;border:2px solid #e0e0e0;background:#fafafa;transition:all .2s;font-size:.89rem}
+.option:hover{border-color:#7e57c2;background:#f3e5f5}
+.option input[type=radio]{accent-color:#4527a0;width:16px;height:16px;flex-shrink:0}
+.option.correct{background:#e8f5e9!important;border-color:#388e3c!important}
+.option.wrong{background:#ffebee!important;border-color:#e53935!important}
+.explication{display:none;background:#ede7f6;border-left:4px solid #7e57c2;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:.84rem;line-height:1.65}
+.btn-valider{background:#4527a0;color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.87rem;font-weight:600;margin-top:11px}
+.btn-valider:disabled{background:#bbb;cursor:default}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.9em;line-height:1.2;margin:0 2px}
+.frac span:first-child{border-bottom:1.5px solid currentColor;padding:0 3px;font-size:.85em}
+.frac span:last-child{padding:0 3px;font-size:.85em}
+.match-box{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #9575cd}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.match-col h4{font-size:.82rem;color:#555;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.match-item{padding:10px 13px;border-radius:8px;border:2px solid #ce93d8;background:#f3e5f5;cursor:pointer;font-size:.84rem;line-height:1.5;transition:all .2s;margin-bottom:6px;user-select:none;font-family:monospace}
+.match-item:hover{border-color:#7e57c2;background:#e1bee7}
+.match-item.selected{border-color:#4527a0;background:#4527a0;color:white;font-weight:600}
+.match-item.matched-ok{border-color:#388e3c!important;background:#e8f5e9!important;color:#1b5e20!important;cursor:default;font-weight:600}
+.match-item.matched-wrong{border-color:#e53935!important;background:#ffebee!important;animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.match-feedback{font-size:.83rem;margin-top:10px;padding:8px 12px;border-radius:8px;display:none}
+.classif-box{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #9575cd}
+.classif-item{background:#f5f5f5;border-radius:10px;padding:13px 15px;margin-bottom:10px;border:2px solid #e0e0e0}
+.classif-statement{font-size:.89rem;margin-bottom:9px;line-height:1.55;font-style:italic}
+.classif-btns{display:flex;gap:8px;flex-wrap:wrap}
+.classif-btn{border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:600;transition:all .2s}
+.btn-vrai{background:#e8f5e9;color:#1b5e20;border:2px solid #66bb6a}
+.btn-faux{background:#ffebee;color:#b71c1c;border:2px solid #ef9a9a}
+.classif-item.correct-c{border-color:#388e3c;background:#e8f5e9}
+.classif-item.wrong-c{border-color:#e53935;background:#ffebee}
+.classif-result{font-size:.81rem;margin-top:7px;display:none;line-height:1.5}
+.complete-box{background:white;border-radius:12px;padding:18px 22px;margin-bottom:13px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:5px solid #9575cd}
+.word-bank{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.word-chip{padding:7px 14px;border-radius:20px;border:2px solid #ce93d8;background:#f3e5f5;cursor:pointer;font-size:.86rem;font-weight:600;color:#4527a0;transition:all .2s;user-select:none;font-family:monospace}
+.word-chip:hover:not(.used){border-color:#4527a0;background:#e1bee7}
+.word-chip.used{opacity:.35;cursor:default;text-decoration:line-through}
+.sentence-block{font-size:.9rem;line-height:2.8;margin:8px 0}
+.blank{display:inline-block;min-width:60px;border-bottom:2px solid #7e57c2;text-align:center;padding:0 5px;margin:0 3px;font-weight:bold;color:#4527a0;cursor:pointer;border-radius:4px;font-family:monospace}
+.blank.filled-ok{background:#e8f5e9;border-color:#388e3c;color:#1b5e20;border-bottom:none;border-radius:6px;padding:2px 8px}
+.blank.filled-wrong{background:#ffebee;border-color:#e53935;color:#b71c1c;border-bottom:none;border-radius:6px;padding:2px 8px}
+.complete-check{background:#4527a0;color:white;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.87rem;font-weight:600;margin-top:11px}
+.complete-check:disabled{background:#bbb}
+#complete-result{display:none;margin-top:10px;font-size:.85rem;padding:10px;border-radius:8px}
+#score-section{display:none;background:white;border-radius:16px;padding:28px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.12);margin-top:24px}
+#score-section h2{color:#4527a0;font-size:1.5rem;margin-bottom:14px}
+.score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.score-card{background:#ede7f6;border-radius:10px;padding:14px;border:1px solid #ce93d8}
+.score-card .num{font-size:2rem;font-weight:bold;color:#4527a0}
+.score-card .label{font-size:.78rem;color:#555;margin-top:4px}
+.score-total{background:#d1c4e9;border-radius:10px;padding:16px;margin:10px 0}
+.score-total .num{font-size:2.6rem;font-weight:bold;color:#4527a0}
+.score-total .label{font-size:.84rem;color:#555}
+.score-msg{font-size:.92rem;color:#333;margin:12px 0;padding:12px;background:#ede7f6;border-radius:8px}
+.share-btn{background:#25D366;color:white;border:none;padding:12px 25px;border-radius:10px;font-size:.92rem;font-weight:bold;cursor:pointer;margin-top:12px}
+#btn-show-score{display:block;width:100%;padding:14px;background:#4527a0;color:white;border:none;border-radius:12px;font-size:1rem;font-weight:bold;cursor:pointer;margin-top:22px}
+</style></head>
+<body><div class="container">
+<header>
+  <h1>📐 Quiz — Fractions (opérations complètes)</h1>
+  <p>Mathématiques 4ème · Chapitre 0</p>
+  <div class="badge">5 QCM + association + Vrai/Faux + compléter · sur 16 · Niveau 18-20</div>
+</header>
+
+<div class="section-title">Partie 1 — QCM (5 questions · 5 pts)</div>
+
+<div class="question" id="q1">
+  <div class="question-text"><span class="qnum">1</span>Parmi ces simplifications, laquelle est <b>incorrecte</b> ?</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q1" value="a"> 42/70 = 3/5</label>
+    <label class="option"><input type="radio" name="q1" value="b"> 36/48 = 3/4</label>
+    <label class="option"><input type="radio" name="q1" value="c"> 15/25 = 4/5</label>
+    <label class="option"><input type="radio" name="q1" value="d"> 12/18 = 2/3</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q1','c')">Valider</button>
+  <div class="explication" id="exp-q1"><b>C — 15/25 ≠ 4/5.</b> 15÷5 = 3 et 25÷5 = 5, donc 15/25 = 3/5 et non 4/5. Les autres sont correctes : 42/70 = 3/5 (÷14), 36/48 = 3/4 (÷12), 12/18 = 2/3 (÷6).</div>
+</div>
+
+<div class="question" id="q2">
+  <div class="question-text"><span class="qnum">2</span>Si a/9 = 8/12, alors a vaut :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q2" value="a"> 4</label>
+    <label class="option"><input type="radio" name="q2" value="b"> 5</label>
+    <label class="option"><input type="radio" name="q2" value="c"> 6</label>
+    <label class="option"><input type="radio" name="q2" value="d"> 7</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q2','c')">Valider</button>
+  <div class="explication" id="exp-q2"><b>C — a = 6.</b> Produit en croix : a × 12 = 9 × 8, soit 12a = 72, donc a = 72 ÷ 12 = 6. Vérif : 6/9 = 2/3 et 8/12 = 2/3 ✓</div>
+</div>
+
+<div class="question" id="q3">
+  <div class="question-text"><span class="qnum">3</span>Calcule (3/7) ÷ (9/14) :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q3" value="a"> 27/98</label>
+    <label class="option"><input type="radio" name="q3" value="b"> 2/3</label>
+    <label class="option"><input type="radio" name="q3" value="c"> 3/2</label>
+    <label class="option"><input type="radio" name="q3" value="d"> 6/7</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q3','b')">Valider</button>
+  <div class="explication" id="exp-q3"><b>B — 2/3.</b> Diviser = multiplier par l'inverse : (3/7) × (14/9) = (3×14)/(7×9) = 42/63 = 2/3. Piège A : c'est le résultat si on multiplie au lieu de diviser !</div>
+</div>
+
+<div class="question" id="q4">
+  <div class="question-text"><span class="qnum">4</span>L'inverse de −5/3 est :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q4" value="a"> 3/5</label>
+    <label class="option"><input type="radio" name="q4" value="b"> −3/5</label>
+    <label class="option"><input type="radio" name="q4" value="c"> −5/3</label>
+    <label class="option"><input type="radio" name="q4" value="d"> 5/3</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q4','b')">Valider</button>
+  <div class="explication" id="exp-q4"><b>B — −3/5.</b> L'inverse de a/b est b/a. Donc l'inverse de −5/3 est −3/5. Rappel crucial : un nombre et son inverse ont <b>toujours le même signe</b>. Piège A : 3/5 a le mauvais signe.</div>
+</div>
+
+<div class="question" id="q5">
+  <div class="question-text"><span class="qnum">5</span>(5/6) × (12/25), résultat simplifié :</div>
+  <div class="options">
+    <label class="option"><input type="radio" name="q5" value="a"> 60/150</label>
+    <label class="option"><input type="radio" name="q5" value="b"> 1/5</label>
+    <label class="option"><input type="radio" name="q5" value="c"> 2/5</label>
+    <label class="option"><input type="radio" name="q5" value="d"> 10/12</label>
+  </div>
+  <button class="btn-valider" onclick="valider('q5','c')">Valider</button>
+  <div class="explication" id="exp-q5"><b>C — 2/5.</b> (5×12)/(6×25) = 60/150. Simplifions : GCD(60,150)=30, 60÷30=2, 150÷30=5 → 2/5. Ou en simplifiant avant : (5/(6×5)) × (12/25) = (1/6) × (12/5) = 12/30 = 2/5.</div>
+</div>
+
+<div class="section-title">Partie 2 — Association : opération → formule (4 pts)</div>
+<div class="match-box">
+  <div class="question-text" style="margin-bottom:4px">Relie chaque opération à sa formule correcte.</div>
+  <div style="font-size:.82rem;color:#888;margin-bottom:12px">Clique sur une opération, puis sur sa formule.</div>
+  <div class="match-grid">
+    <div>
+      <h4>Opération</h4>
+      <div class="match-item term" id="t-mul" onclick="selectTerm('mul')">Multiplier a/b par c/d</div>
+      <div class="match-item term" id="t-div" onclick="selectTerm('div')">Diviser a/b par c/d</div>
+      <div class="match-item term" id="t-inv" onclick="selectTerm('inv')">Inverse de a/b</div>
+      <div class="match-item term" id="t-cro" onclick="selectTerm('cro')">Vérifier a/b = c/d</div>
+    </div>
+    <div>
+      <h4>Formule</h4>
+      <div class="match-item def" id="d-1" onclick="selectDef('1')">(a×c) / (b×d)</div>
+      <div class="match-item def" id="d-2" onclick="selectDef('2')">(a×d) / (b×c)</div>
+      <div class="match-item def" id="d-3" onclick="selectDef('3')">b/a</div>
+      <div class="match-item def" id="d-4" onclick="selectDef('4')">a×d = b×c</div>
+    </div>
+  </div>
+  <div id="match-feedback" class="match-feedback"></div>
+</div>
+
+<div class="section-title">Partie 3 — Vrai ou Faux ? (4 pts)</div>
+<div class="classif-box">
+  <div class="question-text" style="margin-bottom:14px">Chaque affirmation est-elle vraie ou fausse ?</div>
+
+  <div class="classif-item" id="ci1">
+    <div class="classif-statement">L'inverse de 0 est 1/0 = ∞.</div>
+    <div class="classif-btns">
+      <button class="classif-btn btn-vrai" onclick="classDo('ci1','vrai','faux')">Vrai</button>
+      <button class="classif-btn btn-faux" onclick="classDo('ci1','faux','faux')">Faux</button>
+    </div>
+    <div class="classif-result" id="cr1"></div>
+  </div>
+
+  <div class="classif-item" id="ci2">
+    <div class="classif-statement">(2/3) × (3/2) = 1</div>
+    <div class="classif-btns">
+      <button class="classif-btn btn-vrai" onclick="classDo('ci2','vrai','vrai')">Vrai</button>
+      <button class="classif-btn btn-faux" onclick="classDo('ci2','faux','vrai')">Faux</button>
+    </div>
+    <div class="classif-result" id="cr2"></div>
+  </div>
+
+  <div class="classif-item" id="ci3">
+    <div class="classif-statement">(4/5) ÷ 2 = 8/5</div>
+    <div class="classif-btns">
+      <button class="classif-btn btn-vrai" onclick="classDo('ci3','vrai','faux')">Vrai</button>
+      <button class="classif-btn btn-faux" onclick="classDo('ci3','faux','faux')">Faux</button>
+    </div>
+    <div class="classif-result" id="cr3"></div>
+  </div>
+
+  <div class="classif-item" id="ci4">
+    <div class="classif-statement">Un nombre et son inverse ont toujours le même signe.</div>
+    <div class="classif-btns">
+      <button class="classif-btn btn-vrai" onclick="classDo('ci4','vrai','vrai')">Vrai</button>
+      <button class="classif-btn btn-faux" onclick="classDo('ci4','faux','vrai')">Faux</button>
+    </div>
+    <div class="classif-result" id="cr4"></div>
+  </div>
+</div>
+
+<div class="section-title">Partie 4 — Complète le calcul de E (3 pts)</div>
+<div class="complete-box">
+  <div class="question-text" style="margin-bottom:4px">
+    Complète le calcul de E = (1 + 2/3) / (1 − 2/3) en montrant qu'il est un entier.
+  </div>
+  <div class="word-bank" id="word-bank">
+    <div class="word-chip" id="w-53" onclick="pickWord('53')">5/3</div>
+    <div class="word-chip" id="w-13" onclick="pickWord('13')">1/3</div>
+    <div class="word-chip" id="w-31" onclick="pickWord('31')">3/1</div>
+    <div class="word-chip" id="w-5" onclick="pickWord('5')">5</div>
+    <div class="word-chip" id="w-33" onclick="pickWord('33')">3/3</div>
+    <div class="word-chip" id="w-15" onclick="pickWord('15')">15/3</div>
+  </div>
+  <div class="sentence-block">
+    Numérateur : 1 + 2/3 = <span class="blank" id="bl1" onclick="placeWord('bl1')">___</span> + 2/3 = <span class="blank" id="bl2" onclick="placeWord('bl2')">___</span><br>
+    Dénominateur : 1 − 2/3 = 3/3 − 2/3 = <span class="blank" id="bl3" onclick="placeWord('bl3')">___</span><br>
+    E = (5/3) ÷ (1/3) = (5/3) × <span class="blank" id="bl4" onclick="placeWord('bl4')">___</span> = <b>5</b> ✓ (entier)
+  </div>
+  <button class="complete-check" id="btn-complete" onclick="checkComplete()">Vérifier</button>
+  <div id="complete-result"></div>
+</div>
+
+<button id="btn-show-score" onclick="showScore()">Voir mon bilan final</button>
+<div id="score-section">
+  <h2>Bilan de la séance</h2>
+  <div class="score-grid">
+    <div class="score-card"><div class="num" id="sc-qcm">—</div><div class="label">QCM (/ 5)</div></div>
+    <div class="score-card"><div class="num" id="sc-match">—</div><div class="label">Association (/ 4)</div></div>
+    <div class="score-card"><div class="num" id="sc-class">—</div><div class="label">Vrai/Faux (/ 4)</div></div>
+  </div>
+  <div class="score-grid" style="grid-template-columns:1fr 1fr">
+    <div class="score-card"><div class="num" id="sc-complete">—</div><div class="label">Compléter (/ 3)</div></div>
+    <div class="score-total"><div class="num" id="sc-total">—</div><div class="label">Total (/ 16)</div></div>
+  </div>
+  <div class="score-msg" id="sc-msg"></div>
+  <button class="share-btn" onclick="partager()">Partager sur WhatsApp</button>
+</div>
+</div>
+<script>
+var correct={q1:'c',q2:'c',q3:'b',q4:'b',q5:'c'};
+var answered={};var qcmScore=0;
+function valider(qid,rep){
+  if(answered[qid])return;
+  var chosen=document.querySelector('input[name="'+qid+'"]:checked');
+  if(!chosen){alert('Choisis une réponse !');return;}
+  answered[qid]=chosen.value;
+  var opts=document.querySelectorAll('#'+qid+' .option');
+  for(var i=0;i<opts.length;i++){
+    var v=['a','b','c','d'][i];opts[i].style.pointerEvents='none';
+    if(v===rep)opts[i].classList.add('correct');
+    else if(v===chosen.value&&chosen.value!==rep)opts[i].classList.add('wrong');
+  }
+  document.getElementById('exp-'+qid).style.display='block';
+  document.querySelector('#'+qid+' .btn-valider').disabled=true;
+  if(chosen.value===rep)qcmScore++;
+}
+var matchAns={mul:'1',div:'2',inv:'3',cro:'4'};
+var matchScore=0;var matchDone=0;var selectedTerm=null;
+function selectTerm(id){
+  if(document.getElementById('t-'+id).classList.contains('matched-ok'))return;
+  document.querySelectorAll('.match-item.term').forEach(function(e){e.classList.remove('selected')});
+  document.getElementById('t-'+id).classList.add('selected');selectedTerm=id;
+}
+function selectDef(defId){
+  if(!selectedTerm)return;
+  var te=document.getElementById('t-'+selectedTerm);
+  var de=document.getElementById('d-'+defId);
+  if(de.classList.contains('matched-ok'))return;
+  if(matchAns[selectedTerm]===defId){
+    te.classList.remove('selected');te.classList.add('matched-ok');te.onclick=null;
+    de.classList.add('matched-ok');de.onclick=null;matchScore++;
+  } else {
+    te.classList.add('matched-wrong');de.classList.add('matched-wrong');
+    setTimeout(function(){te.classList.remove('matched-wrong','selected');de.classList.remove('matched-wrong');},600);
+  }
+  matchDone++;selectedTerm=null;
+  if(matchDone>=4){
+    var fb=document.getElementById('match-feedback');fb.style.display='block';
+    fb.style.background=matchScore>=3?'#e8f5e9':'#fff3e0';
+    fb.style.color=matchScore>=3?'#1b5e20':'#e65100';
+    fb.textContent=matchScore+'/4 associations correctes'+(matchScore<4?' — relis la fiche !':' ✅');
+  }
+}
+var classScore=0;var classDone={ci1:false,ci2:false,ci3:false,ci4:false};
+var classExpl={
+  ci1:'FAUX — Zéro est le seul nombre qui n\'admet PAS d\'inverse (on ne peut pas diviser par 0).',
+  ci2:'VRAI — 2/3 et 3/2 sont inverses l\'un de l\'autre car (2/3)×(3/2) = 6/6 = 1.',
+  ci3:'FAUX — (4/5)÷2 = (4/5)×(1/2) = 4/10 = 2/5. On multiplie par l\'inverse de 2, soit 1/2.',
+  ci4:'VRAI — Par définition de l\'inverse : si a/b est négatif, b/a l\'est aussi (les signes se conservent).'
+};
+function classDo(id,chosen,correct){
+  if(classDone[id])return;classDone[id]=true;
+  var item=document.getElementById(id);
+  var num=id.replace('ci','');
+  var res=document.getElementById('cr'+num);
+  item.querySelectorAll('.classif-btn').forEach(function(b){b.disabled=true;b.style.opacity='.55';});
+  res.style.display='block';
+  if(chosen===correct){
+    item.classList.add('correct-c');res.style.color='#1b5e20';
+    res.textContent='✅ '+classExpl[id];classScore++;
+  } else {
+    item.classList.add('wrong-c');res.style.color='#b71c1c';
+    res.textContent='❌ '+classExpl[id];
+  }
+}
+var pickedWord=null;
+var blankAns={bl1:'33',bl2:'53',bl3:'13',bl4:'31'};
+var blankLabels={53:'5/3',13:'1/3',31:'3/1',5:'5',33:'3/3',15:'15/3'};
+var blankFilled={bl1:null,bl2:null,bl3:null,bl4:null};
+var completeScore=0;var completeDone=false;
+function pickWord(w){
+  if(document.getElementById('w-'+w).classList.contains('used'))return;
+  document.querySelectorAll('.word-chip').forEach(function(c){c.style.boxShadow='';c.style.transform='';});
+  pickedWord=w;
+  document.getElementById('w-'+w).style.boxShadow='0 0 0 3px #4527a0';
+  document.getElementById('w-'+w).style.transform='scale(1.08)';
+}
+function placeWord(blId){
+  if(!pickedWord||completeDone)return;
+  if(blankFilled[blId]){document.getElementById('w-'+blankFilled[blId]).classList.remove('used');}
+  blankFilled[blId]=pickedWord;
+  document.getElementById(blId).textContent=blankLabels[pickedWord];
+  document.getElementById(blId).className='blank';
+  document.getElementById('w-'+pickedWord).classList.add('used');
+  document.querySelectorAll('.word-chip').forEach(function(c){c.style.boxShadow='';c.style.transform='';});
+  pickedWord=null;
+}
+function checkComplete(){
+  if(completeDone)return;completeDone=true;completeScore=0;
+  Object.keys(blankAns).forEach(function(bl){
+    var ok=blankFilled[bl]===blankAns[bl];
+    var el=document.getElementById(bl);
+    if(ok){el.classList.add('filled-ok');completeScore++;}
+    else{
+      el.textContent=blankFilled[bl]?blankLabels[blankFilled[bl]]||'?':'?';
+      el.classList.add('filled-wrong');
+      var h=document.createElement('span');h.style='font-size:.78rem;color:#b71c1c;margin-left:4px';
+      h.textContent='(→'+blankLabels[blankAns[bl]]+')';el.after(h);
+    }
+  });
+  var pts=Math.min(completeScore,3);completeScore=pts;
+  var res=document.getElementById('complete-result');res.style.display='block';
+  res.style.padding='10px';res.style.borderRadius='8px';res.style.marginTop='10px';
+  res.style.background=completeScore>=3?'#e8f5e9':completeScore>=2?'#fff8e1':'#ffebee';
+  res.style.color=completeScore>=3?'#1b5e20':completeScore>=2?'#e65100':'#b71c1c';
+  res.textContent=completeScore+'/3 — '+(completeScore===3?'Parfait ! Tu maîtrises la division de fractions.':completeScore>=2?'Presque — revois l\'exemple 3 de la fiche.':'Reprends la méthode division de la fiche.');
+  document.getElementById('btn-complete').disabled=true;
+}
+function showScore(){
+  var total=qcmScore+matchScore+classScore+completeScore;
+  document.getElementById('sc-qcm').textContent=qcmScore+'/5';
+  document.getElementById('sc-match').textContent=matchScore+'/4';
+  document.getElementById('sc-class').textContent=classScore+'/4';
+  document.getElementById('sc-complete').textContent=completeScore+'/3';
+  document.getElementById('sc-total').textContent=total+'/16';
+  var msg=total>=15?'Excellent ! Niveau 19-20 assuré.':
+          total>=13?'Très bien ! Tu vises 17-18.':
+          total>=10?'Pas mal — quelques règles à revoir ce soir.':
+          'Reprends la fiche depuis le début, section par section.';
+  document.getElementById('sc-msg').textContent=msg;
+  document.getElementById('score-section').style.display='block';
+  document.getElementById('btn-show-score').style.display='none';
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth'});
+}
+function partager(){
+  var total=qcmScore+matchScore+classScore+completeScore;
+  var txt='Quiz Fractions (complet) – Maths 4ème\nQCM : '+qcmScore+'/5\nAssociation : '+matchScore+'/4\nVrai/Faux : '+classScore+'/4\nCompléter : '+completeScore+'/3\nTotal : '+total+'/16';
+  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+</script></body></html>
