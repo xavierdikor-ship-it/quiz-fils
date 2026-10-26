@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>SVT – Quiz Système Nerveux</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:Arial,sans-serif;background:#f0f4f8;color:#1a1a1a;padding:12px;max-width:600px;margin:auto}
+h1{text-align:center;color:#1a5276;font-size:1.25em;margin-bottom:4px;padding-top:8px}
+.sub{text-align:center;color:#777;font-size:.82em;margin-bottom:16px}
+
+/* SCORE */
+.scorebar{background:#1a5276;color:#fff;border-radius:10px;padding:10px 16px;text-align:center;margin-bottom:16px;font-size:1em}
+#score-display{font-size:1.4em;font-weight:bold}
+
+/* SECTIONS */
+.partie{background:#fff;border-radius:10px;padding:14px;margin-bottom:16px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.partie h2{color:#fff;background:#1a5276;padding:7px 12px;border-radius:7px;font-size:.95em;margin-bottom:14px}
+.pts-badge{float:right;background:#e74c3c;padding:2px 8px;border-radius:10px;font-size:.78em}
+
+/* QCM */
+.question{margin-bottom:16px}
+.qtxt{font-size:.9em;line-height:1.5;margin-bottom:8px;font-weight:bold}
+.options{display:flex;flex-direction:column;gap:6px}
+.opt{background:#eaf4fb;border:2px solid #aed6f1;border-radius:8px;padding:9px 12px;font-size:.88em;cursor:pointer;transition:all .2s;user-select:none}
+.opt:active{transform:scale(.98)}
+.opt.selected{border-color:#1a5276;background:#1a5276;color:#fff}
+.opt.correct{border-color:#27ae60!important;background:#eafaf1!important;color:#1e8449!important}
+.opt.wrong{border-color:#e74c3c!important;background:#fdf2f0!important;color:#922b21!important}
+.feedback{font-size:.82em;margin-top:6px;padding:6px 10px;border-radius:6px;display:none}
+.feedback.ok{background:#eafaf1;color:#1e8449;display:block}
+.feedback.ko{background:#fdf2f0;color:#922b21;display:block}
+
+/* VRAI/FAUX */
+.vf-item{background:#eaf4fb;border-radius:8px;padding:10px;margin-bottom:8px}
+.vf-txt{font-size:.88em;margin-bottom:8px;line-height:1.4}
+.vf-btns{display:flex;gap:8px}
+.vf-btn{flex:1;padding:8px;border:2px solid #aed6f1;border-radius:8px;background:#fff;font-size:.9em;font-weight:bold;cursor:pointer;transition:all .2s}
+.vf-btn:active{transform:scale(.97)}
+.vf-btn.sel-v{background:#27ae60;border-color:#27ae60;color:#fff}
+.vf-btn.sel-f{background:#e74c3c;border-color:#e74c3c;color:#fff}
+.vf-btn.good{background:#27ae60!important;border-color:#27ae60!important;color:#fff!important}
+.vf-btn.bad{background:#e74c3c!important;border-color:#e74c3c!important;color:#fff!important}
+.vf-correction{font-size:.8em;margin-top:6px;color:#555;display:none;font-style:italic}
+
+/* DRAG & DROP appariement */
+.match-container{display:flex;flex-direction:column;gap:10px}
+.match-terms{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;min-height:40px;background:#f8f9fa;border:2px dashed #aaa;border-radius:8px;padding:8px;justify-content:center;align-items:flex-start}
+.match-term{background:#1a5276;color:#fff;padding:7px 12px;border-radius:20px;font-size:.83em;cursor:grab;user-select:none;touch-action:none;display:inline-block}
+.match-term.dragging{opacity:.5}
+.match-def{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.match-def .def-txt{flex:1;font-size:.84em;background:#eaf4fb;padding:7px 10px;border-radius:8px;line-height:1.4}
+.match-drop{min-width:100px;min-height:34px;border:2px dashed #1a5276;border-radius:20px;display:flex;align-items:center;justify-content:center;background:#f8f9fa;font-size:.78em;color:#999;padding:3px 6px}
+.match-drop.over{background:#d5e8f8;border-color:#1a5276}
+.match-drop .match-term{margin:0}
+.match-drop.correct-drop{border-color:#27ae60;background:#eafaf1}
+.match-drop.wrong-drop{border-color:#e74c3c;background:#fdf2f0}
+
+/* ORDRE (drag to reorder) */
+.order-list{display:flex;flex-direction:column;gap:6px}
+.order-item{background:#eaf4fb;border:2px solid #aed6f1;border-radius:8px;padding:10px 12px;font-size:.86em;cursor:grab;user-select:none;touch-action:none;display:flex;align-items:center;gap:8px}
+.order-item .handle{color:#aaa;font-size:1.2em}
+.order-item.dragging{opacity:.4;background:#d5e8f8}
+.order-item.over{border-color:#e74c3c;border-style:dashed}
+.order-item.correct-pos{border-color:#27ae60;background:#eafaf1}
+.order-item.wrong-pos{border-color:#e74c3c;background:#fdf2f0}
+
+/* NEURONE LEGENDE */
+.neurone-wrap{position:relative;text-align:center;margin:10px 0}
+.neurone-wrap svg{max-width:100%;height:auto}
+.label-bank{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:12px;min-height:40px;background:#f8f9fa;border:2px dashed #aaa;border-radius:8px;padding:8px}
+.label-chip{background:#1a5276;color:#fff;padding:6px 12px;border-radius:16px;font-size:.82em;cursor:grab;user-select:none;touch-action:none}
+.label-chip.dragging{opacity:.4}
+.drop-zone{display:inline-flex;align-items:center;justify-content:center;min-width:90px;min-height:26px;border:2px dashed #1a5276;border-radius:14px;background:#f0f7ff;font-size:.78em;color:#999;padding:3px 6px;cursor:pointer;vertical-align:middle}
+.drop-zone.filled{background:#1a5276;color:#fff;border-style:solid}
+.drop-zone.over{background:#d5e8f8}
+.drop-zone.correct-drop{background:#27ae60!important;border-color:#27ae60!important;color:#fff!important}
+.drop-zone.wrong-drop{background:#e74c3c!important;border-color:#e74c3c!important;color:#fff!important}
+
+/* BOUTONS */
+.btn-check{display:block;width:100%;margin-top:12px;background:#e74c3c;color:#fff;border:none;padding:12px;border-radius:25px;font-size:1em;cursor:pointer;font-family:Arial,sans-serif;font-weight:bold}
+.btn-check:active{background:#c0392b}
+.btn-check:disabled{background:#ccc;cursor:default}
+
+.result-bloc{display:none;margin-top:12px;background:#eafaf1;border:2px solid #27ae60;border-radius:8px;padding:12px;font-size:.88em;color:#1e8449;text-align:center}
+.result-bloc.shown{display:block}
+
+/* FINAL */
+.final{display:none;background:#1a5276;color:#fff;border-radius:10px;padding:20px;text-align:center;margin-top:16px}
+.final.shown{display:block}
+.final .big{font-size:2em;font-weight:bold;margin:8px 0}
+.final p{font-size:.9em;opacity:.85}
+</style>
+</head>
+<body>
+
+<h1>🧠 Quiz – Système Nerveux</h1>
+<p class="sub">SVT 4ème • Oscar • Tout est interactif !</p>
+
+<div class="scorebar">
+  Score : <span id="score-display">0</span> / <span id="total-display">20</span> pts
+</div>
+
+<!-- ======= PARTIE 1 : QCM ======= -->
+<div class="partie">
+  <h2>Partie 1 – QCM <span class="pts-badge">6 pts</span></h2>
+
+  <!-- Q1 -->
+  <div class="question" id="q1">
+    <div class="qtxt">1. Le message nerveux au sein d'un neurone est de nature…</div>
+    <div class="options">
+      <div class="opt" onclick="checkQCM(this,'q1',false)">Chimique</div>
+      <div class="opt" onclick="checkQCM(this,'q1',true)">Électrique</div>
+      <div class="opt" onclick="checkQCM(this,'q1',false)">Mécanique</div>
+      <div class="opt" onclick="checkQCM(this,'q1',false)">Lumineuse</div>
+    </div>
+    <div class="feedback" id="fb-q1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question" id="q2">
+    <div class="qtxt">2. Entre deux neurones, le message nerveux est transmis par…</div>
+    <div class="options">
+      <div class="opt" onclick="checkQCM(this,'q2',false)">Un courant électrique</div>
+      <div class="opt" onclick="checkQCM(this,'q2',true)">Des neurotransmetteurs (chimique)</div>
+      <div class="opt" onclick="checkQCM(this,'q2',false)">Des nerfs moteurs</div>
+      <div class="opt" onclick="checkQCM(this,'q2',false)">Le cortex cérébral</div>
+    </div>
+    <div class="feedback" id="fb-q2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question" id="q3">
+    <div class="qtxt">3. Qu'est-ce qu'un nerf ?</div>
+    <div class="options">
+      <div class="opt" onclick="checkQCM(this,'q3',false)">Une seule cellule nerveuse</div>
+      <div class="opt" onclick="checkQCM(this,'q3',false)">Une partie du cerveau</div>
+      <div class="opt" onclick="checkQCM(this,'q3',true)">Un faisceau de centaines de milliers d'axones</div>
+      <div class="opt" onclick="checkQCM(this,'q3',false)">La zone de contact entre deux neurones</div>
+    </div>
+    <div class="feedback" id="fb-q3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question" id="q4">
+    <div class="qtxt">4. L'intégration cérébrale, c'est…</div>
+    <div class="options">
+      <div class="opt" onclick="checkQCM(this,'q4',false)">La transmission d'un message dans un neurone</div>
+      <div class="opt" onclick="checkQCM(this,'q4',true)">Le traitement simultané de différentes informations par le cerveau</div>
+      <div class="opt" onclick="checkQCM(this,'q4',false)">La libération de neurotransmetteurs</div>
+      <div class="opt" onclick="checkQCM(this,'q4',false)">Le fonctionnement de la moelle épinière</div>
+    </div>
+    <div class="feedback" id="fb-q4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question" id="q5">
+    <div class="qtxt">5. Quelle zone du cerveau est spécialisée dans le langage ?</div>
+    <div class="options">
+      <div class="opt" onclick="checkQCM(this,'q5',false)">Le cortex préfrontal</div>
+      <div class="opt" onclick="checkQCM(this,'q5',true)">L'aire de Broca</div>
+      <div class="opt" onclick="checkQCM(this,'q5',false)">La moelle épinière</div>
+      <div class="opt" onclick="checkQCM(this,'q5',false)">Les dendrites</div>
+    </div>
+    <div class="feedback" id="fb-q5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="question" id="q6">
+    <div class="qtxt">6. La consommation régulière d'alcool peut provoquer…</div>
+    <div class="options">
+      <div class="opt" onclick="checkQCM(this,'q6',false)">Une amélioration des réflexes</div>
+      <div class="opt" onclick="checkQCM(this,'q6',false)">Une meilleure concentration</div>
+      <div class="opt" onclick="checkQCM(this,'q6',true)">Des troubles du sommeil et de la mémorisation</div>
+      <div class="opt" onclick="checkQCM(this,'q6',false)">Aucun effet sur le cerveau</div>
+    </div>
+    <div class="feedback" id="fb-q6"></div>
+  </div>
+</div>
+
+<!-- ======= PARTIE 2 : VRAI/FAUX ======= -->
+<div class="partie">
+  <h2>Partie 2 – Vrai ou Faux ? <span class="pts-badge">5 pts</span></h2>
+
+  <div class="vf-item" id="vf1">
+    <div class="vf-txt">Le message nerveux circule dans le sens : axone → corps cellulaire → dendrites.</div>
+    <div class="vf-btns">
+      <button class="vf-btn" onclick="checkVF(this,'vf1','V',false)">✅ Vrai</button>
+      <button class="vf-btn" onclick="checkVF(this,'vf1','F',false)">❌ Faux</button>
+    </div>
+    <div class="vf-correction" id="corr-vf1">Faux ! Le sens correct : dendrites → corps cellulaire → axone → terminaisons.</div>
+  </div>
+
+  <div class="vf-item" id="vf2">
+    <div class="vf-txt">La synapse est la zone de contact entre deux neurones (ou entre un neurone et une cellule).</div>
+    <div class="vf-btns">
+      <button class="vf-btn" onclick="checkVF(this,'vf2','V',true)">✅ Vrai</button>
+      <button class="vf-btn" onclick="checkVF(this,'vf2','F',true)">❌ Faux</button>
+    </div>
+    <div class="vf-correction" id="corr-vf2"></div>
+  </div>
+
+  <div class="vf-item" id="vf3">
+    <div class="vf-txt">Les centres nerveux sont constitués du cerveau et de la moelle épinière.</div>
+    <div class="vf-btns">
+      <button class="vf-btn" onclick="checkVF(this,'vf3','V',true)">✅ Vrai</button>
+      <button class="vf-btn" onclick="checkVF(this,'vf3','F',true)">❌ Faux</button>
+    </div>
+    <div class="vf-correction" id="corr-vf3"></div>
+  </div>
+
+  <div class="vf-item" id="vf4">
+    <div class="vf-txt">Un neurone et un nerf, c'est la même chose.</div>
+    <div class="vf-btns">
+      <button class="vf-btn" onclick="checkVF(this,'vf4','V',false)">✅ Vrai</button>
+      <button class="vf-btn" onclick="checkVF(this,'vf4','F',false)">❌ Faux</button>
+    </div>
+    <div class="vf-correction" id="corr-vf4">Faux ! Le neurone = 1 cellule. Le nerf = des centaines de milliers d'axones regroupés.</div>
+  </div>
+
+  <div class="vf-item" id="vf5">
+    <div class="vf-txt">Le cortex cérébral est la couche profonde (intérieure) du cerveau.</div>
+    <div class="vf-btns">
+      <button class="vf-btn" onclick="checkVF(this,'vf5','V',false)">✅ Vrai</button>
+      <button class="vf-btn" onclick="checkVF(this,'vf5','F',false)">❌ Faux</button>
+    </div>
+    <div class="vf-correction" id="corr-vf5">Faux ! Le cortex cérébral est la couche SUPERFICIELLE (extérieure) du cerveau.</div>
+  </div>
+</div>
+
+<!-- ======= PARTIE 3 : APPARIEMENT (glisser) ======= -->
+<div class="partie">
+  <h2>Partie 3 – Associe le mot à sa définition <span class="pts-badge">5 pts</span></h2>
+  <p style="font-size:.82em;color:#666;margin-bottom:10px">👆 Appuie et fais glisser chaque mot sur la bonne définition.</p>
+
+  <div class="label-bank" id="match-bank">
+    <div class="label-chip" draggable="true" data-word="Stimulus" id="chip-stimulus">Stimulus</div>
+    <div class="label-chip" draggable="true" data-word="Neurotransmetteur" id="chip-neuro">Neurotransmetteur</div>
+    <div class="label-chip" draggable="true" data-word="Synapse" id="chip-synapse">Synapse</div>
+    <div class="label-chip" draggable="true" data-word="Cortex cérébral" id="chip-cortex">Cortex cérébral</div>
+    <div class="label-chip" draggable="true" data-word="Intégration cérébrale" id="chip-integration">Intégration cérébrale</div>
+  </div>
+
+  <div class="match-container">
+    <div class="match-def">
+      <div class="def-txt">Modification de l'environnement qui provoque une réaction de l'organisme.</div>
+      <div class="match-drop drop-zone" data-answer="Stimulus" id="drop-1" ondragover="ev(event)" ondrop="dropMatch(event,'drop-1')">Dépose ici</div>
+    </div>
+    <div class="match-def">
+      <div class="def-txt">Messager chimique libéré dans la synapse pour transmettre le message nerveux.</div>
+      <div class="match-drop drop-zone" data-answer="Neurotransmetteur" id="drop-2" ondragover="ev(event)" ondrop="dropMatch(event,'drop-2')">Dépose ici</div>
+    </div>
+    <div class="match-def">
+      <div class="def-txt">Zone de contact entre les terminaisons d'un neurone et d'une autre cellule.</div>
+      <div class="match-drop drop-zone" data-answer="Synapse" id="drop-3" ondragover="ev(event)" ondrop="dropMatch(event,'drop-3')">Dépose ici</div>
+    </div>
+    <div class="match-def">
+      <div class="def-txt">Couche superficielle du cerveau où sont traitées les informations.</div>
+      <div class="match-drop drop-zone" data-answer="Cortex cérébral" id="drop-4" ondragover="ev(event)" ondrop="dropMatch(event,'drop-4')">Dépose ici</div>
+    </div>
+    <div class="match-def">
+      <div class="def-txt">Traitement simultané de différentes informations par le cerveau.</div>
+      <div class="match-drop drop-zone" data-answer="Intégration cérébrale" id="drop-5" ondragover="ev(event)" ondrop="dropMatch(event,'drop-5')">Dépose ici</div>
+    </div>
+  </div>
+
+  <button class="btn-check" onclick="checkMatch()">Vérifier les associations</button>
+  <div class="result-bloc" id="match-result"></div>
+</div>
+
+<!-- ======= PARTIE 4 : REMETTRE EN ORDRE ======= -->
+<div class="partie">
+  <h2>Partie 4 – Remets les étapes dans l'ordre <span class="pts-badge">4 pts</span></h2>
+  <p style="font-size:.82em;color:#666;margin-bottom:10px">👆 Appuie et fais glisser pour réorganiser les étapes du trajet nerveux.</p>
+
+  <div class="order-list" id="order-list">
+    <div class="order-item" draggable="true" data-pos="5" id="oi-muscle" ondragstart="startDrag(event)" ondragover="overDrag(event)" ondrop="dropOrder(event)"><span class="handle">⠿</span> Muscles → mouvement</div>
+    <div class="order-item" draggable="true" data-pos="1" id="oi-stimulus" ondragstart="startDrag(event)" ondragover="overDrag(event)" ondrop="dropOrder(event)"><span class="handle">⠿</span> Stimulus capté par l'organe sensoriel</div>
+    <div class="order-item" draggable="true" data-pos="3" id="oi-cerveau" ondragstart="startDrag(event)" ondragover="overDrag(event)" ondrop="dropOrder(event)"><span class="handle">⠿</span> Centres nerveux (cerveau) traitent l'info</div>
+    <div class="order-item" draggable="true" data-pos="2" id="oi-sensitif" ondragstart="startDrag(event)" ondragover="overDrag(event)" ondrop="dropOrder(event)"><span class="handle">⠿</span> Nerfs sensitifs transmettent au cerveau</div>
+    <div class="order-item" draggable="true" data-pos="4" id="oi-moteur" ondragstart="startDrag(event)" ondragover="overDrag(event)" ondrop="dropOrder(event)"><span class="handle">⠿</span> Moelle épinière → Nerfs moteurs</div>
+  </div>
+
+  <button class="btn-check" onclick="checkOrder()">Vérifier l'ordre</button>
+  <div class="result-bloc" id="order-result"></div>
+</div>
+
+<!-- SCORE FINAL -->
+<div class="final" id="final-block">
+  <div>Résultat final</div>
+  <div class="big" id="final-score">—</div>
+  <p id="final-msg"></p>
+</div>
+
+<p style="text-align:center;font-size:.75em;color:#aaa;margin-top:10px;padding-bottom:16px">SVT 4ème • Oscar Dikormbouma</p>
+
+<script>
+// ===== SCORE =====
+var score = 0;
+var answered = {};
+function updateScore(){
+  document.getElementById('score-display').textContent = score;
+  checkFinal();
+}
+function checkFinal(){
+  var parts = ['qcm','vf','match','order'];
+  var done = parts.every(p => answered[p]);
+  if(done){
+    document.getElementById('final-block').classList.add('shown');
+    document.getElementById('final-score').textContent = score + ' / 20';
+    var msg = score>=17?'🎉 Excellent ! Tu maîtrises parfaitement le cours !':score>=14?'👍 Très bien ! Quelques points à revoir.':score>=10?'😊 Pas mal ! Relis la fiche de révision.':'💪 Continue à réviser, tu vas y arriver !';
+    document.getElementById('final-msg').textContent = msg;
+  }
+}
+
+// ===== QCM =====
+var qcmScores = {};
+function checkQCM(el, qid, correct){
+  if(qcmScores[qid] !== undefined) return;
+  var opts = el.parentElement.querySelectorAll('.opt');
+  opts.forEach(o=>o.style.pointerEvents='none');
+  el.classList.add('selected');
+  var fb = document.getElementById('fb-'+qid);
+  if(correct){
+    el.classList.add('correct');
+    fb.textContent = '✅ Bonne réponse !';
+    fb.className = 'feedback ok';
+    qcmScores[qid] = 1;
+    score += 1;
+  } else {
+    el.classList.add('wrong');
+    fb.textContent = '❌ Pas tout à fait ! Relis ta fiche.';
+    fb.className = 'feedback ko';
+    qcmScores[qid] = 0;
+    opts.forEach(o=>{ if(o.onclick.toString().includes('true')) o.classList.add('correct'); });
+  }
+  updateScore();
+  if(Object.keys(qcmScores).length === 6) answered['qcm'] = true;
+}
+
+// ===== VRAI / FAUX =====
+var vfScores = {};
+function checkVF(btn, id, choice, correct){
+  if(vfScores[id] !== undefined) return;
+  var btns = btn.parentElement.querySelectorAll('.vf-btn');
+  btns.forEach(b=>b.style.pointerEvents='none');
+  var isV = (choice==='V');
+  if((isV && correct)||((!isV) && !correct)){
+    btn.classList.add(isV?'sel-v':'sel-f');
+    btn.classList.add('good');
+    vfScores[id] = 1;
+    score += 1;
+  } else {
+    btn.classList.add(isV?'sel-v':'sel-f');
+    btn.classList.add('bad');
+    vfScores[id] = 0;
+    var corr = document.getElementById('corr-'+id);
+    corr.style.display = 'block';
+    btns.forEach(b=>{
+      if((correct && b.textContent.includes('Vrai'))||(!correct && b.textContent.includes('Faux'))){
+        b.classList.add('good');
+      }
+    });
+  }
+  updateScore();
+  if(Object.keys(vfScores).length === 5) answered['vf'] = true;
+}
+
+// ===== DRAG & DROP MATCH =====
+var draggedChip = null;
+document.querySelectorAll('.label-chip').forEach(chip=>{
+  chip.addEventListener('dragstart',e=>{
+    draggedChip = chip;
+    setTimeout(()=>chip.classList.add('dragging'),0);
+    e.dataTransfer.setData('text',chip.dataset.word);
+  });
+  chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
+  // Touch
+  chip.addEventListener('touchstart',touchStart,{passive:true});
+  chip.addEventListener('touchmove',touchMove,{passive:false});
+  chip.addEventListener('touchend',touchEnd);
+});
+function ev(e){e.preventDefault();}
+function dropMatch(e,dropId){
+  e.preventDefault();
+  var drop = document.getElementById(dropId);
+  if(drop.querySelector('.label-chip')) return;
+  if(!draggedChip) return;
+  drop.textContent='';
+  drop.appendChild(draggedChip);
+  draggedChip.classList.remove('dragging');
+  drop.classList.remove('over');
+  draggedChip = null;
+}
+document.querySelectorAll('.match-drop').forEach(drop=>{
+  drop.addEventListener('dragover',ev);
+  drop.addEventListener('dragenter',()=>drop.classList.add('over'));
+  drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
+});
+function checkMatch(){
+  var correct = 0;
+  document.querySelectorAll('.match-drop').forEach(drop=>{
+    var chip = drop.querySelector('.label-chip');
+    if(chip && chip.dataset.word === drop.dataset.answer){
+      drop.classList.add('correct-drop');
+      correct++;
+    } else {
+      drop.classList.add('wrong-drop');
+    }
+    drop.style.pointerEvents='none';
+    if(chip) chip.style.cursor='default';
+  });
+  score += correct;
+  updateScore();
+  answered['match'] = true;
+  var res = document.getElementById('match-result');
+  res.textContent = correct+'/5 associations correctes !';
+  res.classList.add('shown');
+  res.style.background = correct>=4?'#eafaf1':'#fdf2f0';
+  res.style.borderColor = correct>=4?'#27ae60':'#e74c3c';
+  res.style.color = correct>=4?'#1e8449':'#922b21';
+  document.querySelector('[onclick="checkMatch()"]').disabled=true;
+}
+
+// ===== TOUCH DRAG MATCH =====
+var touchChip=null, touchClone=null, touchOffX=0, touchOffY=0;
+function touchStart(e){
+  touchChip = e.currentTarget;
+  var r = touchChip.getBoundingClientRect();
+  touchOffX = e.touches[0].clientX - r.left;
+  touchOffY = e.touches[0].clientY - r.top;
+  touchClone = touchChip.cloneNode(true);
+  touchClone.style.cssText='position:fixed;opacity:.8;pointer-events:none;z-index:9999;left:'+(e.touches[0].clientX-touchOffX)+'px;top:'+(e.touches[0].clientY-touchOffY)+'px;';
+  document.body.appendChild(touchClone);
+}
+function touchMove(e){
+  e.preventDefault();
+  if(!touchClone) return;
+  touchClone.style.left=(e.touches[0].clientX-touchOffX)+'px';
+  touchClone.style.top=(e.touches[0].clientY-touchOffY)+'px';
+}
+function touchEnd(e){
+  if(!touchClone) return;
+  document.body.removeChild(touchClone);
+  var t = e.changedTouches[0];
+  var el = document.elementFromPoint(t.clientX, t.clientY);
+  var drop = el ? el.closest('.match-drop') : null;
+  if(drop && !drop.querySelector('.label-chip')){
+    drop.textContent='';
+    drop.appendChild(touchChip);
+    touchChip.style.cssText='';
+  }
+  touchClone = null;
+  touchChip = null;
+}
+
+// ===== ORDER (drag to sort) =====
+var dragOrder = null;
+document.querySelectorAll('.order-item').forEach(item=>{
+  item.addEventListener('dragstart',startDrag);
+  item.addEventListener('dragover',overDrag);
+  item.addEventListener('drop',dropOrder);
+  item.addEventListener('dragend',()=>{ if(dragOrder) dragOrder.classList.remove('dragging'); });
+  // Touch
+  item.addEventListener('touchstart',oTouchStart,{passive:true});
+  item.addEventListener('touchmove',oTouchMove,{passive:false});
+  item.addEventListener('touchend',oTouchEnd);
+});
+function startDrag(e){ dragOrder=e.currentTarget; setTimeout(()=>dragOrder.classList.add('dragging'),0); }
+function overDrag(e){ e.preventDefault(); e.currentTarget.classList.add('over'); }
+function dropOrder(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  if(!dragOrder || dragOrder===e.currentTarget) return;
+  var list = document.getElementById('order-list');
+  var items = [...list.querySelectorAll('.order-item')];
+  var fromIdx = items.indexOf(dragOrder);
+  var toIdx = items.indexOf(e.currentTarget);
+  if(toIdx > fromIdx) e.currentTarget.after(dragOrder); else e.currentTarget.before(dragOrder);
+  dragOrder.classList.remove('dragging');
+  dragOrder = null;
+}
+// Touch for order
+var oTouchItem=null, oTouchClone=null, oTouchOffX=0, oTouchOffY=0;
+function oTouchStart(e){
+  oTouchItem=e.currentTarget;
+  var r=oTouchItem.getBoundingClientRect();
+  oTouchOffX=e.touches[0].clientX-r.left;
+  oTouchOffY=e.touches[0].clientY-r.top;
+  oTouchClone=oTouchItem.cloneNode(true);
+  oTouchClone.style.cssText='position:fixed;opacity:.7;pointer-events:none;z-index:9999;width:'+r.width+'px;left:'+(e.touches[0].clientX-oTouchOffX)+'px;top:'+(e.touches[0].clientY-oTouchOffY)+'px;background:#d5e8f8;border-radius:8px;padding:10px 12px;font-size:.86em;';
+  document.body.appendChild(oTouchClone);
+}
+function oTouchMove(e){
+  e.preventDefault();
+  if(!oTouchClone) return;
+  oTouchClone.style.left=(e.touches[0].clientX-oTouchOffX)+'px';
+  oTouchClone.style.top=(e.touches[0].clientY-oTouchOffY)+'px';
+}
+function oTouchEnd(e){
+  if(!oTouchClone) return;
+  document.body.removeChild(oTouchClone);
+  var t=e.changedTouches[0];
+  var el=document.elementFromPoint(t.clientX,t.clientY);
+  var target=el?el.closest('.order-item'):null;
+  if(target && target!==oTouchItem){
+    var list=document.getElementById('order-list');
+    var items=[...list.querySelectorAll('.order-item')];
+    var fi=items.indexOf(oTouchItem), ti=items.indexOf(target);
+    if(ti>fi) target.after(oTouchItem); else target.before(oTouchItem);
+  }
+  oTouchClone=null; oTouchItem=null;
+}
+function checkOrder(){
+  var list = document.getElementById('order-list');
+  var items = [...list.querySelectorAll('.order-item')];
+  var correct = 0;
+  items.forEach((item,idx)=>{
+    if(parseInt(item.dataset.pos) === idx+1){ item.classList.add('correct-pos'); correct++; }
+    else item.classList.add('wrong-pos');
+    item.draggable=false; item.style.cursor='default';
+  });
+  var pts = correct>=5?4:correct>=4?3:correct>=3?2:correct>=2?1:0;
+  score += pts;
+  updateScore();
+  answered['order'] = true;
+  var res = document.getElementById('order-result');
+  res.textContent = correct+'/5 étapes bien placées ! (+'+pts+' pts)';
+  res.classList.add('shown');
+  res.style.background = correct>=4?'#eafaf1':'#fdf2f0';
+  res.style.borderColor = correct>=4?'#27ae60':'#e74c3c';
+  res.style.color = correct>=4?'#1e8449':'#922b21';
+  document.querySelector('[onclick="checkOrder()"]').disabled=true;
+}
+</script>
+</body>
+</html>
