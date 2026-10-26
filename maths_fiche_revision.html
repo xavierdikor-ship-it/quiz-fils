@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maths – Fiche de révision | Fractions & Proportionnalité</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f0f4f8;color:#1a1a1a;padding:12px;max-width:600px;margin:auto}
+h1{text-align:center;color:#6c3483;font-size:1.25em;margin-bottom:4px;padding-top:8px}
+.sub{text-align:center;color:#777;font-size:.82em;margin-bottom:16px}
+.section{background:#fff;border-radius:10px;padding:14px;margin-bottom:14px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.section h2{color:#fff;background:#6c3483;padding:7px 12px;border-radius:7px;font-size:.95em;margin-bottom:12px}
+.section h3{color:#6c3483;font-size:.92em;margin:12px 0 6px;border-bottom:2px solid #e8d5f5;padding-bottom:3px}
+.prop{background:#f5eef8;border-left:4px solid #6c3483;padding:9px 11px;border-radius:5px;margin:8px 0;font-size:.87em;line-height:1.6}
+.prop strong{color:#6c3483}
+.retenir{background:#fef9e7;border:2px solid #f39c12;border-radius:7px;padding:10px;margin:8px 0}
+.retenir .titre{font-weight:bold;color:#e67e22;margin-bottom:5px;font-size:.88em}
+.retenir p{font-size:.85em;line-height:1.6}
+.exemple{background:#eaf4fb;border-radius:6px;padding:9px 11px;margin:8px 0;font-size:.85em;line-height:1.8}
+.exemple strong{color:#1a5276}
+
+/* FRACTIONS CSS */
+.f{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px}
+.f .n{border-bottom:1.8px solid #333;padding:0 4px;text-align:center;font-size:.95em}
+.f .d{padding:0 4px;text-align:center;font-size:.95em}
+
+.formule{background:#6c3483;color:#fff;border-radius:8px;padding:8px 14px;text-align:center;margin:10px 0;font-size:.9em;font-weight:bold}
+.deux-col{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.col-box{background:#f5eef8;border-radius:7px;padding:9px;text-align:center;font-size:.84em}
+.col-box strong{display:block;color:#6c3483;margin-bottom:4px}
+.warning{background:#fdf2f0;border-left:4px solid #e74c3c;padding:8px 10px;border-radius:5px;font-size:.84em;margin:8px 0;color:#922b21}
+</style>
+</head>
+<body>
+<h1>📐 Maths – Fractions & Proportionnalité</h1>
+<p class="sub">Fiche de révision • 4ème • Oscar</p>
+
+<!-- ===== CHAPITRE 0 ===== -->
+<div class="section">
+  <h2>Chapitre 0 – Nombres en écriture fractionnaire</h2>
+
+  <h3>I-A Simplification de quotient</h3>
+  <div class="prop">
+    <strong>Propriété :</strong> Si on multiplie (ou divise) le numérateur ET le dénominateur par un même nombre non nul, on obtient un quotient égal.
+    <br><br>
+    <span class="f"><span class="n">a × k</span><span class="d">b × k</span></span> = <span class="f"><span class="n">a</span><span class="d">b</span></span> &nbsp;&nbsp; et &nbsp;&nbsp; <span class="f"><span class="n">a ÷ k</span><span class="d">b ÷ k</span></span> = <span class="f"><span class="n">a</span><span class="d">b</span></span>
+  </div>
+  <div class="exemple">
+    <strong>Ex :</strong> Simplifier <span class="f"><span class="n">42</span><span class="d">140</span></span> = <span class="f"><span class="n">42÷14</span><span class="d">140÷14</span></span> = <span class="f"><span class="n">3</span><span class="d">10</span></span>
+  </div>
+
+  <h3>I-B Produit en croix</h3>
+  <div class="prop">
+    <strong>Propriété :</strong> <span class="f"><span class="n">a</span><span class="d">b</span></span> = <span class="f"><span class="n">c</span><span class="d">d</span></span> &nbsp;⟺&nbsp; <strong>a × d = b × c</strong>
+    <br><br>Utile pour : vérifier si deux fractions sont égales, ou trouver un nombre manquant.
+  </div>
+  <div class="exemple">
+    <strong>Ex :</strong> Trouver a dans <span class="f"><span class="n">12</span><span class="d">6</span></span> = <span class="f"><span class="n">a</span><span class="d">7</span></span><br>
+    12 × 7 = 6 × a → 84 = 6a → a = 84 ÷ 6 = <strong>14</strong>
+  </div>
+
+  <h3>I-C Réduction au même dénominateur</h3>
+  <div class="prop">
+    Pour additionner des fractions, on les ramène au <strong>même dénominateur</strong> (dénominateur commun).
+  </div>
+  <div class="exemple">
+    <strong>Ex :</strong> <span class="f"><span class="n">2</span><span class="d">9</span></span> et <span class="f"><span class="n">5</span><span class="d">15</span></span> → dénominateur commun = 45<br>
+    <span class="f"><span class="n">2×5</span><span class="d">9×5</span></span> = <span class="f"><span class="n">10</span><span class="d">45</span></span> &nbsp; et &nbsp; <span class="f"><span class="n">5×3</span><span class="d">15×3</span></span> = <span class="f"><span class="n">15</span><span class="d">45</span></span>
+  </div>
+
+  <h3>II – Addition et Soustraction</h3>
+  <div class="prop">
+    <strong>Même dénominateur :</strong> On additionne (ou soustrait) les numérateurs, on garde le dénominateur.<br><br>
+    <span class="f"><span class="n">a</span><span class="d">b</span></span> + <span class="f"><span class="n">c</span><span class="d">b</span></span> = <span class="f"><span class="n">a + c</span><span class="d">b</span></span>
+  </div>
+  <div class="warning">⚠️ Si les dénominateurs sont différents → réduire au même dénominateur d'abord !</div>
+  <div class="exemple">
+    <strong>Ex :</strong> C = 1 + <span class="f"><span class="n">13</span><span class="d">30</span></span> + <span class="f"><span class="n">11</span><span class="d">15</span></span> (LCD = 30)<br>
+    C = <span class="f"><span class="n">30</span><span class="d">30</span></span> + <span class="f"><span class="n">13</span><span class="d">30</span></span> + <span class="f"><span class="n">22</span><span class="d">30</span></span> = <span class="f"><span class="n">65</span><span class="d">30</span></span> = <span class="f"><span class="n">13</span><span class="d">6</span></span>
+  </div>
+
+  <h3>III – Multiplication</h3>
+  <div class="prop">
+    <strong>On multiplie les numérateurs entre eux et les dénominateurs entre eux.</strong><br><br>
+    <span class="f"><span class="n">a</span><span class="d">b</span></span> × <span class="f"><span class="n">c</span><span class="d">d</span></span> = <span class="f"><span class="n">a × c</span><span class="d">b × d</span></span>
+  </div>
+  <div class="retenir">
+    <div class="titre">Astuce : simplifier en croix AVANT de multiplier</div>
+    <p>Cherche si un numérateur et un dénominateur diagonal ont un diviseur commun → simplifie avant de calculer. C'est plus simple !</p>
+  </div>
+  <div class="exemple">
+    <strong>Ex :</strong> B = <span class="f"><span class="n">35</span><span class="d">33</span></span> × <span class="f"><span class="n">99</span><span class="d">70</span></span><br>
+    On simplifie : 35 et 70 ÷ 35 → 1 et 2 ; 99 et 33 ÷ 33 → 3 et 1<br>
+    B = <span class="f"><span class="n">1 × 3</span><span class="d">1 × 2</span></span> = <span class="f"><span class="n">3</span><span class="d">2</span></span>
+  </div>
+
+  <h3>IV-A – Inverse d'un nombre</h3>
+  <div class="prop">
+    Deux nombres sont <strong>inverses</strong> l'un de l'autre si leur produit = 1.<br><br>
+    • L'inverse de a est <span class="f"><span class="n">1</span><span class="d">a</span></span><br>
+    • L'inverse de <span class="f"><span class="n">a</span><span class="d">b</span></span> est <span class="f"><span class="n">b</span><span class="d">a</span></span> (on retourne la fraction)
+  </div>
+  <div class="warning">⚠️ Zéro est le seul nombre qui n'a pas d'inverse. Un nombre et son inverse ont toujours le même signe.</div>
+  <div class="exemple">
+    L'inverse de 3 est <span class="f"><span class="n">1</span><span class="d">3</span></span> &nbsp;|&nbsp; L'inverse de <span class="f"><span class="n">2</span><span class="d">3</span></span> est <span class="f"><span class="n">3</span><span class="d">2</span></span>
+  </div>
+
+  <h3>IV-B – Division de fractions</h3>
+  <div class="prop">
+    <strong>Diviser par un nombre = multiplier par son inverse.</strong><br><br>
+    <span class="f"><span class="n">a</span><span class="d">b</span></span> ÷ <span class="f"><span class="n">c</span><span class="d">d</span></span> = <span class="f"><span class="n">a</span><span class="d">b</span></span> × <span class="f"><span class="n">d</span><span class="d">c</span></span> = <span class="f"><span class="n">a × d</span><span class="d">b × c</span></span>
+  </div>
+  <div class="retenir">
+    <div class="titre">La méthode en 3 mots : JE GARDE – JE CHANGE – JE RETOURNE</div>
+    <p>Je <strong>garde</strong> la 1ère fraction | Je <strong>change</strong> ÷ en × | Je <strong>retourne</strong> la 2ème fraction</p>
+  </div>
+  <div class="exemple">
+    <strong>Ex :</strong> C = <span class="f"><span class="n">8</span><span class="d">5</span></span> ÷ <span class="f"><span class="n">2</span><span class="d">3</span></span> = <span class="f"><span class="n">8</span><span class="d">5</span></span> × <span class="f"><span class="n">3</span><span class="d">2</span></span> = <span class="f"><span class="n">24</span><span class="d">10</span></span> = <span class="f"><span class="n">12</span><span class="d">5</span></span>
+  </div>
+</div>
+
+<!-- ===== CHAPITRE 1 ===== -->
+<div class="section">
+  <h2>Chapitre 1 – Proportionnalité & Vitesse moyenne</h2>
+
+  <h3>I – Proportionnalité</h3>
+  <div class="prop">
+    <strong>Définition :</strong> Deux grandeurs sont proportionnelles quand on passe de l'une à l'autre en multipliant toujours par le même nombre, appelé <strong>coefficient de proportionnalité</strong>.
+  </div>
+  <div class="retenir">
+    <div class="titre">Représentation graphique :</div>
+    <p>Une situation de proportionnalité → points alignés sur une droite qui <strong>passe par l'origine</strong> (le point 0,0).</p>
+    <p>⚠️ Si la droite ne passe pas par l'origine → pas proportionnel !</p>
+  </div>
+
+  <h3>II – Vitesse moyenne</h3>
+  <div class="prop">
+    Quand la distance d est proportionnelle au temps t, le coefficient de proportionnalité est la <strong>vitesse moyenne v</strong>.
+  </div>
+  <div class="formule">v = d ÷ t &nbsp;|&nbsp; d = v × t &nbsp;|&nbsp; t = d ÷ v</div>
+  <div class="deux-col">
+    <div class="col-box"><strong>Si d en km, t en h</strong>v en km/h</div>
+    <div class="col-box"><strong>Si d en m, t en s</strong>v en m/s</div>
+  </div>
+
+  <h3>Conversions km/h ↔ m/s</h3>
+  <div class="retenir">
+    <div class="titre">À retenir :</div>
+    <p>km/h → m/s : <strong>÷ 3,6</strong></p>
+    <p>m/s → km/h : <strong>× 3,6</strong></p>
+    <p style="margin-top:6px;color:#888">Exemple : 12,6 km/h ÷ 3,6 = 3,5 m/s</p>
+  </div>
+
+  <div class="exemple">
+    <strong>Ex 1 – Calculer v :</strong> d = 25,2 km, t = 2h<br>
+    v = 25,2 ÷ 2 = <strong>12,6 km/h</strong><br>
+    En m/s : 12,6 ÷ 3,6 = <strong>3,5 m/s</strong><br><br>
+    <strong>Ex 2 – Calculer d :</strong> v = 80 km/h, t = 1h36min = 1,6h<br>
+    d = 80 × 1,6 = <strong>128 km</strong>
+  </div>
+</div>
+
+<p style="text-align:center;font-size:.75em;color:#aaa;margin-top:10px;padding-bottom:16px">Maths 4ème • Oscar Dikormbouma</p>
+</body>
+</html>
