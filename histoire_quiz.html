@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Histoire – Quiz Mondialisation XVIIIème siècle</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:Arial,sans-serif;background:#f0f4f8;color:#1a1a1a;padding:12px;max-width:600px;margin:auto}
+h1{text-align:center;color:#784212;font-size:1.2em;margin-bottom:4px;padding-top:8px}
+.sub{text-align:center;color:#777;font-size:.82em;margin-bottom:14px}
+.scorebar{background:#784212;color:#fff;border-radius:10px;padding:10px 16px;text-align:center;margin-bottom:14px}
+#score-display{font-size:1.4em;font-weight:bold}
+.partie{background:#fff;border-radius:10px;padding:14px;margin-bottom:14px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.partie h2{color:#fff;background:#784212;padding:7px 12px;border-radius:7px;font-size:.92em;margin-bottom:12px}
+.pts{float:right;background:#e74c3c;padding:2px 8px;border-radius:10px;font-size:.76em}
+.question{margin-bottom:14px}
+.qtxt{font-size:.9em;line-height:1.5;margin-bottom:8px;font-weight:bold}
+.options{display:flex;flex-direction:column;gap:6px}
+.opt{background:#fef5e7;border:2px solid #f0b27a;border-radius:8px;padding:9px 12px;font-size:.87em;cursor:pointer;transition:all .15s;user-select:none}
+.opt:active{transform:scale(.98)}
+.opt.correct{border-color:#27ae60!important;background:#eafaf1!important;color:#1e8449!important}
+.opt.wrong{border-color:#e74c3c!important;background:#fdf2f0!important;color:#922b21!important}
+.feedback{font-size:.82em;margin-top:5px;padding:5px 9px;border-radius:6px;display:none}
+.feedback.ok{background:#eafaf1;color:#1e8449;display:block}
+.feedback.ko{background:#fdf2f0;color:#922b21;display:block}
+.vf-item{background:#fef5e7;border-radius:8px;padding:10px;margin-bottom:8px}
+.vf-txt{font-size:.88em;margin-bottom:7px;line-height:1.4}
+.vf-btns{display:flex;gap:8px}
+.vf-btn{flex:1;padding:8px;border:2px solid #f0b27a;border-radius:8px;background:#fff;font-size:.88em;font-weight:bold;cursor:pointer}
+.vf-btn.good{background:#27ae60;border-color:#27ae60;color:#fff}
+.vf-btn.bad{background:#e74c3c;border-color:#e74c3c;color:#fff}
+.vf-corr{font-size:.8em;margin-top:5px;color:#784212;display:none;font-style:italic}
+/* MATCH */
+.chip-bank{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:38px;background:#f8f9fa;border:2px dashed #aaa;border-radius:8px;padding:8px;margin-bottom:10px}
+.chip{background:#784212;color:#fff;padding:6px 11px;border-radius:16px;font-size:.81em;cursor:grab;user-select:none;touch-action:none}
+.chip.dragging{opacity:.4}
+.match-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.match-def{flex:1;font-size:.82em;background:#fef5e7;padding:7px 9px;border-radius:7px;line-height:1.4}
+.drop-zone{min-width:90px;min-height:32px;border:2px dashed #784212;border-radius:16px;display:flex;align-items:center;justify-content:center;background:#fdf5e6;font-size:.76em;color:#aaa;padding:2px 6px}
+.drop-zone.over{background:#f5cba7}
+.drop-zone.correct-drop{background:#27ae60!important;border-color:#27ae60!important;color:#fff!important;border-style:solid!important}
+.drop-zone.wrong-drop{background:#e74c3c!important;border-color:#e74c3c!important;color:#fff!important;border-style:solid!important}
+/* ORDER */
+.order-list{display:flex;flex-direction:column;gap:5px}
+.order-item{background:#fef5e7;border:2px solid #f0b27a;border-radius:8px;padding:9px 10px;font-size:.84em;cursor:grab;user-select:none;touch-action:none;display:flex;align-items:center;gap:6px}
+.handle{color:#bbb;font-size:1.1em}
+.order-item.dragging{opacity:.4}
+.order-item.correct-pos{border-color:#27ae60;background:#eafaf1}
+.order-item.wrong-pos{border-color:#e74c3c;background:#fdf2f0}
+.btn-check{display:block;width:100%;margin-top:10px;background:#784212;color:#fff;border:none;padding:11px;border-radius:22px;font-size:.95em;cursor:pointer;font-weight:bold;font-family:Arial,sans-serif}
+.btn-check:disabled{background:#ccc;cursor:default}
+.result-bloc{display:none;margin-top:10px;border-radius:8px;padding:10px;font-size:.87em;text-align:center}
+.result-bloc.shown{display:block}
+.final{display:none;background:#784212;color:#fff;border-radius:10px;padding:18px;text-align:center;margin-top:14px}
+.final.shown{display:block}
+.final .big{font-size:2em;font-weight:bold;margin:8px 0}
+</style>
+</head>
+<body>
+<h1>🏛️ Quiz – Mondialisation XVIIIème siècle</h1>
+<p class="sub">Histoire 4ème • Oscar • 100% tactile</p>
+<div class="scorebar">Score : <span id="score-display">0</span> / <span id="total-display">20</span> pts</div>
+
+<!-- PARTIE 1 : QCM -->
+<div class="partie">
+  <h2>Partie 1 – QCM <span class="pts">8 pts</span></h2>
+
+  <div class="question" id="q1">
+    <div class="qtxt">1. Qu'est-ce qu'une colonie ?</div>
+    <div class="options">
+      <div class="opt" onclick="qcm(this,'q1',false)">Un pays qui fait du commerce avec l'Europe</div>
+      <div class="opt" onclick="qcm(this,'q1',true)">Un territoire conquis par un État qui l'exploite pour ses richesses et en devient la métropole</div>
+      <div class="opt" onclick="qcm(this,'q1',false)">Un navire de commerce lointain</div>
+      <div class="opt" onclick="qcm(this,'q1',false)">Un grand atelier de fabrication</div>
+    </div>
+    <div class="feedback" id="fb-q1"></div>
+  </div>
+
+  <div class="question" id="q2">
+    <div class="qtxt">2. Le commerce triangulaire se fait en combien d'étapes ?</div>
+    <div class="options">
+      <div class="opt" onclick="qcm(this,'q2',false)">2 étapes</div>
+      <div class="opt" onclick="qcm(this,'q2',true)">3 étapes</div>
+      <div class="opt" onclick="qcm(this,'q2',false)">4 étapes</div>
+      <div class="opt" onclick="qcm(this,'q2',false)">1 seul trajet</div>
+    </div>
+    <div class="feedback" id="fb-q2"></div>
+  </div>
+
+  <div class="question" id="q3">
+    <div class="qtxt">3. Que sont les produits manufacturés ?</div>
+    <div class="options">
+      <div class="opt" onclick="qcm(this,'q3',false)">Des produits agricoles des colonies (sucre, café)</div>
+      <div class="opt" onclick="qcm(this,'q3',true)">Des produits fabriqués dans des manufactures (grands ateliers)</div>
+      <div class="opt" onclick="qcm(this,'q3',false)">Des navires de commerce</div>
+      <div class="opt" onclick="qcm(this,'q3',false)">Des esclaves déportés d'Afrique</div>
+    </div>
+    <div class="feedback" id="fb-q3"></div>
+  </div>
+
+  <div class="question" id="q4">
+    <div class="qtxt">4. Bordeaux exporte vers les colonies…</div>
+    <div class="options">
+      <div class="opt" onclick="qcm(this,'q4',false)">Du sucre et du café</div>
+      <div class="opt" onclick="qcm(this,'q4',false)">Des esclaves</div>
+      <div class="opt" onclick="qcm(this,'q4',true)">Des produits manufacturés (tissus, outils…)</div>
+      <div class="opt" onclick="qcm(this,'q4',false)">Du coton et du tabac</div>
+    </div>
+    <div class="feedback" id="fb-q4"></div>
+  </div>
+
+  <div class="question" id="q5">
+    <div class="qtxt">5. Vers quelle destination le navire "Le comte de Vergennes" effectue-t-il son trajet aller ?</div>
+    <div class="options">
+      <div class="opt" onclick="qcm(this,'q5',false)">En Afrique</div>
+      <div class="opt" onclick="qcm(this,'q5',false)">En Asie du Sud</div>
+      <div class="opt" onclick="qcm(this,'q5',true)">Aux Antilles (Saint-Domingue)</div>
+      <div class="opt" onclick="qcm(this,'q5',false)">Au Canada</div>
+    </div>
+    <div class="feedback" id="fb-q5"></div>
+  </div>
+
+  <div class="question" id="q6">
+    <div class="qtxt">6. Qu'est-ce qu'une plantation ?</div>
+    <div class="options">
+      <div class="opt" onclick="qcm(this,'q6',false)">Un port de commerce européen</div>
+      <div class="opt" onclick="qcm(this,'q6',false)">Un navire transportant des esclaves</div>
+      <div class="opt" onclick="qcm(this,'q6',true)">Une grande propriété agricole coloniale utilisant des esclaves</div>
+      <div class="opt" onclick="qcm(this,'q6',false)">Un code de lois sur l'esclavage</div>
+    </div>
+    <div class="feedback" id="fb-q6"></div>
+  </div>
+
+  <div class="question" id="q7">
+    <div class="qtxt">7. Qu'est-ce que le Code Noir ?</div>
+    <div class="options">
+      <div class="opt" onclick="qcm(this,'q7',false)">Un navire négrier célèbre</div>
+      <div class="opt" onclick="qcm(this,'q7',true)">Un code de lois réglementant l'esclavage dans les colonies françaises</div>
+      <div class="opt" onclick="qcm(this,'q7',false)">Le nom du commerce entre l'Europe et l'Afrique</div>
+      <div class="opt" onclick="qcm(this,'q7',false)">Une route commerciale vers l'Asie</div>
+    </div>
+    <div class="feedback" id="fb-q7"></div>
+  </div>
+
+  <div class="question" id="q8">
+    <div class="qtxt">8. Un négociant, c'est…</div>
+    <div class="options">
+      <div class="opt" onclick="qcm(this,'q8',false)">Un propriétaire de navires de commerce</div>
+      <div class="opt" onclick="qcm(this,'q8',true)">Un marchand qui fait du commerce lointain</div>
+      <div class="opt" onclick="qcm(this,'q8',false)">Un esclave affranchi</div>
+      <div class="opt" onclick="qcm(this,'q8',false)">Un propriétaire de plantation</div>
+    </div>
+    <div class="feedback" id="fb-q8"></div>
+  </div>
+</div>
+
+<!-- PARTIE 2 : VRAI/FAUX -->
+<div class="partie">
+  <h2>Partie 2 – Vrai ou Faux ? <span class="pts">5 pts</span></h2>
+
+  <div class="vf-item" id="vf1">
+    <div class="vf-txt">Le commerce en droiture est un commerce en trois étapes passant par l'Afrique.</div>
+    <div class="vf-btns"><button class="vf-btn" onclick="vf(this,'vf1','V',false)">✅ Vrai</button><button class="vf-btn" onclick="vf(this,'vf1','F',false)">❌ Faux</button></div>
+    <div class="vf-corr" id="c-vf1">Faux ! Le commerce en droiture est un commerce DIRECT entre l'Europe et les colonies américaines (sans passer par l'Afrique). C'est le commerce triangulaire qui a 3 étapes.</div>
+  </div>
+
+  <div class="vf-item" id="vf2">
+    <div class="vf-txt">Bordeaux importe des produits agricoles (sucre, café, coton…) depuis les colonies.</div>
+    <div class="vf-btns"><button class="vf-btn" onclick="vf(this,'vf2','V',true)">✅ Vrai</button><button class="vf-btn" onclick="vf(this,'vf2','F',true)">❌ Faux</button></div>
+    <div class="vf-corr" id="c-vf2"></div>
+  </div>
+
+  <div class="vf-item" id="vf3">
+    <div class="vf-txt">Un armateur est un marchand qui fait du commerce lointain.</div>
+    <div class="vf-btns"><button class="vf-btn" onclick="vf(this,'vf3','V',false)">✅ Vrai</button><button class="vf-btn" onclick="vf(this,'vf3','F',false)">❌ Faux</button></div>
+    <div class="vf-corr" id="c-vf3">Faux ! Un armateur est un propriétaire de navires de commerce. C'est le NÉGOCIANT qui fait du commerce lointain.</div>
+  </div>
+
+  <div class="vf-item" id="vf4">
+    <div class="vf-txt">La traite atlantique est le commerce d'esclaves noirs entre l'Afrique et les colonies européennes d'Amérique.</div>
+    <div class="vf-btns"><button class="vf-btn" onclick="vf(this,'vf4','V',true)">✅ Vrai</button><button class="vf-btn" onclick="vf(this,'vf4','F',true)">❌ Faux</button></div>
+    <div class="vf-corr" id="c-vf4"></div>
+  </div>
+
+  <div class="vf-item" id="vf5">
+    <div class="vf-txt">Au XVIIIème siècle, la France et l'Angleterre se sont alliées pour conquérir les colonies ensemble.</div>
+    <div class="vf-btns"><button class="vf-btn" onclick="vf(this,'vf5','V',false)">✅ Vrai</button><button class="vf-btn" onclick="vf(this,'vf5','F',false)">❌ Faux</button></div>
+    <div class="vf-corr" id="c-vf5">Faux ! Il y avait des GUERRES entre les puissances européennes (notamment entre le Royaume-Uni et la France) pour le contrôle des colonies.</div>
+  </div>
+</div>
+
+<!-- PARTIE 3 : ASSOCIER mot → définition -->
+<div class="partie">
+  <h2>Partie 3 – Associe le mot à sa définition <span class="pts">4 pts</span></h2>
+  <p style="font-size:.82em;color:#666;margin-bottom:10px">👆 Glisse chaque mot sur la bonne définition.</p>
+
+  <div class="chip-bank" id="bank3">
+    <div class="chip" draggable="true" data-word="Esclave" id="ch1">Esclave</div>
+    <div class="chip" draggable="true" data-word="Bourgeois" id="ch2">Bourgeois</div>
+    <div class="chip" draggable="true" data-word="Plantation" id="ch3">Plantation</div>
+    <div class="chip" draggable="true" data-word="Exporter" id="ch4">Exporter</div>
+  </div>
+
+  <div class="match-row">
+    <div class="match-def">Vendre des marchandises vers un pays étranger.</div>
+    <div class="drop-zone" data-answer="Exporter" id="d1" ondragover="ev(event)" ondrop="dm(event,'d1')">Dépose</div>
+  </div>
+  <div class="match-row">
+    <div class="match-def">Personne privée de liberté, considérée comme un outil, propriété d'un maître.</div>
+    <div class="drop-zone" data-answer="Esclave" id="d2" ondragover="ev(event)" ondrop="dm(event,'d2')">Dépose</div>
+  </div>
+  <div class="match-row">
+    <div class="match-def">Grande propriété agricole coloniale avec une main d'œuvre d'esclaves.</div>
+    <div class="drop-zone" data-answer="Plantation" id="d3" ondragover="ev(event)" ondrop="dm(event,'d3')">Dépose</div>
+  </div>
+  <div class="match-row">
+    <div class="match-def">Individu de la classe aisée, vivant en ville, faisant partie du Tiers État.</div>
+    <div class="drop-zone" data-answer="Bourgeois" id="d4" ondragover="ev(event)" ondrop="dm(event,'d4')">Dépose</div>
+  </div>
+
+  <button class="btn-check" onclick="checkMatch()">Vérifier les associations</button>
+  <div class="result-bloc" id="r3"></div>
+</div>
+
+<!-- PARTIE 4 : ORDRE DU COMMERCE TRIANGULAIRE -->
+<div class="partie">
+  <h2>Partie 4 – Remets les étapes du commerce triangulaire dans l'ordre <span class="pts">3 pts</span></h2>
+  <p style="font-size:.82em;color:#666;margin-bottom:8px">👆 Glisse pour réorganiser les étapes.</p>
+
+  <div class="order-list" id="ol4">
+    <div class="order-item" draggable="true" data-pos="3" ondragstart="sd(event)" ondragover="od(event)" ondrop="dd(event)"><span class="handle">⠿</span> Retour en Europe avec des produits coloniaux (sucre, café…)</div>
+    <div class="order-item" draggable="true" data-pos="1" ondragstart="sd(event)" ondragover="od(event)" ondrop="dd(event)"><span class="handle">⠿</span> Départ d'Europe avec des produits manufacturés</div>
+    <div class="order-item" draggable="true" data-pos="2" ondragstart="sd(event)" ondragover="od(event)" ondrop="dd(event)"><span class="handle">⠿</span> Arrivée en Afrique : échange contre des esclaves → déportation vers l'Amérique</div>
+  </div>
+
+  <button class="btn-check" onclick="checkOrder()">Vérifier l'ordre</button>
+  <div class="result-bloc" id="r4"></div>
+</div>
+
+<div class="final" id="final-block">
+  <div>Résultat final</div>
+  <div class="big" id="final-score">—</div>
+  <p id="final-msg"></p>
+</div>
+
+<p style="text-align:center;font-size:.75em;color:#aaa;margin-top:10px;padding-bottom:16px">Histoire 4ème • Oscar Dikormbouma</p>
+
+<script>
+var score=0,answered={};
+function upd(){document.getElementById('score-display').textContent=score;checkFinal();}
+function checkFinal(){if(answered.qcm&&answered.vf&&answered.match&&answered.order){var f=document.getElementById('final-block');f.classList.add('shown');document.getElementById('final-score').textContent=score+' / 20';var m=score>=17?'🎉 Excellent ! Tu maîtrises le cours !':score>=14?'👍 Très bien ! Quelques points à revoir.':score>=10?'😊 Pas mal ! Relis la fiche.':'💪 Relis bien la fiche et recommence !';document.getElementById('final-msg').textContent=m;}}
+var qs={};
+function qcm(el,id,ok){if(qs[id]!==undefined)return;el.parentElement.querySelectorAll('.opt').forEach(o=>o.style.pointerEvents='none');var fb=document.getElementById('fb-'+id);if(ok){el.classList.add('correct');fb.textContent='✅ Correct !';fb.className='feedback ok';qs[id]=1;score++;}else{el.classList.add('wrong');fb.textContent='❌ Pas tout à fait ! Relis la fiche.';fb.className='feedback ko';qs[id]=0;el.parentElement.querySelectorAll('.opt').forEach(o=>{if(o.onclick.toString().includes('true'))o.classList.add('correct');});}upd();if(Object.keys(qs).length===8)answered.qcm=true;}
+var vfs={};
+function vf(btn,id,choice,correct){if(vfs[id]!==undefined)return;btn.parentElement.querySelectorAll('.vf-btn').forEach(b=>b.style.pointerEvents='none');var isV=choice==='V';var ok=(isV&&correct)||(!isV&&!correct);if(ok){btn.classList.add('good');vfs[id]=1;score++;}else{btn.classList.add('bad');vfs[id]=0;var c=document.getElementById('c-'+id);if(c)c.style.display='block';btn.parentElement.querySelectorAll('.vf-btn').forEach(b=>{if((correct&&b.textContent.includes('Vrai'))||(!correct&&b.textContent.includes('Faux')))b.classList.add('good');});}upd();if(Object.keys(vfs).length===5)answered.vf=true;}
+var dChip=null;
+document.querySelectorAll('.chip').forEach(c=>{c.addEventListener('dragstart',e=>{dChip=c;setTimeout(()=>c.classList.add('dragging'),0);e.dataTransfer.setData('text',c.dataset.word);});c.addEventListener('dragend',()=>c.classList.remove('dragging'));c.addEventListener('touchstart',ts,{passive:true});c.addEventListener('touchmove',tm,{passive:false});c.addEventListener('touchend',te);});
+function ev(e){e.preventDefault();}
+function dm(e,id){e.preventDefault();var d=document.getElementById(id);if(d.querySelector('.chip')||!dChip)return;d.textContent='';d.appendChild(dChip);dChip.classList.remove('dragging');d.classList.remove('over');dChip=null;}
+document.querySelectorAll('.drop-zone').forEach(d=>{d.addEventListener('dragover',ev);d.addEventListener('dragenter',()=>d.classList.add('over'));d.addEventListener('dragleave',()=>d.classList.remove('over'));});
+function checkMatch(){var ok=0;document.querySelectorAll('#d1,#d2,#d3,#d4').forEach(d=>{var c=d.querySelector('.chip');if(c&&c.dataset.word===d.dataset.answer){d.classList.add('correct-drop');ok++;}else d.classList.add('wrong-drop');d.style.pointerEvents='none';if(c)c.style.cursor='default';});score+=ok;upd();answered.match=true;var r=document.getElementById('r3');r.textContent=ok+'/4 associations correctes !';r.classList.add('shown');r.style.cssText+=(ok>=3?';background:#eafaf1;border:2px solid #27ae60;color:#1e8449':';background:#fdf2f0;border:2px solid #e74c3c;color:#922b21');document.querySelector('[onclick="checkMatch()"]').disabled=true;}
+var tc=null,tcl=null,tox=0,toy=0;
+function ts(e){tc=e.currentTarget;var r=tc.getBoundingClientRect();tox=e.touches[0].clientX-r.left;toy=e.touches[0].clientY-r.top;tcl=tc.cloneNode(true);tcl.style.cssText='position:fixed;opacity:.8;pointer-events:none;z-index:9999;left:'+(e.touches[0].clientX-tox)+'px;top:'+(e.touches[0].clientY-toy)+'px;';document.body.appendChild(tcl);}
+function tm(e){e.preventDefault();if(!tcl)return;tcl.style.left=(e.touches[0].clientX-tox)+'px';tcl.style.top=(e.touches[0].clientY-toy)+'px';}
+function te(e){if(!tcl)return;document.body.removeChild(tcl);var t=e.changedTouches[0];var el=document.elementFromPoint(t.clientX,t.clientY);var d=el?el.closest('.drop-zone'):null;if(d&&!d.querySelector('.chip')){d.textContent='';d.appendChild(tc);tc.style.cssText='';}tcl=null;tc=null;}
+var dO=null;
+function sd(e){dO=e.currentTarget;setTimeout(()=>dO.classList.add('dragging'),0);}
+function od(e){e.preventDefault();}
+function dd(e){e.preventDefault();if(!dO||dO===e.currentTarget)return;var l=document.getElementById('ol4');var items=[...l.querySelectorAll('.order-item')];var fi=items.indexOf(dO),ti=items.indexOf(e.currentTarget);if(ti>fi)e.currentTarget.after(dO);else e.currentTarget.before(dO);dO.classList.remove('dragging');dO=null;}
+document.querySelectorAll('#ol4 .order-item').forEach(item=>{item.addEventListener('touchstart',oTs,{passive:true});item.addEventListener('touchmove',oTm,{passive:false});item.addEventListener('touchend',oTe);});
+var to=null,toc=null,tox2=0,toy2=0;
+function oTs(e){to=e.currentTarget;var r=to.getBoundingClientRect();tox2=e.touches[0].clientX-r.left;toy2=e.touches[0].clientY-r.top;toc=to.cloneNode(true);toc.style.cssText='position:fixed;opacity:.7;pointer-events:none;z-index:9999;width:'+r.width+'px;left:'+(e.touches[0].clientX-tox2)+'px;top:'+(e.touches[0].clientY-toy2)+'px;background:#f5cba7;border-radius:8px;padding:9px 10px;font-size:.84em;';document.body.appendChild(toc);}
+function oTm(e){e.preventDefault();if(!toc)return;toc.style.left=(e.touches[0].clientX-tox2)+'px';toc.style.top=(e.touches[0].clientY-toy2)+'px';}
+function oTe(e){if(!toc)return;document.body.removeChild(toc);var t=e.changedTouches[0];var el=document.elementFromPoint(t.clientX,t.clientY);var tgt=el?el.closest('.order-item'):null;if(tgt&&tgt!==to){var l=document.getElementById('ol4');var items=[...l.querySelectorAll('.order-item')];var fi=items.indexOf(to),ti=items.indexOf(tgt);if(ti>fi)tgt.after(to);else tgt.before(to);}toc=null;to=null;}
+function checkOrder(){var items=[...document.getElementById('ol4').querySelectorAll('.order-item')];var ok=0;items.forEach((item,idx)=>{if(parseInt(item.dataset.pos)===idx+1){item.classList.add('correct-pos');ok++;}else item.classList.add('wrong-pos');item.draggable=false;});var pts=ok===3?3:ok===2?2:ok===1?1:0;score+=pts;upd();answered.order=true;var r=document.getElementById('r4');r.textContent=ok+'/3 étapes bien placées ! (+'+pts+' pts)';r.classList.add('shown');r.style.cssText+=(ok>=2?';background:#eafaf1;border:2px solid #27ae60;color:#1e8449':';background:#fdf2f0;border:2px solid #e74c3c;color:#922b21');document.querySelector('[onclick="checkOrder()"]').disabled=true;}
+</script>
+</body>
+</html>
